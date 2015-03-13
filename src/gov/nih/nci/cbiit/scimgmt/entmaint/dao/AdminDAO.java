@@ -61,7 +61,7 @@ public class AdminDAO  {
 		try {
 			
 			//Setup audit data
-			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
+			//freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
 		
 			//Setup audit control
 			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate);
