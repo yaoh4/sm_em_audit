@@ -113,11 +113,12 @@ public class AdminServiceImpl implements AdminService {
 		
 		if(emAuditsVw != null) {
 			emAuditsVO = populateEmAuditsVO(emAuditsVw);
-		}
 		
-		if(emAuditsVO.getImpaciiFromDate() != null && 
+		
+			if(emAuditsVO.getImpaciiFromDate() != null && 
 				emAuditsVO.getImpaciiToDate() != null) {
-			emAuditsVO.setImpac2AuditFlag(TRUE);
+				emAuditsVO.setImpac2AuditFlag(TRUE);
+			}
 		}
 				
 		return emAuditsVO;
