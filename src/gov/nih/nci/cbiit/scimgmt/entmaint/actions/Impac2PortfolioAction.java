@@ -45,7 +45,7 @@ public class Impac2PortfolioAction extends BaseAction{
     		searchVO.setOrganization(nciUser.getOrgPath());
     	}
     	
-		//portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
+		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
 
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
@@ -53,7 +53,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
 		this.setFormAction("searchPortfolioAccounts");
 		
-		//showResult = true;
+		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
 		
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
