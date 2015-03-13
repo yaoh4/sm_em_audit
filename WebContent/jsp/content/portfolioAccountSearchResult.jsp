@@ -4,7 +4,7 @@
 <%
 	String sortAction = (String)request.getParameter("sortAction");
 %>
-<display:table name="portfolioAccounts" id="portfolioAccountsId" export="true" requestURI="<%=sortAction%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
+<display:table name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
