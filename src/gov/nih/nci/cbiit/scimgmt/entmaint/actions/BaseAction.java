@@ -190,6 +190,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
 	}
+	
+	
+	/**
+	 * Gets the session.
+	 * 
+	 * @return the session map.
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
 
 	/*
 	 * (non-Javadoc)
