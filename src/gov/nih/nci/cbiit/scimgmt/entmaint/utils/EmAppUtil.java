@@ -82,21 +82,35 @@ public class EmAppUtil {
 	/**
 	 * Checks if the current Audit is enabled.
 	 * 
+	 * @return true if audit is enabled, else false.
+	 */
+	public static boolean isAuditEnabled(Map<String, Object> session) {				
+		
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+		
+				return isAuditEnabled(emAuditsVO);
+			}
+		
+		return false;	
+	}
+	
+	
+	/**
+	 * Checks if the current Audit is enabled.
+	 * 
 	 * @param session The session object from the ActionContext or jsp.
 	 * 
 	 * @return true if audit is enabled, else false.
 	 */
-	public static boolean isAuditEnabled(Map<String, Object> session) {
-		
-		if(session != null) {
-			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+	public static boolean isAuditEnabled(EmAuditsVO emAuditsVO) {		
 		
 			String auditState = getCurrentAuditState(emAuditsVO);
 		
 			if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
 				return true;
 			}
-		}
+		
 		
 		return false;
 	}
@@ -110,9 +124,13 @@ public class EmAppUtil {
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		
-		return isAuditEnabled(session);
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 		
+				return isAuditEnabled(emAuditsVO);
+			}
 		
+		return false;	
 	}
 
 }
