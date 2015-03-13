@@ -83,7 +83,6 @@
 		$('#nameId').val(name);
 		$('#nameValue').html("<label>" + name + "</label>");
 		$('#cellId').val(cellId);
-		$('messageId').html("");
 		$('#noteText').html($('#notesDiv_'+cellId).text());
 		$("#submitNotesAction").dialog("open");
 	}
@@ -118,7 +117,7 @@
 						<s:select name="searchVO.organization" cssClass="form-control"
 							value="%{#session.searchVO.organization}" list="organizationList"
 							listKey="optionKey" listValue="optionValue" headerKey="all"
-							headerValue="All" style="width:460px;" />
+							headerValue="All" style="width:590px;" />
 					</div>
 				</div>
 				<div class="form-group" style="margin-top: -10px;">
@@ -135,7 +134,7 @@
 						<s:select name="searchVO.category" id="portfolioCategory"
 							onchange="onCategoryChage(this.value);" cssClass="form-control"
 							value="%{#session.searchVO.category}" list="categoriesList"
-							listKey="optionKey" listValue="optionValue" style="width:460px;" />
+							listKey="optionKey" listValue="optionValue" style="width:590px;" />
 					</div>
 				</div>
 
