@@ -217,10 +217,9 @@ public class Impac2AuditDAO {
 			activity.setLastChangeDate(new Date());
 			activity.setUnsubmittedFlag(FLAG_NO);
 			saveOrUpdateActivity(activity);
-		} catch (Exception e) {
-			result.setStatus(DBResult.FAILURE);
-			result.setMessage(e.getMessage());
-			return result;
+		} catch (RuntimeException re) {
+			log.error("Submit failed, " + re.getMessage());
+			throw re;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
@@ -243,10 +242,9 @@ public class Impac2AuditDAO {
 				activity.setUnsubmittedFlag(FLAG_YES);
 				saveOrUpdateActivity(activity);
 			}
-		} catch (Exception e) {
-			result.setStatus(DBResult.FAILURE);
-			result.setMessage(e.getMessage());
-			return result;
+		} catch (RuntimeException re) {
+			log.error("Unsubmit failed, " + re.getMessage());
+			throw re;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;

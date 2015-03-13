@@ -91,10 +91,9 @@ public class Impac2PortfolioDAO {
 			notes.setLastChangeDate(new Date());
 			notes.setNotes(text);
 			saveOrUpdateNotes(notes);
-		} catch (Exception e) {
-			result.setStatus(DBResult.FAILURE);
-			result.setMessage(e.getMessage());
-			return result;
+		} catch (RuntimeException re) {
+			log.error("Save notes failed, " + re.getMessage());
+			throw re;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
