@@ -27,7 +27,10 @@ public class SubmitAction extends BaseAction {
 		PrintWriter pw = null;
 		try{
 			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note);
-			//DBResult has not been implemented. Wait for Yuri
+			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
+				log.error("Exception occurs during saving data into EmAuditAccountActivityT table.");
+				throw new Exception("Exception occurs during saving data into EmAuditAccountActivityT table.");
+			}
 			pw = response.getWriter();
 			pw.print(note);
 		}catch(Exception e){
