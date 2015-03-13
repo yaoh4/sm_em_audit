@@ -31,6 +31,12 @@ public class EmAppUtil {
 	}
 	
 	
+	/**
+	 * Checks if the user is a superuser.
+	 * 
+	 * @param session Session object from the ActionContext or jsp
+	 * @return
+	 */
 	public static boolean isAdminUser(Map<String, Object> session) {
 		
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
@@ -49,7 +55,7 @@ public class EmAppUtil {
 	
 	
 	/**
-	 * Gets the current state of the Audit in progress
+	 * Gets the current state of an Audit.
 	 * 
 	 * @return String current state of the audit
 	 */
@@ -68,6 +74,27 @@ public class EmAppUtil {
 		}
 		
 		return currentAuditState;
+	}
+	
+	
+	/**
+	 * Checks if the current Audit is enabled.
+	 * 
+	 * @param session The session object from the ActionContext or jsp.
+	 * 
+	 * @return
+	 */
+	public static boolean isAuditEnabled(Map<String, Object> session) {
+		
+		EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+		
+		String auditState = getCurrentAuditState(emAuditsVO);
+		
+		if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }
