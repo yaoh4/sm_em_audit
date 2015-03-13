@@ -14,6 +14,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.ActionContext;
+
 /**
  * @author menons2
  *
@@ -40,6 +42,7 @@ public class EmAppUtil {
 	public static boolean isAdminUser(Map<String, Object> session) {
 		
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
+		
 		
 		if (nciUser != null) {
 			String currentUserRole = nciUser.getCurrentUserRole();
@@ -77,24 +80,41 @@ public class EmAppUtil {
 	}
 	
 	
+	
 	/**
 	 * Checks if the current Audit is enabled.
 	 * 
 	 * @param session The session object from the ActionContext or jsp.
 	 * 
-	 * @return
+	 * @return true if audit is enabled, else false.
 	 */
 	public static boolean isAuditEnabled(Map<String, Object> session) {
 		
-		EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 		
-		String auditState = getCurrentAuditState(emAuditsVO);
+			String auditState = getCurrentAuditState(emAuditsVO);
 		
-		if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
-			return true;
+			if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+				return true;
+			}
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Checks if the current Audit is enabled.
+	 * 
+	 * @return true if audit is enabled, else false.
+	 */
+	public static boolean isAuditEnabled() {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		return isAuditEnabled(session);
+		
+		
 	}
 
 }
