@@ -22,6 +22,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -39,6 +40,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	
 	@Autowired
 	private Impac2AuditDAO impac2AuditDAO;
+	@Autowired
+	private LookupService lookupService;
 	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchActiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
@@ -111,7 +114,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 */
 	@Override
 	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments) {
-		return impac2AuditDAO.submit(category, eaaId, actionId, actionComments);
+		AppLookupT cat = lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
+		return impac2AuditDAO.submit(cat, eaaId, actionId, actionComments);
 	}
 
 
@@ -195,26 +199,26 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 			}
 		}
 		if (role1Count > 1 || role2Count > 1) {
-			discrepancyList.add(impac2AuditDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_SOD));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_SOD));
 		}
-		
+
 		// Check if NED_IC is not NCI
 		if (!StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
-			discrepancyList.add(impac2AuditDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_IC));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_IC));
 		}
-		
+
 		// Check if NED_ACTIVE_FLAG is N
 		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
-			discrepancyList.add(impac2AuditDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE));
 		}
-		
+
 		// Check if last name is different between IMPACII and NED
-		/*if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
-			discrepancyList.add(impac2AuditDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
+	/*	if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
 		}*/
 		return discrepancyList;
 	}

@@ -274,6 +274,8 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioNotesT.hbm.xml -text

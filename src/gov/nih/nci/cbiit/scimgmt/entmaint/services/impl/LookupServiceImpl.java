@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.PropertyListDAO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
@@ -9,7 +10,6 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -131,4 +131,35 @@ public class LookupServiceImpl implements LookupService {
 		return cacheAdministrator;
 	}
    
+	/**
+	 * Get AppLookupT by discriminator and code
+	 * 
+	 * @param discriminator
+	 * @param code
+	 * @return
+	 */
+	public AppLookupT getAppLookupByCode(String listName, String code) {
+		List<AppLookupT> list = (List<AppLookupT>) getList(listName);
+		for (AppLookupT element : list) {
+			if (element.getCode().equalsIgnoreCase(code))
+				return element;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get AppLookupT by id
+	 * 
+	 * @param discriminator
+	 * @param code
+	 * @return
+	 */
+	public AppLookupT getAppLookupById(String listName, Long id) {
+		List<AppLookupT> list = (List<AppLookupT>) getList(listName);
+		for (AppLookupT element : list) {
+			if (element.getId().longValue() == id.longValue())
+				return element;
+		}
+		return null;
+	}
 }

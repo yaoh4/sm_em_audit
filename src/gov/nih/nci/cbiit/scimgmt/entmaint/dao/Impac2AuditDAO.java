@@ -69,7 +69,7 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.createAlias("accountActivities", "accountActivities");
 				criteria.createAlias("accountActivities.action", "action");
-				criteria.add(Restrictions.eq("action.id", new Integer(searchVO.getAct())));
+				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
 			List<EmAuditAccountsVw> auditList = criteria.list();
@@ -106,7 +106,7 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
 				criteria.createAlias("accountActivities", "accountActivities");
 				criteria.createAlias("accountActivities.action", "action");
-				criteria.add(Restrictions.eq("action.id", new Integer(searchVO.getAct())));
+				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 			
 			List<EmAuditAccountsVw> auditList = criteria.list();
@@ -143,7 +143,7 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
 				criteria.createAlias("accountActivities", "accountActivities");
 				criteria.createAlias("accountActivities.action", "action");
-				criteria.add(Restrictions.eq("action.id", new Integer(searchVO.getAct())));
+				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
 			List<EmAuditAccountsVw> auditList = criteria.list();
@@ -179,7 +179,7 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
 				criteria.createAlias("accountActivities", "accountActivities");
 				criteria.createAlias("accountActivities.action", "action");
-				criteria.add(Restrictions.eq("action.id", new Integer(searchVO.getAct())));
+				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
 			List<EmAuditAccountsVw> auditList = criteria.list();
@@ -200,14 +200,14 @@ public class Impac2AuditDAO {
 	 * @param actionComments
 	 * @return
 	 */
-	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments) {
+	public DBResult submit(AppLookupT category, Long eaaId, Long actionId, String actionComments) {
 		DBResult result = new DBResult();
 		try {
-			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category);
+			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category.getCode());
 			if(activity == null) {
 				activity = new EmAuditAccountActivityT();
 				activity.setEaaId(eaaId);
-				activity.setCategory(getCategoryByCode(category));
+				activity.setCategory(category);
 				activity.setCreateUserId(nciUser.getOracleId());
 				activity.setCreateDate(new Date());
 			}
@@ -248,31 +248,6 @@ public class Impac2AuditDAO {
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
-	}
-	
-	/**
-	 * Get discrepancy from appLookupT using code
-	 * 
-	 * @param discrepancy
-	 * @return
-	 */
-	public AppLookupT getDiscrepancyByCode(String discrepancy) {
-		try {
-			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppLookupT.class);
-			crit.add(Restrictions.eq("discriminator", "DISCREPANCY_TYPE"));
-			crit.add(Restrictions.eq("code", discrepancy));
-			crit.add(Restrictions.eq("active", true));
-			AppLookupT instance = (AppLookupT) crit.uniqueResult();
-			if (instance == null) {
-				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
-			}
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
 	}
 	
 	/**
@@ -333,30 +308,6 @@ public class Impac2AuditDAO {
 		}
 	}
 
-	/**
-	 * Get category from appLookupT using code
-	 * 
-	 * @param category
-	 * @return
-	 */
-	private AppLookupT getCategoryByCode(String category) {
-		try {
-			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppLookupT.class);
-			crit.add(Restrictions.eq("discriminator", "CATEGORY"));
-			crit.add(Restrictions.eq("code", category));
-			crit.add(Restrictions.eq("active", true));
-			AppLookupT instance = (AppLookupT) crit.uniqueResult();
-			if (instance == null) {
-				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
-			}
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
-	}
 	
 	/**
 	 * Save or update activity

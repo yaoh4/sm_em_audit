@@ -98,31 +98,6 @@ public class Impac2PortfolioDAO {
 		result.setStatus(DBResult.SUCCESS);
 		return result;
 	}
-
-	/**
-	 * Get discrepancy from appLookupT using code
-	 * 
-	 * @param discrepancy
-	 * @return
-	 */
-	public AppLookupT getDiscrepancyByCode(String discrepancy) {
-		try {
-			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppLookupT.class);
-			crit.add(Restrictions.eq("discriminator", "DISCREPANCY_TYPE"));
-			crit.add(Restrictions.eq("code", discrepancy));
-			crit.add(Restrictions.eq("active", true));
-			AppLookupT instance = (AppLookupT) crit.uniqueResult();
-			if (instance == null) {
-				log.debug("get successful, no instance found");
-			} else {
-				log.debug("get successful, instance found");
-			}
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
-	}
 	
 	/**
 	 * Add user entered search criteria

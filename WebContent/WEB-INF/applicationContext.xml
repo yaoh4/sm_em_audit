@@ -57,6 +57,7 @@
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioNotesT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.hbm.xml</value>
 			</list>
   		</property>
   		<property name="hibernateProperties">

@@ -52,6 +52,7 @@ public interface ApplicationConstants {
     public static final String YOUR_GRANT_DETAILS_APP_LINK_LIST = "yourGrantDetailsapplinklist";
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
+    public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
     public static final String GLOBAL_LOOKUP_LIST = "appLookup";
     public static final String HOST_URL = "hostUrl";
     

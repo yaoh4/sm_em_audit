@@ -22,6 +22,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
@@ -40,7 +41,9 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	
 	@Autowired
 	private Impac2PortfolioDAO impac2PortfolioDAO;
-	
+	@Autowired
+	private LookupService lookupService;
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#searchImpac2Accounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.SearchObject)
 	 */
@@ -126,26 +129,26 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			}
 		}
 		if (role1Count > 1 || role2Count > 1) {
-			discrepancyList.add(impac2PortfolioDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_SOD));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_SOD));
 		}
-		
+
 		// Check if NED_IC is not NCI
 		if (!StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
-			discrepancyList.add(impac2PortfolioDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_IC));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_IC));
 		}
-		
+
 		// Check if NED_ACTIVE_FLAG is N
 		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
-			discrepancyList.add(impac2PortfolioDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE));
 		}
-		
+
 		// Check if last name is different between IMPACII and NED
 		if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
-			discrepancyList.add(impac2PortfolioDAO
-					.getDiscrepancyByCode(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
+			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
+					ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
 		}
 		return discrepancyList;
 	}
