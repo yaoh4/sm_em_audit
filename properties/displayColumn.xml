@@ -116,7 +116,7 @@
   	<Tab>
  		<type>active</type>
  		<columnName>Submitted On</columnName>
- 		<property>accountActivity.submittedDate</property>
+ 		<property>SubmittedDate</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
@@ -158,7 +158,7 @@
 	<Tab>
  		<type>new</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>false</sort>
  	</Tab>
 	<Tab>
@@ -170,21 +170,21 @@
 	<Tab>
  		<type>new</type>
  		<columnName>Org ID</columnName>
- 		<property>nedLastName</property>
+ 		<property>orgId</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>IMPAC II Acpplication Role(s)</columnName>
- 		<property>nedLastName</property>
+ 		<property>applicationRole</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
- 		<property>nedLastName</property>
+ 		<property>roleCreateOn</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>
@@ -197,19 +197,19 @@
 	<Tab>
  		<type>new</type>
  		<columnName>Notes</columnName>
- 		<property>nedLastName</property>
+ 		<property>actionNote</property>
  		<sort>false</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Submitted On</columnName>
- 		<property>nedLastName</property>
+ 		<property>SubmittedDate</property>
  		<sort>false</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Submitted By</columnName>
- 		<property>nedLastName</property>
+ 		<property>accountActivity.submittedByFullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>

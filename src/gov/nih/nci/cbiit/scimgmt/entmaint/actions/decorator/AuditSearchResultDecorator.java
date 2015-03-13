@@ -15,6 +15,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.displaytag.decorator.TableDecorator;
 
+import com.opensymphony.xwork2.ActionContext;
+
 public class AuditSearchResultDecorator extends TableDecorator{
 	
 	public String getAction(){
@@ -69,7 +71,12 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		Date createDate = accountVO.getCreatedDate();
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
-	
+	public String getSubmittedDate(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		Date submittedDate = accountVO.getAccountActivity().getSubmittedDate();
+		return new SimpleDateFormat("MM/dd/yyyy").format(submittedDate);
+		
+	}
 	public String getApplicationRole(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
@@ -152,4 +159,5 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		return id;
 	}
+
 }
