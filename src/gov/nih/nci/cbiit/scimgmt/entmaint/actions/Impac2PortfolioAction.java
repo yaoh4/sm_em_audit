@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -72,13 +73,13 @@ public class Impac2PortfolioAction extends BaseAction{
 		String ipac2Id = (String)request.getParameter("ipac2Id");
 		String name = (String)request.getParameter("name");
 		String notes = (String)request.getParameter("notes");
-		
-		impac2PortfolioService.saveNotes(ipac2Id,notes);
-		log.debug("ipac2Id -->"+ipac2Id);
-		log.debug("name -->"+name);
-		log.debug("notes -->"+notes);
 		PrintWriter pw = null;
 		try{
+			DBResult dbResult = impac2PortfolioService.saveNotes(ipac2Id,notes);
+			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
+				log.error("Exception occurred while saving portfolio notes.");
+				throw new Exception("Exception occurred while saving portfolio notes.");
+			}
 			pw = response.getWriter();
 			pw.print(notes);
 		}catch(Exception e){
