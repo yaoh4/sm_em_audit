@@ -1,0 +1,1 @@
+<% response.sendRedirect("impac2/impac2Home.action"); %>

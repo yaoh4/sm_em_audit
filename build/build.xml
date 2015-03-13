@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+
+<project name="entmaint" default="all" basedir="..">
+<!-- ANT build.xml.
+     Tag               			   Description
+     clean       		           Deletes all relevant dirs
+     make_deployment_dirs	           Creates all relevant deployment dirs
+     compile			           Compiles the java source code
+     copy_properties_files         Copy configuration files into conf.dir
+     javadoc                       Creates java documentation
+     war                           Creates war archive
+     tomcat.deploy                 Deploy war file into tomcat container
+     tomcat.undeploy               Undeploy application from tomcat container
+
+ -->
+	 <tstamp>
+          <format property="start.timestamp" pattern="dd-MMM-yy HH:mm:ss"/>
+     </tstamp>
+    <echo message="Build started: ${start.timestamp}"></echo>
+	
+ <!-- Defined Environment & property files -->
+ 
+     <property environment="env"/>          
+     <property file="${basedir}/build/user.properties"/>    
+	 <property file="${basedir}/build/env.properties"/>
+
+<!-- Define project deployment properties -->    
+    
+    <property name="app.name"               value="entmaint"/>
+    <property name="package.root"           value="gov"/>   
+	<property name="distribution.dir"       value="./distribution" />
+	<property name="webcontent.dir"		    value="./WebContent" />
+	<property name="properties.dir"		    value="./properties" />
+	
+	<property name="doc.dir"				value="./docs" />
+	<property name="javadoc.dir"            value="./docs/javadoc" />
+	<property name="web.inf.dir"            value="${webcontent.dir}/WEB-INF" />
+	<property name="global.lib.dir"			value="./lib" />
+	<property name="lib.dir"				value="${web.inf.dir}/lib" />
+	<property name="src.dir"                value="./src" />
+	<property name="build.dir"              value="./build" />
+	<property name="build.war.dir"          value="./build/war" />
+	<property name="web.inf.dir"			value="${webcontent.dir}/WEB-INF" />
+	<property name="java.classes.dir"		value="${web.inf.dir}/classes" />
+	
+    <property name="app.war.dir"            value="${build.war.dir}/${app.name}"/>
+    <property name="app.war.inf"            value="${app.war.dir}/WEB-INF"/>
+    <property name="app.war.includes"       value="${app.war.dir}/includes"/>
+    <property name="app.war.images"         value="${app.war.dir}/images"/>
+	
+    <property name="app.distribution.dir"   value="${distribution.dir}/${app.name}"/>
+    <property name="app.name.war"           value="${app.name}.war"/>
+   
+    <property name="common.properties.dir"  value="${properties.dir}/${common.env}"/>
+	
+	
+	<echo message="************************************************************"></echo>
+    <echo message="Build started: ${start.timestamp}"></echo>
+    <echo message="Building application for   '${common.env}' Environment"></echo>
+    <echo message="************************************************************"></echo>
+     
+    
+<!-- Define the project Classpath Settings -->
+    <path id="project.classpath">
+        <pathelement path="${classpath}"/>
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${global.lib.dir}" includes="tomcat/*.jar"/>
+    </path>
+    <property name="project.classpath" refid="project.classpath"/>
+
+    <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="project.classpath" />
+    
+    <!-- Create deployment dirs make_deployment_dirs -->
+    <target name="make_deployment_dirs" description="create deployment dirs" depends="clean" >
+        <mkdir dir="${java.classes.dir}"/>
+        <mkdir dir="${doc.dir}"/>
+        <mkdir dir="${javadoc.dir}"/>
+        <mkdir dir="${distribution.dir}"/>
+        <mkdir dir="${app.distribution.dir}"/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.war.dir}"/>
+        <mkdir dir="${conf.dir}/${app.name}"/>
+        <mkdir dir="${app.war.inf}"/>
+        <mkdir dir="${app.war.includes}"/>
+        <mkdir dir="${app.war.images}"/>
+    	 <mkdir dir="${webcontent.dir}/Stylesheets"/>
+    </target>
+    
+<!-- remove deployment dirs before deoplyment -->
+<target name="clean" description="remove deployment dirs before deploymemt">
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${java.classes.dir}" includes="**/*"/>
+    </delete>
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${javadoc.dir}" includes="**/*"/>
+    </delete>
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${distribution.dir}" includes="**/*"/>
+    </delete>
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${build.war.dir}" includes="**/*"/>
+    </delete>    
+    <delete includeEmptyDirs="true" failonerror="false">
+         <fileset dir="${conf.dir}/${app.name}" includes="**/*"/>
+    </delete>
+    
+</target>
+
+
+<!-- compile project source -->
+<target name="compile" depends="make_deployment_dirs" 
+        description="compiles the java source files" >
+    <javac debug="on"
+        classpath="${project.classpath}" 
+        srcdir="${src.dir}"
+        destdir="${java.classes.dir}" />
+        
+    <copy todir="${java.classes.dir}">
+        <fileset dir="${src.dir}" excludes="**/*.java"/>
+    </copy>
+              
+              
+</target>
+
+<!--  copy various proerties files to required directories -->
+   
+<target name="copy_properties_files" depends="make_deployment_dirs"
+                description="copies properties files to deployment folders" >
+      <!-- copy other properties to conf folder -->
+     <echo message="copying property files from : ${common.properties.dir}" />    
+	 
+	 <copy todir="${conf.dir}/${app.name}">
+            <fileset dir="${common.properties.dir}">
+             <include name="${app.name}.properties"/>
+			 <include name="log4j.properties"/>
+             <include name="ldap.properties"/>
+            </fileset>
+     </copy>
+     <copy todir="${java.classes.dir}">
+            <fileset dir="${properties.dir}">
+              <include name="*.*"/>
+            </fileset>
+            <fileset dir="${common.properties.dir}">
+               <exclude name="${app.name}.properties"/>
+               <exclude name="log4j.properties"/>
+            </fileset>
+            <fileset dir="${webcontent.dir}" includes="template/*/*.*"/>
+     </copy>
+
+</target>    
+<!-- creat javadoc from the java source files -->
+
+<target name="javadoc" depends="make_deployment_dirs" >
+    <javadoc classpath="${project.classpath}" 
+             destdir="${javadoc.dir}" 
+             sourcepath="${src.dir}"
+             packagenames="${package.root}/*"/>
+</target>
+
+<!--  build the web archive -->
+   
+    <target name="war" depends="compile,copy_properties_files" description="create war file">
+            
+
+		<copy todir="${app.war.dir}">
+            <fileset dir="${webcontent.dir}">
+              <include name="**/*.*"/>
+            </fileset>
+        </copy>			
+        		 
+		
+		<!-- create war file -->     
+		
+		<war destfile="${app.distribution.dir}/${app.name.war}" webxml="${app.war.inf}/web.xml">
+            <fileset dir="${app.war.dir}">
+               <exclude name="**/web.xml"/>
+            </fileset>
+            <classes dir="${java.classes.dir}"/>
+            <lib dir="${lib.dir}" >
+            	<exclude name="jasper-compiler.jar"/>
+            	<exclude name="jasper-runtime.jar"/>
+            	<exclude name="catalina-ant.jar"/>
+            	<exclude name="ant-contrib-1.0b2.jar"/>
+            	<exclude name="activation.jar"/>
+            	<exclude name="mail.jar"/>
+                <exclude name="tomcat/*.jar"/>
+                <exclude name="tomcat"/>
+            </lib>
+        </war>
+    </target>
+ 
+    
+   <target name="tomcat.undeploy">
+      <undeploy url="${tomcat.url}" failonerror="false"
+                    username="${tomcat.user}" password="${tomcat.password}"
+                    path="/${app.name}"/>
+   </target> 
+
+   <target name="tomcat.deploy" depends="tomcat.undeploy, war" >
+      <deploy url="${tomcat.url}" username="${tomcat.user}" 
+              password="${tomcat.password}" path="/${app.name}" 
+              war="${basedir}/${app.distribution.dir}/${app.name.war}"/>
+   </target>  
+   <!-- run ALL targets -->
+   <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.undeploy, tomcat.deploy"/>
+
+</project>

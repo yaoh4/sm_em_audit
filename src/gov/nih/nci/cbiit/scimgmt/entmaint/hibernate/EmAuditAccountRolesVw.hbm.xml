@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 26, 2015 9:49:41 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw" table="EM_AUDIT_ACCOUNT_ROLES_VW">
+		<composite-id>
+            <key-property name="eaaId" type="long">
+                <column name="EAA_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="impaciiUserId" type="string">
+                <column name="IMPACII_USER_ID" length="30" />
+            </key-property>
+            <key-property name="roleName" type="string">
+                <column name="ROLE_NAME" length="30" />
+            </key-property>
+            <key-property name="orgId" type="string">
+                <column name="ORG_ID" length="10" />
+            </key-property>
+            <key-property name="createdDate" type="timestamp">
+                <column name="CREATED_DATE" length="7" />
+            </key-property>
+            <key-property name="createdByUserId" type="string">
+                <column name="CREATED_BY_USER_ID" length="30" />
+            </key-property>
+            <key-property name="createdByFullName" type="string">
+                <column name="CREATED_BY_FULL_NAME" length="80" />
+            </key-property>
+    	</composite-id>
+    </class>
+</hibernate-mapping>

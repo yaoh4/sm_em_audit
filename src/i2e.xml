@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+
+<package name="i2e" namespace="/i2e" extends="default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+			<result-type name="redirect-action"
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+   
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		<action name="i2eHome" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
+			<result name="success" type="redirect-action">portfolioAccounts</result>
+		</action>
+		
+		<action name="portfolioAccounts" method="searchPortfolioAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
+			<result name="success" type="tiles">i2e.portfolio.accts.page</result>
+			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
+		</action>
+		
+		<action name="activeAuditAccounts" method="searchActiveAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
+			<result name="success" type="tiles">i2e.audit.active.accts.page</result>
+			<result name="input" type="tiles">i2e.audit.active.accts.page</result>
+		</action>
+		
+		<action name="deletedAuditAccounts" method="searchDeletedAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
+			<result name="success" type="tiles">i2e.audit.del.accts.page</result>
+			<result name="input" type="tiles">i2e.audit.del.accts.page</result>
+		</action>
+		
+		<action name="newAuditAccounts" method="searchNewAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
+			<result name="success" type="tiles">i2e.audit.new.accts.page</result>
+			<result name="input" type="tiles">i2e.audit.new.accts.page</result>
+		</action>
+		
+	</package>
+
+</struts>

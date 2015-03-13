@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 3, 2015 2:32:01 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT" table="EM_AUDIT_HISTORY_T">
+        <composite-id>
+            <key-property name="eauId" type="long">
+                <column name="EAU_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="actionCode" type="string">
+                <column name="ACTION_CODE" length="30" />
+            </key-property>
+            <key-property name="createDate" type="date">
+                <column name="CREATE_DATE" length="7" />
+            </key-property>
+         </composite-id>
+            <property name="comments" type="string">
+                <column name="COMMENTS" length="3000" />
+         </property>  
+         <property name="createUserId" type="string">
+                <column name="CREATE_USER_ID" length="30" />
+         </property>
+        
+    </class>
+</hibernate-mapping>

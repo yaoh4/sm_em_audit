@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 5, 2015 1:55:08 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw" table="EM_PORTFOLIO_VW">
+            <id name="impaciiUserId" type="string">
+                <column name="IMPACII_USER_ID" length="30" />
+            </id>
+            <property name="nihNetworkId" type="string">
+                <column name="NIH_NETWORK_ID" length="64" />
+            </property>
+            <property name="impaciiLastName" type="string">
+                <column name="IMPACII_LAST_NAME" length="30" />
+            </property>
+            <property name="impaciiFirstName" type="string">
+                <column name="IMPACII_FIRST_NAME" length="30" />
+            </property>
+            <property name="nedLastName" type="string">
+                <column name="NED_LAST_NAME" length="576" />
+            </property>
+            <property name="nedFirstName" type="string">
+                <column name="NED_FIRST_NAME" length="576" />
+            </property>
+            <property name="nedEmailAddress" type="string">
+                <column name="NED_EMAIL_ADDRESS" length="768" />
+            </property>
+            <property name="parentNedOrgPath" type="string">
+                <column name="PARENT_NED_ORG_PATH" length="2304" />
+            </property>
+            <property name="nedOrgPath" type="string">
+                <column name="NED_ORG_PATH" length="2304" />
+            </property>
+            <property name="nedIc" type="string">
+                <column name="NED_IC" length="576" />
+            </property>
+            <property name="nedActiveFlag" type="string">
+                <column name="NED_ACTIVE_FLAG" length="3" />
+            </property>
+            <property name="nciDoc" type="string">
+                <column name="NCI_DOC" length="5" />
+            </property>
+            <property name="createdDate" type="timestamp">
+                <column name="CREATED_DATE" length="7" />
+            </property>
+            <property name="createdByUserId" type="string">
+                <column name="CREATED_BY_USER_ID" length="30" />
+            </property>
+            <property name="createdByFullName" type="string">
+                <column name="CREATED_BY_FULL_NAME" length="62" />
+            </property>
+            <property name="deletedDate" type="timestamp">
+                <column name="DELETED_DATE" length="7" />
+            </property>
+            <property name="deletedByUserId" type="string">
+                <column name="DELETED_BY_USER_ID" length="30" />
+            </property>
+            <property name="deletedByFullName" type="string">
+                <column name="DELETED_BY_FULL_NAME" length="62" />
+            </property>
+            <property name="deactivationComments" type="string">
+                <column name="DEACTIVATION_COMMENTS" length="2000" />
+            </property>
+            <property name="secondaryOrgText" type="string">
+                <column name="SECONDARY_ORG_TEXT" length="32" />
+            </property>
+            <property name="lastLoginDate" type="string">
+                <column name="LAST_LOGIN_DATE" length="0" />
+            </property>
+            <property name="impaciiOnlyFlag" type="string">
+                <column name="IMPACII_ONLY_FLAG" length="1" />
+            </property>
+            <property name="notes" type="string">
+                <column name="NOTES" length="200" />
+            </property>
+            <property name="notesSubmittedByFullName" type="string">
+                <column name="NOTES_SUBMITTED_BY_FULL_NAME" length="62" />
+            </property>
+            <property name="notesSubmittedDate" type="timestamp">
+                <column name="NOTES_SUBMITTED_DATE" length="7" />
+            </property>
+            <bag name="accountRoles" table="EM_PORTFOLIO_ROLES_VW" inverse="true" lazy="false" fetch="select">
+            	<key>
+                	<column name="IMPACII_USER_ID" precision="10" scale="0" not-null="true" />
+            	</key>
+            	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw" />
+        	</bag>
+    </class>
+</hibernate-mapping>

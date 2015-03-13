@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	
+	<package name="impac2" namespace="/impac2" extends="default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+			<result-type name="redirect-action"
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+       	
+       	<global-results>
+			<result name="error" type="tiles">tiles.error.details</result>
+		</global-results>
+   
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		<action name="impac2Home" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
+			<result name="success" type="redirect-action">searchPortfolioAccounts</result>
+			<result name="input" type="tiles">tiles.error.details</result>
+		</action>
+		
+		<action name="searchPortfolioAccounts" method="searchPortfolioAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction">
+			<result name="success" type="tiles">impac2.portfolio.accts.page</result>
+			<result name="input" type="tiles">impac2.portfolio.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/portfolioSearchResultExport.jsp</result>
+		</action>
+		
+		<action name="saveNotes" method="saveNotes"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction" />
+			
+		<action name="clearSearchPortfolioAccounts" method="clearSearchPortfolioAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction">
+			<result name="success" type="tiles">impac2.portfolio.accts.page</result>
+			<result name="input" type="tiles">tiles.error.details</result>
+		</action>	
+					
+		<action name="searchActiveAuditAccounts" method="searchActiveAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
+			<result name="input" type="tiles">impac2.audit.active.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
+		</action>
+		
+		<action name="searchDeletedAuditAccounts" method="searchDeletedAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.del.accts.page</result>
+			<result name="input" type="tiles">impac2.audit.del.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
+		</action>
+		
+		<action name="searchNewAuditAccounts" method="searchNewAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.new.accts.page</result>
+			<result name="input" type="tiles">impac2.audit.new.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
+		</action>
+
+		<action name="submitAction" method="submitChange" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SubmitAction" />
+		<action name="unsubmitAction" method="unSubmitChange" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SubmitAction" />
+		
+		<action name="searchInactiveAuditAccounts" method="searchInactiveAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.inactive.accts.page</result>
+			<result name="input" type="tiles">impac2.audit.inactive.accts.page</result>
+		</action>
+		
+	</package>
+</struts>

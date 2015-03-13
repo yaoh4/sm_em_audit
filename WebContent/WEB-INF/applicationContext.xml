@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Application context definition for JPetStore's business layer.
+  - Contains bean references to the transaction manager and to the DAOs in
+  - dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/task
+            http://www.springframework.org/schema/task/spring-task.xsd">
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<context:component-scan base-package="gov.nih.nci.cbiit" />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="locations">
+			<list>
+				<value>file:${conf.dir}/entmaint/entmaint.properties</value>
+			</list>
+		</property>
+	</bean>
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+  		<property name="jndiName" value="${jdbc.datasource}" />
+ 	</bean>
+ 	<bean id="sessionFactory"
+       class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+  		<property name="dataSource">
+  		 <ref bean="dataSource"/>
+  		</property>
+  	    <!-- Must references all OR mapping files. -->
+  		<property name="mappingResources">
+  			<list>
+                <value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppLookupT.hbm.xml</value>
+                <value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppPropertiesT.hbm.xml</value>				
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/GwbLinksT.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditHistoryVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditHistoryT.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsT.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioRolesVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountsVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountRolesVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioNotesT.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml</value>
+			</list>
+  		</property>
+  		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.c3p0.max_size">20</prop>
+				<prop key="hibernate.c3p0.min_size">1</prop>
+				<prop key="hibernate.c3p0.timeout">300</prop>
+				<prop key="hibernate.c3p0.max_statements">100</prop>
+				<prop key="hibernate.c3p0.idle_test_period">300</prop>
+				<prop key="hibernate.c3p0.acquire_increment">2</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
+    </bean>
+    
+     <bean id="debug" class="org.springframework.aop.interceptor.DebugInterceptor" />
+
+	<bean id="hibernateDaoSupport"
+		class="org.springframework.orm.hibernate4.support.HibernateDaoSupport"
+		abstract="true">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+    
+     <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+ 	<bean id="transactionManager"
+       class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+  		<property name="sessionFactory">
+   			<ref bean="sessionFactory"/>
+  		</property>
+ 	</bean>
+ 	
+ 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="read*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="allServices" expression="execution(* gov.nih.nci.cbiit.scimgmt.entmaint.services.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allServices" />
+	</aop:config>  
+	
+	<bean id="nciUser" class="gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser"
+		scope="session">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="cacheAdministrator"
+		class="com.opensymphony.oscache.general.GeneralCacheAdministrator"
+		destroy-method="destroy">
+		<constructor-arg index="0">
+			<props>
+				<prop key="cache.memory">true</prop>
+			</props>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="ldapUtil" class="gov.nih.nci.cbiit.scimgmt.entmaint.utils.LdapUtil">
+  		<property name="stBaseSearchDN" value="OU=nci,O=nih"/>
+  		<property name="stSearchAttribute" value="cn"/>
+  		<property name="configEnvironment" value="oracle"/>
+	 </bean>
+	
+ 
+    <bean id="lookupService" 
+		class="gov.nih.nci.cbiit.scimgmt.entmaint.services.impl.LookupServiceImpl">
+		<property name="propertyListDAO">
+			<ref bean="propertyListDAO" />
+			</property>
+		<property name="cacheAdministrator">
+			<ref bean="cacheAdministrator" />
+		</property>
+	</bean> 
+	
+	
+</beans>

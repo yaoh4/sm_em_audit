@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	
+	<package name="admin"  namespace="/admin" extends="default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+			<result-type name="redirect-action"
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+	
+        <global-results>
+			<result name="error" type="tiles">tiles.error.details</result>
+		</global-results>
+     		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		
+		<action name="adminHome" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>
+		
+		
+		<action name="startAudit" method="startAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="endAudit" method="endAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="enableAudit" method="enableAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="resetAudit" method="resetAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>		
+	</package>
+</struts>

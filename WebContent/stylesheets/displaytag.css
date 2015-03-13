@@ -1,0 +1,234 @@
+/* alternative styles */
+
+table.its, table.its2 {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	text-align: left;
+	border-collapse: collapse;
+	border-bottom: 1px solid #6d92c3;
+	margin: 5px 5px 10px 5px;
+	width: 96%;
+}
+
+.its thead, .its tr, .its2 thead, .its2 tr {
+	border-right: 1px solid #6d92c3;
+	}
+.its th, .its2 th {
+	font-weight: normal;
+	padding:  4px;
+	color: #fff;
+	background-color: #174685;
+	border-top: 4px solid #b1d6fb;
+	border-right: 1px solid #b1d6fb;
+	border-left: 1px solid #b1d6fb;
+	
+}
+.its th.sortable a:link, .its2 th.sortable a:link {
+	color: #fff;
+}
+
+.its th.sortable a:visited, .its2 th.sortable a:visited {
+	color: #fff;
+}
+
+.its th.sortable:hover, .its2 th.sortable:hover {
+	background-color: #5282bc;
+}
+.its td, .its2 td {
+	padding: 4px;
+	color: #19304f;
+	border-right: 1px solid #9baff1;
+	border-left: 1px solid #9baff1;
+	border-bottom: none;
+	border-top: none;
+	vertical-align: top;
+}
+.its .odd {
+	background: #fff;
+}
+.its .even {
+	background: #e8edff;
+}
+
+.its2 .rowColor {
+	background: #e8edff;
+}
+
+
+.its tr.sup th, .its2 tr.sup th {
+	background: #fff;
+	border-top: 1px #fff solid;
+	border-left: 1px #fff solid;
+}
+.its tr.sup th.show, .its2 tr.sup th.show {
+	background: #b1d6fb;
+	color:  #5282bc;
+	font-size: .9em;
+	font-weight: bold;
+	padding-top: 0;
+	padding-bottom: 0;
+	text-align: center;
+	text-transform: uppercase;
+	background: #e8edff url('table-images/gradback.png') repeat-x;
+	border-top: 2px solid #b1d6fb;
+	border-left: 1px solid #b1d6fb;
+	border-right: 1px solid #b1d6fb;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	vertical-align: middle;
+}
+
+
+
+/*
+ per Olga, replacing all table styles with those above.
+*/
+
+div.exportlinks {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	margin: 2px 0 10px 0;
+	width: 79%;
+}
+
+span.export {
+	padding: 0 4px 1px 20px;
+	display: inline;
+	display: inline-block;
+	cursor: pointer;
+}
+
+span.excel {
+	background-repeat: no-repeat;
+	background-image: url(../images/ico_file_excel.png);
+}
+
+span.csv {
+	background-repeat: no-repeat;
+	background-image: url(../images/ico_file_csv.png);
+}
+
+span.xml {
+	background-repeat: no-repeat;
+	background-image: url(../images/ico_file_xml.png);
+}
+
+span.pdf {
+	background-repeat: no-repeat;
+	background-image: url(../images/ico_file_pdf.png);
+}
+
+span.rtf {
+	background-repeat: no-repeat;
+	background-image: url(../images/ico_file_rtf.png);
+}
+
+span.pagebanner {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	width: 79%;
+	margin-top: 10px;
+	display: block;
+	border-bottom: none;
+}
+
+span.pagelinks {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	width: 79%;
+	display: block;
+	border-top: none;
+	margin-bottom: -5px;
+}
+
+span.left {
+	position: absolute;
+	left: 0;
+}
+
+span.right {
+	position: absolute;
+	right: 0;
+}
+
+div.line {
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+ul.resultsinfo {
+	list-style-type: none;
+	padding: 0;
+	width: 90%;
+	font-size: 12px;
+}
+
+div.reportinfo {
+	margin-bottom: -8.5em;
+	position: relative;
+	top: -8.5em;
+	width: 80%;
+}
+
+div.reportinfo fieldset {
+	margin-right: 0;
+	margin-left: 70%;
+}
+
+ul.resultsNav {
+	font-size: 1em;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	margin-bottom: 0.5em;
+}
+
+ul.resultsNav li {
+	display: inline;
+	padding-right: 10px;
+}
+
+ul.formbuttons {
+	clear: both;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	/*padding-bottom:1em;*/ /*padding-top:1em;*/
+}
+
+div#content ul.formbuttons li {
+	display: inline;
+	padding: 0.5em;
+}
+
+div#content ul.formbuttons input {
+	background-color: #3F7EFF;
+	border: 3px double #FFFFFF;
+	color: #FFFFFF;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+}
+
+div#content ul.formbuttons input:hover {
+	background-color: #FFFFFF;
+	border: 3px double #3F7EFF;
+	color: #3F7EFF;
+	font-weight: bold;
+	text-align: center;
+}
+
+div#content ul.resultsNav input { /*background-color:#3F7EFF;*/
+	/*border:3px double #FFFFFF;*/ /*color:#FFFFFF;*/ /*font-size:1em;*/
+	font-weight: bold;
+	text-align: center;
+}
+
+div#content ul.resultsNav input:hover { /*background-color:#FFFFFF;*/
+	/*border:3px double #3F7EFF;*/ /*color:#3F7EFF;*/ /*font-weight:bold;*/
+	text-align: center;
+}

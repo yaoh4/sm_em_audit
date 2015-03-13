@@ -1,0 +1,295 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+
+a:link, a:visited
+
+{
+
+color: #369;
+text-decoration: underline;
+
+}
+
+a:hover
+
+{
+color: #4783e7;
+text-decoration: none;
+
+}
+
+
+
+.marker_inv {
+
+	display: none;
+
+	}
+
+
+/**************/
+/* begin IMPAC banner */
+/**************/
+#impac {
+width: 100%;
+background-color: #1a2a4b;
+height: 44px;
+padding: 0 10px;
+margin: 0 auto;
+	 
+}
+
+
+#impac div span {
+visibility: hidden;
+
+}
+
+
+#impac div
+
+{
+background-image: url(../images/impac_banner.jpg);
+background-repeat: no-repeat;
+background-position: center;
+margin: 0 auto;
+height: 44px;
+width: 980px;
+
+}
+
+
+/**************/
+/* end IMPAC banner */
+/**************/
+
+
+
+/**************/
+/* admin nav */
+/**************/
+
+#admin_nav {
+
+font-family: Verdana, Arial,  Helvetica, sans-serif;
+font-size: 11px;
+text-align: right;
+margin: 2px 0 0 0;
+padding: 5px 0 0 0;
+color: #666;
+}
+
+#admin_nav ul {
+
+
+margin: 0;
+padding: 4px 0 0 9px;
+
+}
+
+
+
+#admin_nav ul li 
+
+{
+
+list-style-type: none;
+display: inline;
+padding-right: 12px;
+
+background-image: url(../images/subnav-divider.gif);
+background-repeat: no-repeat;
+background-attachment: scroll;
+background-position: right center;
+}
+
+
+#admin_nav ul li.last
+
+{
+background-image: none;
+
+}
+
+#admin_nav ul  a:link, #admin_nav ul a:visited
+
+{
+font-size: 10px;
+color: #369;
+text-decoration: underline;
+
+
+}
+
+
+#admin_nav ul a:hover
+
+{
+color: #4783e7;
+text-decoration: none;
+
+}
+
+
+
+
+.admin_nav {	
+
+	font-size: 11px;
+
+	text-align: right;
+
+	margin: 10px;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+
+}
+
+
+
+a.admin_nav {
+
+	color: #333;
+
+	text-decoration: none;
+
+}
+
+a.admin_nav:hover {
+
+	color: #333;
+
+	text-decoration: underline;
+
+}
+
+a.admin_nav:visited {
+
+	color: #999;
+
+}
+	
+
+.errorMessage{
+color:red;
+font:  bold 11px "Verdana", serif;
+}
+
+
+/**************/
+/* end admin nav */
+/**************/
+
+
+/**************/
+/* pop-up nav */
+/**************/
+
+#popup_nav {
+	float: right;
+	display: block;
+}
+
+#popup_nav ul a:link, #admin_nav ul a:visited {
+	font-size: 12px;
+}
+
+#popup_nav ul ul {
+	display: none;
+}
+
+#popup_nav ul li:hover > ul {
+	display: block;
+}
+
+#popup_nav ul {
+	list-style: none;
+	position: relative;
+	display: inline-table;
+}
+
+#popup_nav ul:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+#popup_nav ul li {
+	float: left;
+	text-align: left;
+	width: auto;
+	padding-right: 0;
+		margin-right: 10px;
+}
+
+#popup_nav ul li:hover {
+	background: #4b545f;
+}
+
+#popup_nav ul li:hover a {
+	color: #fff;
+}
+
+#popup_nav ul li a {
+	display: block;
+	color: #757575;
+	text-decoration: none;
+	padding: 5px;
+	font-size: 22px;
+}
+
+#popup_nav ul ul {
+	background: #5f6975;
+	padding: 0;
+	position: absolute;
+	top: 100%;
+}
+
+#popup_nav ul ul li {
+	float: none;
+	position: relative;
+}
+
+#popup_nav ul ul li a {
+	color: #fff;
+}
+
+#popup_nav ul ul li a:hover {
+	background: #4b545f;
+		
+}
+
+#popup_nav ul li {
+	background-image: none;
+}
+
+h1#PFRheader {
+padding: 0 0 0 0 !important;
+padding /**/: 0px 0 0 0;
+margin: 0px;
+font-size: 0pt;
+background-image: url(../images/PFR_logo.png);
+background-position: 7px 0px;
+background-repeat: no-repeat;
+height: 60px !important; /* for most browsers */
+z-index: 1;
+padding-top: 0px !important;
+color: #fff;
+}
+
+
+#headerimg {
+background: url(../images/PFR_bg.jpg) top right;
+background-repeat: no-repeat;
+background-position: 500px 19px;
+clear: both;
+display: block;
+margin: 0;
+padding: 0;
+}
+
+/**************/
+/* end pop-up nav */
+/**************/
+
