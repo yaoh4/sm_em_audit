@@ -99,4 +99,6 @@ public interface ApplicationConstants {
     public static String SEARCHVO = "searchVO";
     
     public static String ACTIONLIST = "actionList";
+    
+    public static String PAGE_SIZE = "pageSize";
 }
