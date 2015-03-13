@@ -84,6 +84,7 @@
 		$('#nameValue').html("<label>" + name + "</label>");
 		$('#cellId').val(cellId);
 		$('messageId').html("");
+		$('#noteText').html($('#notesDiv_'+cellId).text());
 		$("#submitNotesAction").dialog("open");
 	}
 	function openErrorDialog() {
