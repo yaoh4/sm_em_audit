@@ -289,6 +289,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	 */
 	public String getPropertyValue(String key) {
 		return entMaintProperties.getProperty(key);
+	}	
+	
+	/**
+	 * Gets PageSize from app properties
+	 * 
+	 * @return
+	 */
+	public String getPageSize(){
+		return getPropertyValue(ApplicationConstants.PAGE_SIZE);
 	}
+	
 	
 }
