@@ -154,6 +154,15 @@ span.right {
 	right: 0;
 }
 
+span.bannerAlign {
+	display:block;
+	padding-top: 20px; 
+	padding-bottom: 20px;
+	padding-left: 10px;
+	font-size:0.9em;
+	text-align:left;
+}
+
 div.line {
 	position: relative;
 	text-align: center;
@@ -165,6 +174,13 @@ ul.resultsinfo {
 	padding: 0;
 	width: 90%;
 	font-size: 12px;
+}
+
+div.bannerAlign {
+	display:block;
+	padding-left: 10px;
+	font-size:0.9em;
+	text-align:left;
 }
 
 div.reportinfo {
