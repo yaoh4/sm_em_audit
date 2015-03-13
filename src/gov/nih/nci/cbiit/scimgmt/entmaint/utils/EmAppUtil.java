@@ -8,11 +8,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionContext;
 
