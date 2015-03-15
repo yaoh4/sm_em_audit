@@ -16,17 +16,17 @@ public interface AdminService {
 	 * Setup a new Audit
 	 * 
 	 * @param emAuditsVO
-	 * @return EmAuditsVO
+	 * @return Long the auditId of the new Audit
 	 */
-	public EmAuditsVO setupNewAudit(EmAuditsVO emAuditsVO);
+	public Long setupNewAudit(EmAuditsVO emAuditsVO);
 	
 	
 	/**
 	 * Close the current Audit
 	 * 
-	 * @param id
+	 * @return
 	 */
-	public void closeCurrentAudit(Long id);
+	public void closeCurrentAudit();
 	
 	
 	/**
@@ -34,16 +34,26 @@ public interface AdminService {
 	 * 
 	 * @param actionCode
 	 * @param comments
+	 * 
+	 * @return Long the auditId of the updated Audit
 	 */
-	public EmAuditsVO updateCurrentAudit(String actionCode, String comments);
+	public Long updateCurrentAudit(String actionCode, String comments);
 	
 	
 	
 	/**
-	 * Retrieves the current audit info from EM_AUDITS_VW
+	 * Retrieves the audit info for the current Audit 
 	 * 
-	 * @return EmAuditsVO current Audit
+	 * @return EmAuditsVO 
 	 */
-	public EmAuditsVO retrieveCurrentAudit();
+	public EmAuditsVO retrieveCurrentAuditVO();
+	
+	
+	/**
+	 * Retrieves the audit info for the Audit with the given auditId 
+	 * 
+	 * @return EmAuditsVO t
+	 */
+	public EmAuditsVO retrieveAuditVO(Long auditId);
 	
 }

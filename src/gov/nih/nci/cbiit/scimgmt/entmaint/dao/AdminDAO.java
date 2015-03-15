@@ -34,8 +34,7 @@ public class AdminDAO  {
 	static Logger logger = Logger.getLogger(AdminDAO.class);
 	
 	@Autowired
-	private NciUser nciUser;
-	
+	private NciUser nciUser;	
 	@Autowired
 	private SessionFactory sessionFactory;
 	/**
@@ -92,7 +91,7 @@ public class AdminDAO  {
 	 * 
 	 * @param id
 	 */
-	public void closeCurrentAudit(Long id) {
+	public void closeAudit(Long id) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -119,26 +118,21 @@ public class AdminDAO  {
 	}
 	
 	
+	
 	/**
 	 * Updates the audit state by inserting a new record in EM_AUDIT_HISTORY_T
 	 * @param auditId
 	 * @param actionCode
 	 * @param comments
 	 */
-	public EmAuditsVw updateAudit(Long auditId, String actionCode, String comments) {
+	public void updateAuditHistory(Long auditId, String actionCode, String comments) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		EmAuditsVw emAuditsVw = null;
+		Session session = sessionFactory.getCurrentSession();		
 		
 		try {
-        
 			//Insert a new row into the EM_AUDIT_HISTORY_T table for the current state
 			EmAuditHistoryT history = setupHistory(auditId, actionCode, comments);     
 			session.save(history);
-			
-			emAuditsVw = retrieveAudit(auditId);
-			
-			
         
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);
@@ -153,7 +147,6 @@ public class AdminDAO  {
 			}
 		}
 		
-		return emAuditsVw;
 	}
 	
 	
@@ -216,6 +209,7 @@ public class AdminDAO  {
 	public EmAuditsVw retrieveCurrentAudit() {
 		
 		Session session = sessionFactory.getCurrentSession();
+		EmAuditsVw emAuditsVw = null;
 		
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditsVw.class);
@@ -223,12 +217,9 @@ public class AdminDAO  {
 			criteria.add(Restrictions.ne("id", new Long(1)));
 			Object result =  criteria.uniqueResult();
 			if (result != null) {
-				return (EmAuditsVw)result;
-			
-			} else {
-				logger.info("No audit info retrieved from EM_AUDITS_VW");
-				return null;
-			} 
+				emAuditsVw = (EmAuditsVw)result;
+				session.evict(emAuditsVw);
+			}
 		} catch (Throwable e) {		
 			logger.error("Error retrieving data from EM_AUDITS_VW ", e);
 			try {
@@ -241,6 +232,8 @@ public class AdminDAO  {
 				throw b;
 			}
 		}
+		
+		return emAuditsVw;
 	}
 
 	
@@ -251,18 +244,11 @@ public class AdminDAO  {
 	public EmAuditsVw retrieveAudit(Long auditId) {
 		
 		Session session = sessionFactory.getCurrentSession();
+		EmAuditsVw emAuditsVw = null;
 		
 		try {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditsVw.class);
-			criteria.add(Restrictions.eq("id", auditId));
-			Object result =  criteria.uniqueResult();
-			if (result != null) {
-				return (EmAuditsVw)result;
-			
-			} else {
-				logger.info("No audit info retrieved from EM_AUDITS_VW for audit " + auditId);
-				return null;
-			} 
+			emAuditsVw = (EmAuditsVw)session.get(EmAuditsVw.class, new Long(auditId));
+			session.evict(emAuditsVw);
 		} catch (Throwable e) {		
 			logger.error("Error retrieving data from EM_AUDITS_VW for auditId " + auditId, e);
 			try {
@@ -275,33 +261,10 @@ public class AdminDAO  {
 				throw b;
 			}
 		}
-	}
-	
-	
-	public List<EmAuditHistoryVw> retrieveStatusHistories(Long auditId) {
-		List<EmAuditHistoryVw> result = null;
-		Session session = sessionFactory.getCurrentSession();
-		try {
-			Criteria criteria = session.createCriteria(EmAuditHistoryVw.class);
-			criteria.add(Restrictions.eq("auditId", auditId));
-			result = criteria.list();
-			
-		} catch (Throwable e) {		
-			logger.error("Error retrieving data from EM_AUDIT_HISTORY_VW for auditId " + auditId, e);
-			try {
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
-		}
-		return result;
+		
+		return emAuditsVw;
 	}
 
-	
 	/**
 	 * @return the nciUser
 	 */
@@ -316,5 +279,4 @@ public class AdminDAO  {
 	public void setNciUser(NciUser nciUser) {
 		this.nciUser = nciUser;
 	}
-
 }

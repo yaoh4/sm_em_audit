@@ -36,12 +36,18 @@ public class AdminAction extends BaseAction {
      */
     public String execute() throws Exception {
         
-    	//Retrieves audit info from the DB and sets up the display
-    	//accordingly
-        setupAuditState();
+    	//Retrieves audit info from the DB 
+    	emAuditsVO = adminService.retrieveCurrentAuditVO();
+    			
+    	//Store it into the session
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+        
+    	//Enable/disable the UI elements based on the audit state.
+    	setupAuditDisplay(emAuditsVO);
         
         return ApplicationConstants.SUCCESS;
     }
+    
     
     /**
      * Invoked when the Start Audit button is clicked. 
@@ -75,11 +81,15 @@ public class AdminAction extends BaseAction {
     	
     	if(this.hasActionErrors()) {
     		setDisableInput(false);
+    		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
     		return ApplicationConstants.INPUT;
     	}
     	
-    	//Store the audit state into the DB
-    	emAuditsVO = adminService.setupNewAudit(emAuditsVO);
+    	//Store the audit info into the DB
+    	Long id = adminService.setupNewAudit(emAuditsVO);
+    	
+    	//Retrieve the newly created audit from the DB
+    	emAuditsVO = adminService.retrieveAuditVO(id);
     	
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
@@ -113,27 +123,9 @@ public class AdminAction extends BaseAction {
      * @return
      */
     public String enableAudit() {
+    	
     	return updateAudit(ApplicationConstants.AUDIT_STATE_CODE_ENABLED);
-    	
     }
-    
-    
-    private String updateAudit(String auditState) {
-    	
-    	//Store the auditState into the DB
-    	emAuditsVO = adminService.updateCurrentAudit(
-    		auditState, emAuditsVO.getComments());
-    	
-    	//Store it into the session
-    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
-    	
-    	setSendAuditNotice(false);
-    	setDisableInput(true);
-    	
-    	//Forward to the End Audit screen.
-    	return ApplicationConstants.SUCCESS;
-    }
-    
     
     
     /**
@@ -144,11 +136,8 @@ public class AdminAction extends BaseAction {
      */
     public String resetAudit() {
     	
-    	//Get current Audit
-    	emAuditsVO = adminService.retrieveCurrentAudit();
-    	
-    	//Close the Audit
-    	adminService.closeCurrentAudit(emAuditsVO.getId());
+    	//Close the current Audit
+    	adminService.closeCurrentAudit();
     	
     	emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
     	
@@ -162,23 +151,29 @@ public class AdminAction extends BaseAction {
     }
 	
     
-	
-	private void setupAuditState() {
-		
-		//Retrieve audit state from DB
-		//Check EM Audit view. If it is empty, we do not have an active audit. 
-        //Else, get the row from history table which has no end date.
-        //The state of this is the current state.
-		emAuditsVO = adminService.retrieveCurrentAudit();
+    private String updateAudit(String auditState) {
+    	
+    	//Store the auditState into the DB
+    	Long auditId = adminService.updateCurrentAudit(
+    		auditState, emAuditsVO.getComments());
+    	
+    	//Retrieve the updated emAuditsVO from the DB
+    	emAuditsVO = adminService.retrieveAuditVO(auditId);
+    	
+    	//Store it into the session
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+    	
+    	setSendAuditNotice(false);
+    	setDisableInput(true);
+    	
+    	//Forward to the End Audit screen.
+    	return ApplicationConstants.SUCCESS;
+    }
+    
+    
+	private void setupAuditDisplay(EmAuditsVO emAuditsVO) {
 		
 		String auditState = EmAppUtil.getCurrentAuditState(emAuditsVO);
-		if(emAuditsVO == null) {
-			emAuditsVO = new EmAuditsVO();
-		}
-		emAuditsVO.setAuditState(auditState);
-		
-		//Store it into the session
-    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
 		
 		switch(auditState) {
 			case ApplicationConstants.AUDIT_STATE_CODE_RESET:
@@ -204,6 +199,7 @@ public class AdminAction extends BaseAction {
 		return sendAuditNotice;
 	}
 
+	
 	/**
 	 * @param sendAuditNotice the sendAuditNotice to set
 	 */
@@ -219,6 +215,7 @@ public class AdminAction extends BaseAction {
 		return disableInput;
 	}
 
+	
 	/**
 	 * @param disableInput the disableInput to set
 	 */
@@ -226,6 +223,7 @@ public class AdminAction extends BaseAction {
 		this.disableInput = disableInput;
 	}
 
+	
 	/**
 	 * @return the emAuditsVO
 	 */
@@ -233,6 +231,7 @@ public class AdminAction extends BaseAction {
 		return emAuditsVO;
 	}
 
+	
 	/**
 	 * @param emAuditsVO the emAuditsVO to set
 	 */

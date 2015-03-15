@@ -55,15 +55,13 @@ public class AdminServiceImpl implements AdminService {
 	 * @param emAuditsVO
 	 * @return Long
 	 */
-	public EmAuditsVO setupNewAudit(EmAuditsVO emAuditsVO) {
-		Long id = adminDAO.setupNewAudit(
+	public Long setupNewAudit(EmAuditsVO emAuditsVO) {
+		
+		//Setup a new audit
+		Long auditId = adminDAO.setupNewAudit(
 			emAuditsVO.getImpaciiFromDate(), emAuditsVO.getImpaciiToDate(), emAuditsVO.getComments());
 		
-		emAuditsVO.setId(id);
-		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_ENABLED);
-		emAuditsVO.setImpac2AuditFlag("true");
-		
-		return emAuditsVO;
+		return auditId;
 	}
 	
 	
@@ -72,8 +70,14 @@ public class AdminServiceImpl implements AdminService {
 	 * 
 	 * @param id
 	 */
-	public void closeCurrentAudit(Long id) {
-		adminDAO.closeCurrentAudit(id);
+	public void closeCurrentAudit() {
+		
+		//Get current Audit from DB
+    	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
+    	Long auditId = emAuditsVw.getId();
+    	
+    	//Close the current audit
+		adminDAO.closeAudit(auditId);
 	}
 	
 	
@@ -82,23 +86,25 @@ public class AdminServiceImpl implements AdminService {
 	 * 
 	 * @param historyVO
 	 */
-	public EmAuditsVO updateCurrentAudit(String actionCode, String comments) {
+	public Long updateCurrentAudit(String actionCode, String comments) {
 		
 		//Get current Audit from DB
-    	EmAuditsVO emAuditsVO = retrieveCurrentAudit();
+    	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
+    	Long auditId = emAuditsVw.getId();
+    	
+    	//Update the Audit History in the Audit
+		adminDAO.updateAuditHistory(auditId, actionCode, comments);
 		
-		EmAuditsVw emAuditsVw = adminDAO.updateAudit(
-			emAuditsVO.getId(), actionCode, comments);
-		
-		EmAuditsVO updatedAuditsVO = populateEmAuditsVO(emAuditsVw);
-		
-		updatedAuditsVO.setAuditState(actionCode);
-		updatedAuditsVO.setComments(comments);
-		
-		return updatedAuditsVO;
+		return auditId;
 		
 	}
 	
+	
+	public EmAuditsVO retrieveAuditVO(Long id) {
+		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
+		
+		return setupAuditVO(emAuditsVw);
+	}
 	
 	
 	/**
@@ -106,21 +112,39 @@ public class AdminServiceImpl implements AdminService {
 	 * 
 	 * @return EmAuditsVO
 	 */
-	public EmAuditsVO retrieveCurrentAudit() {
-		EmAuditsVO emAuditsVO = null;
+	public EmAuditsVO retrieveCurrentAuditVO() {
+		
 		
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
+		
+		return setupAuditVO(emAuditsVw);
+	}
+	
+	
+	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw) {
+		EmAuditsVO emAuditsVO = null;
 		
 		if(emAuditsVw != null) {
 			emAuditsVO = populateEmAuditsVO(emAuditsVw);
 		
-		
+			//Set the Audit flag
 			if(emAuditsVO.getImpaciiFromDate() != null && 
 				emAuditsVO.getImpaciiToDate() != null) {
 				emAuditsVO.setImpac2AuditFlag(TRUE);
 			}
+		
+		
+			//Set current action
+			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();	
+			if(statusHistories != null && statusHistories.size() > 0) {
+				String currentAuditState = statusHistories.get(0).getActionCode();
+				emAuditsVO.setAuditState(currentAuditState);
+			}
+		} else {
+			emAuditsVO = new EmAuditsVO();
+			emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
 		}
-				
+		
 		return emAuditsVO;
 	}
 	
