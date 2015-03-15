@@ -61,16 +61,20 @@ public class EmAppUtil {
 	 * @return String current state of the audit
 	 */
 	public static String getCurrentAuditState(EmAuditsVO emAuditsVO) {
-		String currentAuditState = null;
+		String currentAuditState = null;	
 		
 		if(emAuditsVO != null) {
 			
 			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();
 			
+			//Get the newest row from history table. The state of this 
+	        //row is the state of the audit.
 			if(statusHistories != null && statusHistories.size() > 0) {
 				currentAuditState = statusHistories.get(0).getActionCode();
 			}
 		} else {
+			
+			//If emAuditsVO is empty, we do not have an active audit. 
 			currentAuditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
 		}
 		
@@ -78,22 +82,6 @@ public class EmAppUtil {
 	}
 	
 	
-	
-	/**
-	 * Checks if the current Audit is enabled.
-	 * 
-	 * @return true if audit is enabled, else false.
-	 */
-	public static boolean isAuditEnabled(Map<String, Object> session) {				
-		
-		if(session != null) {
-			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
-		
-				return isAuditEnabled(emAuditsVO);
-			}
-		
-		return false;	
-	}
 	
 	
 	/**

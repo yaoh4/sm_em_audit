@@ -20,9 +20,10 @@
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings>
 		
-		<action name="impac2Home" method="execute"
+		<action name="impac2Home" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
-			<result name="success" type="redirect-action">searchPortfolioAccounts</result>
+			<result name="audit_enabled" type="redirect-action">searchActiveAuditAccounts</result>
+			<result name="audit_disabled" type="redirect-action">searchPortfolioAccounts</result>
 			<result name="input" type="tiles">tiles.error.details</result>
 		</action>
 		
