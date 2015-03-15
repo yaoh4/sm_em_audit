@@ -3,6 +3,7 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.valueObject;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 
 /**
@@ -13,13 +14,13 @@ public class EmAuditsVO extends EmAuditsVw {
 	/**
 	 * Flags to indicate the type of audit data to set
 	 */
-	private String impac2AuditFlag;
+	private String impac2AuditFlag = "false";
 	private String i2eAuditFlag = "false";
 	
 	/**
 	 * Audit State
 	 */
-	private String auditState;
+	private String auditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
 	
 	/**
 	 * Audit comments
