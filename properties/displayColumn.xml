@@ -233,7 +233,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Org ID</columnName>
- 		<property>nedLastName</property>
+ 		<property>orgId</property>
  		<sort>false</sort>
  	</Tab>	
  	<Tab>
@@ -251,7 +251,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>false</sort>
  	</Tab>	
 	<Tab>
@@ -263,7 +263,7 @@
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted Date</columnName>
- 		<property>deletedDate</property>
+ 		<property>accountDeletedDate</property>
  		<sort>false</sort>
  	</Tab> 	
 	<Tab>
@@ -275,7 +275,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>IMPAC II Deletion Comments</columnName>
- 		<property>nedLastName</property>
+ 		<property>deactivationComments</property>
  		<sort>false</sort>
  	</Tab>	
 	<Tab>
@@ -287,7 +287,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Notes</columnName>
- 		<property>nedLastName</property>
+ 		<property>actionNote</property>
  		<sort>false</sort>
  	</Tab>	
  	<Tab>
@@ -299,69 +299,69 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Submitted By</columnName>
- 		<property>nedLastName</property>
+ 		<property>accountActivity.submittedByFullName</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>inactive</type>
  		<columnName>Name</columnName>
- 		<property>nedLastName</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II ID</columnName>
- 		<property>nedLastName</property>
+ 		<property>impaciiUserId</property>
  		<sort>false</sort>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NIH (Network) ID</columnName>
- 		<property>nedLastName</property>
+ 		<property>nihNetworkId</property>
  		<sort>false</sort>
  	</Tab> 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NED Org Path</columnName>
- 		<property>nedLastName</property>
+ 		<property>nedOrgPath</property>
  		<sort>false</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>Secondary Org</columnName>
- 		<property>nedLastName</property>
+ 		<property>secondaryOrgText</property>
  		<sort>false</sort>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>Account Created Date</columnName>
- 		<property>nedLastName</property>
+ 		<property>accountCreatedDate</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>inactive</type>
  		<columnName>Created By</columnName>
- 		<property>nedLastName</property>
+ 		<property>createdByUserId</property>
  		<sort>false</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>Org. ID</columnName>
- 		<property>nedLastName</property>
+ 		<property>orgId</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
- 		<property>nedLastName</property>
+ 		<property>applicationRole</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
- 		<property>nedLastName</property>
+ 		<property>roleCreateOn</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>	
@@ -374,7 +374,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>Notes</columnName>
- 		<property>nedLastName</property>
+ 		<property>actionNote</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
@@ -386,7 +386,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>Submitted By</columnName>
- 		<property>nedLastName</property>
+ 		<property>accountActivity.submittedByFullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>

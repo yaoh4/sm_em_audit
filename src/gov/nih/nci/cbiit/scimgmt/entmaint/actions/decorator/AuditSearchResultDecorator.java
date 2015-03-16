@@ -69,6 +69,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	public String getAccountCreatedDate(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		Date createDate = accountVO.getCreatedDate();
+		if(createDate == null){
+			return "";
+		}
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	public String getAccountSubmittedDate(){
@@ -82,6 +85,17 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		
 		return new SimpleDateFormat("MM/dd/yyyy").format(submittedDate);
+		
+	}
+	public String getAccountDeletedDate(){
+		Date deletedDate = null;
+		
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		deletedDate = accountVO.getDeletedDate();
+		if(deletedDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(deletedDate);
 		
 	}
 	public String getApplicationRole(){

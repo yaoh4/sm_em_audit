@@ -1,6 +1,9 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 
-public class DropDownOption {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class DropDownOption implements Serializable{
 	private String optionKey;
 	private String optionValue;
 	
