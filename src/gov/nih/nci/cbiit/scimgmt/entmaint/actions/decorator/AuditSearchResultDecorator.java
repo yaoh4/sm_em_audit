@@ -71,9 +71,16 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		Date createDate = accountVO.getCreatedDate();
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
-	public String getSubmittedDate(){
+	public String getAccountSubmittedDate(){
+		Date submittedDate = null;
+		
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		Date submittedDate = accountVO.getAccountActivity().getSubmittedDate();
+		if(accountVO.getAccountActivity() == null){
+			return "";
+		}else{
+			submittedDate = accountVO.getAccountActivity().getSubmittedDate();
+		}
+		
 		return new SimpleDateFormat("MM/dd/yyyy").format(submittedDate);
 		
 	}
@@ -117,18 +124,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		createDate = createDate + "</table>";
 		return createDate;
-	}
-	
-	public String getActiveSubmittedDate(){
-		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		//this is not right column, wait for Yuri to provide me the right column
-		Date submitDate = accountVO.getCreatedDate();
-		if(submitDate == null){
-			return "";
-		}else{
-			return new SimpleDateFormat("MM/dd/yyyy").format(submitDate);
-		}
-		
 	}
 	
 	public String getActionNote(){
