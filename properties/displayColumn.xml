@@ -116,7 +116,7 @@
   	<Tab>
  		<type>active</type>
  		<columnName>Submitted On</columnName>
- 		<property>submittedDate</property>
+ 		<property>accountSubmittedDate</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
@@ -203,7 +203,7 @@
 	<Tab>
  		<type>new</type>
  		<columnName>Submitted On</columnName>
- 		<property>submittedDate</property>
+ 		<property>accountSubmittedDate</property>
  		<sort>false</sort>
  	</Tab>
 	<Tab>
@@ -293,7 +293,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Submitted On</columnName>
- 		<property>submittedDate</property>
+ 		<property>accountSubmittedDate</property>
  		<sort>false</sort>
  	</Tab>	
  	<Tab>
@@ -380,7 +380,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>Submitted On</columnName>
- 		<property>submittedDate</property>
+ 		<property>accountSubmittedDate</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
