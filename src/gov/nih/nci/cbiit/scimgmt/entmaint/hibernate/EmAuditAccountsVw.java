@@ -15,6 +15,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private EmAuditsVw audit;
 	private String impaciiUserId;
 	private String nihNetworkId;
+	private String impaciiLastName;
+	private String impaciiFirstName;
 	private String nedLastName;
 	private String nedFirstName;
 	private String nedEmailAddress;
@@ -48,7 +50,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.createdByUserId = createdByUserId;
 	}
 
-	public EmAuditAccountsVw(Long id, EmAuditsVw audit, String impaciiUserId, String nihNetworkId,
+	public EmAuditAccountsVw(Long id, EmAuditsVw audit, String impaciiUserId, String nihNetworkId, String impaciiLastName, String impaciiFirstName,
 			String nedLastName, String nedFirstName, String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
 			String nedActiveFlag, String nciDoc, Date createdDate, String createdByUserId, String createdByFullName,
 			Date deletedDate, String deletedByUserId, String deletedByFullName, String deactivationComments,
@@ -58,6 +60,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
 		this.nihNetworkId = nihNetworkId;
+		this.impaciiLastName = impaciiLastName;
+		this.impaciiFirstName = impaciiFirstName;
 		this.nedLastName = nedLastName;
 		this.nedFirstName = nedFirstName;
 		this.nedEmailAddress = nedEmailAddress;
@@ -105,6 +109,12 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				&& (getNihNetworkId() == castOther.getNihNetworkId() || getNihNetworkId() != null
 						&& castOther.getNihNetworkId() != null
 						&& getNihNetworkId().equals(castOther.getNihNetworkId()))
+				&& (getImpaciiLastName() == castOther.getImpaciiLastName() || getImpaciiLastName() != null
+						&& castOther.getImpaciiLastName() != null
+						&& getImpaciiLastName().equals(castOther.getImpaciiLastName()))
+				&& (getImpaciiFirstName() == castOther.getImpaciiFirstName() || getImpaciiFirstName() != null
+						&& castOther.getImpaciiFirstName() != null
+						&& getImpaciiFirstName().equals(castOther.getImpaciiFirstName()))
 				&& (getNedLastName() == castOther.getNedLastName() || getNedLastName() != null
 						&& castOther.getNedLastName() != null && getNedLastName().equals(castOther.getNedLastName()))
 				&& (getNedFirstName() == castOther.getNedFirstName() || getNedFirstName() != null
@@ -190,6 +200,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return id;
 	}
 
+	public String getImpaciiFirstName() {
+		return impaciiFirstName;
+	}
+
+	public String getImpaciiLastName() {
+		return impaciiLastName;
+	}
+	
 	public String getImpaciiUserId() {
 		return impaciiUserId;
 	}
@@ -250,6 +268,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getAudit() == null ? 0 : getAudit().hashCode());
 		result = 37 * result + (getImpaciiUserId() == null ? 0 : getImpaciiUserId().hashCode());
 		result = 37 * result + (getNihNetworkId() == null ? 0 : getNihNetworkId().hashCode());
+		result = 37 * result + (getImpaciiLastName() == null ? 0 : getImpaciiLastName().hashCode());
+		result = 37 * result + (getImpaciiFirstName() == null ? 0 : getImpaciiFirstName().hashCode());
 		result = 37 * result + (getNedLastName() == null ? 0 : getNedLastName().hashCode());
 		result = 37 * result + (getNedFirstName() == null ? 0 : getNedFirstName().hashCode());
 		result = 37 * result + (getNedEmailAddress() == null ? 0 : getNedEmailAddress().hashCode());
@@ -307,6 +327,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.id = id;
 	}
 
+	public void setImpaciiFirstName(String impaciiFirstName) {
+		this.impaciiFirstName = impaciiFirstName;
+	}
+
+	public void setImpaciiLastName(String impaciiLastName) {
+		this.impaciiLastName = impaciiLastName;
+	}
+	
 	public void setImpaciiUserId(String impaciiUserId) {
 		this.impaciiUserId = impaciiUserId;
 	}

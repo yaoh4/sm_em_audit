@@ -13,6 +13,12 @@
             <property name="impaciiUserId" type="string">
                 <column name="IMPACII_USER_ID" length="30" />
             </property>
+            <property name="impaciiLastName" type="string">
+                <column name="IMPACII_LAST_NAME" length="30" />
+            </property>
+            <property name="impaciiFirstName" type="string">
+                <column name="IMPACII_FIRST_NAME" length="30" />
+            </property>
             <property name="nihNetworkId" type="string">
                 <column name="NIH_NETWORK_ID" length="64" />
             </property>

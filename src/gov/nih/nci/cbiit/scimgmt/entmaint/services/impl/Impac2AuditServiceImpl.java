@@ -216,10 +216,10 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		}
 
 		// Check if last name is different between IMPACII and NED
-	/*	if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
+		if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
 			discrepancyList.add(lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_DISCREPANCY_TYPE_LIST,
 					ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
-		}*/
+		}
 		return discrepancyList;
 	}
 
