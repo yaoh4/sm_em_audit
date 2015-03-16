@@ -275,7 +275,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>IMPAC II Deletion Comments</columnName>
- 		<property>deletedActionComments</property>
+ 		<property>nedLastName</property>
  		<sort>false</sort>
  	</Tab>	
 	<Tab>
