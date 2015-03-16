@@ -56,6 +56,9 @@ public interface ApplicationConstants {
     public static final String GLOBAL_LOOKUP_LIST = "appLookup";
     public static final String HOST_URL = "hostUrl";
     
+    /* Property */
+    public static final String IC_COORDINATOR_EMAIL = "IC_EMAIL";
+
     /* Discrepancy type codes*/
     public static final String DISCREPANCY_CODE_SOD = "SOD";
     public static final String DISCREPANCY_CODE_IC = "ICDIFF";
