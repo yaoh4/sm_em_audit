@@ -11,7 +11,7 @@
             <key-property name="actionCode" type="string">
                 <column name="ACTION_CODE" length="15" />
             </key-property>
-            <key-property name="createDate" type="date">
+            <key-property name="createDate" type="java.sql.Timestamp">
                 <column name="CREATE_DATE" length="7" />
             </key-property>
          </composite-id>
