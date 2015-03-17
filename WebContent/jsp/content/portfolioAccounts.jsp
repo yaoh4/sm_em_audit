@@ -147,7 +147,7 @@
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="Start date"
 							buttonImage="../images/calendar_icon.gif" buttonImageOnly="true"
-							buttonText="Select start date." disabled="true" />
+							buttonText="Select start date." disabled="true"  cssErrorClass="ui-state-error"/>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<sj:datepicker size="15" id="dateRangeEndDate"
 							name="searchVO.dateRangeEndDate"
@@ -155,7 +155,7 @@
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="End date" buttonImage="../images/calendar_icon.gif"
 							buttonImageOnly="true" buttonText="Select end date."
-							disabled="true" />
+							disabled="true"  cssErrorClass="ui-state-error"/>
 					</div>
 				</div>
 
