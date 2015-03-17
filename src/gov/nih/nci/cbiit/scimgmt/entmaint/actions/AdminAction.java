@@ -239,5 +239,11 @@ public class AdminAction extends BaseAction {
 		this.emAuditsVO = emAuditsVO;
 	}
 
+	/**
+	 * Get the list of IC coordinator email addresses
+	 */
+	public String getIcEmails() {
+		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
+	}
 
 }

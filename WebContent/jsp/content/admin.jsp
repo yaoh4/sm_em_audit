@@ -10,7 +10,8 @@
 function sendAuditNotice()
  {
 	if (document.getElementById('sendAuditNotice').value == "true") {
-     location.href = "mailto:sunita.menon@nih.gov?subject=Audit Open Notice";
+	 email = document.getElementById('icEmails').value;
+     location.href = "mailto:"+email+"?subject=Audit Open Notice";
 	}
 
  }
@@ -45,6 +46,7 @@ function validateForm() {
   <form class="form-horizontal" role="form" action="adminHome.action" namespace="/admin">
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
+    <s:hidden id="icEmails" name="icEmails" />
  
  <h3>Administer Audit</h3>
     <div class="form-group">
