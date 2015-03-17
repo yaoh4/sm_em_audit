@@ -103,4 +103,13 @@ public class EmDiscrepancyTypesT implements java.io.Serializable {
 		this.lastChangeUserId = lastChangeUserId;
 	}
 
+	public String getHelpText() {
+		final StringBuffer sb = new StringBuffer(1000);
+
+		sb.append(longDescrip);
+		sb.append(resolutionText);
+
+		return sb.toString();
+	}
+
 }
