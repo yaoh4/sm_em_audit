@@ -188,6 +188,7 @@ WebContent/scripts/bootstrap.js -text
 WebContent/scripts/bootstrap.min.js -text
 WebContent/scripts/entMaint.js -text
 WebContent/scripts/entMaint_JQuery.js -text
+WebContent/scripts/jquery-2.1.3.min.js -text
 WebContent/scripts/jquery-ui-1.11.3.js -text
 WebContent/scripts/npm.js -text
 WebContent/scripts/respond.min.js -text
