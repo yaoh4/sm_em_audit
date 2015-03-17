@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="../stylesheets/custom.css"/>
 	<link rel="stylesheet" type="text/css" href="../stylesheets/entmaint.css"/>
-	
+	<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/npm.js" type="text/javascript"></script>

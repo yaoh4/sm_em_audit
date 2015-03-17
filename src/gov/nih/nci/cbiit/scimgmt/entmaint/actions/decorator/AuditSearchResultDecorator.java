@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
@@ -54,12 +53,18 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	}
 	
 	public String getDiscrepancy(){
+		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String id = ""+accountVO.getId();
 		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
 		for(EmDiscrepancyTypesT disVw : discrepancies){
 			if(disVw.getShortDescrip() != null){
-				sbu.append(disVw.getShortDescrip() + "\n");
+				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				String resolution = disVw.getResolutionText().replace("'", "&#39;");
+				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
+						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
+						"<br/>");
 			}
 		}
 		return sbu.toString();

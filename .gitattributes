@@ -187,6 +187,7 @@ WebContent/jsp/menu/applicationmenu.jsp -text
 WebContent/scripts/bootstrap.js -text
 WebContent/scripts/bootstrap.min.js -text
 WebContent/scripts/entMaint.js -text
+WebContent/scripts/entMaint_JQuery.js -text
 WebContent/scripts/jquery-ui-1.11.3.js -text
 WebContent/scripts/npm.js -text
 WebContent/scripts/respond.min.js -text
