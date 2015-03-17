@@ -29,6 +29,8 @@ public interface ApplicationConstants {
     public static final String AUDIT_STATE_CODE_DISABLED = "DISABLED";
     public static final String AUDIT_STATE_CODE_RESET = "RESET";
     
+    /* AppLookupT discriminator key for audit states*/
+    public static final String AUDIT_STATES_LOOKUP_KEY = "AppLookupAuditState";
     
     /*User roles*/
     public static final String USER_ROLE_IC_COORDINATOR = "EMREP";
@@ -40,6 +42,7 @@ public interface ApplicationConstants {
     
     /* Session key for current audit*/
     public static final String CURRENT_AUDIT = "currentAudit";
+    
     
     /*Lists */
     public static final String APP_LINK_LIST = "applinklist";

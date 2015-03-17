@@ -60,7 +60,7 @@ public class AdminDAO  {
 		try {
 			
 			//Setup audit data
-			//freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
+			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
 		
 			//Setup audit control
 			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate);
@@ -161,14 +161,12 @@ public class AdminDAO  {
 	private void freezeAuditRecords(Date impaciiFromDate, Date impaciiToDate, Session session) {
 				
 		try {
-		ProcedureCall call = session.createStoredProcedureCall("freeze_audit_records");
-		call.registerParameter("p_start_date", Date.class, ParameterMode.IN);
-		call.registerParameter("p_end_date", Date.class, ParameterMode.IN);
-		call.getRegisteredParameters().get(0).bindValue(impaciiFromDate);
-		call.getRegisteredParameters().get(1).bindValue(impaciiToDate);
+		ProcedureCall call = session.createStoredProcedureCall("EM_AUDIT_PKG.FREEZE_AUDIT_RECORDS");
+		call.registerParameter("p_start_date", Date.class, ParameterMode.IN).bindValue(impaciiToDate);
+		call.registerParameter("p_end_date", Date.class, ParameterMode.IN).bindValue(impaciiFromDate);
 		call.getOutputs();	
 		} catch (Throwable e) {		
-			logger.error("Error while calling stored procedure freeze_audit_records ", e);
+			logger.error("Error while calling stored procedure EM_AUDIT_PKG.FREEZE_AUDIT_RECORDS ", e);
 			throw e;	
 		}
 	}
@@ -213,8 +211,7 @@ public class AdminDAO  {
 		
 		try {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditsVw.class);
-			criteria.add(Restrictions.isNull("endDate"));
-			criteria.add(Restrictions.ne("id", new Long(1)));
+			criteria.add(Restrictions.isNull("endDate"));			
 			Object result =  criteria.uniqueResult();
 			if (result != null) {
 				emAuditsVw = (EmAuditsVw)result;

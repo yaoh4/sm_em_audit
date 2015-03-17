@@ -3,31 +3,30 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 
 import org.apache.log4j.Logger;
 import org.displaytag.decorator.TableDecorator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 
 /**
  * @author menons2
  *
  */
-
 public class AuditHistoryTableDecorator extends TableDecorator {
 
-	private NciUser nciUser;
-	
-	 private static Logger logger = 
+    
+	private static Logger logger = 
 		        Logger.getLogger(AuditHistoryTableDecorator.class);
 
-	 /**
+	/**
 	  * Default Constructor
 	  */
-	 public AuditHistoryTableDecorator() {
-		        super();
+	public AuditHistoryTableDecorator() {
+	    super();
 	 }
 	
 	 
@@ -35,26 +34,15 @@ public class AuditHistoryTableDecorator extends TableDecorator {
 		
 		EmAuditHistoryVw currentRowObject = 
 	            (EmAuditHistoryVw)getCurrentRowObject();
-		
-		String actionStr = currentRowObject.getActionCode() + " by "
-				+ currentRowObject.getCreateUserFullName();
+		LookupService lookupService  = (LookupService)this.getPageContext().getServletContext().getAttribute("lookupService");
+		AppLookupT appLookupT = 
+			lookupService.getAppLookupByCode(
+				ApplicationConstants.AUDIT_STATES_LOOKUP_KEY, currentRowObject.getActionCode());
+		String description = appLookupT.getDescription();
+		String actionStr = description + " by " + currentRowObject.getCreateUserFullName();
 		
 		return actionStr;
 	}
 
 
-	/**
-	 * @return the nciUser
-	 */
-	public NciUser getNciUser() {
-		return nciUser;
-	}
-
-
-	/**
-	 * @param nciUser the nciUser to set
-	 */
-	public void setNciUser(NciUser nciUser) {
-		this.nciUser = nciUser;
-	}
 }
