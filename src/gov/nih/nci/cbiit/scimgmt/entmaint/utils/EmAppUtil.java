@@ -71,14 +71,11 @@ public class EmAppUtil {
 	        //row is the state of the audit.
 			if(statusHistories != null && statusHistories.size() > 0) {
 				currentAuditState = statusHistories.get(0).getActionCode();
+				return currentAuditState;
 			}
-		} else {
-			
-			//If emAuditsVO is empty, we do not have an active audit. 
-			currentAuditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
-		}
+		} 
 		
-		return currentAuditState;
+		return ApplicationConstants.AUDIT_STATE_CODE_RESET;
 	}
 	
 	

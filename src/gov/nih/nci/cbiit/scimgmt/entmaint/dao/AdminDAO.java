@@ -59,12 +59,15 @@ public class AdminDAO  {
 		Long id = null;		
 		try {
 			
-			//Setup audit data
-			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
-		
 			//Setup audit control
 			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate);
-			id = (Long)session.save(emAuditsT);						
+			id = (Long)session.save(emAuditsT);	
+			
+			//The freeze_audit_records procedure needs the above record to be present
+			session.flush();
+			
+			//Setup audit data
+			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
 		
 			//Setup audit status
 			EmAuditHistoryT history = setupHistory(id, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, comments);   
@@ -73,6 +76,7 @@ public class AdminDAO  {
 		} catch (Throwable e) {		
 			logger.error("Error setting up audit data, new auditId: " + id, e);
 			try {
+				
 				session.close();
 				//TBD - Setup error handling at the application level
 				//and remove this code
