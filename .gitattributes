@@ -238,6 +238,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/I2eAuditAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/I2ePortfolioAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/Impac2AuditAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/Impac2PortfolioAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/RoleDescriptionAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SubmitAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SysAdminAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text

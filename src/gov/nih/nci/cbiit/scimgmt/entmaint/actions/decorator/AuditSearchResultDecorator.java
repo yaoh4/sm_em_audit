@@ -103,6 +103,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		
 	}
 	public String getApplicationRole(){
+		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
 		if(roles == null || roles.size() == 0){
@@ -110,7 +111,8 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmAuditAccountRolesVw roleVw : roles){
-			role = role + "<tr><td>" + roleVw.getRoleName()+"</td></tr>";
+			String roleName = roleVw.getRoleName();
+			role = role + "<tr><td>" + roleName + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;
