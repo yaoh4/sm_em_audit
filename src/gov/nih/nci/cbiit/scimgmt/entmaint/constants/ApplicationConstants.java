@@ -106,4 +106,6 @@ public interface ApplicationConstants {
     public static String ACTIONLIST = "actionList";
     
     public static String PAGE_SIZE = "pageSize";
+	public static final long PORTFOLIO_CATEGORY_NEW = 23;
+	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 }
