@@ -190,4 +190,16 @@ public class LookupServiceImpl implements LookupService {
 		}
 		return null;
 	}
+
+	/**
+	 * Get Role description for the help pop-up
+	 * 
+	 * @param roleName
+	 * @return description text
+	 */
+	@Override
+	public String getRoleDescription(String roleName) {
+		// TODO Auto-generated method stub
+		return "Dummy Role Description";
+	}
 }
