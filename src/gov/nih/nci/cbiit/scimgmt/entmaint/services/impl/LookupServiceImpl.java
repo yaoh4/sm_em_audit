@@ -10,8 +10,10 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,9 +134,9 @@ public class LookupServiceImpl implements LookupService {
 	}
    
 	/**
-	 * Get AppLookupT by discriminator and code
+	 * Get AppLookupT by list name and code
 	 * 
-	 * @param discriminator
+	 * @param listName
 	 * @param code
 	 * @return
 	 */
@@ -143,6 +145,32 @@ public class LookupServiceImpl implements LookupService {
 		for (AppLookupT element : list) {
 			if (element.getCode().equalsIgnoreCase(code))
 				return element;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get object in a list by list name and code
+	 * 
+	 * @param listName
+	 * @param code
+	 * @return
+	 */
+	public Object getListObjectByCode(String listName, String code) {
+		List<? extends Object> list = (List<? extends Object>) getList(listName);
+		for (Object element : list) {
+			try {
+				String c = BeanUtils.getProperty(element,"code");
+				if (StringUtils.equalsIgnoreCase(c, code)) {
+					return element;
+				}
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}		
 		}
 		return null;
 	}

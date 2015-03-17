@@ -9,5 +9,5 @@ public interface LookupService {
     public void flushListForSession();
     public AppLookupT getAppLookupByCode(String listName, String code);
     public AppLookupT getAppLookupById(String listName, Long id);
-
+    public Object getListObjectByCode(String listName, String code);
 }

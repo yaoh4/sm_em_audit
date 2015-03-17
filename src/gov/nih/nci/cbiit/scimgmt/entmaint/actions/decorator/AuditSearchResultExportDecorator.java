@@ -7,7 +7,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 /**
@@ -70,9 +70,9 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	private String isDiscrepancy(AuditAccountVO accountVO, String type) {
 		String isDiscrepancy = "N";
 		
-		List<AppLookupT> discrepancies = accountVO.getAccountDiscrepancies();
+		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
 		if(discrepancies != null && !discrepancies.isEmpty()) {
-			for(AppLookupT discrepancy: discrepancies) {
+			for(EmDiscrepancyTypesT discrepancy: discrepancies) {
 				if(discrepancy.getCode().equals(type)) {
 					return "Y";
 				}

@@ -37,7 +37,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 	private String notesSubmittedByFullName;
 	private Date notesSubmittedDate;
 	private List<EmPortfolioRolesVw> accountRoles = new ArrayList<EmPortfolioRolesVw>(0);
-	private List<AppLookupT> accountDiscrepancies = new ArrayList<AppLookupT>(0);
+	private List<EmDiscrepancyTypesT> accountDiscrepancies = new ArrayList<EmDiscrepancyTypesT>(0);
 	
 	public EmPortfolioVw() {
 	}
@@ -406,11 +406,11 @@ public class EmPortfolioVw implements java.io.Serializable {
 		this.accountRoles = accountRoles;
 	}
 	
-	public List<AppLookupT> getAccountDiscrepancies() {
+	public List<EmDiscrepancyTypesT> getAccountDiscrepancies() {
 		return accountDiscrepancies;
 	}
 
-	public void setAccountDiscrepancies(List<AppLookupT> accountDiscrepancies) {
+	public void setAccountDiscrepancies(List<EmDiscrepancyTypesT> accountDiscrepancies) {
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
 }

@@ -1,6 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
@@ -107,11 +107,11 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	
 	public String getDiscrepancy(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		List<AppLookupT> discrepancies = portfolioVO.getAccountDiscrepancies();
+		List<EmDiscrepancyTypesT> discrepancies = portfolioVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
-		for(AppLookupT disVw : discrepancies){
-			if(disVw.getDescription() != null){
-				sbu.append(disVw.getDescription() + "\n");
+		for(EmDiscrepancyTypesT disVw : discrepancies){
+			if(disVw.getShortDescrip() != null){
+				sbu.append(disVw.getShortDescrip() + "\n");
 			}
 		}
 		return sbu.toString();

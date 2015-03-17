@@ -8,14 +8,13 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.displaytag.decorator.TableDecorator;
-
-import com.opensymphony.xwork2.ActionContext;
 
 public class AuditSearchResultDecorator extends TableDecorator{
 	
@@ -56,11 +55,11 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	public String getDiscrepancy(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		List<AppLookupT> discrepancies = accountVO.getAccountDiscrepancies();
+		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
-		for(AppLookupT disVw : discrepancies){
-			if(disVw.getDescription() != null){
-				sbu.append(disVw.getDescription() + "\n");
+		for(EmDiscrepancyTypesT disVw : discrepancies){
+			if(disVw.getShortDescrip() != null){
+				sbu.append(disVw.getShortDescrip() + "\n");
 			}
 		}
 		return sbu.toString();

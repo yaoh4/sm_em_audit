@@ -36,7 +36,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private Date lastLoginDate;
 	private String inactiveUserFlag;
 	private List<EmAuditAccountRolesVw> accountRoles = new ArrayList<EmAuditAccountRolesVw>(0);
-	private List<AppLookupT> accountDiscrepancies = new ArrayList<AppLookupT>(0);
+	private List<EmDiscrepancyTypesT> accountDiscrepancies = new ArrayList<EmDiscrepancyTypesT>(0);
 	private List<EmAuditAccountActivityVw> accountActivities = new ArrayList<EmAuditAccountActivityVw>(0);
 	private EmAuditAccountActivityVw accountActivity;
 
@@ -394,11 +394,11 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.accountRoles = accountRoles;
 	}
 
-	public List<AppLookupT> getAccountDiscrepancies() {
+	public List<EmDiscrepancyTypesT> getAccountDiscrepancies() {
 		return accountDiscrepancies;
 	}
 
-	public void setAccountDiscrepancies(List<AppLookupT> accountDiscrepancies) {
+	public void setAccountDiscrepancies(List<EmDiscrepancyTypesT> accountDiscrepancies) {
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
