@@ -39,15 +39,18 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */    
 	public String searchPortfolioAccounts() {
     	log.debug("Begin : searchPortfolioAccounts");
-    	String forward = SUCCESS;   
+    	String forward = SUCCESS;     	
+    	if(searchVO == null){
+    		searchVO = new AuditSearchVO();
+    	}
+    	searchVO.setDateRangeStartDate(new Date());
+    	searchVO.setDateRangeEndDate(new Date());
     	
-    	//Default search
+		//Default search
     	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    		
     		searchVO.setOrganization(nciUser.getOrgPath());
-    	}
-    	
+    	}    	
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
-
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
@@ -71,7 +74,6 @@ public class Impac2PortfolioAction extends BaseAction{
 	public String saveNotes(){
 		log.debug("Begin : saveNotes");
 		String ipac2Id = (String)request.getParameter("ipac2Id");
-		String name = (String)request.getParameter("name");
 		String notes = (String)request.getParameter("notes");
 		PrintWriter pw = null;
 		try{
@@ -103,6 +105,9 @@ public class Impac2PortfolioAction extends BaseAction{
 		if(searchVO.getDateRangeEndDate() == null){
 			searchVO.setDateRangeEndDate(new Date());
 		}
+		if(searchVO.getDateRangeStartDate() == null && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW || searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED)){
+			addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.empty"));
+		}	
 		if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
 			addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofrange"));
 		}	
