@@ -1,9 +1,7 @@
 function onCategoryChage(category){
 	if(category == '22' || category == '25'){
 		$('#dateRangeStartDate').datepicker('disable'); 
-		$('#dateRangeEndDate').datepicker('disable'); 
-		$('#dateRangeStartDate').val(null);
-		$('#dateRangeEndDate').val(null);
+		$('#dateRangeEndDate').datepicker('disable'); 		
 	}
 	else{
 		$('#dateRangeStartDate').datepicker('enable'); 
