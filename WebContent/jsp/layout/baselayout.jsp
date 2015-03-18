@@ -22,7 +22,6 @@
 	<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/npm.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/respond.min.js" type="text/javascript"></script>
 	<script language="JavaScript" src="../scripts/entMaint.js" type="text/javascript"></script>
 	
