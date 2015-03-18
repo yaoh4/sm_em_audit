@@ -53,8 +53,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		auditAccountsList = impac2AuditDAO.searchActiveAccounts(searchVO);
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
-			account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
-			account.setAccountActivity(getAccountActivity(account.getAccountActivities(), ApplicationConstants.CATEGORY_ACTIVE));
+			account.setAccountActivity(getAccountActivity(account, ApplicationConstants.CATEGORY_ACTIVE));
 			AuditAccountVO acct = populateAuditAccountVO(account);
 			list.add(acct);
 		}
@@ -70,7 +69,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		auditAccountsList = impac2AuditDAO.searchNewAccounts(searchVO);
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
-			account.setAccountActivity(getAccountActivity(account.getAccountActivities(), ApplicationConstants.CATEGORY_NEW));
+			account.setAccountActivity(getAccountActivity(account, ApplicationConstants.CATEGORY_NEW));
 			AuditAccountVO acct = populateAuditAccountVO(account);
 			list.add(acct);
 		}
@@ -86,7 +85,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		auditAccountsList = impac2AuditDAO.searchDeletedAccounts(searchVO);
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
-			account.setAccountActivity(getAccountActivity(account.getAccountActivities(), ApplicationConstants.CATEGORY_DELETED));
+			account.setAccountActivity(getAccountActivity(account, ApplicationConstants.CATEGORY_DELETED));
 			AuditAccountVO acct = populateAuditAccountVO(account);
 			list.add(acct);
 		}
@@ -102,7 +101,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		auditAccountsList = impac2AuditDAO.searchInactiveAccounts(searchVO);
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
-			account.setAccountActivity(getAccountActivity(account.getAccountActivities(), ApplicationConstants.CATEGORY_INACTIVE));
+			account.setAccountActivity(getAccountActivity(account, ApplicationConstants.CATEGORY_INACTIVE));
 			AuditAccountVO acct = populateAuditAccountVO(account);
 			list.add(acct);
 		}
@@ -162,13 +161,50 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * @param category
 	 * @return
 	 */
-	private EmAuditAccountActivityVw getAccountActivity(List<EmAuditAccountActivityVw> accountActivities, String category) {
-		for(EmAuditAccountActivityVw account: accountActivities) {
-			if(account.getCategory().getCode().equalsIgnoreCase(category)) {
-				return account;
+	private EmAuditAccountActivityVw getAccountActivity(EmAuditAccountsVw account, String category) {
+		EmAuditAccountActivityVw activity = null;
+		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)) {
+			if (account.getActiveAction() != null) {
+				activity = new EmAuditAccountActivityVw();
+				activity.setEaaId(account.getId());
+				activity.setAction(account.getActiveAction());
+				activity.setNotes(account.getActiveNotes());
+				activity.setSubmittedByFullName(account.getActiveSubmittedBy());
+				activity.setSubmittedDate(account.getActiveSubmittedDate());
+				activity.setUnsubmittedFlag(account.getActiveUnsubmittedFlag());
+			}
+		} else if (category.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)) {
+			if (account.getNewAction() != null) {
+				activity = new EmAuditAccountActivityVw();
+				activity.setEaaId(account.getId());
+				activity.setAction(account.getNewAction());
+				activity.setNotes(account.getNewNotes());
+				activity.setSubmittedByFullName(account.getNewSubmittedBy());
+				activity.setSubmittedDate(account.getNewSubmittedDate());
+				activity.setUnsubmittedFlag(account.getNewUnsubmittedFlag());
+			}
+		} else if (category.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)) {
+			if (account.getDeletedAction() != null) {
+				activity = new EmAuditAccountActivityVw();
+				activity.setEaaId(account.getId());
+				activity.setAction(account.getDeletedAction());
+				activity.setNotes(account.getDeletedNotes());
+				activity.setSubmittedByFullName(account.getDeletedSubmittedBy());
+				activity.setSubmittedDate(account.getDeletedSubmittedDate());
+				activity.setUnsubmittedFlag(account.getDeletedUnsubmittedFlag());
+			}
+		} else if (category.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)) {
+			if (account.getInactiveAction() != null) {
+				activity = new EmAuditAccountActivityVw();
+				activity.setEaaId(account.getId());
+				activity.setAction(account.getInactiveAction());
+				activity.setNotes(account.getInactiveNotes());
+				activity.setSubmittedByFullName(account.getInactiveSubmitteBy());
+				activity.setSubmittedDate(account.getInactiveSubmittedDate());
+				activity.setUnsubmittedFlag(account.getInactiveUnsubmittedFlag());
 			}
 		}
-		return null;
+		return activity;
 	}
 	
 	/**

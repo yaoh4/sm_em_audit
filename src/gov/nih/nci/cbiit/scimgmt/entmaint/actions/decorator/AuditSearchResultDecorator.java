@@ -9,13 +9,23 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.displaytag.decorator.TableDecorator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+@Configurable
 public class AuditSearchResultDecorator extends TableDecorator{
+	
+	@Autowired
+	private LookupService lookupService;
 	
 	public String getAction(){
 		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
@@ -53,12 +63,18 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	}
 	
 	public String getDiscrepancy(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
 		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = ""+accountVO.getId();
-		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
+		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
-		for(EmDiscrepancyTypesT disVw : discrepancies){
+		for(String dis : discrepancies){
+			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
+					dis);
 			if(disVw.getShortDescrip() != null){
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");

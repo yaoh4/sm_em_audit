@@ -70,10 +70,10 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	private String isDiscrepancy(AuditAccountVO accountVO, String type) {
 		String isDiscrepancy = "N";
 		
-		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
+		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		if(discrepancies != null && !discrepancies.isEmpty()) {
-			for(EmDiscrepancyTypesT discrepancy: discrepancies) {
-				if(discrepancy.getCode().equals(type)) {
+			for(String discrepancy: discrepancies) {
+				if(discrepancy.equals(type)) {
 					return "Y";
 				}
 			}

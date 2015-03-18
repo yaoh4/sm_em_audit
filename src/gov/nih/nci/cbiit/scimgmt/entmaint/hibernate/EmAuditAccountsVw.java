@@ -36,9 +36,28 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private Date lastLoginDate;
 	private String inactiveUserFlag;
 	private List<EmAuditAccountRolesVw> accountRoles = new ArrayList<EmAuditAccountRolesVw>(0);
-	private List<EmDiscrepancyTypesT> accountDiscrepancies = new ArrayList<EmDiscrepancyTypesT>(0);
 	private List<EmAuditAccountActivityVw> accountActivities = new ArrayList<EmAuditAccountActivityVw>(0);
 	private EmAuditAccountActivityVw accountActivity;
+	private AppLookupT activeAction;
+	private String activeNotes;
+	private String activeUnsubmittedFlag;
+	private String activeSubmittedBy;
+	private Date activeSubmittedDate;
+	private AppLookupT newAction;
+	private String newNotes;
+	private String newUnsubmittedFlag;
+	private String newSubmittedBy;
+	private Date newSubmittedDate;
+	private AppLookupT deletedAction;
+	private String deletedNotes;
+	private String deletedUnsubmittedFlag;
+	private String deletedSubmittedBy;
+	private Date deletedSubmittedDate;
+	private AppLookupT inactiveAction;
+	private String inactiveNotes;
+	private String inactiveUnsubmittedFlag;
+	private String inactiveSubmitteBy;
+	private Date inactiveSubmittedDate;
 
 	public EmAuditAccountsVw() {
 	}
@@ -50,12 +69,18 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.createdByUserId = createdByUserId;
 	}
 
-	public EmAuditAccountsVw(Long id, EmAuditsVw audit, String impaciiUserId, String nihNetworkId, String impaciiLastName, String impaciiFirstName,
-			String nedLastName, String nedFirstName, String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
-			String nedActiveFlag, String nciDoc, Date createdDate, String createdByUserId, String createdByFullName,
-			Date deletedDate, String deletedByUserId, String deletedByFullName, String deactivationComments,
-			String secondaryOrgText, Date lastLoginDate, String inactiveUserFlag,
-			List accountRoles, List accountDiscrepancies, List accountActivities, EmAuditAccountActivityVw accountActivity) {
+	public EmAuditAccountsVw(Long id, EmAuditsVw audit, String impaciiUserId, String nihNetworkId,
+			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName,
+			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag,
+			String nciDoc, Date createdDate, String createdByUserId, String createdByFullName, Date deletedDate,
+			String deletedByUserId, String deletedByFullName, String deactivationComments, String secondaryOrgText,
+			Date lastLoginDate, String inactiveUserFlag, AppLookupT activeAction, String activeNotes,
+			String activeUnsubmittedFlag, String activeSubmittedBy, Date activeSubmittedDate, AppLookupT newAction,
+			String newNotes, String newUnsubmittedFlag, String newSubmittedBy, Date newSubmittedDate,
+			AppLookupT deletedAction, String deletedNotes, String deletedUnsubmittedFlag, String deletedSubmittedBy,
+			Date deletedSubmittedDate, AppLookupT inactiveAction, String inactiveNotes, String inactiveUnsubmittedFlag,
+			String inactiveSubmitteBy, Date inactiveSubmittedDate, List accountRoles, List accountActivities,
+			EmAuditAccountActivityVw accountActivity) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
@@ -81,9 +106,28 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.lastLoginDate = lastLoginDate;
 		this.inactiveUserFlag = inactiveUserFlag;
 		this.accountRoles = accountRoles;
-		this.accountDiscrepancies = accountDiscrepancies;
 		this.setAccountActivities(accountActivities);
 		this.accountActivity = accountActivity;
+		this.activeAction = activeAction;
+		this.activeNotes = activeNotes;
+		this.activeUnsubmittedFlag = activeUnsubmittedFlag;
+		this.activeSubmittedBy = activeSubmittedBy;
+		this.activeSubmittedDate = activeSubmittedDate;
+		this.newAction = newAction;
+		this.newNotes = newNotes;
+		this.newUnsubmittedFlag = newUnsubmittedFlag;
+		this.newSubmittedBy = newSubmittedBy;
+		this.newSubmittedDate = newSubmittedDate;
+		this.deletedAction = deletedAction;
+		this.deletedNotes = deletedNotes;
+		this.deletedUnsubmittedFlag = deletedUnsubmittedFlag;
+		this.deletedSubmittedBy = deletedSubmittedBy;
+		this.deletedSubmittedDate = deletedSubmittedDate;
+		this.inactiveAction = inactiveAction;
+		this.inactiveNotes = inactiveNotes;
+		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
+		this.inactiveSubmitteBy = inactiveSubmitteBy;
+		this.inactiveSubmittedDate = inactiveSubmittedDate;
 	}
 
 	@Override
@@ -102,7 +146,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return (getId() == castOther.getId() || getId() != null && castOther.getId() != null
 				&& getId().equals(castOther.getId()))
 				&& (getAudit() == castOther.getAudit() || getAudit() != null && castOther.getAudit() != null
-				&& getAudit().equals(castOther.getAudit()))
+						&& getAudit().equals(castOther.getAudit()))
 				&& (getImpaciiUserId() == castOther.getImpaciiUserId() || getImpaciiUserId() != null
 						&& castOther.getImpaciiUserId() != null
 						&& getImpaciiUserId().equals(castOther.getImpaciiUserId()))
@@ -126,7 +170,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				&& (getNedOrgPath() == castOther.getNedOrgPath() || getNedOrgPath() != null
 						&& castOther.getNedOrgPath() != null && getNedOrgPath().equals(castOther.getNedOrgPath()))
 				&& (getParentNedOrgPath() == castOther.getParentNedOrgPath() || getParentNedOrgPath() != null
-						&& castOther.getParentNedOrgPath() != null && getParentNedOrgPath().equals(castOther.getParentNedOrgPath()))
+						&& castOther.getParentNedOrgPath() != null
+						&& getParentNedOrgPath().equals(castOther.getParentNedOrgPath()))
 				&& (getNedIc() == castOther.getNedIc() || getNedIc() != null && castOther.getNedIc() != null
 						&& getNedIc().equals(castOther.getNedIc()))
 				&& (getNedActiveFlag() == castOther.getNedActiveFlag() || getNedActiveFlag() != null
@@ -161,7 +206,66 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						&& getLastLoginDate().equals(castOther.getLastLoginDate()))
 				&& (getInactiveUserFlag() == castOther.getInactiveUserFlag() || getInactiveUserFlag() != null
 						&& castOther.getInactiveUserFlag() != null
-						&& getInactiveUserFlag().equals(castOther.getInactiveUserFlag()));
+						&& getInactiveUserFlag().equals(castOther.getInactiveUserFlag()))
+				&& ((getActiveAction() == castOther.getActiveAction()) || (getActiveAction() != null
+						&& castOther.getActiveAction() != null && getActiveAction().equals(
+						castOther.getActiveAction())))
+				&& ((getActiveNotes() == castOther.getActiveNotes()) || (getActiveNotes() != null
+						&& castOther.getActiveNotes() != null && getActiveNotes().equals(
+						castOther.getActiveNotes())))
+				&& ((getActiveUnsubmittedFlag() == castOther.getActiveUnsubmittedFlag()) || (this
+						.getActiveUnsubmittedFlag() != null && castOther.getActiveUnsubmittedFlag() != null && this
+						.getActiveUnsubmittedFlag().equals(castOther.getActiveUnsubmittedFlag())))
+				&& ((getActiveSubmittedBy() == castOther.getActiveSubmittedBy()) || (getActiveSubmittedBy() != null
+						&& castOther.getActiveSubmittedBy() != null && getActiveSubmittedBy().equals(
+						castOther.getActiveSubmittedBy())))
+				&& ((getActiveSubmittedDate() == castOther.getActiveSubmittedDate()) || (this
+						.getActiveSubmittedDate() != null && castOther.getActiveSubmittedDate() != null && this
+						.getActiveSubmittedDate().equals(castOther.getActiveSubmittedDate())))
+				&& ((getNewAction() == castOther.getNewAction()) || (getNewAction() != null
+						&& castOther.getNewAction() != null && getNewAction().equals(
+						castOther.getNewAction())))
+				&& ((getNewNotes() == castOther.getNewNotes()) || (getNewNotes() != null
+						&& castOther.getNewNotes() != null && getNewNotes().equals(castOther.getNewNotes())))
+				&& ((getNewUnsubmittedFlag() == castOther.getNewUnsubmittedFlag()) || (this
+						.getNewUnsubmittedFlag() != null && castOther.getNewUnsubmittedFlag() != null && this
+						.getNewUnsubmittedFlag().equals(castOther.getNewUnsubmittedFlag())))
+				&& ((getNewSubmittedBy() == castOther.getNewSubmittedBy()) || (getNewSubmittedBy() != null
+						&& castOther.getNewSubmittedBy() != null && getNewSubmittedBy().equals(
+						castOther.getNewSubmittedBy())))
+				&& ((getNewSubmittedDate() == castOther.getNewSubmittedDate()) || (getNewSubmittedDate() != null
+						&& castOther.getNewSubmittedDate() != null && getNewSubmittedDate().equals(
+						castOther.getNewSubmittedDate())))
+				&& ((getDeletedAction() == castOther.getDeletedAction()) || (getDeletedAction() != null
+						&& castOther.getDeletedAction() != null && getDeletedAction().equals(
+						castOther.getDeletedAction())))
+				&& ((getDeletedNotes() == castOther.getDeletedNotes()) || (getDeletedNotes() != null
+						&& castOther.getDeletedNotes() != null && getDeletedNotes().equals(
+						castOther.getDeletedNotes())))
+				&& ((getDeletedUnsubmittedFlag() == castOther.getDeletedUnsubmittedFlag()) || (this
+						.getDeletedUnsubmittedFlag() != null && castOther.getDeletedUnsubmittedFlag() != null && this
+						.getDeletedUnsubmittedFlag().equals(castOther.getDeletedUnsubmittedFlag())))
+				&& ((getDeletedSubmittedBy() == castOther.getDeletedSubmittedBy()) || (this
+						.getDeletedSubmittedBy() != null && castOther.getDeletedSubmittedBy() != null && this
+						.getDeletedSubmittedBy().equals(castOther.getDeletedSubmittedBy())))
+				&& ((getDeletedSubmittedDate() == castOther.getDeletedSubmittedDate()) || (this
+						.getDeletedSubmittedDate() != null && castOther.getDeletedSubmittedDate() != null && this
+						.getDeletedSubmittedDate().equals(castOther.getDeletedSubmittedDate())))
+				&& ((getInactiveAction() == castOther.getInactiveAction()) || (getInactiveAction() != null
+						&& castOther.getInactiveAction() != null && getInactiveAction().equals(
+						castOther.getInactiveAction())))
+				&& ((getInactiveNotes() == castOther.getInactiveNotes()) || (getInactiveNotes() != null
+						&& castOther.getInactiveNotes() != null && getInactiveNotes().equals(
+						castOther.getInactiveNotes())))
+				&& ((getInactiveUnsubmittedFlag() == castOther.getInactiveUnsubmittedFlag()) || (this
+						.getInactiveUnsubmittedFlag() != null && castOther.getInactiveUnsubmittedFlag() != null && this
+						.getInactiveUnsubmittedFlag().equals(castOther.getInactiveUnsubmittedFlag())))
+				&& ((getInactiveSubmitteBy() == castOther.getInactiveSubmitteBy()) || (this
+						.getInactiveSubmitteBy() != null && castOther.getInactiveSubmitteBy() != null && this
+						.getInactiveSubmitteBy().equals(castOther.getInactiveSubmitteBy())))
+				&& ((getInactiveSubmittedDate() == castOther.getInactiveSubmittedDate()) || (this
+						.getInactiveSubmittedDate() != null && castOther.getInactiveSubmittedDate() != null && this
+						.getInactiveSubmittedDate().equals(castOther.getInactiveSubmittedDate())));
 	}
 
 	public EmAuditsVw getAudit() {
@@ -207,7 +311,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public String getImpaciiLastName() {
 		return impaciiLastName;
 	}
-	
+
 	public String getImpaciiUserId() {
 		return impaciiUserId;
 	}
@@ -247,11 +351,11 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public String getNedOrgPath() {
 		return nedOrgPath;
 	}
-	
+
 	public String getParentNedOrgPath() {
 		return parentNedOrgPath;
 	}
-	
+
 	public String getNihNetworkId() {
 		return nihNetworkId;
 	}
@@ -288,6 +392,27 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getSecondaryOrgText() == null ? 0 : getSecondaryOrgText().hashCode());
 		result = 37 * result + (getLastLoginDate() == null ? 0 : getLastLoginDate().hashCode());
 		result = 37 * result + (getInactiveUserFlag() == null ? 0 : getInactiveUserFlag().hashCode());
+		result = 37 * result + (getActiveAction() == null ? 0 : getActiveAction().hashCode());
+		result = 37 * result + (getActiveNotes() == null ? 0 : getActiveNotes().hashCode());
+		result = 37 * result + (getActiveUnsubmittedFlag() == null ? 0 : getActiveUnsubmittedFlag().hashCode());
+		result = 37 * result + (getActiveSubmittedBy() == null ? 0 : getActiveSubmittedBy().hashCode());
+		result = 37 * result + (getActiveSubmittedDate() == null ? 0 : getActiveSubmittedDate().hashCode());
+		result = 37 * result + (getNewAction() == null ? 0 : getNewAction().hashCode());
+		result = 37 * result + (getNewNotes() == null ? 0 : getNewNotes().hashCode());
+		result = 37 * result + (getNewUnsubmittedFlag() == null ? 0 : getNewUnsubmittedFlag().hashCode());
+		result = 37 * result + (getNewSubmittedBy() == null ? 0 : getNewSubmittedBy().hashCode());
+		result = 37 * result + (getNewSubmittedDate() == null ? 0 : getNewSubmittedDate().hashCode());
+		result = 37 * result + (getDeletedAction() == null ? 0 : getDeletedAction().hashCode());
+		result = 37 * result + (getDeletedNotes() == null ? 0 : getDeletedNotes().hashCode());
+		result = 37 * result + (getDeletedUnsubmittedFlag() == null ? 0 : getDeletedUnsubmittedFlag().hashCode());
+		result = 37 * result + (getDeletedSubmittedBy() == null ? 0 : getDeletedSubmittedBy().hashCode());
+		result = 37 * result + (getDeletedSubmittedDate() == null ? 0 : getDeletedSubmittedDate().hashCode());
+		result = 37 * result + (getInactiveAction() == null ? 0 : getInactiveAction().hashCode());
+		result = 37 * result + (getInactiveNotes() == null ? 0 : getInactiveNotes().hashCode());
+		result = 37 * result
+				+ (getInactiveUnsubmittedFlag() == null ? 0 : getInactiveUnsubmittedFlag().hashCode());
+		result = 37 * result + (getInactiveSubmitteBy() == null ? 0 : getInactiveSubmitteBy().hashCode());
+		result = 37 * result + (getInactiveSubmittedDate() == null ? 0 : getInactiveSubmittedDate().hashCode());
 		return result;
 	}
 
@@ -334,7 +459,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setImpaciiLastName(String impaciiLastName) {
 		this.impaciiLastName = impaciiLastName;
 	}
-	
+
 	public void setImpaciiUserId(String impaciiUserId) {
 		this.impaciiUserId = impaciiUserId;
 	}
@@ -378,7 +503,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setParentNedOrgPath(String parentNedOrgPath) {
 		this.parentNedOrgPath = parentNedOrgPath;
 	}
-	
+
 	public void setNihNetworkId(String nihNetworkId) {
 		this.nihNetworkId = nihNetworkId;
 	}
@@ -386,20 +511,13 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setSecondaryOrgText(String secondaryOrgText) {
 		this.secondaryOrgText = secondaryOrgText;
 	}
+
 	public List<EmAuditAccountRolesVw> getAccountRoles() {
 		return accountRoles;
 	}
 
 	public void setAccountRoles(List<EmAuditAccountRolesVw> accountRoles) {
 		this.accountRoles = accountRoles;
-	}
-
-	public List<EmDiscrepancyTypesT> getAccountDiscrepancies() {
-		return accountDiscrepancies;
-	}
-
-	public void setAccountDiscrepancies(List<EmDiscrepancyTypesT> accountDiscrepancies) {
-		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
 	public EmAuditAccountActivityVw getAccountActivity() {
@@ -416,6 +534,166 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setAccountActivities(List<EmAuditAccountActivityVw> accountActivities) {
 		this.accountActivities = accountActivities;
+	}
+
+	public AppLookupT getActiveAction() {
+		return activeAction;
+	}
+
+	public String getActiveNotes() {
+		return activeNotes;
+	}
+
+	public String getActiveUnsubmittedFlag() {
+		return activeUnsubmittedFlag;
+	}
+
+	public String getActiveSubmittedBy() {
+		return activeSubmittedBy;
+	}
+
+	public Date getActiveSubmittedDate() {
+		return activeSubmittedDate;
+	}
+
+	public AppLookupT getNewAction() {
+		return newAction;
+	}
+
+	public String getNewNotes() {
+		return newNotes;
+	}
+
+	public String getNewUnsubmittedFlag() {
+		return newUnsubmittedFlag;
+	}
+
+	public String getNewSubmittedBy() {
+		return newSubmittedBy;
+	}
+
+	public Date getNewSubmittedDate() {
+		return newSubmittedDate;
+	}
+
+	public AppLookupT getDeletedAction() {
+		return deletedAction;
+	}
+
+	public String getDeletedNotes() {
+		return deletedNotes;
+	}
+
+	public String getDeletedUnsubmittedFlag() {
+		return deletedUnsubmittedFlag;
+	}
+
+	public String getDeletedSubmittedBy() {
+		return deletedSubmittedBy;
+	}
+
+	public Date getDeletedSubmittedDate() {
+		return deletedSubmittedDate;
+	}
+
+	public AppLookupT getInactiveAction() {
+		return inactiveAction;
+	}
+
+	public String getInactiveNotes() {
+		return inactiveNotes;
+	}
+
+	public String getInactiveUnsubmittedFlag() {
+		return inactiveUnsubmittedFlag;
+	}
+
+	public String getInactiveSubmitteBy() {
+		return inactiveSubmitteBy;
+	}
+
+	public Date getInactiveSubmittedDate() {
+		return inactiveSubmittedDate;
+	}
+
+	public void setActiveAction(AppLookupT activeAction) {
+		this.activeAction = activeAction;
+	}
+
+	public void setActiveNotes(String activeNotes) {
+		this.activeNotes = activeNotes;
+	}
+
+	public void setActiveUnsubmittedFlag(String activeUnsubmittedFlag) {
+		this.activeUnsubmittedFlag = activeUnsubmittedFlag;
+	}
+
+	public void setActiveSubmittedBy(String activeSubmittedBy) {
+		this.activeSubmittedBy = activeSubmittedBy;
+	}
+
+	public void setActiveSubmittedDate(Date activeSubmittedDate) {
+		this.activeSubmittedDate = activeSubmittedDate;
+	}
+
+	public void setNewAction(AppLookupT newAction) {
+		this.newAction = newAction;
+	}
+
+	public void setNewNotes(String newNotes) {
+		this.newNotes = newNotes;
+	}
+
+	public void setNewUnsubmittedFlag(String newUnsubmittedFlag) {
+		this.newUnsubmittedFlag = newUnsubmittedFlag;
+	}
+
+	public void setNewSubmittedBy(String newSubmittedBy) {
+		this.newSubmittedBy = newSubmittedBy;
+	}
+
+	public void setNewSubmittedDate(Date newSubmittedDate) {
+		this.newSubmittedDate = newSubmittedDate;
+	}
+
+	public void setDeletedAction(AppLookupT deletedAction) {
+		this.deletedAction = deletedAction;
+	}
+
+	public void setDeletedNotes(String deletedNotes) {
+		this.deletedNotes = deletedNotes;
+	}
+
+	public void setDeletedUnsubmittedFlag(String deletedUnsubmittedFlag) {
+		this.deletedUnsubmittedFlag = deletedUnsubmittedFlag;
+	}
+
+	public void setDeletedSubmittedBy(String deletedSubmittedBy) {
+		this.deletedSubmittedBy = deletedSubmittedBy;
+	}
+
+	public void setDeletedSubmittedDate(Date deletedSubmittedDate) {
+		this.deletedSubmittedDate = deletedSubmittedDate;
+	}
+
+	public void setInactiveAction(AppLookupT inactiveAction) {
+		this.inactiveAction = inactiveAction;
+	}
+
+	public void setInactiveNotes(String inactiveNotes) {
+		this.inactiveNotes = inactiveNotes;
+	}
+
+	public void setInactiveUnsubmittedFlag(String inactiveUnsubmittedFlag) {
+		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
+	}
+
+	public void setInactiveSubmitteBy(String inactiveSubmitteBy) {
+		this.inactiveSubmitteBy = inactiveSubmitteBy;
+	}
+
+	public void setInactiveSubmittedDate(Date inactiveSubmittedDate) {
+		this.inactiveSubmittedDate = inactiveSubmittedDate;
 	}
 
 }
