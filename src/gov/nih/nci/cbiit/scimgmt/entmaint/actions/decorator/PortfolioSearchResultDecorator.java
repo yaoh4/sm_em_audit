@@ -35,7 +35,8 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmPortfolioRolesVw roleVw : roles){
-			role = role + "<tr><td>" + roleVw.getRoleName()+"</td></tr>";
+			String roleName = roleVw.getRoleName();
+			role = role + "<tr><td>" + roleName + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;
@@ -108,14 +109,18 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	public String getDiscrepancy(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmDiscrepancyTypesT> discrepancies = portfolioVO.getAccountDiscrepancies();
+		String id = portfolioVO.getImpaciiUserId();
 		StringBuffer sbu = new StringBuffer();
 		for(EmDiscrepancyTypesT disVw : discrepancies){
 			if(disVw.getShortDescrip() != null){
-				sbu.append(disVw.getShortDescrip() + "\n");
+				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				String resolution = disVw.getResolutionText().replace("'", "&#39;");
+				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
+						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
+						"<br/>");
 			}
 		}
 		return sbu.toString();
 	}
-
 	
 }
