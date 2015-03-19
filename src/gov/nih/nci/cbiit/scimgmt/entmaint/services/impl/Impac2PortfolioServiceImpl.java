@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -67,11 +68,11 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#saveNotes(java.lang.String)
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#saveNotes(java.lang.String, java.lang.String, java.util.Date)
 	 */
 	@Override
-	public DBResult saveNotes(String impaciiUserId, String notes) {
-		return impac2PortfolioDAO.saveNotes(impaciiUserId, notes);
+	public DBResult saveNotes(String impaciiUserId, String notes, Date date) {
+		return impac2PortfolioDAO.saveNotes(impaciiUserId, notes, date);
 	}
 	
 	/**

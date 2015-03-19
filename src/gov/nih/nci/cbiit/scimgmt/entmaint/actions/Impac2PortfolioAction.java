@@ -107,7 +107,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		String notes = (String)request.getParameter("notes");
 		PrintWriter pw = null;
 		try{
-			DBResult dbResult = impac2PortfolioService.saveNotes(ipac2Id,notes);
+			DBResult dbResult = impac2PortfolioService.saveNotes(ipac2Id,notes,new Date());
 			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
 				log.error("Exception occurred while saving portfolio notes.");
 				throw new Exception("Exception occurred while saving portfolio notes.");

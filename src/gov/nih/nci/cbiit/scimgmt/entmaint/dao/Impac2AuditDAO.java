@@ -200,7 +200,7 @@ public class Impac2AuditDAO {
 	 * @param actionComments
 	 * @return
 	 */
-	public DBResult submit(AppLookupT category, Long eaaId, Long actionId, String actionComments) {
+	public DBResult submit(AppLookupT category, Long eaaId, Long actionId, String actionComments, Date date) {
 		DBResult result = new DBResult();
 		try {
 			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category.getCode());
@@ -208,13 +208,13 @@ public class Impac2AuditDAO {
 				activity = new EmAuditAccountActivityT();
 				activity.setEaaId(eaaId);
 				activity.setCategory(category);
-				activity.setCreateUserId(nciUser.getOracleId());
-				activity.setCreateDate(new Date());
+				activity.setCreateUserId(nciUser.getUserId().toUpperCase());
+				activity.setCreateDate(date);
 			}
 			activity.setActionId(actionId);
 			activity.setNotes(actionComments);
-			activity.setLastChangeUserId(nciUser.getOracleId());
-			activity.setLastChangeDate(new Date());
+			activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+			activity.setLastChangeDate(date);
 			activity.setUnsubmittedFlag(FLAG_NO);
 			saveOrUpdateActivity(activity);
 		} catch (RuntimeException re) {
@@ -237,7 +237,7 @@ public class Impac2AuditDAO {
 		try {
 			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category);
 			if(activity != null) {
-				activity.setLastChangeUserId(nciUser.getOracleId());
+				activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 				activity.setLastChangeDate(new Date());
 				activity.setUnsubmittedFlag(FLAG_YES);
 				saveOrUpdateActivity(activity);

@@ -75,7 +75,7 @@ public class Impac2PortfolioDAO {
 	 * @param text
 	 * @return
 	 */
-	public DBResult saveNotes(String id, String text) {
+	public DBResult saveNotes(String id, String text, Date date) {
 		log.debug("saveNotes: saving notes for user," + id);
 		DBResult result = new DBResult();
 		try {
@@ -83,12 +83,12 @@ public class Impac2PortfolioDAO {
 			if(notes == null) {
 				notes = new EmPortfolioNotesT();
 				notes.setImpaciiUserId(id);
-				notes.setCreateUserId(nciUser.getOracleId());
-				notes.setCreateDate(new Date());
+				notes.setCreateUserId(nciUser.getUserId().toUpperCase());
+				notes.setCreateDate(date);
 			}
 			// save notes
-			notes.setLastChangeUserId(nciUser.getOracleId());
-			notes.setLastChangeDate(new Date());
+			notes.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+			notes.setLastChangeDate(date);
 			notes.setNotes(text);
 			saveOrUpdateNotes(notes);
 		} catch (RuntimeException re) {

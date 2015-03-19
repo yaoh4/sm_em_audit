@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ public interface Impac2PortfolioService {
      * @param impaciiUserId
      * @return DBResult
      */
-    public DBResult saveNotes(String impaciiUserId, String notes);
+    public DBResult saveNotes(String impaciiUserId, String notes, Date date);
     
     /**
      * Data retrieval from view, EmPortfolioVw

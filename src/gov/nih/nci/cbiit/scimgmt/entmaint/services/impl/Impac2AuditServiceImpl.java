@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -110,12 +111,12 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 
 
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#submit(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String)
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#submit(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.util.Date)
 	 */
 	@Override
-	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments) {
+	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments, Date date) {
 		AppLookupT cat = lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
-		return impac2AuditDAO.submit(cat, eaaId, actionId, actionComments);
+		return impac2AuditDAO.submit(cat, eaaId, actionId, actionComments, date);
 	}
 
 

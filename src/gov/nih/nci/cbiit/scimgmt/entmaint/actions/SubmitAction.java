@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
 import java.io.PrintWriter;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class SubmitAction extends BaseAction {
 		
 		PrintWriter pw = null;
 		try{
-			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note);
+			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, new Date());
 			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
 				log.error("Exception occurs during saving data into EmAuditAccountActivityT table.");
 				throw new Exception("Exception occurs during saving data into EmAuditAccountActivityT table.");

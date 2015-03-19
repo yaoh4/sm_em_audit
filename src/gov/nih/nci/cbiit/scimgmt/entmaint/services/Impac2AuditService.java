@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,7 +45,7 @@ public interface Impac2AuditService {
      * @param actionComments
      * @return DBResult
      */
-    public DBResult submit(String category, Long eaaId, Long actionId, String actionComments);
+    public DBResult submit(String category, Long eaaId, Long actionId, String actionComments, Date date);
     
     /**
      * Update actions taken on account for unsubmit.
