@@ -85,27 +85,25 @@
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
   	<Tab>
  		<type>active</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
   	<Tab>
  		<type>active</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
   	<Tab>
  		<type>active</type>
  		<columnName>Action</columnName>
  		<property>action</property>
  		<sort>false</sort>
+ 		<export>false</export>
  	</Tab>	 	 	
  	<Tab>
  		<type>active</type>
@@ -172,27 +170,25 @@
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>IMPAC II Acpplication Role(s)</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Action</columnName>
  		<property>action</property>
  		<sort>false</sort>
+ 		<export>false</export>
  	</Tab>
 	<Tab>
  		<type>new</type>
@@ -283,6 +279,7 @@
  		<columnName>Action</columnName>
  		<property>action</property>
  		<sort>false</sort>
+ 		<export>false</export>
  	</Tab> 	
  	<Tab>
  		<type>deleted</type>
@@ -349,27 +346,25 @@
  		<columnName>Org. ID</columnName>
  		<property>orgId</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
- 		<export>false</export>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>Action</columnName>
  		<property>action</property>
  		<sort>false</sort>
+ 		<export>false</export>
  	</Tab>
   	<Tab>
  		<type>inactive</type>
@@ -471,27 +466,25 @@
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
  		<sort>true</sort>
- 		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>portfolio</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
  		<sort>true</sort>
- 		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>portfolio</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>true</sort>
- 		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>portfolio</type>
  		<columnName>Action</columnName>
  		<property>action</property>
  		<sort>false</sort>
+ 		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>portfolio</type>

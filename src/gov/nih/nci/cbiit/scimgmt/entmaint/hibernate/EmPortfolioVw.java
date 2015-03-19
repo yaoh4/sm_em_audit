@@ -406,6 +406,10 @@ public class EmPortfolioVw implements java.io.Serializable {
 		this.accountRoles = accountRoles;
 	}
 	
+	public void addAccountRole(EmPortfolioRolesVw accountRole) {
+		accountRoles.add(accountRole);
+	}
+	
 	public List<EmDiscrepancyTypesT> getAccountDiscrepancies() {
 		return accountDiscrepancies;
 	}

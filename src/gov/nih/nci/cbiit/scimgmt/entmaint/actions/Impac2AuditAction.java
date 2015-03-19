@@ -8,6 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
@@ -57,6 +58,7 @@ public class Impac2AuditAction extends BaseAction {
 		this.setRole(getRole(nciUser));
 
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
 			return ApplicationConstants.EXPORT;
 		}
 		
@@ -82,6 +84,7 @@ public class Impac2AuditAction extends BaseAction {
 		this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setRole(getRole(nciUser));
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -108,6 +111,7 @@ public class Impac2AuditAction extends BaseAction {
 		this.setRole(getRole(nciUser));
 		
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -137,6 +141,7 @@ public class Impac2AuditAction extends BaseAction {
 		this.setRole(getRole(nciUser));
 
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -144,6 +149,29 @@ public class Impac2AuditAction extends BaseAction {
 	}
 	
 	
+	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts) {
+		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
+		
+		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			exportAccountVOList.add(auditAccountVO);
+			List<EmAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					AuditAccountVO auditAccountVOItem = new AuditAccountVO();
+					auditAccountVOItem.setNedLastName("");
+					auditAccountVOItem.setNedFirstName("");
+					auditAccountVOItem.addAccountRole(accountRoles.get(index));
+					exportAccountVOList.add(auditAccountVOItem);				
+				}
+			}
+		}
+		
+		return exportAccountVOList;
+	}
 	
 	/**
 	 * This method is retrieving Action List

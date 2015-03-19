@@ -4,10 +4,17 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
+import java.text.DateFormat;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author menons2
@@ -69,7 +76,7 @@ public class PortfolioSearchResultExportDecorator extends
 	
 	
 	private String isDiscrepancy(PortfolioAccountVO accountVO, String type) {
-		String isDiscrepancy = "N";
+		String isDiscrepancy = "";
 		
 		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
 		if(discrepancies != null && !discrepancies.isEmpty()) {
@@ -79,7 +86,63 @@ public class PortfolioSearchResultExportDecorator extends
 				}
 			}
 		}
+		
 		return isDiscrepancy;
+	}
+	
+	
+	public String getFullName() {
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		String fullName = accountVO.getNedLastName() + ", " + accountVO.getNedFirstName();
+		if(!fullName.replace(", ", "").isEmpty()) {
+			return fullName;
+		} 
+		
+		return "";
+    }
+	
+	
+	public String getOrgId() {
+		
+		String orgId = "";
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			orgId = accountRoles.get(0).getOrgId();
+		}
+		
+		return orgId;
+    }
+	
+	public String getApplicationRole() {
+		
+		String role = "";
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			role = accountRoles.get(0).getRoleName();
+		}
+		
+		return role;
+	}
+	
+	
+	public String getRoleCreateOn() {
+		String createdOn = "";
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdOn =  DateFormat.getDateInstance().format(accountRoles.get(0).getCreatedDate());
+		}
+		
+		return createdOn;
+	}
+	
+	
+	public String getNotes(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		
+		return portfolioVO.getNotes();
 	}
 
 }

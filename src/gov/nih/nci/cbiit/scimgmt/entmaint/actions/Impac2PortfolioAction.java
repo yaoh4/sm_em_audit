@@ -2,10 +2,13 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
@@ -61,11 +64,38 @@ public class Impac2PortfolioAction extends BaseAction{
 		log.debug("End : searchPortfolioAccounts");
 		
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
+			portfolioAccounts = getExportAccountVOList(portfolioAccounts);
 			return ApplicationConstants.EXPORT;
 		}
 		
         return forward;
     }
+	
+	
+	private List<PortfolioAccountVO> getExportAccountVOList(List<PortfolioAccountVO> auditAccounts) {
+		List<PortfolioAccountVO> exportAccountVOList = new ArrayList<PortfolioAccountVO>();
+		
+		for(PortfolioAccountVO portfolioAccountVO: auditAccounts) {
+			exportAccountVOList.add(portfolioAccountVO);
+			List<EmPortfolioRolesVw> accountRoles = portfolioAccountVO.getAccountRoles();
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					PortfolioAccountVO portfolioAccountVOItem = new PortfolioAccountVO();
+					portfolioAccountVOItem.setNedLastName("");
+					portfolioAccountVOItem.setNedFirstName("");
+					portfolioAccountVOItem.addAccountRole(accountRoles.get(index));
+					exportAccountVOList.add(portfolioAccountVOItem);				
+				}
+			}
+		}
+		
+		return exportAccountVOList;
+	}
+	
 	
 	/**
 	 * This method is used for AJAX call when the user wants to save notes.

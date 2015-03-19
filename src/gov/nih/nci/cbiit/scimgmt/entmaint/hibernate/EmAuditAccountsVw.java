@@ -519,6 +519,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setAccountRoles(List<EmAuditAccountRolesVw> accountRoles) {
 		this.accountRoles = accountRoles;
 	}
+	
+	public void addAccountRole(EmAuditAccountRolesVw accountRole) {
+		accountRoles.add(accountRole);
+	}
 
 	public EmAuditAccountActivityVw getAccountActivity() {
 		return accountActivity;
