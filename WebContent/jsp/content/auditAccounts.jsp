@@ -114,6 +114,15 @@
 			 		}
 			 }
 		});
+		$("#loading").dialog({
+			 autoOpen: false,
+			 resizable: false,
+			 width: 300,
+			 height:150,
+			 modal: true,
+			 show: { effect: "", duration: 1 },
+			 hide: { effect: "", duration: 1 },
+		}).siblings('div.ui-dialog-titlebar').remove();
 	});
 	function submitAct(name, cellId){
 		$('#errorMessage').html("");
@@ -131,6 +140,10 @@
 	}
 	function openErrorDialog(){
 		$('#errorDialog').dialog("open");
+	}
+	function openLoading(){
+		
+		$('#loading').dialog("open");
 	}
 </script>
 
@@ -175,7 +188,7 @@
 
     <div class="form-group">        
       <div class="col-sm-offset-3 col-sm-9">
-       <s:submit value="Search" cssClass="btn btn-primary"/>
+       <s:submit value="Search" cssClass="btn btn-primary" onclick="openLoading();"/>
 	   <input type="button" value="Clear"  class="btn btn-default" onclick=""/>
       </div>
     </div>
@@ -198,7 +211,7 @@
 <div align="center" style="overflow:auto;">
 	<s:include value="/jsp/content/accountSearchResult.jsp?act=%{tableAction}"/>
 </div>
-
+</div>
 </s:if> 
 
 <div id="submitAction" style="display: none;" title="Submit Action">
@@ -210,6 +223,7 @@
 	<font color='red'>Failed to save data into database, please contact system administrator.</font>
 	</div>
 </div>
+<div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 <div id="unsubmitAction" style="display: none;" title="Unsubmit Action">
 	<br/>
 	<div align="center">
