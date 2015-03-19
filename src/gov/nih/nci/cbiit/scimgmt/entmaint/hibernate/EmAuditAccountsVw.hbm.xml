@@ -136,7 +136,7 @@
             <property name="inactiveSubmittedDate" type="timestamp">
                 <column name="INACTIVE_SUBMITTED_DATE" length="7" />
             </property>
-            <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
+            <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="false" fetch="select">
             	<key>
                 	<column name="EAA_ID" />
             	</key>

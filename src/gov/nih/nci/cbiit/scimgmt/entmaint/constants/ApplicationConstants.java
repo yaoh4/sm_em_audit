@@ -106,6 +106,7 @@ public interface ApplicationConstants {
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String SEARCHVO = "searchVO";
+    public static String SEARCHLIST = "searchList";
     
     public static String ACTIONLIST = "actionList";
     

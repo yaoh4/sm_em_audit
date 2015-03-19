@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
       
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
@@ -23,6 +24,8 @@ public class HomeAction extends BaseAction {
 	@Autowired
 	AdminService adminService;
 	
+	@Autowired
+	LookupService lookupService;
 	
 	/**
 	 * Home action.
@@ -39,6 +42,9 @@ public class HomeAction extends BaseAction {
         //Store this in the session
         setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);             
 
+        // Temporary putting here so roles will load into cache.
+        lookupService.getList(ApplicationConstants.ERA_ROLES_LIST);
+        
         return forward;
 	}
 	

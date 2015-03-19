@@ -49,6 +49,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected AuditSearchVO searchVO;		
 	protected boolean showResult;
 	protected String formAction;
+	protected String tableAction;
 	protected List<Tab> displayColumn;
 	protected AuditSearchActionHelper auditSearchActionHelper = new AuditSearchActionHelper();
 	protected List<DropDownOption> organizationList = new ArrayList<DropDownOption>();
@@ -298,6 +299,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	 */
 	public String getPageSize(){
 		return getPropertyValue(ApplicationConstants.PAGE_SIZE);
+	}
+
+
+	public String getTableAction() {
+		return tableAction;
+	}
+
+
+	public void setTableAction(String tableAction) {
+		this.tableAction = tableAction;
 	}
 	
 	

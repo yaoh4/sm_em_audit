@@ -185,7 +185,7 @@
 		</div>
 
 		<div align="center" style="overflow: auto;">
-			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{formAction}"/>
+			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{tableAction}"/>
 		</div>
 
 	</div>

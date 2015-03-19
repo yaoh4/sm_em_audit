@@ -37,6 +37,33 @@ public class Impac2PortfolioAction extends BaseAction{
 	protected Impac2PortfolioService impac2PortfolioService;
 	
 	/**
+	 * This method is for pagination and sorting of display table. 
+	 * @return String
+	 */    
+	public String getPortfolioAccountsList() {
+    	log.debug("Begin : getPortfolioAccountsList");
+    	String forward = SUCCESS;     	
+
+    	portfolioAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
+
+		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
+		this.setFormAction("searchPortfolioAccounts");
+		this.setTableAction("getPortfolioAccountsList");
+		
+		showResult = true;
+		log.debug("End : getPortfolioAccountsList");
+		
+		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
+			portfolioAccounts = getExportAccountVOList(portfolioAccounts);
+			return ApplicationConstants.EXPORT;
+		}
+		
+        return forward;
+    }
+	
+	
+	/**
 	 * This method is responsible for portfolio accounts search. 
 	 * @return String
 	 */    
@@ -54,11 +81,13 @@ public class Impac2PortfolioAction extends BaseAction{
     		searchVO.setOrganization(nciUser.getOrgPath());
     	}    	
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
+		session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
 		this.setFormAction("searchPortfolioAccounts");
+		this.setTableAction("getPortfolioAccountsList");
 		
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
