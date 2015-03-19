@@ -22,6 +22,9 @@ public class RoleDescriptionAction extends BaseAction {
 	public String execute() throws Exception { 
 		String roleName = (String)request.getParameter("rId");
 		String roleDesc = lookupService.getRoleDescription(roleName);
+		if(roleDesc == null){
+			roleDesc = "Role Descrition Error!  Cannot fetch Role Description.";
+		}
 		inputStream = new StringBufferInputStream(roleDesc);
 		return SUCCESS;  
 	}
