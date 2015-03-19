@@ -23,5 +23,5 @@
 </div>
 <div id="role" style="display: none; overflow:auto;" title="Role Description">
 	<br>
-	<div align="center" id="roleHelpId"></div>
+	<div align="left" id="roleHelpId"></div>
 </div>	
