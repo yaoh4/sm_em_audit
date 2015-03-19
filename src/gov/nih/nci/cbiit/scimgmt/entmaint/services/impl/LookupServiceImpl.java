@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.PropertyListDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EraBusinessRolesMv;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
@@ -281,7 +282,10 @@ public class LookupServiceImpl implements LookupService {
 	 */
 	@Override
 	public String getRoleDescription(String roleName) {
-		// TODO Auto-generated method stub
-		return "Dummy Role Description";
+		EraBusinessRolesMv role = (EraBusinessRolesMv) getListObjectByCode(ApplicationConstants.ERA_ROLES_LIST, roleName);
+		if (role != null) {
+			return role.getDescrip();
+		}
+		return null;
 	}
 }
