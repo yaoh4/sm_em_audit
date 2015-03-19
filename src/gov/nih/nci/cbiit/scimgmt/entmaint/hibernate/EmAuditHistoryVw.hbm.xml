@@ -4,17 +4,19 @@
 <!-- Generated Mar 2, 2015 4:10:39 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw" table="EM_AUDIT_HISTORY_VW">
-        <composite-id>
-            <key-property name="auditId" type="long">
-                <column name="AUDIT_ID" precision="10" scale="0" />
-            </key-property>
-            <key-property name="actionCode" type="string">
-                <column name="ACTION_CODE" length="15" />
-            </key-property>
-            <key-property name="createDate" type="java.sql.Timestamp">
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0" />
+            <generator class="increment" />
+        </id>      
+        <property name="auditId" type="long">
+            <column name="AUDIT_ID" precision="10" scale="0" />
+        </property>
+        <property name="actionCode" type="string">
+            <column name="ACTION_CODE" length="15" />
+        </property>
+        <property name="createDate" type="java.sql.Timestamp">
                 <column name="CREATE_DATE" length="7" />
-            </key-property>
-         </composite-id>
+        </property>
          <property name="comments" type="string">
                 <column name="COMMENTS" length="1000" />
          </property>     

@@ -14,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -56,12 +57,12 @@ public class AdminDAO  {
 	public Long setupNewAudit(Date impaciiFromDate, Date impaciiToDate, String comments) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		Long id = null;		
+		Long auditId = null;		
 		try {
 			
 			//Setup audit control
 			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate);
-			id = (Long)session.save(emAuditsT);	
+			auditId = (Long)session.save(emAuditsT);	
 			
 			//The freeze_audit_records procedure needs the above record to be present
 			session.flush();
@@ -70,11 +71,11 @@ public class AdminDAO  {
 			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
 		
 			//Setup audit status
-			EmAuditHistoryT history = setupHistory(id, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, comments);   
+			EmAuditHistoryT history = setupHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, comments);   
 			session.save(history);
         				
 		} catch (Throwable e) {		
-			logger.error("Error setting up audit data, new auditId: " + id, e);
+			logger.error("Error setting up audit data, new auditId: " + auditId, e);
 			try {
 				
 				session.close();
@@ -86,7 +87,7 @@ public class AdminDAO  {
 				throw b;
 			}
 		}
-		return id;
+		return auditId;
 	}
 	
 	/**
@@ -95,8 +96,9 @@ public class AdminDAO  {
 	 * 
 	 * @param id
 	 */
-	public void closeAudit(Long id) {
+	public DBResult closeAudit(Long id) {
 		
+		DBResult result = new DBResult();
 		Session session = sessionFactory.getCurrentSession();
 		
 		try {
@@ -119,6 +121,9 @@ public class AdminDAO  {
 				throw b;
 			}
 		}
+		
+		result.setStatus(DBResult.SUCCESS);
+		return result;
 	}
 	
 	
@@ -129,14 +134,15 @@ public class AdminDAO  {
 	 * @param actionCode
 	 * @param comments
 	 */
-	public void updateAuditHistory(Long auditId, String actionCode, String comments) {
-		
-		Session session = sessionFactory.getCurrentSession();		
+	public Long updateAuditHistory(Long auditId, String actionCode, String comments) {
+				
+		Session session = sessionFactory.getCurrentSession();
+		Long id = null;
 		
 		try {
 			//Insert a new row into the EM_AUDIT_HISTORY_T table for the current state
 			EmAuditHistoryT history = setupHistory(auditId, actionCode, comments);     
-			session.save(history);
+			id = (Long) session.save(history);
         
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);
@@ -150,6 +156,8 @@ public class AdminDAO  {
 				throw b;
 			}
 		}
+		
+		return id;
 		
 	}
 	

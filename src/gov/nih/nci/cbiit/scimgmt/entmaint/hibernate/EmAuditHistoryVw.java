@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class EmAuditHistoryVw implements java.io.Serializable {
 
+	private long id;
 	private Long auditId;
 	private String actionCode;
 	private Date createDate;
@@ -32,6 +33,20 @@ public class EmAuditHistoryVw implements java.io.Serializable {
 		this.comments = comments;
 		this.createDate = createDate;
 		this.createUserFullName = createUserFullName;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Long getAuditId() {
@@ -83,7 +98,9 @@ public class EmAuditHistoryVw implements java.io.Serializable {
 			return false;
 		EmAuditHistoryVw castOther = (EmAuditHistoryVw) other;
 
-		return (this.getAuditId() == castOther.getAuditId())
+		return (getId() == castOther.getId() || (getId() != null && castOther.getId() != null
+				&& getId().equals(castOther.getId())))
+				&& (this.getAuditId() == castOther.getAuditId())
 				&& ((this.getActionCode() == castOther.getActionCode()) || (this
 						.getActionCode() != null
 						&& castOther.getActionCode() != null && this
@@ -106,7 +123,8 @@ public class EmAuditHistoryVw implements java.io.Serializable {
 
 	public int hashCode() {
 		int result = 17;
-
+		
+		result = 37 * result + (getId() == null ? 0 : getId().hashCode());
 		result = 37 * result + (int) this.getAuditId().longValue();
 		result = 37
 				* result
