@@ -78,10 +78,10 @@ public class PortfolioSearchResultExportDecorator extends
 	private String isDiscrepancy(PortfolioAccountVO accountVO, String type) {
 		String isDiscrepancy = "";
 		
-		List<EmDiscrepancyTypesT> discrepancies = accountVO.getAccountDiscrepancies();
+		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		if(discrepancies != null && !discrepancies.isEmpty()) {
-			for(EmDiscrepancyTypesT discrepancy: discrepancies) {
-				if(discrepancy.getCode().equals(type)) {
+			for(String discrepancy: discrepancies) {
+				if(discrepancy.equals(type)) {
 					return "Y";
 				}
 			}

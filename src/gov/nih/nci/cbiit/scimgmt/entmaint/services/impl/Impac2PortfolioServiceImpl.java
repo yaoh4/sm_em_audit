@@ -54,8 +54,8 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		portfolioList = impac2PortfolioDAO.searchImpac2Accounts(searchVO);
 		final List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
 		for (final EmPortfolioVw account : portfolioList) {
-			account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
 			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
+				account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
 				if(account.getAccountDiscrepancies() == null ||
 						account.getAccountDiscrepancies().isEmpty()) {
 					continue;
@@ -108,8 +108,8 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	 * @param category
 	 * @return
 	 */
-	private List<EmDiscrepancyTypesT> populateAccountDiscrepancy(EmPortfolioVw account) {
-		List<EmDiscrepancyTypesT> discrepancyList = new ArrayList<EmDiscrepancyTypesT>();
+	private List<String> populateAccountDiscrepancy(EmPortfolioVw account) {
+		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
 		int role1Count = 0;
 		for (EmPortfolioRolesVw role: account.getAccountRoles()) {
@@ -130,26 +130,22 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			}
 		}
 		if (role1Count > 1 || role2Count > 1) {
-			discrepancyList.add((EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
-					ApplicationConstants.DISCREPANCY_CODE_SOD));
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
 		// Check if NED_IC is not NCI
 		if (!StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
-			discrepancyList.add((EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
-					ApplicationConstants.DISCREPANCY_CODE_IC));
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
 		}
 
 		// Check if NED_ACTIVE_FLAG is N
 		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
-			discrepancyList.add((EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
-					ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE));
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
 		}
 
 		// Check if last name is different between IMPACII and NED
 		if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
-			discrepancyList.add((EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
-					ApplicationConstants.DISCREPANCY_CODE_LAST_NAME));
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;
 	}
