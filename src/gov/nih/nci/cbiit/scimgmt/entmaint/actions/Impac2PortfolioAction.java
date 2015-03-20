@@ -32,6 +32,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
 	private List<PortfolioAccountVO> portfolioAccounts;	
 	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();	
+	private List<Tab> portfolioDeletedAccountsColumns;
 	
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
@@ -69,23 +70,24 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */    
 	public String searchPortfolioAccounts() {
     	log.debug("Begin : searchPortfolioAccounts");
-    	String forward = SUCCESS;     	
-    	if(searchVO == null){
-    		searchVO = new AuditSearchVO();
-    	}
-    	searchVO.setDateRangeStartDate(new Date());
-    	searchVO.setDateRangeEndDate(new Date());
+    	String forward = SUCCESS;   
     	
-		//Default search
-    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    		
-    		searchVO.setOrganization(nciUser.getOrgPath());
-    	}    	
+    	setupPortfolioDefaultSearch();
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
 		session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
 		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
+		
+		portfolioDeletedAccountsColumns = colMap.get(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS);	
+		if(searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED){					
+			displayColumn.addAll(portfolioDeletedAccountsColumns);
+		}
+		else if(displayColumn.containsAll(portfolioDeletedAccountsColumns)){
+			displayColumn.removeAll(portfolioDeletedAccountsColumns);
+		}
 		this.setFormAction("searchPortfolioAccounts");
 		this.setTableAction("getPortfolioAccountsList");
 		
@@ -100,6 +102,19 @@ public class Impac2PortfolioAction extends BaseAction{
         return forward;
     }
 	
+	/**
+	 * This method is sets up default configuration. 
+	 * @return String
+	 */  
+	public void setupPortfolioDefaultSearch(){
+		if(searchVO == null){
+    		searchVO = new AuditSearchVO();
+    	}
+		//Default search
+    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    		
+    		searchVO.setOrganization(nciUser.getOrgPath());
+    	}     	
+	}
 	
 	private List<PortfolioAccountVO> getExportAccountVOList(List<PortfolioAccountVO> auditAccounts) {
 		List<PortfolioAccountVO> exportAccountVOList = new ArrayList<PortfolioAccountVO>();
@@ -165,26 +180,27 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return 
 	 */
 	public void validateSearchPortfolioAccounts() {
-		if(searchVO == null){
-    		searchVO = new AuditSearchVO();
-    	}
-		if(searchVO.getDateRangeEndDate() == null){
-			searchVO.setDateRangeEndDate(new Date());
+		if(searchVO != null){
+			if(searchVO.getDateRangeEndDate() == null){
+				searchVO.setDateRangeEndDate(new Date());
+			}
+			if(searchVO.getDateRangeStartDate() == null && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW || searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED)){
+				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.empty"));
+			}	
+			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
+				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofrange"));
+			}	
+			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(new Date())){
+				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate"));
+			}
+			if(searchVO.getDateRangeEndDate().after(new Date())){
+				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate"));
+			}
+			if (hasFieldErrors()) {
+				session.put(ApplicationConstants.SEARCHVO, searchVO);
+				auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
+			}
 		}
-		if(searchVO.getDateRangeStartDate() == null && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW || searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED)){
-			addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.empty"));
-		}	
-		if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
-			addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofrange"));
-		}	
-		if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(new Date())){
-			addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate"));
-		}
-		if(searchVO.getDateRangeEndDate().after(new Date())){
-			addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate"));
-		}	
-		session.put(ApplicationConstants.SEARCHVO, searchVO);
-		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);	
 	}
 	
 	/**
@@ -225,5 +241,21 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public void setCategoriesList(List<DropDownOption> categoriesList) {
 		this.categoriesList = categoriesList;
+	}
+
+
+	/**
+	 * @return the portfolioDeletedAccountsColumns
+	 */
+	public List<Tab> getPortfolioDeletedAccountsColumns() {
+		return portfolioDeletedAccountsColumns;
+	}
+
+
+	/**
+	 * @param portfolioDeletedAccountsColumns the portfolioDeletedAccountsColumns to set
+	 */
+	public void setPortfolioDeletedAccountsColumns(List<Tab> portfolioDeletedAccountsColumns) {
+		this.portfolioDeletedAccountsColumns = portfolioDeletedAccountsColumns;
 	}
 }
