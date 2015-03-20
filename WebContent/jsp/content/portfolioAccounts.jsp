@@ -175,7 +175,7 @@
 </div>
 
 <div style="text-align:right; width: 100%; padding-right: 10px; padding-bottom: 20px;">
-    <span style="font-size: 0.9em;"><a href="http://inside.era.nih.gov/files/Roles_Description_Report.pdf" target="blank">IMPAC II User Roles (.pdf) </a></span>
+	<span style="font-size: 0.9em;"><a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">IMPAC II User Roles (.pdf) </a></span>
 </div> 
 
 <s:if test="showResult">

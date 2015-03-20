@@ -62,6 +62,7 @@ public interface ApplicationConstants {
     
     /* Property */
     public static final String IC_COORDINATOR_EMAIL = "IC_EMAIL";
+    public static final String KEY_ROLES_DOC_LINK = "ROLES_DOC_LINK";
 
     /* Discrepancy type codes*/
     public static final String DISCREPANCY_CODE_SOD = "SOD";
