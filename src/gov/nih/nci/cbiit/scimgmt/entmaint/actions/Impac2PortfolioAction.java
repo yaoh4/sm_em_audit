@@ -13,6 +13,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +104,7 @@ public class Impac2PortfolioAction extends BaseAction{
     }
 	
 	/**
-	 * This method is sets up default configuration. 
+	 * This method sets up default configuration. 
 	 * @return String
 	 */  
 	public void setupPortfolioDefaultSearch(){
@@ -164,7 +165,7 @@ public class Impac2PortfolioAction extends BaseAction{
 				throw new Exception("Exception occurred while saving portfolio notes.");
 			}
 			pw = response.getWriter();
-			pw.print(notes);
+			pw.print(decorateResponse());
 		}catch(Exception e){
 			log.error(e.getMessage());
 			pw.print("fail");
@@ -173,6 +174,17 @@ public class Impac2PortfolioAction extends BaseAction{
 		}
 		log.debug("End : saveNotes");
 		return null;
+	}
+	
+	/**
+	 * This method generates the repsonse to be returned to the ajax call.
+	 * @return
+	 */
+	public String decorateResponse(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mm a");
+		String lastUpdateDate = dateFormat.format(new Date());
+		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();
+		return "Submitted on "+ lastUpdateDate + " by " +lastUpdateBy;
 	}
 	
 	/**
