@@ -104,6 +104,7 @@ public interface ApplicationConstants {
 	public static final String INACTIVE_ACTION_ALL = "11";
 	
     public static String PORTFOLIOTAB = "portfolio";
+    public static String PORTFOLIO_DELETED_ACCOUNTS = "portfolioDeletedAccounts";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String SEARCHVO = "searchVO";
