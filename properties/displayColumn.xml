@@ -41,7 +41,7 @@
  	<Tab>
  		<type>active</type>
  		<columnName>Name</columnName>
- 		<property>completeName</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
@@ -126,7 +126,7 @@
  	<Tab>
  		<type>new</type>
  		<columnName>Name</columnName>
- 		<property>completeName</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
@@ -211,7 +211,7 @@
  	<Tab>
  		<type>deleted</type>
  		<columnName>Name</columnName>
- 		<property>completeName</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
@@ -302,7 +302,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>Name</columnName>
- 		<property>completeName</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>	
    	<Tab>

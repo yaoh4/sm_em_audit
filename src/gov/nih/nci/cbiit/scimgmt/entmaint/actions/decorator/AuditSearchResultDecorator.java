@@ -95,7 +95,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
-	public String getCompleteName(){
+	public String getFullName(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getFullName();
 		String email = accountVO.getNedEmailAddress();

@@ -190,8 +190,15 @@ public class Impac2AuditAction extends BaseAction {
 					//add the role to it, so that each role shows up in a separate
 					//row in excel.
 					AuditAccountVO auditAccountVOItem = new AuditAccountVO();
+					
+					//Blank out the name field in additional role export rows
 					auditAccountVOItem.setNedLastName("");
 					auditAccountVOItem.setNedFirstName("");
+					
+					//Prevent false discrepancies
+					auditAccountVOItem.setImpaciiLastName("");
+					auditAccountVOItem.setNedIc("NCI");
+					
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
 					exportAccountVOList.add(auditAccountVOItem);				
 				}

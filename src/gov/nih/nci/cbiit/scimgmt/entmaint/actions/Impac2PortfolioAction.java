@@ -114,8 +114,15 @@ public class Impac2PortfolioAction extends BaseAction{
 					//add the role to it, so that each role shows up in a separate
 					//row in excel.
 					PortfolioAccountVO portfolioAccountVOItem = new PortfolioAccountVO();
+					
+					//Blank out the name field in additional role export rows
 					portfolioAccountVOItem.setNedLastName("");
 					portfolioAccountVOItem.setNedFirstName("");
+					
+					//Prevent false discrepancies
+					portfolioAccountVOItem.setImpaciiLastName("");
+					portfolioAccountVOItem.setNedIc("NCI");
+					
 					portfolioAccountVOItem.addAccountRole(accountRoles.get(index));
 					exportAccountVOList.add(portfolioAccountVOItem);				
 				}
