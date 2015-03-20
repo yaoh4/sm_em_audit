@@ -498,4 +498,22 @@
  		<property>lastUpdated</property>
  		<sort>true</sort>
  	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeletedAccounts</type>
+ 		<columnName>Account Deleted Date</columnName>
+ 		<property>deletedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeletedAccounts</type>
+ 		<columnName>Deleted By</columnName>
+ 		<property>deletedByFullName</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeletedAccounts</type>
+ 		<columnName>IMPAC II Deletion Comments</columnName>
+ 		<property>deactivationComments</property>
+ 		<sort>true</sort>
+ 	</Tab>
  </Display>   
