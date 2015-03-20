@@ -45,6 +45,7 @@ public class DisplayReader {
 		List<Tab> deleteTab = new ArrayList<Tab>();
 		List<Tab> inactiveTab = new ArrayList<Tab>();
 		List<Tab> portfolioTab = new ArrayList<Tab>();
+		List<Tab> portfolioDeletedAccounts = new ArrayList<Tab>();
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(t.getType())){
@@ -62,12 +63,16 @@ public class DisplayReader {
 			if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(t.getType())){
 				inactiveTab.add(t);
 			}
+			if(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS.equalsIgnoreCase(t.getType())){
+				portfolioDeletedAccounts.add(t);
+			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
 		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);
 		colMap.put(ApplicationConstants.PORTFOLIOTAB, portfolioTab);
 		colMap.put(ApplicationConstants.CATEGORY_INACTIVE, inactiveTab);
+		colMap.put(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS, portfolioDeletedAccounts);
 		
 		return colMap;
 	}
