@@ -42,7 +42,7 @@
  		<type>active</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
@@ -54,31 +54,31 @@
  		<type>active</type>
  		<columnName>NIH (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>active</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>Created By</columnName>
  		<property>createdByUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>active</type>
@@ -127,43 +127,43 @@
  		<type>new</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>new</type>
  		<columnName>IMPAC II ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>new</type>
  		<columnName>NIH (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Created By</columnName>
  		<property>createdByUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
@@ -212,61 +212,61 @@
  		<type>deleted</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>deleted</type>
  		<columnName>IMPAC II ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>deleted</type>
  		<columnName>NIH (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>deleted</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Created By</columnName>
  		<property>createdByUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted Date</columnName>
  		<property>accountDeletedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted By</columnName>
  		<property>deletedByUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
  	<Tab>
  		<type>deleted</type>
@@ -303,43 +303,43 @@
  		<type>inactive</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
  		<columnName>IMPAC II ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NIH (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>inactive</type>
  		<columnName>Created By</columnName>
  		<property>createdByUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>

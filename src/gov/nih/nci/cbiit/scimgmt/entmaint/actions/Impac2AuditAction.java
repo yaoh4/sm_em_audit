@@ -78,7 +78,6 @@ public class Impac2AuditAction extends BaseAction {
 		String cate = (String)session.get(ApplicationConstants.CURRENTPAGE);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		actionWithoutAllList = getActionListWithAll();
 		this.setRole(getRole(nciUser));
 		this.setTableAction("getAuditAccounts");	
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
@@ -88,23 +87,28 @@ public class Impac2AuditAction extends BaseAction {
 		
 		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(cate)){
 			displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
+			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
 			this.setFormAction("searchActiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(cate)){
 			displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
+			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate)){
 			displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
+			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
 			this.setFormAction("searchDeletedAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(cate)){
 			displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
+			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
 			this.setFormAction("searchInactiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
 		}
-
-
+		session.put(ApplicationConstants.ACTIONLIST, actionList);
+		actionWithoutAllList = getActionListWithAll();
+		
         return forward;
 	}
 	
