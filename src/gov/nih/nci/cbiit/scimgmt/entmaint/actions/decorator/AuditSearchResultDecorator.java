@@ -99,22 +99,55 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getFullName();
 		String email = accountVO.getNedEmailAddress();
-		return "<a href='mailto:" + email + "'>" + fullName + "</a>";
+		if(fullName == null || email == null || fullName.trim().length() < 1 || email.trim().length() < 1 ){
+			return "";
+		}else{
+			return "<a href='mailto:" + email + "'>" + fullName + "</a>";
+		}
 	}
 	
 	public String getAccountSubmittedDate(){
 		Date submittedDate = null;
 		
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String id = ""+accountVO.getId();
 		if(accountVO.getAccountActivity() == null){
-			return "";
+			return "<div id='submittedDate"+ id +"'></div>";
 		}else{
 			submittedDate = accountVO.getAccountActivity().getSubmittedDate();
 		}
-		
-		return new SimpleDateFormat("MM/dd/yyyy").format(submittedDate);
+		String dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
+		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+			dateStr = "<div id='submittedDate" + id + "'></div>" +"<input type='hidden' id='hiddenSubmittedDate" + id +"' value='" + dateStr + "'/>";
+		}else{
+			dateStr = "<div id='submittedDate"+ id +"'>" + dateStr + "</div>";
+		}
+		return dateStr;
 		
 	}
+	public String getAccountSubmittedBy(){
+		String submittedBy = "";
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String id = ""+accountVO.getId();
+		if(accountVO.getAccountActivity() == null){
+			return "<div id='submittedby"+ id +"'></div>";
+		}else{
+			submittedBy = accountVO.getAccountActivity().getSubmittedByFullName();
+		}
+		if(submittedBy == null){
+			submittedBy = " ";
+		}else{
+			EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='" + submittedBy + "'/>";
+			}else{
+				submittedBy = "<div id='submittedby"+ id +"'>" + submittedBy + "</div>";
+			}
+		}
+		return  submittedBy;
+	}
+	
 	public String getAccountDeletedDate(){
 		Date deletedDate = null;
 		

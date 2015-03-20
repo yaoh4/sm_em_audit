@@ -57,7 +57,7 @@
 			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
 		</action>
 		
-		<action name="getActiveAuditAccounts" method="getActiveAccounts"
+		<action name="getAuditAccounts" method="getAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
 			<result name="input" type="tiles">impac2.audit.active.accts.page</result>

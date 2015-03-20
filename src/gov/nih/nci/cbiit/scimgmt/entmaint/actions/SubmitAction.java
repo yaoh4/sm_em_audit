@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -24,16 +25,19 @@ public class SubmitAction extends BaseAction {
 		String actId = (String)request.getParameter("aId");
 		String note = (String)request.getParameter("note");
 		String cate = (String)request.getParameter("cate");
-		
 		PrintWriter pw = null;
 		try{
-			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, new Date());
+			Date date = new Date();
+			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
+			String timeStr = sdf.format(date);
+			String fullName = nciUser.getLastName() +", " + nciUser.getFirstName();
 			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
 				log.error("Exception occurs during saving data into EmAuditAccountActivityT table.");
 				throw new Exception("Exception occurs during saving data into EmAuditAccountActivityT table.");
 			}
 			pw = response.getWriter();
-			pw.print(note);
+			pw.print(timeStr+";"+fullName);
 		}catch(Exception e){
 			log.error(e.getMessage());
 			pw.print("fail");

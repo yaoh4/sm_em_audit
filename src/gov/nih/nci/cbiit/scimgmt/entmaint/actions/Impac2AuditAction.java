@@ -46,16 +46,18 @@ public class Impac2AuditAction extends BaseAction {
 
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = impac2AuditService.searchDeletedAccounts(searchVO);
+		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
 		auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
 		this.setFormAction("searchDeletedAuditAccounts");
-		this.setTableAction("searchDeletedAuditAccounts");
+		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
-		this.setCategory(ApplicationConstants.CATEGORY_DELETED);		
+		this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		this.setRole(getRole(nciUser));
 
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
@@ -70,21 +72,38 @@ public class Impac2AuditAction extends BaseAction {
 	 * This method is pagination and sorting of display table. 
 	 * @return String
 	 */
-	public String getActiveAccounts() {
+	public String getAccounts() {
 		String forward = SUCCESS;
 		activeAuditAccounts = (List<AuditAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
+		String cate = (String)session.get(ApplicationConstants.CURRENTPAGE);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
-		this.setFormAction("searchActiveAuditAccounts");
-		this.setTableAction("getActiveAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
-		this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setRole(getRole(nciUser));
+		this.setTableAction("getAuditAccounts");	
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
 			return ApplicationConstants.EXPORT;
 		}
+		
+		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(cate)){
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
+			this.setFormAction("searchActiveAuditAccounts");
+			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
+		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(cate)){
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
+			this.setFormAction("searchNewAuditAccounts");
+			this.setCategory(ApplicationConstants.CATEGORY_NEW);
+		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate)){
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
+			this.setFormAction("searchDeletedAuditAccounts");
+			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
+		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(cate)){
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
+			this.setFormAction("searchInactiveAuditAccounts");
+			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
+		}
+
 
         return forward;
 	}
@@ -99,13 +118,14 @@ public class Impac2AuditAction extends BaseAction {
 		activeAuditAccounts = impac2AuditService.searchActiveAccounts(searchVO);
 		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
 		auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setFormAction("searchActiveAuditAccounts");
-		this.setTableAction("getActiveAuditAccounts");
+		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setRole(getRole(nciUser));
@@ -125,14 +145,16 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = impac2AuditService.searchNewAccounts(searchVO);
+		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
 		auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
 		this.setFormAction("searchNewAuditAccounts");
-		this.setTableAction("searchNewAuditAccounts");
+		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		this.setRole(getRole(nciUser));
@@ -156,14 +178,16 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = impac2AuditService.searchInactiveAccounts(searchVO);
+		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
 		auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
 		this.setFormAction("searchInactiveAuditAccounts");
-		this.setTableAction("searchInactiveAuditAccounts");
+		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
 		this.setRole(getRole(nciUser));
