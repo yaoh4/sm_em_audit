@@ -1,8 +1,6 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div class="container">
-<nav class="row">
 
 <ul class="nav nav-tabs">
 	<!-- Landing Tab: begin -->

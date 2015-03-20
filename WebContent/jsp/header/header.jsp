@@ -1,19 +1,21 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/tld/ncilink.tld" prefix="ncilink"%>
-<!-- IMPAC Wrapper -->
-<div id="impac" style="width: 100%;" >
-<div>
-<span>
-<a href="NCI I2E - IMPAC II Extensions" target="_blank">NCI I2E - IMPAC II Extensions</a>
-</span>
+
+
+<div id="nci">
+	<div>
+		<img src="../images/nci-banner-h.gif" alt="National Cancer Institute" width="304" height="39" border="0" usemap="#ncibannermap" />
+		<map name="ncibannermap" id="ncibannermap">
+		 	<area shape="rect" coords="13,1,293,35" href="http://www.cancer.gov/" alt="National Cancer Institute" />	
+		</map>	
+	</div>
 </div>
-</div>
-<!-- end IMPAC Wrapper -->
+
+
 
     <!-- header -->
 
-    <div id="headerimg">
-    <div id="admin_nav">
+    	<div id="admin_nav">
             <ul style="float: left; padding-top: 5px;">
                 <li>
                     <ncilink:WorkbenchApplicationLink application="WorkBench"
@@ -52,15 +54,17 @@
             </ul>
         </div>
          
-        <h1 alt="IMPACII And I2E Account Tracking System" id="EMheader">
-            <div align = "left">
-                <span id="tagline">
-                    <span class="marker_inv">-</span>
-                    IMPACII And I2E Account Tracking System
-                </span>
-            </div>
-        </h1>
+        
         <br>
+        
+<div class="container">
+	<header class="row">
+		<h2>IMPAC II & I2E Accounts Tracking System</h2> 
+	</header>
+	<br>
+	
+	<nav class="row">
+        
 <!-- end div tag moved to application_menu.jsp    </div> -->
         <!-- opening content div -->
          

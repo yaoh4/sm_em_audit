@@ -65,6 +65,48 @@ display: inline-block;
 	color: #666;
 	}
 	
+	
+	table { 
+		border-collapse: collapse; 
+		font-size: 0.9em;
+		background-color: #fff;
+		
+	}
+	/* Zebra striping */
+	tr:nth-of-type(odd) { 
+		background: #eee; 
+	}
+	th { 
+		background:#337ab7; 
+		color: white; 
+		
+	}
+	td, th { 
+		padding: 6px; 
+		border: 1px solid #CFD2D5; 
+		text-align: left; 
+		vertical-align: text-top;
+	}
+	
+	table ol {
+		
+	margin: 0;
+	padding: 0;
+	
+	list-style-type: none;	}
+table ol li {
+		margin, padding: 0;
+	border-bottom: solid 1px #ccc;	
+list-style-type: none;
+padding: 4px 0 4px 0 ;
+
+	}
+	
+	table ol li:last-child {
+		border-bottom: none;
+		
+		}
+
 
 
 .glyphicon {
@@ -128,3 +170,39 @@ font-size: 0.9em;
 		
 	background-color: #A90101;	
 		}
+		
+		
+				
+			caption {
+				
+		font-size: 2em;		
+				
+				}
+				
+				tr.org th {
+					background-color: #fff;
+				color: #333;
+					
+					}
+				
+				tr.org a {
+					
+				float: left;
+				font-weight: bold;	
+					
+					}
+				tr.org span  {
+					
+		float: right;	
+		font-weight: bold;
+		color: #999;	
+	
+					
+					}
+					
+					
+					th a:link, th a:visited
+					
+					{
+						
+					color: #fff;	}
