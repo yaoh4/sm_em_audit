@@ -9,77 +9,54 @@
 <script>
 	$(function() {
 		$("#submitNotesAction").dialog({
-			autoOpen : false,
-			resizable : false,
-			width : 600,
-			height : 400,
-			modal : true,
-			show : {
-				effect : "slide",
-				duration : 1000
-			},
-			hide : {
-				effect : "slide",
-				duration : 1000
-			},
+			autoOpen : false,resizable : false,	width : 600, height : 400, modal : true,
+			show : {effect : "slide",duration : 1000},
+			hide : {effect : "slide",duration : 1000},
 			buttons : {
-				OK : function() {
+				Submit : function() {
 					var result = "";
 					var ipac2Id = $('#cellId').val();
 					var name = $('#nameId').val();
 					var notes = $('#noteText').val();
-
-					$.ajax({
-						url : "saveNotes.action",
-						type : "get",
-						data : {
-							ipac2Id : ipac2Id,
-							name : name,
-							notes : notes
-						},
-						async : false,
-						success : function(msg) {
-							result = $.trim(msg);
-						},
-						error : function() {
+					if(notes != ''){					
+						$.ajax({
+							url : "saveNotes.action",
+							type : "get",
+							data : {
+								ipac2Id : ipac2Id,
+								name : name,
+								notes : notes
+							},
+							async : false,
+							success : function(msg) {
+								result = $.trim(msg);
+							},
+							error : function() {
+							}
+						});	
+						if (result == 'fail') {
+							$(this).dialog("close");
+							openErrorDialog();
+						} else {
+							$("#notesDiv_" + ipac2Id).html(notes);
+							$("#lastUpdateDiv_" + ipac2Id).html(result);
+							$(this).dialog("close");
 						}
-					});
-
-					if (result == 'fail') {
-						$(this).dialog("close");
-						openErrorDialog();
-					} else {
-						$("#notesDiv_" + ipac2Id).html(result);
-						$(this).dialog("close");
 					}
+					else{$('#missingNotesMessage').html("<font color='red'>Please enter Notes.</font>");}
 				},
-				Cancel : function() {
-					$(this).dialog("close");
-				}
+				Close : function() {$(this).dialog("close");}
 			}
 		});
 		$("#errorDialog").dialog({
-			autoOpen : false,
-			resizable : false,
-			width : 600,
-			height : 200,
-			modal : true,
-			show : {
-				effect : "slide",
-				duration : 1000
-			},
-			hide : {
-				effect : "slide",
-				duration : 1000
-			},
-			buttons : {
-				OK : function() {
-					$(this).dialog("close");
-				}
-			}
+			autoOpen : false,resizable : false,	width : 600,height : 200,modal : true,
+			show : {effect : "slide",duration : 1000},
+			hide : {effect : "slide",duration : 1000},
+			buttons : {	OK : function() {$(this).dialog("close");}}
 		});
 	});
 	function submitNotes(name, cellId) {
+		$('#missingNotesMessage').html("");
 		$('#nameId').val(name);
 		$('#nameValue').html("<label>" + name + "</label>");
 		$('#cellId').val(cellId);
