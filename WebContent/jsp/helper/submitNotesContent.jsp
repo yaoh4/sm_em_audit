@@ -1,4 +1,5 @@
-
+<br/>
+<div id="missingNotesMessage"></div>
 <br />
 <div class="form-group">
 	<label class="control-label col-sm-2" for="f-name"> Name:</label>
