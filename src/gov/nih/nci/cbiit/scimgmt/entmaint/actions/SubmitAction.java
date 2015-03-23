@@ -1,11 +1,14 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,12 @@ public class SubmitAction extends BaseAction {
 	@Autowired
 	private Impac2AuditService impac2Service;
 	
+	
 	/**
 	 * This method is used for AJAX call when the user wants to submit account information.
 	 * @return String
 	 */
+	@SuppressWarnings("unchecked")
 	public String submitChange(){
 		String appId = (String)request.getParameter("pId");
 		String actId = (String)request.getParameter("aId");
@@ -44,6 +49,7 @@ public class SubmitAction extends BaseAction {
 		}finally{
 			pw.close();
 		}
+	
 		return null;
 	}
 	

@@ -33,9 +33,6 @@ public class Impac2AuditDAO {
 
 	public static Logger log = Logger.getLogger(Impac2AuditDAO.class);
 
-	public static final String FLAG_YES = "Y";
-	public static final String FLAG_NO = "N";
-
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
@@ -210,7 +207,7 @@ public class Impac2AuditDAO {
 			activity.setNotes(actionComments);
 			activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 			activity.setLastChangeDate(date);
-			activity.setUnsubmittedFlag(FLAG_NO);
+			activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
 			saveOrUpdateActivity(activity);
 		} catch (RuntimeException re) {
 			log.error("Submit failed, " + re.getMessage());
@@ -234,7 +231,7 @@ public class Impac2AuditDAO {
 			if(activity != null) {
 				activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 				activity.setLastChangeDate(new Date());
-				activity.setUnsubmittedFlag(FLAG_YES);
+				activity.setUnsubmittedFlag(ApplicationConstants.FLAG_YES);
 				saveOrUpdateActivity(activity);
 			}
 		} catch (RuntimeException re) {

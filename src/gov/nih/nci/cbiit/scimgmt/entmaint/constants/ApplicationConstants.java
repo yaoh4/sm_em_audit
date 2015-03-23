@@ -116,4 +116,7 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final String CURRENTPAGE ="cuurentPage";
+	
+	public static final String FLAG_YES = "Y";
+	public static final String FLAG_NO = "N";
 }
