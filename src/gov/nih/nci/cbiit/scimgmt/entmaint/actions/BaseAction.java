@@ -311,5 +311,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		this.tableAction = tableAction;
 	}
 	
+	/**
+	 * Returns true if logged in user is superuser.
+	 * @return
+	 */
+	public boolean isSuperUser(){
+		boolean isSuperUser = false;
+		if(ApplicationConstants.USER_ROLE_SUPER_USER.equalsIgnoreCase(nciUser.getCurrentUserRole())){
+			isSuperUser = true;
+		}
+		return isSuperUser;
+	}
 	
 }
