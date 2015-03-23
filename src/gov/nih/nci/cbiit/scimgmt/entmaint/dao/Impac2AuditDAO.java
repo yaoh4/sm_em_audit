@@ -67,9 +67,7 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
-				criteria.createAlias("accountActivities", "accountActivities");
-				criteria.createAlias("accountActivities.action", "action");
-				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 			}
 						
 			List<EmAuditAccountsVw> auditList = criteria.list();
@@ -104,8 +102,7 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
-				criteria.createAlias("accountActivities", "accountActivities");
-				criteria.createAlias("accountActivities.action", "action");
+				criteria.createAlias("newAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 			
@@ -141,8 +138,7 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
-				criteria.createAlias("accountActivities", "accountActivities");
-				criteria.createAlias("accountActivities.action", "action");
+				criteria.createAlias("deletedAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
@@ -177,8 +173,7 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
-				criteria.createAlias("accountActivities", "accountActivities");
-				criteria.createAlias("accountActivities.action", "action");
+				criteria.createAlias("inactiveAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
