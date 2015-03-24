@@ -305,7 +305,6 @@ public class Impac2AuditAction extends BaseAction {
     		boolean superUser = this.isSuperUser();
     		if(superUser){
     			searchVO.setOrganization("All");
-    			searchVO.setExcludeNCIOrgs(true);
     		}else{
     			searchVO.setOrganization(nciUser.getOrgPath());
     		}

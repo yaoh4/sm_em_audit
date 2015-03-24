@@ -18,8 +18,8 @@
 			 width: 600,
 			 height:400,
 			 modal: true,
-			 show: { effect: "slide", duration: 1000 },
-			 hide: { effect: "slide", duration: 1000 },
+			 show: { effect: "slide", duration: 250 },
+			 hide: { effect: "slide", duration: 250 },
 			 buttons: {
 			 		OK: function() {
 			 			var result = "";
@@ -72,8 +72,8 @@
 			 width: 400,
 			 height:200,
 			 modal: true,
-			 show: { effect: "slide", duration: 1000 },
-			 hide: { effect: "slide", duration: 1000 },
+			 show: { effect: "slide", duration: 250 },
+			 hide: { effect: "slide", duration: 250 },
 			 buttons: {
 			 		OK: function() {
 			 			var result = "";
@@ -111,8 +111,8 @@
 			 width: 600,
 			 height:200,
 			 modal: true,
-			 show: { effect: "slide", duration: 1000 },
-			 hide: { effect: "slide", duration: 1000 },
+			 show: { effect: "slide", duration: 250 },
+			 hide: { effect: "slide", duration: 250 },
 			 buttons: {
 			 		OK: function() {
 			 			$( this ).dialog( "close" ); 
