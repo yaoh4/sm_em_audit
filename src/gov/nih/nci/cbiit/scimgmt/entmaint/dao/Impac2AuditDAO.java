@@ -69,11 +69,6 @@ public class Impac2AuditDAO {
 			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
-			Disjunction disc = Restrictions.disjunction();
-            disc.add(Restrictions.isNull("deletedDate"));
-            disc.add(Restrictions.gtProperty("deletedDate", "audit.impaciiToDate"));
-            criteria.add(disc);
-			criteria.add(Restrictions.leProperty("createdDate", "audit.impaciiToDate"));
 			criteria.add(Restrictions.isNull("audit.endDate"));
 
 			// Add user specific search criteria
