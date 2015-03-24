@@ -8,6 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
@@ -19,6 +20,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,16 +43,30 @@ public class Impac2AuditDAO {
 	
 	/**
 	 * Search EmAuditAccountsVw for active accounts
+	 * @param paginatedList 
 	 * 
 	 * @param searchVO
 	 * @return
 	 */
-	public List<EmAuditAccountsVw> searchActiveAccounts(final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
 		log.debug("searching for IMPAC II active accounts in audit view: " + searchVO);
 		try {
+			final int objectsPerPage = paginatedList.getObjectsPerPage();
+			final int firstResult = objectsPerPage * paginatedList.getIndex();
+			String sortOrderCriterion = paginatedList.getSortCriterion();
+			String sortOrder = paginatedList.getSqlSortDirection();
+					  
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
 			Disjunction disc = Restrictions.disjunction();
@@ -66,10 +83,18 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 			}
-						
-			List<EmAuditAccountsVw> auditList = criteria.list();
+	
+			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+					.setMaxResults(objectsPerPage)
+					.list();
 			
-			return auditList;
+			paginatedList.setList(auditList);
+			if(paginatedList.getFullListSize() == 0) {
+				paginatedList.setTotal(getTotalResultCount(criteria));
+			}
+
+			return paginatedList;
+
 		} catch (final RuntimeException re) {
 			log.error("Error while searching", re);
 			throw re;
@@ -82,12 +107,25 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List<EmAuditAccountsVw> searchNewAccounts(final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
 		log.debug("searching for IMPAC II new accounts in audit view: " + searchVO);
 		try {
+			final int objectsPerPage = paginatedList.getObjectsPerPage();
+			final int firstResult = objectsPerPage * paginatedList.getIndex();
+			String sortOrderCriterion = paginatedList.getSortCriterion();
+			String sortOrder = paginatedList.getSqlSortDirection();
+				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+			
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("createdDate", "audit.impaciiFromDate"));
@@ -103,9 +141,16 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 			
-			List<EmAuditAccountsVw> auditList = criteria.list();
+			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+					.setMaxResults(objectsPerPage)
+					.list();
+			
+			paginatedList.setList(auditList);
+			if(paginatedList.getFullListSize() == 0) {
+				paginatedList.setTotal(getTotalResultCount(criteria));
+			}
 
-			return auditList;
+			return paginatedList;
 		} catch (final RuntimeException re) {
 			log.error("Error while searching", re);
 			throw re;
@@ -118,12 +163,25 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List<EmAuditAccountsVw> searchDeletedAccounts(final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
 		log.debug("searching for IMPAC II deleted accounts in audit view: " + searchVO);
 		try {
+			final int objectsPerPage = paginatedList.getObjectsPerPage();
+			final int firstResult = objectsPerPage * paginatedList.getIndex();
+			String sortOrderCriterion = paginatedList.getSortCriterion();
+			String sortOrder = paginatedList.getSqlSortDirection();
+				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+			
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("deletedDate", "audit.impaciiFromDate"));
@@ -139,9 +197,17 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
-			List<EmAuditAccountsVw> auditList = criteria.list();
+			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+					.setMaxResults(objectsPerPage)
+					.list();
 			
-			return auditList;
+			paginatedList.setList(auditList);
+			if(paginatedList.getFullListSize() == 0) {
+				paginatedList.setTotal(getTotalResultCount(criteria));
+			}
+
+			return paginatedList;
+			
 		} catch (final RuntimeException re) {
 			log.error("Error while searching", re);
 			throw re;
@@ -154,12 +220,25 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List<EmAuditAccountsVw> searchInactiveAccounts(final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
 		log.debug("searching for IMPAC II inactive accounts in audit view: " + searchVO);
 		try {
+			final int objectsPerPage = paginatedList.getObjectsPerPage();
+			final int firstResult = objectsPerPage * paginatedList.getIndex();
+			String sortOrderCriterion = paginatedList.getSortCriterion();
+			String sortOrder = paginatedList.getSqlSortDirection();
+				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+			
 			// Criteria specific to inactive accounts
 			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
 			criteria.createAlias("audit", "audit");
@@ -172,11 +251,19 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
 				criteria.createAlias("inactiveAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
-			}
-						
-			List<EmAuditAccountsVw> auditList = criteria.list();
+			}				
 			
-			return auditList;
+			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+					.setMaxResults(objectsPerPage)
+					.list();
+			
+			paginatedList.setList(auditList);
+			if(paginatedList.getFullListSize() == 0) {
+				paginatedList.setTotal(getTotalResultCount(criteria));
+			}
+
+			return paginatedList;
+			
 		} catch (final RuntimeException re) {
 			log.error("Error while searching", re);
 			throw re;
@@ -317,6 +404,21 @@ public class Impac2AuditDAO {
 			log.error("saveOrUpdate failed", re);
 			throw re;
 		}
+	}
+	
+	/**
+	 * Gets the total result count.
+	 * 
+	 * @param criteria
+	 *            the criteria
+	 * @return the total result count
+	 */
+	private int getTotalResultCount(Criteria criteria) {
+
+		criteria.setProjection(Projections.rowCount());
+		Long rowCount = (Long) criteria.uniqueResult();
+		return rowCount.intValue();
+
 	}
 
 }

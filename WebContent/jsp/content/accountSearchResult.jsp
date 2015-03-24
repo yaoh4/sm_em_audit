@@ -1,8 +1,17 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/tld/displaytag.tld" prefix="display"%>
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl" %>
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO" %>
 <%
-	String action = (String)request.getParameter("act");
+	String action = null;
+	PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
+	if(request.getAttribute("activeAuditAccounts") != null) {
+		activeAuditAccounts  =(PaginatedListImpl)request.getAttribute("activeAuditAccounts");
+		action = (String)request.getParameter("act") + "?size=" + activeAuditAccounts.getFullListSize();
+	} else {
+		action = (String)request.getParameter("act");
+	}
 %>
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>

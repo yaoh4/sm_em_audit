@@ -12,6 +12,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +36,7 @@ public class Impac2AuditAction extends BaseAction {
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
 	private String type = "active";
-	private List<AuditAccountVO> activeAuditAccounts = new ArrayList<AuditAccountVO>();
+	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
 	/**
 	 * this method is performing search for deleted audit account
@@ -45,8 +46,8 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = impac2AuditService.searchDeletedAccounts(searchVO);
-		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
 		auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
@@ -55,62 +56,18 @@ public class Impac2AuditAction extends BaseAction {
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
 		this.setFormAction("searchDeletedAuditAccounts");
-		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		this.setRole(getRole(nciUser));
 
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
-			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
+			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
 		
         return forward;
 	}
 	
-	/**
-	 * This method is pagination and sorting of display table. 
-	 * @return String
-	 */
-	public String getAccounts() {
-		String forward = SUCCESS;
-		activeAuditAccounts = (List<AuditAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
-		String cate = (String)session.get(ApplicationConstants.CURRENTPAGE);
-		showResult = true;
-		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		this.setRole(getRole(nciUser));
-		this.setTableAction("getAuditAccounts");	
-		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
-			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
-			return ApplicationConstants.EXPORT;
-		}
-		
-		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(cate)){
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
-			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchActiveAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
-		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(cate)){
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
-			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchNewAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_NEW);
-		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate)){
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
-			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchDeletedAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
-		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(cate)){
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
-			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchInactiveAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
-		}
-		session.put(ApplicationConstants.ACTIONLIST, actionList);
-		actionWithoutAllList = getActionListWithAll();
-		
-        return forward;
-	}
 	
 	/**
 	 * This method is performing search for active audit account
@@ -119,8 +76,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = impac2AuditService.searchActiveAccounts(searchVO);
-		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
 		auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
@@ -129,12 +86,11 @@ public class Impac2AuditAction extends BaseAction {
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setFormAction("searchActiveAuditAccounts");
-		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		this.setRole(getRole(nciUser));
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
-			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
+			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -148,8 +104,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchNewAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = impac2AuditService.searchNewAccounts(searchVO);
-		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
 		auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
@@ -158,13 +114,12 @@ public class Impac2AuditAction extends BaseAction {
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
 		this.setFormAction("searchNewAuditAccounts");
-		this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		this.setRole(getRole(nciUser));
 		
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
-			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
+			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -181,8 +136,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchInactiveAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = impac2AuditService.searchInactiveAccounts(searchVO);
-		session.put(ApplicationConstants.SEARCHLIST, activeAuditAccounts);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
 		auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
@@ -197,7 +152,7 @@ public class Impac2AuditAction extends BaseAction {
 		this.setRole(getRole(nciUser));
 
 		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
-			activeAuditAccounts = getExportAccountVOList(activeAuditAccounts);
+			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
 
@@ -255,14 +210,14 @@ public class Impac2AuditAction extends BaseAction {
 	/**
 	 * @return the activeduitAccounts
 	 */
-	public List<AuditAccountVO> getActiveAuditAccounts() {
+	public PaginatedListImpl<AuditAccountVO> getActiveAuditAccounts() {
 		return activeAuditAccounts;
 	}
 
 	/**
 	 * @param activeduitAccounts the activeduitAccounts to set
 	 */
-	public void setActiveAuditAccounts(List<AuditAccountVO> activeAuditAccounts) {
+	public void setActiveAuditAccounts(PaginatedListImpl<AuditAccountVO> activeAuditAccounts) {
 		this.activeAuditAccounts = activeAuditAccounts;
 	}
 

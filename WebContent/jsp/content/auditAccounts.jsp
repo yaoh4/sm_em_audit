@@ -214,7 +214,7 @@
   </div>
   
 <div align="center" style="overflow:auto;">
-	<s:include value="/jsp/content/accountSearchResult.jsp?act=%{tableAction}"/>
+	<s:include value="/jsp/content/accountSearchResult.jsp?act=%{formAction}"/>
 </div>
 </div>
 </s:if> 

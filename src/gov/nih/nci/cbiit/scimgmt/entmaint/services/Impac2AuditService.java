@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -17,25 +18,25 @@ public interface Impac2AuditService {
      * Data retrieval for active accounts
      * @return list of EmAuditAccountsVw
      */
-    public List<AuditAccountVO> searchActiveAccounts(AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
     
     /**
      * Data retrieval for new accounts
      * @return list of EmAuditAccountsVw
      */
-    public List<AuditAccountVO> searchNewAccounts(AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
     
     /**
      * Data retrieval for deleted accounts
      * @return list of EmAuditAccountsVw
      */
-    public List<AuditAccountVO> searchDeletedAccounts(AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
     
     /**
      * Data retrieval for inactive > 130 days
      * @return list of EmAuditAccountsVw
      */
-    public List<AuditAccountVO> searchInactiveAccounts(AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
 
     /**
      * Update actions taken on account for submit.
