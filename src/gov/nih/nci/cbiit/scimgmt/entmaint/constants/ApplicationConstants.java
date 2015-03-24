@@ -103,10 +103,10 @@ public interface ApplicationConstants {
 	public static final String DELETED_ACTION_ALL = "8";
 	public static final String INACTIVE_ACTION_ALL = "11";
 	
-    public static String PORTFOLIO_ACTIVE_ACCOUNTS = "portfolioActiveAccounts";
-    public static String PORTFOLIO_NEW_ACCOUNTS = "portfolioNewAccounts";
-    public static String PORTFOLIO_DELETED_ACCOUNTS = "portfolioDeletedAccounts";
-    public static String PORTFOLIO_DISCREPANCY_ACCOUNTS = "portfolioDiscrepancyAccounts";
+    public static String PORTFOLIO_ACTIVE = "portfolioActive";
+    public static String PORTFOLIO_NEW = "portfolioNew";
+    public static String PORTFOLIO_DELETED = "portfolioDeleted";
+    public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String SEARCHVO = "searchVO";
