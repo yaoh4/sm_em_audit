@@ -32,8 +32,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
 	private List<PortfolioAccountVO> portfolioAccounts;	
-	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();	
-	private List<Tab> portfolioDeletedAccountsColumns;
+	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();		
 	
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
@@ -49,7 +48,7 @@ public class Impac2PortfolioAction extends BaseAction{
     	portfolioAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
 
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
+		displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS);
 		this.setFormAction("searchPortfolioAccounts");
 		this.setTableAction("getPortfolioAccountsList");
 		
@@ -77,29 +76,20 @@ public class Impac2PortfolioAction extends BaseAction{
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
 		session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		
 		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
-		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = colMap.get(ApplicationConstants.PORTFOLIOTAB);
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
 		
-		portfolioDeletedAccountsColumns = colMap.get(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS);	
-		if(searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED){					
-			displayColumn.addAll(portfolioDeletedAccountsColumns);
-		}
-		else if(displayColumn.containsAll(portfolioDeletedAccountsColumns)){
-			displayColumn.removeAll(portfolioDeletedAccountsColumns);
-		}
 		this.setFormAction("searchPortfolioAccounts");
-		this.setTableAction("getPortfolioAccountsList");
-		
+		this.setTableAction("getPortfolioAccountsList");		
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
 		
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
 			portfolioAccounts = getExportAccountVOList(portfolioAccounts);
 			return ApplicationConstants.EXPORT;
-		}
-		
+		}		
         return forward;
     }
 	
@@ -109,12 +99,19 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */  
 	public void setupPortfolioDefaultSearch(){
 		if(searchVO == null){
-    		searchVO = new AuditSearchVO();
-    	}
+			searchVO = new AuditSearchVO();
+		}
 		//Default search
-    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    		
-    		searchVO.setOrganization(nciUser.getOrgPath());
-    	}     	
+		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){  
+			String organization = nciUser.getOrgPath();
+			if(isSuperUser()){
+				organization = ApplicationConstants.NCI_DOC_ALL.toLowerCase();				
+			}
+			searchVO.setOrganization(organization);
+		}  
+		if(searchVO.getCategory() == 0){
+			searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
+		}
 	}
 	
 	private List<PortfolioAccountVO> getExportAccountVOList(List<PortfolioAccountVO> auditAccounts) {
@@ -253,21 +250,5 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public void setCategoriesList(List<DropDownOption> categoriesList) {
 		this.categoriesList = categoriesList;
-	}
-
-
-	/**
-	 * @return the portfolioDeletedAccountsColumns
-	 */
-	public List<Tab> getPortfolioDeletedAccountsColumns() {
-		return portfolioDeletedAccountsColumns;
-	}
-
-
-	/**
-	 * @param portfolioDeletedAccountsColumns the portfolioDeletedAccountsColumns to set
-	 */
-	public void setPortfolioDeletedAccountsColumns(List<Tab> portfolioDeletedAccountsColumns) {
-		this.portfolioDeletedAccountsColumns = portfolioDeletedAccountsColumns;
 	}
 }
