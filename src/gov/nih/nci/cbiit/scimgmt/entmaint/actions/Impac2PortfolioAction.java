@@ -48,7 +48,7 @@ public class Impac2PortfolioAction extends BaseAction{
     	portfolioAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
 
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS);
+		displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE);
 		this.setFormAction("searchPortfolioAccounts");
 		this.setTableAction("getPortfolioAccountsList");
 		
