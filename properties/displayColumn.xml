@@ -500,13 +500,6 @@
  	</Tab> 	
  	<Tab>
  		<type>portfolioNew</type>
- 		<columnName>IMPAC II Discrepancy</columnName>
- 		<property>discrepancy</property>
- 		<sort>false</sort>
- 		<export>false</export>
- 	</Tab> 		
- 	<Tab>
- 		<type>portfolioNew</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
  		<sort>true</sort>
@@ -586,13 +579,6 @@
  	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
- 		<columnName>IMPAC II Discrepancy</columnName>
- 		<property>discrepancy</property>
- 		<sort>false</sort>
- 		<export>false</export>
- 	</Tab> 	
- 	<Tab>
- 		<type>portfolioDeleted</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
  		<sort>true</sort>
@@ -608,13 +594,19 @@
  		<columnName>NIH (Network) ID</columnName>
  		<property>nihNetworkId</property>
  		<sort>true</sort>
- 	</Tab>	
+ 	</Tab>	 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>true</sort>
+ 	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
  		<sort>true</sort>
- 	</Tab>
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Secondary Org</columnName>
@@ -632,28 +624,10 @@
  		<columnName>Created By</columnName>
  		<property>createdByFullName</property>
  		<sort>true</sort>
- 	</Tab>
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
- 		<columnName>Org ID</columnName>
- 		<property>orgId</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioDeleted</type>
- 		<columnName>IMPAC II Application Role(s)</columnName>
- 		<property>applicationRole</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioDeleted</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
- 		<property>roleCreateOn</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioDeleted</type>
- 		<columnName>Account Deleted Date</columnName>
+ 		<columnName>Deleted Date</columnName>
  		<property>deletedDate</property>
  		<sort>true</sort>
  	</Tab>
