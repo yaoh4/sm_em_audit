@@ -58,7 +58,7 @@ function openRole(result){
 	$('#role').dialog("open");
 }
 
-function onOrgChage(org){
+function onOrgChange(org){
 	if(org == 'all'){
 		$("#excludeNciCheck").prop("disabled",false);
 	}
