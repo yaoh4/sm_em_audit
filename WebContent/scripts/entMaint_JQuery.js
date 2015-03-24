@@ -57,3 +57,12 @@ function openRole(result){
 	$('#roleHelpId').html(result);
 	$('#role').dialog("open");
 }
+
+function onOrgChage(org){
+	if(org == 'all'){
+		$("#excludeNciCheck").prop("disabled",false);
+	}
+	else{
+		$("#excludeNciCheck").prop("disabled",true);
+	}		
+}
