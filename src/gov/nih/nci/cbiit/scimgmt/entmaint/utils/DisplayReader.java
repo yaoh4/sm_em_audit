@@ -62,16 +62,16 @@ public class DisplayReader {
 			if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(t.getType())){
 				inactiveTab.add(t);
 			}
-			if(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS.equalsIgnoreCase(t.getType())){
+			if(ApplicationConstants.PORTFOLIO_ACTIVE.equalsIgnoreCase(t.getType())){
 				portfolioActive.add(t);
 			}
-			if(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS.equalsIgnoreCase(t.getType())){
+			if(ApplicationConstants.PORTFOLIO_NEW.equalsIgnoreCase(t.getType())){
 				portfolioNew.add(t);
 			}
-			if(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS.equalsIgnoreCase(t.getType())){
+			if(ApplicationConstants.PORTFOLIO_DELETED.equalsIgnoreCase(t.getType())){
 				portfolioDeleted.add(t);
 			}
-			if(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS.equalsIgnoreCase(t.getType())){
+			if(ApplicationConstants.PORTFOLIO_DISCREPANCY.equalsIgnoreCase(t.getType())){
 				portfolioDiscrepancy.add(t);
 			}
 		}
@@ -79,10 +79,10 @@ public class DisplayReader {
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
 		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);		
 		colMap.put(ApplicationConstants.CATEGORY_INACTIVE, inactiveTab);
-		colMap.put(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS, portfolioActive);
-		colMap.put(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS, portfolioNew);
-		colMap.put(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS, portfolioDeleted);
-		colMap.put(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS, portfolioDiscrepancy);
+		colMap.put(ApplicationConstants.PORTFOLIO_ACTIVE, portfolioActive);
+		colMap.put(ApplicationConstants.PORTFOLIO_NEW, portfolioNew);
+		colMap.put(ApplicationConstants.PORTFOLIO_DELETED, portfolioDeleted);
+		colMap.put(ApplicationConstants.PORTFOLIO_DISCREPANCY, portfolioDiscrepancy);
 		
 		return colMap;
 	}
