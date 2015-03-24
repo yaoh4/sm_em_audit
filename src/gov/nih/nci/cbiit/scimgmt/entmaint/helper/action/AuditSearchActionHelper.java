@@ -90,16 +90,16 @@ public class AuditSearchActionHelper {
 		List<Tab> displayColumn = null;
 		switch(category){
 		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE:
-			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS);
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE);
 			 break;
 		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_NEW:
-			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS);
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_NEW);
 			 break;
 		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_DELETED:
-			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS);
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DELETED);
 			 break;
 		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY:
-			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS);
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DISCREPANCY);
 			 break;
 	}
 		return displayColumn;
