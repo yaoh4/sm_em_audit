@@ -345,8 +345,15 @@ public class Impac2AuditAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = new AuditSearchVO();
 		}
-    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    		
-    		searchVO.setOrganization(nciUser.getOrgPath());
+    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    	
+    		
+    		boolean superUser = this.isSuperUser();
+    		if(superUser){
+    			searchVO.setOrganization("All");
+    			searchVO.setExcludeNCIOrgs(true);
+    		}else{
+    			searchVO.setOrganization(nciUser.getOrgPath());
+    		}
     	}
 	}
 }
