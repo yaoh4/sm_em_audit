@@ -20,19 +20,9 @@
 					var notes = $('#noteText').val();
 					if(notes != ''){					
 						$.ajax({
-							url : "saveNotes.action",
-							type : "get",
-							data : {
-								ipac2Id : ipac2Id,
-								name : name,
-								notes : notes
-							},
-							async : false,
-							success : function(msg) {
-								result = $.trim(msg);
-							},
-							error : function() {
-							}
+							url : "saveNotes.action", type : "get",	data : {ipac2Id : ipac2Id,name : name,notes : notes},async : false,
+							success : function(msg) {result = $.trim(msg);},
+							error : function() {}
 						});	
 						if (result == 'fail') {
 							$(this).dialog("close");
@@ -47,13 +37,7 @@
 				},
 				Close : function() {$(this).dialog("close");}
 			}
-		});
-		$("#errorDialog").dialog({
-			autoOpen : false,resizable : false,	width : 600,height : 200,modal : true,
-			show : {effect : "slide",duration : 250},
-			hide : {effect : "slide",duration : 250},
-			buttons : {	OK : function() {$(this).dialog("close");}}
-		});
+		});		
 	});
 	function submitNotes(name, cellId) {
 		$('#missingNotesMessage').html("");
@@ -62,10 +46,7 @@
 		$('#cellId').val(cellId);
 		$('#noteText').html($('#notesDiv_'+cellId).text());
 		$("#submitNotesAction").dialog("open");
-	}
-	function openErrorDialog() {
-		$('#errorDialog').dialog("open");
-	}
+	}	
 </script>
 
 <div class="tab-content">
@@ -146,7 +127,7 @@
 
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
-						<s:submit value="Search" cssClass="btn btn-primary" />
+						<s:submit value="Search" cssClass="btn btn-primary" onclick="openLoading();"  />
 						<s:submit value="Clear"
 							action="impac2/clearSearchPortfolioAccounts"
 							cssClass="btn btn-default" />
