@@ -180,7 +180,7 @@
          <label class="control-label col-sm-3" > </label>
       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
       <div class="col-sm-9">  
-      	<s:checkbox name="searchVO.excludeNCIOrgs" value="Y"/><label style="font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	<s:checkbox name="searchVO.excludeNCIOrgs" /><label style="font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       </div>
       </s:if>
     </div>
