@@ -72,6 +72,7 @@
 	<div class="tab-pane fade active in" id="par1">
 		<s:form action="%{formAction}" cssClass="form-horizontal">
 			<fieldset style="padding: 15px 0;">
+			
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="f-name">IMPAC II
 						User First Name:</label>
@@ -80,6 +81,7 @@
 							value="%{#session.searchVO.userFirstname}" id="f-name" />
 					</div>
 				</div>
+				
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="l-name">IMPAC II
 						User Last Name:</label>
@@ -87,24 +89,30 @@
 						<s:textfield name="searchVO.userLastname" cssClass="form-control"
 							value="%{#session.searchVO.userLastname}" id="l-name" />
 					</div>
-				</div>
+				</div>	
+							
 				<div class="form-group">
 					<label class="control-label col-sm-3">NCI Organization:</label>
 					<div class="col-sm-9">
-						<s:select name="searchVO.organization" cssClass="form-control"
+						<s:select name="searchVO.organization" onchange="onOrgChange(this.value);" 
+							id="portfolioOrg" cssClass="form-control"
 							value="%{#session.searchVO.organization}" list="organizationList"
 							listKey="optionKey" listValue="optionValue" headerKey="all"
 							headerValue="All" style="width:590px;" />
 					</div>
-				</div>
-				<div class="form-group" style="margin-top: -10px;">
-					<label class="control-label col-sm-3"> </label>
-					<div class="col-sm-9">
-						<s:checkbox name="searchVO.excludeNCIOrgs" value="Y" />
-						<label style="font-weight: normal; font-size: 0.9em;">Exclude
-							NCI Orgs with IC Coordinators</label>
+				</div>	
+				
+				<s:if test="isSuperUser()">			       
+					<div class="form-group" style="margin-top: -10px;">
+						<label class="control-label col-sm-3"> </label>
+						<div class="col-sm-9">
+							<s:checkbox name="searchVO.excludeNCIOrgs" id="excludeNciCheck" />
+							<label style="font-weight: normal; font-size: 0.9em;">Exclude
+								NCI Orgs with IC Coordinators</label>
+						</div>
 					</div>
-				</div>
+				</s:if>
+				
 				<div class="form-group">
 					<label class="control-label col-sm-3">Category:</label>
 					<div class="col-sm-9">
@@ -184,5 +192,6 @@
 <script>
 	$( window ).ready(function() {
 		onCategoryChage($('#portfolioCategory option:selected').val());
+		onOrgChange($('#portfolioOrg option:selected').val());
 	});
 </script>
