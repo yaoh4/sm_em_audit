@@ -103,8 +103,10 @@ public interface ApplicationConstants {
 	public static final String DELETED_ACTION_ALL = "8";
 	public static final String INACTIVE_ACTION_ALL = "11";
 	
-    public static String PORTFOLIOTAB = "portfolio";
+    public static String PORTFOLIO_ACTIVE_ACCOUNTS = "portfolioActiveAccounts";
+    public static String PORTFOLIO_NEW_ACCOUNTS = "portfolioNewAccounts";
     public static String PORTFOLIO_DELETED_ACCOUNTS = "portfolioDeletedAccounts";
+    public static String PORTFOLIO_DISCREPANCY_ACCOUNTS = "portfolioDiscrepancyAccounts";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String SEARCHVO = "searchVO";
@@ -113,8 +115,10 @@ public interface ApplicationConstants {
     public static String ACTIONLIST = "actionList";
     
     public static String PAGE_SIZE = "pageSize";
+    public static final long PORTFOLIO_CATEGORY_ACTIVE = 22;
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
+	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
 	public static final String CURRENTPAGE ="cuurentPage";
 	
 	public static final String FLAG_YES = "Y";
