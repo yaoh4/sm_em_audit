@@ -28,6 +28,32 @@ $(function() {
 		 		}
 		 }
 	});
+	
+	$("#errorDialog").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 600,
+		 height:200,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
+	$("#loading").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 300,
+		 height:150,
+		 modal: true,
+		 show: { effect: "", duration: 1 },
+		 hide: { effect: "", duration: 1 },
+	}).siblings('div.ui-dialog-titlebar').remove();
+	
 });
 
 function openHelp(id){
@@ -51,7 +77,14 @@ function getRoleDescription(id){
 	openRole(result);
 }	
 
+function openErrorDialog(){
+	$('#errorDialog').dialog("open");
+}
 
+function openLoading(){
+	
+	$('#loading').dialog("open");
+}
 
 function openRole(result){
 	$('#roleHelpId').html(result);
@@ -60,9 +93,10 @@ function openRole(result){
 
 function onOrgChange(org){
 	if(org == 'all'){
-		$("#excludeNciCheck").prop("disabled",false);
+		$("#excludeNciCheck").removeAttr("disabled");
 	}
 	else{
-		$("#excludeNciCheck").prop("disabled",true);
+		$("#excludeNciCheck").removeAttr('checked');
+		$("#excludeNciCheck").attr("disabled","disabled");
 	}		
 }

@@ -105,29 +105,6 @@
 			 		Cancel: function() {$( this ).dialog( "close" );}
 			 }
 		});
-		$("#errorDialog").dialog({
-			 autoOpen: false,
-			 resizable: false,
-			 width: 600,
-			 height:200,
-			 modal: true,
-			 show: { effect: "slide", duration: 250 },
-			 hide: { effect: "slide", duration: 250 },
-			 buttons: {
-			 		OK: function() {
-			 			$( this ).dialog( "close" ); 
-			 		}
-			 }
-		});
-		$("#loading").dialog({
-			 autoOpen: false,
-			 resizable: false,
-			 width: 300,
-			 height:150,
-			 modal: true,
-			 show: { effect: "", duration: 1 },
-			 hide: { effect: "", duration: 1 },
-		}).siblings('div.ui-dialog-titlebar').remove();
 	});
 	function submitAct(name, cellId){
 		$('#errorMessage').html("");
@@ -143,13 +120,7 @@
 		$('#unsubmitCellId').val(cellId);
 		$("#unsubmitAction").dialog( "open" );
 	}
-	function openErrorDialog(){
-		$('#errorDialog').dialog("open");
-	}
-	function openLoading(){
-		
-		$('#loading').dialog("open");
-	}
+
 </script>
 
 <div class="tab-content">
@@ -172,15 +143,20 @@
     </div>
  <div class="form-group">
       <label class="control-label col-sm-3" >NCI Organization:</label>
-      <div class="col-sm-9">  
-      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
+      <div class="col-sm-9"> 
+       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">    
+      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
+      </s:if>
+      <s:else>
+      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
+      </s:else>
       </div>
       </div>
        <div class="form-group" style="margin-top: -10px;">
          <label class="control-label col-sm-3" > </label>
       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
       <div class="col-sm-9">  
-      	<s:checkbox name="searchVO.excludeNCIOrgs" /><label style="font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	<s:checkbox name="searchVO.excludeNCIOrgs" id="excludeNciCheck"/><label style="font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       </div>
       </s:if>
     </div>
