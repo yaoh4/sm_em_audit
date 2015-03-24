@@ -1,12 +1,14 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.helper.action;
 
 import java.util.List;
+import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
@@ -78,5 +80,28 @@ public class AuditSearchActionHelper {
 				categoriesList.add(categoryOption);
 			}
 		}		
+	}
+	
+	/**
+	 * This method is responsible for fetching displayColumns for different categories.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getPortfolioDisplayColumn(Map<String, List<Tab>> colMap, int category){
+		List<Tab> displayColumn = null;
+		switch(category){
+		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE:
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS);
+			 break;
+		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_NEW:
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS);
+			 break;
+		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_DELETED:
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS);
+			 break;
+		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY:
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS);
+			 break;
+	}
+		return displayColumn;
 	}
 }
