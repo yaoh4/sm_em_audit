@@ -157,7 +157,7 @@
 	</div>
 </s:if>
 
-
+<div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 
 <div id="errorDialog" style="display: none;" title="Submit Action">
 	<div align="center">
