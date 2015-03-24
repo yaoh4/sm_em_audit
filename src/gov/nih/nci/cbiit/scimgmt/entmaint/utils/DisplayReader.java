@@ -44,8 +44,10 @@ public class DisplayReader {
 		List<Tab> newTab = new ArrayList<Tab>();
 		List<Tab> deleteTab = new ArrayList<Tab>();
 		List<Tab> inactiveTab = new ArrayList<Tab>();
-		List<Tab> portfolioTab = new ArrayList<Tab>();
-		List<Tab> portfolioDeletedAccounts = new ArrayList<Tab>();
+		List<Tab> portfolioActive = new ArrayList<Tab>();
+		List<Tab> portfolioNew = new ArrayList<Tab>();
+		List<Tab> portfolioDeleted = new ArrayList<Tab>();
+		List<Tab> portfolioDiscrepancy = new ArrayList<Tab>();
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(t.getType())){
@@ -56,23 +58,31 @@ public class DisplayReader {
 			}
 			if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(t.getType())){
 				deleteTab.add(t);
-			}
-			if(ApplicationConstants.PORTFOLIOTAB.equalsIgnoreCase(t.getType())){
-				portfolioTab.add(t);
-			}
+			}			
 			if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(t.getType())){
 				inactiveTab.add(t);
 			}
+			if(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS.equalsIgnoreCase(t.getType())){
+				portfolioActive.add(t);
+			}
+			if(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS.equalsIgnoreCase(t.getType())){
+				portfolioNew.add(t);
+			}
 			if(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS.equalsIgnoreCase(t.getType())){
-				portfolioDeletedAccounts.add(t);
+				portfolioDeleted.add(t);
+			}
+			if(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS.equalsIgnoreCase(t.getType())){
+				portfolioDiscrepancy.add(t);
 			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
-		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);
-		colMap.put(ApplicationConstants.PORTFOLIOTAB, portfolioTab);
+		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);		
 		colMap.put(ApplicationConstants.CATEGORY_INACTIVE, inactiveTab);
-		colMap.put(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS, portfolioDeletedAccounts);
+		colMap.put(ApplicationConstants.PORTFOLIO_ACTIVE_ACCOUNTS, portfolioActive);
+		colMap.put(ApplicationConstants.PORTFOLIO_NEW_ACCOUNTS, portfolioNew);
+		colMap.put(ApplicationConstants.PORTFOLIO_DELETED_ACCOUNTS, portfolioDeleted);
+		colMap.put(ApplicationConstants.PORTFOLIO_DISCREPANCY_ACCOUNTS, portfolioDiscrepancy);
 		
 		return colMap;
 	}
