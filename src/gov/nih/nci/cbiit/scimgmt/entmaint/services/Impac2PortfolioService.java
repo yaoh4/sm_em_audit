@@ -1,11 +1,11 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -25,6 +25,6 @@ public interface Impac2PortfolioService {
      * @param searchVO
      * @return list of PortfolioAccountVO
      */
-    public List<PortfolioAccountVO> searchImpac2Accounts(AuditSearchVO searchVO);
+    public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
     
 }

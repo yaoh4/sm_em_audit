@@ -6,11 +6,19 @@
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
-
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl" %>
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO" %>
 <%
-	String sortAction = (String)request.getParameter("sortAction");
+	String sortAction = null;
+	PaginatedListImpl<PortfolioAccountVO> portfolioAccounts = null;
+	if(request.getAttribute("portfolioAccounts") != null) {
+		portfolioAccounts  =(PaginatedListImpl)request.getAttribute("portfolioAccounts");
+		sortAction = (String)request.getParameter("sortAction") + "?size=" + portfolioAccounts.getFullListSize();
+	} else {
+		sortAction = (String)request.getParameter("sortAction");
+	}
 %>
-<display:table name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
+<display:table name="${session.searchList}" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>

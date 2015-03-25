@@ -3,11 +3,11 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
@@ -19,6 +19,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,18 +50,46 @@ public class Impac2PortfolioDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public List<EmPortfolioVw> searchImpac2Accounts(final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmPortfolioVw> searchImpac2Accounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
 		log.debug("searching for IMPAC II accounts in portfolio view: " + searchVO);
 
 		try {
+			final int objectsPerPage = paginatedList.getObjectsPerPage();
+			final int firstResult = objectsPerPage * paginatedList.getIndex();
+			String sortOrderCriterion = paginatedList.getSortCriterion();
+			String sortOrder = paginatedList.getSqlSortDirection();
+			
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
 
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+						
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
 
-			List<EmPortfolioVw> portfolioList = criteria.list();
-			return portfolioList;
+			List<EmPortfolioVw> portfolioList = null;
+			if(searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+				portfolioList = criteria.list();
+			}
+			else {
+				portfolioList = criteria.setFirstResult(firstResult)
+						.setMaxResults(objectsPerPage)
+						.list();
+			}
+			
+			paginatedList.setList(portfolioList);
+			if (paginatedList.getFullListSize() == 0
+					&& searchVO.getCategory() != ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+				paginatedList.setTotal(getTotalResultCount(criteria));
+			}
+
+			return paginatedList;
 
 		} catch (final RuntimeException re) {
 			log.error("Error while searching", re);
@@ -237,5 +267,21 @@ public class Impac2PortfolioDAO {
 			log.error("saveOrUpdate failed", re);
 			throw re;
 		}
+	}
+	
+	
+	/**
+	 * Gets the total result count.
+	 * 
+	 * @param criteria
+	 *            the criteria
+	 * @return the total result count
+	 */
+	private int getTotalResultCount(Criteria criteria) {
+
+		criteria.setProjection(Projections.rowCount());
+		Long rowCount = (Long) criteria.uniqueResult();
+		return rowCount.intValue();
+
 	}
 }

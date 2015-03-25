@@ -19,13 +19,12 @@ import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2PortfolioDAO;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
@@ -50,10 +49,11 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#searchImpac2Accounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.SearchObject)
 	 */
 	@Override
-	public List<PortfolioAccountVO> searchImpac2Accounts(AuditSearchVO searchVO) {
-		List<EmPortfolioVw> portfolioList;
-		portfolioList = impac2PortfolioDAO.searchImpac2Accounts(searchVO);
-		final List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
+	public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO) {
+		paginatedList = impac2PortfolioDAO.searchImpac2Accounts(paginatedList, searchVO);
+		List<EmPortfolioVw> portfolioList = paginatedList.getList();
+		
+		List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
 		for (final EmPortfolioVw account : portfolioList) {
 			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
 				account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
@@ -64,7 +64,11 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			}
 			list.add(populatePortfolioAccountVO(account));
 		}
-		return list;
+		paginatedList.setList(list);
+		if (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+			paginatedList.setTotal(list.size());
+		}
+		return paginatedList;
 	}
 	
 	/* (non-Javadoc)

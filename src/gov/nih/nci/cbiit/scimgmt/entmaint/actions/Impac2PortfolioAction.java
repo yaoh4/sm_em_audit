@@ -7,8 +7,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
-import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
@@ -31,37 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Impac2PortfolioAction extends BaseAction{
 	
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
-	private List<PortfolioAccountVO> portfolioAccounts;	
+	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;
+	private List<PortfolioAccountVO> discrepancyAccounts;	
 	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();		
 	
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
-	
-	/**
-	 * This method is for pagination and sorting of display table. 
-	 * @return String
-	 */    
-	public String getPortfolioAccountsList() {
-    	log.debug("Begin : getPortfolioAccountsList");
-    	String forward = SUCCESS;     	
-
-    	portfolioAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
-
-		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_ACTIVE);
-		this.setFormAction("searchPortfolioAccounts");
-		this.setTableAction("getPortfolioAccountsList");
-		
-		showResult = true;
-		log.debug("End : getPortfolioAccountsList");
-		
-		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
-			portfolioAccounts = getExportAccountVOList(portfolioAccounts);
-			return ApplicationConstants.EXPORT;
-		}
-		
-        return forward;
-    }
 	
 	
 	/**
@@ -73,8 +48,20 @@ public class Impac2PortfolioAction extends BaseAction{
     	String forward = SUCCESS;   
     	
     	setupPortfolioDefaultSearch();
-		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(searchVO);
-		session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
+    	portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request);
+		if (portfolioAccounts.getFullListSize() != 0
+				&& searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+			discrepancyAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
+		} else {
+			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO);
+			if (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+				discrepancyAccounts = portfolioAccounts.getList();
+				session.put(ApplicationConstants.SEARCHLIST, discrepancyAccounts);
+			} else {
+				session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
+			}
+		}
+    	
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
 		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
@@ -82,12 +69,11 @@ public class Impac2PortfolioAction extends BaseAction{
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
 		
 		this.setFormAction("searchPortfolioAccounts");
-		this.setTableAction("getPortfolioAccountsList");		
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
 		
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
-			portfolioAccounts = getExportAccountVOList(portfolioAccounts);
+			portfolioAccounts.setList(getExportAccountVOList(portfolioAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}		
         return forward;
@@ -227,14 +213,14 @@ public class Impac2PortfolioAction extends BaseAction{
 	/**
 	 * @return the portfolioAccounts
 	 */
-	public List<PortfolioAccountVO> getPortfolioAccounts() {
+	public PaginatedListImpl<PortfolioAccountVO> getPortfolioAccounts() {
 		return portfolioAccounts;
 	}
 
 	/**
 	 * @param portfolioAccounts the portfolioAccounts to set
 	 */
-	public void setPortfolioAccounts(List<PortfolioAccountVO> portfolioAccounts) {
+	public void setPortfolioAccounts(PaginatedListImpl<PortfolioAccountVO> portfolioAccounts) {
 		this.portfolioAccounts = portfolioAccounts;
 	}
 	
@@ -250,5 +236,13 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public void setCategoriesList(List<DropDownOption> categoriesList) {
 		this.categoriesList = categoriesList;
+	}
+
+	public List<PortfolioAccountVO> getDiscrepancyAccounts() {
+		return discrepancyAccounts;
+	}
+
+	public void setDiscrepancyAccounts(List<PortfolioAccountVO> discrepancyAccounts) {
+		this.discrepancyAccounts = discrepancyAccounts;
 	}
 }
