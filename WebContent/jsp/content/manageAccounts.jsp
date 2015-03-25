@@ -9,7 +9,7 @@
   <ol class="breadcrumb">
   <s:if
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">
-	<li class="active">Portfolio Analysis</li><li><a href="searchActiveAuditAccounts.action">Audit</a></li>
+	<li class="active">Portfolio Analysis</li><li><a href="prepareActiveAuditAccounts.action">Audit</a></li>
   </s:if>
   <s:else>
   	<li><a href="preparePortfolioSearch.action">Portfolio Analysis</a></li><li  class="active">Audit</li>
@@ -73,7 +73,7 @@
 		</s:a></li>
 	</s:if>
 	<s:else>
-		<li><s:a href="searchActiveAuditAccounts.action" cssStyle="text-decoration:none;">
+		<li><s:a href="prepareActiveAuditAccounts.action" cssStyle="text-decoration:none;">
 			Active Accounts
 		</s:a></li>
 	</s:else>
@@ -85,7 +85,7 @@
 		</s:a></li>
 	</s:if>
 	<s:else>
-		<li><s:a href="searchNewAuditAccounts.action" cssStyle="text-decoration:none;">
+		<li><s:a href="prepareNewAuditAccounts.action" cssStyle="text-decoration:none;">
 			New Accounts
 		</s:a></li>
 	</s:else>
@@ -97,7 +97,7 @@
 		</s:a></li>
 	</s:if>
 	<s:else>
-		<li><s:a href="searchDeletedAuditAccounts.action" cssStyle="text-decoration:none;">
+		<li><s:a href="prepareDeletedAuditAccounts.action" cssStyle="text-decoration:none;">
 			Deleted Accounts
 		</s:a></li>
 	</s:else>
@@ -109,7 +109,7 @@
 		</s:a></li>
 	</s:if>
 	<s:else>
-		<li><s:a href="searchInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
+		<li><s:a href="prepareInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
 			Inactive > 130 Days Accounts
 		</s:a></li>
 	</s:else>

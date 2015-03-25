@@ -22,7 +22,7 @@
 		
 		<action name="impac2Home" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
-			<result name="audit_enabled" type="redirect-action">searchActiveAuditAccounts</result>
+			<result name="audit_enabled" type="redirect-action">prepareActiveAuditAccounts</result>
 			<result name="audit_disabled" type="redirect-action">preparePortfolioSearch</result>
 			<result name="input" type="tiles">tiles.error.details</result>
 		</action>
@@ -63,6 +63,11 @@
 			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
 		</action>
 		
+		<action name="prepareActiveAuditAccounts" method="prepareActiveAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
+		</action>
+		
 		<action name="getAuditAccounts" method="getAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
@@ -77,11 +82,21 @@
 			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
 		</action>
 		
+		<action name="prepareDeletedAuditAccounts" method="prepareDeletedAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.del.accts.page</result>
+		</action>
+		
 		<action name="searchNewAuditAccounts" method="searchNewAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="success" type="tiles">impac2.audit.new.accts.page</result>
 			<result name="input" type="tiles">impac2.audit.new.accts.page</result>
 			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
+		</action>
+		
+		<action name="prepareNewAuditAccounts" method="prepareNewAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.new.accts.page</result>
 		</action>
 
 		<action name="submitAction" method="submitChange" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SubmitAction" />
@@ -91,6 +106,11 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="success" type="tiles">impac2.audit.inactive.accts.page</result>
 			<result name="input" type="tiles">impac2.audit.inactive.accts.page</result>
+		</action>
+		
+		<action name="prepareInactiveAuditAccounts" method="prepareInactiveAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="success" type="tiles">impac2.audit.inactive.accts.page</result>
 		</action>
 		
 		<action name="roleDescriptionAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.RoleDescriptionAction">  
