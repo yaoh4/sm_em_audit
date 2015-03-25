@@ -47,7 +47,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		String role = "<table width='100%' border='0'>";
 		for(EmPortfolioRolesVw roleVw : roles){
 			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td>" + roleName + "&nbsp;<img src='../images/q-icon.gif' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+			role = role + "<tr><td>" + roleName + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;
