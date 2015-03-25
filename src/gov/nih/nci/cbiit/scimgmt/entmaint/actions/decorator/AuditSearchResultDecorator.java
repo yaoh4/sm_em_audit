@@ -139,7 +139,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			submittedBy = accountVO.getAccountActivity().getSubmittedByFullName();
 		}
 		if(submittedBy == null){
-			submittedBy = " ";
+			submittedBy = "<div id='submittedby"+ id +"'></div>";
 		}else{
 			EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
 			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
