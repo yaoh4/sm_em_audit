@@ -7,7 +7,7 @@
             <id name="id" type="long">
                 <column name="ID" precision="10" scale="0" />
             </id>
-            <many-to-one name="audit" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw" lazy="false" fetch="select">
+            <many-to-one name="audit" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT" lazy="false" fetch="select">
             	<column name="AUDIT_ID" precision="10" scale="0" not-null="true" />
         	</many-to-one>
             <property name="impaciiUserId" type="string">
