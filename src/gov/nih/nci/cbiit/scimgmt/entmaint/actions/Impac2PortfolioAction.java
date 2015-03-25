@@ -2,7 +2,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
@@ -19,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,9 +43,8 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */    
 	public String searchPortfolioAccounts() {
     	log.debug("Begin : searchPortfolioAccounts");
-    	String forward = SUCCESS;   
+    	String forward = SUCCESS;  
     	
-    	setupPortfolioDefaultSearch();
     	portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request);
 		if (portfolioAccounts.getFullListSize() != 0
 				&& searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
@@ -62,12 +59,10 @@ public class Impac2PortfolioAction extends BaseAction{
 			}
 		}
     	
-		session.put(ApplicationConstants.SEARCHVO, searchVO);
-		
+		session.put(ApplicationConstants.SEARCHVO, searchVO);		
 		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
-		
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());			
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
@@ -78,28 +73,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		}		
         return forward;
     }
-	
-	/**
-	 * This method sets up default configuration. 
-	 * @return String
-	 */  
-	public void setupPortfolioDefaultSearch(){
-		if(searchVO == null){
-			searchVO = new AuditSearchVO();
-		}
-		//Default search
-		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){  
-			String organization = nciUser.getOrgPath();
-			if(isSuperUser()){
-				organization = ApplicationConstants.NCI_DOC_ALL.toLowerCase();				
-			}
-			searchVO.setOrganization(organization);
-		}  
-		if(searchVO.getCategory() == 0){
-			searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
-		}
-	}
-	
+		
 	private List<PortfolioAccountVO> getExportAccountVOList(List<PortfolioAccountVO> auditAccounts) {
 		List<PortfolioAccountVO> exportAccountVOList = new ArrayList<PortfolioAccountVO>();
 		
@@ -131,6 +105,22 @@ public class Impac2PortfolioAction extends BaseAction{
 		return exportAccountVOList;
 	}
 	
+	/**
+	 * This method is responsible for preparing portfolio accounts search. 
+	 * @return String
+	 */    
+	public String preparePortfolioSearch() {
+		log.debug("Begin : preparePortfolioSearch");
+    	String forward = SUCCESS; 
+    	if(searchVO ==null){
+    		searchVO = new AuditSearchVO();
+    	}
+    	this.setFormAction("searchPortfolioAccounts");
+    	session.put(ApplicationConstants.SEARCHVO, searchVO);		
+		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
+		log.debug("End : preparePortfolioSearch");
+		return forward;
+	}
 	
 	/**
 	 * This method is used for AJAX call when the user wants to save notes.
@@ -208,6 +198,22 @@ public class Impac2PortfolioAction extends BaseAction{
 		session.remove(ApplicationConstants.SEARCHVO);
 		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);	
 		return SUCCESS;
+	}
+	
+	/**
+	 * This method sets up default configuration. 
+	 * @return String
+	 */  
+	public void setupPortfolioDefaultSearch(){		
+		//Commenting default search.
+		/*if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){  
+			String organization = nciUser.getOrgPath();
+			if(isSuperUser()){
+				organization = ApplicationConstants.NCI_DOC_ALL.toLowerCase();				
+			}
+			searchVO.setOrganization(organization);
+		}  
+		*/
 	}
 	
 	/**
