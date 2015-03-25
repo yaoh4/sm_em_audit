@@ -452,7 +452,7 @@
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -531,7 +531,7 @@
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -616,7 +616,7 @@
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -702,7 +702,7 @@
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Account Created Date</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
