@@ -65,7 +65,8 @@
 		
 		<action name="prepareActiveAuditAccounts" method="prepareActiveAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
-			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
+			<result name="primary" type="tiles">impac2.audit.active.accts.page</result>
+			<result name="regular" type="redirect-action">searchActiveAuditAccounts</result>
 		</action>
 		
 		<action name="getAuditAccounts" method="getAccounts"
@@ -84,7 +85,8 @@
 		
 		<action name="prepareDeletedAuditAccounts" method="prepareDeletedAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
-			<result name="success" type="tiles">impac2.audit.del.accts.page</result>
+			<result name="primary" type="tiles">impac2.audit.del.accts.page</result>
+			<result name="regular" type="redirect-action">searchDeletedAuditAccounts</result>
 		</action>
 		
 		<action name="searchNewAuditAccounts" method="searchNewAccounts"
@@ -96,7 +98,8 @@
 		
 		<action name="prepareNewAuditAccounts" method="prepareNewAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
-			<result name="success" type="tiles">impac2.audit.new.accts.page</result>
+			<result name="primary" type="tiles">impac2.audit.new.accts.page</result>
+			<result name="regular" type="redirect-action">searchNewAuditAccounts</result>
 		</action>
 
 		<action name="submitAction" method="submitChange" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SubmitAction" />
@@ -110,7 +113,8 @@
 		
 		<action name="prepareInactiveAuditAccounts" method="prepareInactiveAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
-			<result name="success" type="tiles">impac2.audit.inactive.accts.page</result>
+			<result name="primary" type="tiles">impac2.audit.inactive.accts.page</result>
+			<result name="regular" type="redirect-action">searchInactiveAuditAccounts</result>
 		</action>
 		
 		<action name="roleDescriptionAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.RoleDescriptionAction">  

@@ -45,11 +45,11 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchDeletedAccounts() {
 		String forward = SUCCESS;
 
-		//setUpDefaultSearch(); //check if default search is needed
+		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
 		activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
-		//session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
 		auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
@@ -72,8 +72,13 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareDeletedAccounts() {
 		String forward = SUCCESS;
-		initialComponent(ApplicationConstants.CATEGORY_DELETED);
 		
+		if(this.isSuperUser()){
+			initialComponent(ApplicationConstants.CATEGORY_DELETED);
+			forward = "primary";
+		}else{
+			forward = "regular";
+		}
 		return forward;
 	}
 	
@@ -83,11 +88,11 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
-		//setUpDefaultSearch(); //check if default search is needed
+		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
 		activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
-		//session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
 		auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
@@ -111,7 +116,13 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareActiveAccounts(){
 		String forward = SUCCESS;
-		initialComponent(ApplicationConstants.CATEGORY_ACTIVE);
+		
+		if(this.isSuperUser()){
+			initialComponent(ApplicationConstants.CATEGORY_ACTIVE);
+			forward = "primary";
+		}else{
+			forward = "regular";
+		}
 		return forward;
 	}
 	
@@ -121,11 +132,11 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchNewAccounts() {
 		String forward = SUCCESS;
-		//setUpDefaultSearch(); //check if default search is needed
+		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
 		activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
-		//session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
+		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
 		auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
@@ -150,8 +161,12 @@ public class Impac2AuditAction extends BaseAction {
 	
 	public String prepareNewAccounts(){
 		String forward = SUCCESS;
-		initialComponent(ApplicationConstants.CATEGORY_NEW);
-
+		if(this.isSuperUser()){
+			initialComponent(ApplicationConstants.CATEGORY_NEW);
+			forward = "primary";
+		}else{
+			forward = "regular";
+		}
 		return forward;
 	}
 	/**
@@ -162,7 +177,7 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchInactiveAccounts() {
 		String forward = SUCCESS;
-		//setUpDefaultSearch(); //check if default search is needed
+		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
 		activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
@@ -193,8 +208,13 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareInactiveAccounts(){
 		String forward = SUCCESS;
-		initialComponent(ApplicationConstants.CATEGORY_INACTIVE);
-
+		
+		if(this.isSuperUser()){
+			initialComponent(ApplicationConstants.CATEGORY_INACTIVE);
+			forward = "primary";
+		}else{
+			forward = "regular";
+		}
 		return forward;
 	}
 	
