@@ -12,7 +12,7 @@
 	<li class="active">Portfolio Analysis</li><li><a href="searchActiveAuditAccounts.action">Audit</a></li>
   </s:if>
   <s:else>
-  	<li><a href="searchPortfolioAccounts.action">Portfolio Analysis</a></li><li  class="active">Audit</li>
+  	<li><a href="preparePortfolioSearch.action">Portfolio Analysis</a></li><li  class="active">Audit</li>
   </s:else>
   </ol>
 </s:if>
