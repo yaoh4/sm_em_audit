@@ -12,7 +12,7 @@ import java.util.List;
 public class EmAuditAccountsVw implements java.io.Serializable {
 
 	private Long id;
-	private EmAuditsVw audit;
+	private EmAuditsT audit;
 	private String impaciiUserId;
 	private String nihNetworkId;
 	private String impaciiLastName;
@@ -62,14 +62,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public EmAuditAccountsVw() {
 	}
 
-	public EmAuditAccountsVw(Long id, EmAuditsVw audit, Date createdDate, String createdByUserId) {
+	public EmAuditAccountsVw(Long id, EmAuditsT audit, Date createdDate, String createdByUserId) {
 		this.id = id;
 		this.audit = audit;
 		this.createdDate = createdDate;
 		this.createdByUserId = createdByUserId;
 	}
 
-	public EmAuditAccountsVw(Long id, EmAuditsVw audit, String impaciiUserId, String nihNetworkId,
+	public EmAuditAccountsVw(Long id, EmAuditsT audit, String impaciiUserId, String nihNetworkId,
 			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName,
 			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag,
 			String nciDoc, Date createdDate, String createdByUserId, String createdByFullName, Date deletedDate,
@@ -268,7 +268,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						.getInactiveSubmittedDate().equals(castOther.getInactiveSubmittedDate())));
 	}
 
-	public EmAuditsVw getAudit() {
+	public EmAuditsT getAudit() {
 		return audit;
 	}
 
@@ -416,7 +416,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return result;
 	}
 
-	public void setAudit(EmAuditsVw audit) {
+	public void setAudit(EmAuditsT audit) {
 		this.audit = audit;
 	}
 
