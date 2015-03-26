@@ -63,7 +63,7 @@ public class AuditSearchActionHelper {
 	 * This method is responsible for preparing drop down lists for organizationList and categoriesList for portfolio accounts search.
 	 * @return 
 	 */
-	public void  createPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService){
+	public void  createPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService, Map<String, Object> session){
 
 		List<EmOrganizationVw> orgs = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		if(orgs != null && orgs.size() >0){
@@ -71,6 +71,7 @@ public class AuditSearchActionHelper {
 				DropDownOption orgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());	
 				organizationList.add(orgOption);	
 			}
+			session.put(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST, organizationList);	
 		}
 
 		List<AppLookupT> categories = (List<AppLookupT>)lookupService.getList(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST);		
@@ -79,6 +80,7 @@ public class AuditSearchActionHelper {
 				DropDownOption categoryOption = new DropDownOption(""+category.getId(), category.getDescription());	
 				categoriesList.add(categoryOption);
 			}
+			session.put(ApplicationConstants.CATEGORY_DROPDOWN_LIST, categoriesList);	
 		}		
 	}
 	
