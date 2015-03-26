@@ -5,7 +5,6 @@
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
-<script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl" %>
 <%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO" %>
 <%
