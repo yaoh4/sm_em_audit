@@ -265,6 +265,8 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppPropertiesT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppPropertiesT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityVw.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountRolesVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountRolesVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountsVw.hbm.xml -text

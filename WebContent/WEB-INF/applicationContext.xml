@@ -53,6 +53,7 @@
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioRolesVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountsVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountRolesVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioNotesT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml</value>
