@@ -465,19 +465,19 @@
  		<type>portfolioActive</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
@@ -490,13 +490,13 @@
  		<type>portfolioActive</type>
  		<columnName>Notes</columnName>
  		<property>notes</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Last Updated</columnName>
  		<property>lastUpdated</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab> 	
  	<Tab>
  		<type>portfolioNew</type>
@@ -544,19 +544,19 @@
  		<type>portfolioNew</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
@@ -569,13 +569,13 @@
  		<type>portfolioNew</type>
  		<columnName>Notes</columnName>
  		<property>notes</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Last Updated</columnName>
  		<property>lastUpdated</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
@@ -599,7 +599,7 @@
  		<type>portfolioDeleted</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
@@ -654,13 +654,13 @@
  		<type>portfolioDeleted</type>
  		<columnName>Notes</columnName>
  		<property>notes</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Last Updated</columnName>
  		<property>lastUpdated</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
@@ -715,19 +715,19 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II Application Role(s)</columnName>
  		<property>applicationRole</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II Application Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
@@ -740,12 +740,12 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>Notes</columnName>
  		<property>notes</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Last Updated</columnName>
  		<property>lastUpdated</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>
  </Display>   
