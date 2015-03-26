@@ -31,6 +31,9 @@ public class SubmitAction extends BaseAction {
 		String note = (String)request.getParameter("note");
 		String cate = (String)request.getParameter("cate");
 		PrintWriter pw = null;
+		//if category is inactive, need to do validation.
+		//if active action ID is 2, and inactive action id is 13 error out.
+		//error message: The below action conflicts with the action specified in teh Active Tab
 		try{
 			Date date = new Date();
 			DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
