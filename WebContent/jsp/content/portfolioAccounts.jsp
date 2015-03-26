@@ -40,12 +40,12 @@
 			}
 		});		
 	});
-	function submitNotes(name, cellId) {
+	function submitNotes(name, cellId) { 
 		$('#missingNotesMessage').html("");
 		$('#nameId').val(name);
 		$('#nameValue').html("<label>" + name + "</label>");
 		$('#cellId').val(cellId);
-		$('#noteText').html($('#notesDiv_'+cellId).text());
+		$('#noteText').val($('#notesDiv_'+cellId).text());
 		$("#submitNotesAction").dialog("open");
 	}	
 </script>
