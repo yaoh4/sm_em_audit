@@ -61,8 +61,8 @@
 				 				}
 				 				$('#note' + cId).html(comments);
 				 				var elements = result.split(";");
-				 				$('#submittedDate'+cId).html(elements[0]);
-				 				$('#submittedby'+cId).html(elements[1]);
+				 				var submitted = "Submitted on " + elements[0] + " by " + elements[1];
+				 				$('#submittedby'+cId).html(submitted);
 				 				$( this ).dialog( "close" );
 				 			}
 			 			}
@@ -101,7 +101,6 @@
 			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + $('#hiddennote' + cId).val() +"'/>");
 			 				$('#note' + cId).html("");
-			 				$('#submittedDate'+cId).html("");
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
 			 			}

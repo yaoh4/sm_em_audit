@@ -113,16 +113,10 @@
  	</Tab> 	
   	<Tab>
  		<type>active</type>
- 		<columnName>Submitted On</columnName>
- 		<property>accountSubmittedDate</property>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
  		<sort>false</sort>
  	</Tab>
-  	<Tab>
- 		<type>active</type>
- 		<columnName>Submitted By</columnName>
- 		<property>accountSubmittedBy</property>
- 		<sort>false</sort>
- 	</Tab>		
  	<Tab>
  		<type>new</type>
  		<columnName>Name</columnName>
@@ -198,14 +192,8 @@
  	</Tab>
 	<Tab>
  		<type>new</type>
- 		<columnName>Submitted On</columnName>
- 		<property>accountSubmittedDate</property>
- 		<sort>false</sort>
- 	</Tab>
-	<Tab>
- 		<type>new</type>
- 		<columnName>Submitted By</columnName>
- 		<property>accountSubmittedBy</property>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
@@ -289,14 +277,8 @@
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
- 		<columnName>Submitted On</columnName>
- 		<property>accountSubmittedDate</property>
- 		<sort>false</sort>
- 	</Tab>	
- 	<Tab>
- 		<type>deleted</type>
- 		<columnName>Submitted By</columnName>
- 		<property>accountSubmittedBy</property>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
@@ -374,14 +356,8 @@
  	</Tab>
   	<Tab>
  		<type>inactive</type>
- 		<columnName>Submitted On</columnName>
- 		<property>accountSubmittedDate</property>
- 		<sort>false</sort>
- 	</Tab>
-  	<Tab>
- 		<type>inactive</type>
- 		<columnName>Submitted By</columnName>
- 		<property>accountSubmittedBy</property>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>

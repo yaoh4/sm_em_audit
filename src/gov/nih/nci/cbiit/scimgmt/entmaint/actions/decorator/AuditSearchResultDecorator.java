@@ -106,46 +106,32 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 	}
 	
-	public String getAccountSubmittedDate(){
+	public String getAccountSubmitted(){
+		String submittedBy = "";
 		Date submittedDate = null;
 		
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = ""+accountVO.getId();
-		if(accountVO.getAccountActivity() == null){
-			return "<div id='submittedDate"+ id +"'></div>";
-		}else{
-			submittedDate = accountVO.getAccountActivity().getSubmittedDate();
-		}
-		String dateStr = "";
-		if(submittedDate != null){
-			dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
-		}
-		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
-		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-			dateStr = "<div id='submittedDate" + id + "'></div>" +"<input type='hidden' id='hiddenSubmittedDate" + id +"' value='" + dateStr + "'/>";
-		}else{
-			dateStr = "<div id='submittedDate"+ id +"'>" + dateStr + "</div>";
-		}
-		return dateStr;
 		
-	}
-	public String getAccountSubmittedBy(){
-		String submittedBy = "";
-		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String id = ""+accountVO.getId();
 		if(accountVO.getAccountActivity() == null){
 			return "<div id='submittedby"+ id +"'></div>";
 		}else{
 			submittedBy = accountVO.getAccountActivity().getSubmittedByFullName();
+			submittedDate = accountVO.getAccountActivity().getSubmittedDate();
 		}
 		if(submittedBy == null){
 			submittedBy = "<div id='submittedby"+ id +"'></div>";
 		}else{
 			EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+			String dateStr = "";
+			if(submittedDate != null){
+				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
+			} 
 			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='" + submittedBy + "'/>";
+				
+				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
 			}else{
-				submittedBy = "<div id='submittedby"+ id +"'>" + submittedBy + "</div>";
+				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";
 			}
 		}
 		return  submittedBy;
