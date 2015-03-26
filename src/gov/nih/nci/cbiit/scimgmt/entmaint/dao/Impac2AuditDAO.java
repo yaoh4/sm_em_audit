@@ -284,12 +284,16 @@ public class Impac2AuditDAO {
 				activity.setCategory(category);
 				activity.setCreateUserId(nciUser.getUserId().toUpperCase());
 				activity.setCreateDate(date);
+				activity.setLastSubmittedByUserId(nciUser.getUserId().toUpperCase());
+				activity.setLastSubmittedDate(date);
 			}
 			activity.setActionId(actionId);
 			activity.setNotes(actionComments);
 			activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 			activity.setLastChangeDate(date);
 			activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
+			activity.setLastSubmittedByUserId(nciUser.getUserId().toUpperCase());
+			activity.setLastSubmittedDate(date);
 			saveOrUpdateActivity(activity);
 		} catch (RuntimeException re) {
 			log.error("Submit failed, " + re.getMessage());
@@ -314,6 +318,8 @@ public class Impac2AuditDAO {
 				activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 				activity.setLastChangeDate(new Date());
 				activity.setUnsubmittedFlag(ApplicationConstants.FLAG_YES);
+				activity.setLastSubmittedByUserId(null);
+				activity.setLastSubmittedDate(null);
 				saveOrUpdateActivity(activity);
 			}
 		} catch (RuntimeException re) {

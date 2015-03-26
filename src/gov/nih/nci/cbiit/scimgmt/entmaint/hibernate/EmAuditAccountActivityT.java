@@ -18,7 +18,9 @@ public class EmAuditAccountActivityT implements java.io.Serializable {
 	private Date lastChangeDate;
 	private String unsubmittedFlag;
 	private String notes;
-
+	private String lastSubmittedByUserId;
+	private Date lastSubmittedDate;
+	
 	public EmAuditAccountActivityT() {
 	}
 
@@ -76,7 +78,13 @@ public class EmAuditAccountActivityT implements java.io.Serializable {
 						&& castOther.getUnsubmittedFlag() != null
 						&& getUnsubmittedFlag().equals(castOther.getUnsubmittedFlag()))
 				&& (getNotes() == castOther.getNotes() || getNotes() != null && castOther.getNotes() != null
-						&& getNotes().equals(castOther.getNotes()));
+						&& getNotes().equals(castOther.getNotes()))
+				&& (getLastSubmittedByUserId() == castOther.getLastSubmittedByUserId() || getLastSubmittedByUserId() != null
+						&& castOther.getLastSubmittedByUserId() != null
+						&& getLastSubmittedByUserId().equals(castOther.getLastSubmittedByUserId()))
+				&& (getLastSubmittedDate() == castOther.getLastSubmittedDate() || getLastSubmittedDate() != null
+						&& castOther.getLastSubmittedDate() != null
+						&& getLastSubmittedDate().equals(castOther.getLastSubmittedDate()));
 	}
 
 	public Long getActionId() {
@@ -128,6 +136,8 @@ public class EmAuditAccountActivityT implements java.io.Serializable {
 		result = 37 * result + (getLastChangeDate() == null ? 0 : getLastChangeDate().hashCode());
 		result = 37 * result + (getUnsubmittedFlag() == null ? 0 : getUnsubmittedFlag().hashCode());
 		result = 37 * result + (getNotes() == null ? 0 : getNotes().hashCode());
+		result = 37 * result + (getLastSubmittedByUserId() == null ? 0 : getLastSubmittedByUserId().hashCode());
+		result = 37 * result + (getLastSubmittedDate() == null ? 0 : getLastSubmittedDate().hashCode());
 		return result;
 	}
 
@@ -165,6 +175,22 @@ public class EmAuditAccountActivityT implements java.io.Serializable {
 
 	public void setUnsubmittedFlag(String unsubmittedFlag) {
 		this.unsubmittedFlag = unsubmittedFlag;
+	}
+
+	public String getLastSubmittedByUserId() {
+		return lastSubmittedByUserId;
+	}
+
+	public void setLastSubmittedByUserId(String lastSubmittedByUserId) {
+		this.lastSubmittedByUserId = lastSubmittedByUserId;
+	}
+
+	public Date getLastSubmittedDate() {
+		return lastSubmittedDate;
+	}
+
+	public void setLastSubmittedDate(Date lastSubmittedDate) {
+		this.lastSubmittedDate = lastSubmittedDate;
 	}
 
 }

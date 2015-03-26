@@ -205,7 +205,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 				activity.setEaaId(account.getId());
 				activity.setAction(account.getInactiveAction());
 				activity.setNotes(account.getInactiveNotes());
-				activity.setSubmittedByFullName(account.getInactiveSubmitteBy());
+				activity.setSubmittedByFullName(account.getInactiveSubmittedBy());
 				activity.setSubmittedDate(account.getInactiveSubmittedDate());
 				activity.setUnsubmittedFlag(account.getInactiveUnsubmittedFlag());
 			}

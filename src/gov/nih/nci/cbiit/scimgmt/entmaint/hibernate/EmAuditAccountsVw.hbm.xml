@@ -130,8 +130,8 @@
             <property name="inactiveUnsubmittedFlag" type="string">
                 <column name="INACTIVE_UNSUBMITTED_FLAG" length="3" />
             </property>
-            <property name="inactiveSubmitteBy" type="string">
-                <column name="INACTIVE_SUBMITTE_BY" length="62" />
+            <property name="inactiveSubmittedBy" type="string">
+                <column name="INACTIVE_SUBMITTED_BY" length="62" />
             </property>
             <property name="inactiveSubmittedDate" type="timestamp">
                 <column name="INACTIVE_SUBMITTED_DATE" length="7" />

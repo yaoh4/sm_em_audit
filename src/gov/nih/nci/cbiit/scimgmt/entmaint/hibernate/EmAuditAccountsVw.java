@@ -56,7 +56,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private AppLookupT inactiveAction;
 	private String inactiveNotes;
 	private String inactiveUnsubmittedFlag;
-	private String inactiveSubmitteBy;
+	private String inactiveSubmittedBy;
 	private Date inactiveSubmittedDate;
 
 	public EmAuditAccountsVw() {
@@ -79,7 +79,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			String newNotes, String newUnsubmittedFlag, String newSubmittedBy, Date newSubmittedDate,
 			AppLookupT deletedAction, String deletedNotes, String deletedUnsubmittedFlag, String deletedSubmittedBy,
 			Date deletedSubmittedDate, AppLookupT inactiveAction, String inactiveNotes, String inactiveUnsubmittedFlag,
-			String inactiveSubmitteBy, Date inactiveSubmittedDate, List accountRoles, List accountActivities,
+			String inactiveSubmittedBy, Date inactiveSubmittedDate, List accountRoles, List accountActivities,
 			EmAuditAccountActivityVw accountActivity) {
 		this.id = id;
 		this.audit = audit;
@@ -126,7 +126,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.inactiveAction = inactiveAction;
 		this.inactiveNotes = inactiveNotes;
 		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
-		this.inactiveSubmitteBy = inactiveSubmitteBy;
+		this.inactiveSubmittedBy = inactiveSubmittedBy;
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
 	}
 
@@ -260,9 +260,9 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				&& ((getInactiveUnsubmittedFlag() == castOther.getInactiveUnsubmittedFlag()) || (this
 						.getInactiveUnsubmittedFlag() != null && castOther.getInactiveUnsubmittedFlag() != null && this
 						.getInactiveUnsubmittedFlag().equals(castOther.getInactiveUnsubmittedFlag())))
-				&& ((getInactiveSubmitteBy() == castOther.getInactiveSubmitteBy()) || (this
-						.getInactiveSubmitteBy() != null && castOther.getInactiveSubmitteBy() != null && this
-						.getInactiveSubmitteBy().equals(castOther.getInactiveSubmitteBy())))
+				&& ((getInactiveSubmittedBy() == castOther.getInactiveSubmittedBy()) || (this
+						.getInactiveSubmittedBy() != null && castOther.getInactiveSubmittedBy() != null && this
+						.getInactiveSubmittedBy().equals(castOther.getInactiveSubmittedBy())))
 				&& ((getInactiveSubmittedDate() == castOther.getInactiveSubmittedDate()) || (this
 						.getInactiveSubmittedDate() != null && castOther.getInactiveSubmittedDate() != null && this
 						.getInactiveSubmittedDate().equals(castOther.getInactiveSubmittedDate())));
@@ -411,7 +411,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getInactiveNotes() == null ? 0 : getInactiveNotes().hashCode());
 		result = 37 * result
 				+ (getInactiveUnsubmittedFlag() == null ? 0 : getInactiveUnsubmittedFlag().hashCode());
-		result = 37 * result + (getInactiveSubmitteBy() == null ? 0 : getInactiveSubmitteBy().hashCode());
+		result = 37 * result + (getInactiveSubmittedBy() == null ? 0 : getInactiveSubmittedBy().hashCode());
 		result = 37 * result + (getInactiveSubmittedDate() == null ? 0 : getInactiveSubmittedDate().hashCode());
 		return result;
 	}
@@ -612,8 +612,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return inactiveUnsubmittedFlag;
 	}
 
-	public String getInactiveSubmitteBy() {
-		return inactiveSubmitteBy;
+	public String getInactiveSubmittedBy() {
+		return inactiveSubmittedBy;
 	}
 
 	public Date getInactiveSubmittedDate() {
@@ -692,8 +692,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
 	}
 
-	public void setInactiveSubmitteBy(String inactiveSubmitteBy) {
-		this.inactiveSubmitteBy = inactiveSubmitteBy;
+	public void setInactiveSubmittedBy(String inactiveSubmittedBy) {
+		this.inactiveSubmittedBy = inactiveSubmittedBy;
 	}
 
 	public void setInactiveSubmittedDate(Date inactiveSubmittedDate) {

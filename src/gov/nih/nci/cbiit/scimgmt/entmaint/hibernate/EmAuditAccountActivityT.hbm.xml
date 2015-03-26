@@ -33,5 +33,11 @@
             <property name="notes" type="string">
                 <column name="NOTES" length="600" />
             </property>
+            <property name="lastSubmittedByUserId" type="string">
+                <column name="LAST_SUBMITTED_BY_USER_ID" length="30" />
+            </property>
+            <property name="lastSubmittedDate" type="timestamp">
+                <column name="LAST_SUBMITTED_DATE" length="7" />
+            </property>
     </class>
 </hibernate-mapping>
