@@ -5,6 +5,7 @@
 
 <s:include value="/jsp/content/manageAccounts.jsp" />
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js"	type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css"	href="../stylesheets/jquery-ui-1.11.3.css" />
 <script>
 	$(function() {
@@ -50,7 +51,7 @@
 </script>
 
 <div class="tab-content">
-	<div class="tab-pane fade active in" id="par1">
+	<div class="tab-pane fade active in" id="portfolioSearchCriteria">
 		<s:form action="%{formAction}" cssClass="form-horizontal">
 			<fieldset style="padding: 15px 0;">
 			
@@ -71,21 +72,21 @@
 							value="%{#session.searchVO.userLastname}" id="l-name" />
 					</div>
 				</div>	
-							
-				<div class="form-group">
-					<label class="control-label col-sm-3">NCI Organization:</label>
-					<div class="col-sm-9">
-						<s:select name="searchVO.organization" onchange="onOrgChange(this.value);" 
-							id="portfolioOrg" cssClass="form-control"
-							value="%{#session.searchVO.organization}" list="organizationList"
-							listKey="optionKey" listValue="optionValue" headerKey="all"
-							headerValue="All" style="width:590px;" />
-					</div>
-				</div>	
 				
-				<s:if test="isSuperUser()">			       
+				<s:if test="isSuperUser()">				
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="portfolioOrg">NCI Organization:</label>
+						<div class="col-sm-9">
+							<s:select name="searchVO.organization" onchange="onOrgChange(this.value);" 
+								id="portfolioOrg" cssClass="form-control"
+								value="%{#session.searchVO.organization}" list="session.orgList"
+								listKey="optionKey" listValue="optionValue" headerKey="all"
+								headerValue="All" style="width:590px;" />
+						</div>
+					</div>       
+					
 					<div class="form-group" style="margin-top: -10px;">
-						<label class="control-label col-sm-3"> </label>
+						<label class="control-label col-sm-3" for="excludeNciCheck"> </label>
 						<div class="col-sm-9">
 							<s:checkbox name="searchVO.excludeNCIOrgs" id="excludeNciCheck" />
 							<label style="font-weight: normal; font-size: 0.9em;">Exclude
@@ -94,19 +95,31 @@
 					</div>
 				</s:if>
 				
+				<s:else>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="portfolioOrg">NCI Organization:</label>
+						<div class="col-sm-9">
+							<s:select name="searchVO.organization" id="portfolioOrg" cssClass="form-control"
+								value="%{#session.searchVO.organization}" list="session.orgList"
+								listKey="optionKey" listValue="optionValue" headerKey="all"
+								headerValue="All" style="width:590px;" />
+						</div>
+					</div> 
+				</s:else>
+				
 				<div class="form-group">
-					<label class="control-label col-sm-3">Category:</label>
+					<label class="control-label col-sm-3" for="portfolioCategory">Category:</label>
 					<div class="col-sm-9">
 						<s:select name="searchVO.category" id="portfolioCategory"
 							onchange="onCategoryChage(this.value);" cssClass="form-control"
-							value="%{#session.searchVO.category}" list="categoriesList"
+							value="%{#session.searchVO.category}" list="session.categoryList"
 							listKey="optionKey" listValue="optionValue" style="width:590px;" />
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-3">Date Range:</label>
-					<div class="col-sm-9">
+					<label class="control-label col-sm-3" for="dateRange">Date Range:</label>
+					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
 							name="searchVO.dateRangeStartDate"
 							value="%{#session.searchVO.dateRangeStartDate}"
@@ -127,9 +140,7 @@
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
 						<s:submit value="Search" cssClass="btn btn-primary" onclick="openLoading();"  />
-						<s:submit value="Clear"
-							action="impac2/clearSearchPortfolioAccounts"
-							cssClass="btn btn-default" />
+						<s:submit value="Clear"	action="impac2/clearSearchPortfolioAccounts" cssClass="btn btn-default" />
 					</div>
 				</div>
 			</fieldset>
@@ -140,7 +151,11 @@
 </div>
 
 <div style="text-align:right; width: 100%; padding-right: 10px; padding-bottom: 20px;">
-	<span style="font-size: 0.9em;"><a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">IMPAC II User Roles (.pdf) </a></span>
+	<span style="font-size: 0.9em;">
+		<a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">
+		IMPAC II User Roles (.pdf) 
+		</a>
+	</span>
 </div> 
 
 <s:if test="showResult">
@@ -148,7 +163,6 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">Search Results</h3>
 		</div>
-
 		<div align="center" style="overflow: auto;">
 			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{tableAction}"/>
 		</div>
@@ -170,7 +184,7 @@
 </div>
 
 <script>
-	$( window ).ready(function() {
+	$( window ).ready(function() { 
 		onCategoryChage($('#portfolioCategory option:selected').val());
 		onOrgChange($('#portfolioOrg option:selected').val());
 	});
