@@ -47,7 +47,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Unsubmit\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>" +
 						    "</div>";
 			}
@@ -56,7 +56,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + getActionId(actionStr) + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			if(EmAppUtil.isAuditEnabled()){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Submit\"/>" + "</div>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>" + "</div>";
 			}
 		}
 		return actionStr;

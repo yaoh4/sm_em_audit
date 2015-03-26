@@ -30,7 +30,7 @@
 			 			var actionLabel = jQuery('#selectActId option:selected').text();
 			 			var comments = $('#noteText').val();
 			 			var category = $('#categoryId').val();
-			 			if($.trim(comments).length < 1){
+			 			if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
 			 				$('#errorMessage').html("<font color='red'>Please enter Notes for the submission.</font>");
 			 			}else{
 				 			$.ajax({
@@ -50,7 +50,7 @@
 				 			}else{
 				 				$('#'+cId).html("");
 				 				if(role == "EMADMIN"){
-				 					$('#'+cId).html(actionLabel + "<br/><input type='button' Value='Unsubmit' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
+				 					$('#'+cId).html(actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
 				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + comments +"'/>");
 				 				}else{
 				 					$('#'+cId).html(actionLabel);
@@ -94,7 +94,7 @@
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
 			 			}else{
-			 				$('#'+cId).html("<input type='button' Value='Submit' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
+			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + $('#hiddennote' + cId).val() +"'/>");
 			 				$('#note' + cId).html("");
 			 				$('#submittedDate'+cId).html("");
@@ -195,7 +195,7 @@
 </div>
 </s:if> 
 
-<div id="submitAction" style="display: none;" title="Submit Action">
+<div id="submitAction" style="display: none;" title="Complete Review">
 	<s:include value="/jsp/helper/submitActionContent.jsp" />
 </div>
 <div id="errorDialog" style="display: none;" title="Submit Action">
