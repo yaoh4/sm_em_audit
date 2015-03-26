@@ -32,6 +32,10 @@
 			 			var category = $('#categoryId').val();
 			 			if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
 			 				$('#errorMessage').html("<font color='red'>Please enter Notes for the submission.</font>");
+			 			}else if ($('#hiddenAction'+cId).val().length > 0 && $('#hiddenAction'+cId).val() == "2"){
+			 				if($('#categoryId').val() == "INACTIVE" && aId == "13"){
+			 					$('#errorMessage').html("<font color='red'>The below action conflicts with the action specified in teh Active Tab</font>");
+			 				}
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",
