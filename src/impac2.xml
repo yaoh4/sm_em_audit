@@ -23,14 +23,14 @@
 		<action name="impac2Home" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
 			<result name="audit_enabled" type="redirect-action">prepareActiveAuditAccounts</result>
-			<result name="audit_disabled" type="redirect-action">preparePortfolioSearch</result>
+			<result name="audit_disabled" type="redirect-action">defaultPortfolioSearch</result>
 			<result name="input" type="tiles">tiles.error.details</result>
 		</action>
 		
-		<action name="preparePortfolioSearch" method="preparePortfolioSearch"
+		<action name="defaultPortfolioSearch" method="defaultPortfolioSearch"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction">
 			<result name="success" type="tiles">impac2.portfolio.accts.page</result>
-			<result name="input" type="tiles">impac2.portfolio.accts.page</result>		
+			<result name="input" type="tiles">impac2.portfolio.accts.page</result>						
 		</action>
 		
 		<action name="searchPortfolioAccounts" method="searchPortfolioAccounts"
