@@ -44,16 +44,19 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				note = accountVO.getAccountActivity().getNotes();
 			}
 		}
-		
+		String actId = getActionId(actionStr);
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>" +
 						    "</div>";
 			}
+			if(actId.equalsIgnoreCase("3")){
+				actionStr = actionStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
+			}
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
-			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + getActionId(actionStr) + "'/>";
+			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			if(EmAppUtil.isAuditEnabled()){
 				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>" + "</div>";

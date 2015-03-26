@@ -53,12 +53,17 @@
 				 				openErrorDialog();
 				 			}else{
 				 				$('#'+cId).html("");
+				 				var actStr = "";
 				 				if(role == "EMADMIN"){
-				 					$('#'+cId).html(actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
-				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + comments +"'/>");
+				 					actStr = actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
+				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + comments +"'/>";
 				 				}else{
-				 					$('#'+cId).html(actionLabel);
+				 					actStr = actionLabel;
 				 				}
+				 				if(aId == "3"){
+				 					actStr = actStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
+				 				}
+				 				$('#'+cId).html(actStr);
 				 				$('#note' + cId).html(comments);
 				 				var elements = result.split(";");
 				 				var submitted = "Submitted on " + elements[0] + " by " + elements[1];
