@@ -61,10 +61,25 @@ public class Impac2AuditDAO {
 
 			// Sort order
 			if (!StringUtils.isBlank(sortOrderCriterion)) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-					criteria.addOrder(Order.asc(sortOrderCriterion));
-				else
-					criteria.addOrder(Order.desc(sortOrderCriterion));
+				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("nedLastName"));
+						criteria.addOrder(Order.asc("nedFirstName"));
+					} else {
+						criteria.addOrder(Order.desc("nedLastName"));
+						criteria.addOrder(Order.desc("nedFirstName"));
+					}
+				} else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+						criteria.addOrder(Order.asc("createdDate"));
+					else
+						criteria.addOrder(Order.desc("createdDate"));
+				} else {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+						criteria.addOrder(Order.asc(sortOrderCriterion));
+					else
+						criteria.addOrder(Order.desc(sortOrderCriterion));
+				}
 			}
 			
 			// Criteria specific to active accounts
