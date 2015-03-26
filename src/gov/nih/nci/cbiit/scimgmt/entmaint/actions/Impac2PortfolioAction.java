@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,7 +32,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
 	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;
 	private List<PortfolioAccountVO> discrepancyAccounts;	
-	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();		
+	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();	
 	
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
@@ -42,37 +43,40 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return String
 	 */    
 	public String searchPortfolioAccounts() {
-    	log.debug("Begin : searchPortfolioAccounts");
-    	String forward = SUCCESS;  
-    	
-    	portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request);
-		if (portfolioAccounts.getFullListSize() != 0
-				&& searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+		log.debug("Begin : searchPortfolioAccounts");
+		String forward = SUCCESS;  
+
+		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request);
+		
+		if (portfolioAccounts.getFullListSize() != 0 && searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
 			discrepancyAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
-		} else {
+		} 
+		else {			
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO);
+			
 			if (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+				
 				discrepancyAccounts = portfolioAccounts.getList();
 				session.put(ApplicationConstants.SEARCHLIST, discrepancyAccounts);
-			} else {
+			} 
+			else {
 				session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
 			}
 		}
-    	
+
 		session.put(ApplicationConstants.SEARCHVO, searchVO);		
-		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());			
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
-		
+
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
 			portfolioAccounts.setList(getExportAccountVOList(portfolioAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}		
-        return forward;
-    }
+		return forward;
+	}
 		
 	private List<PortfolioAccountVO> getExportAccountVOList(List<PortfolioAccountVO> auditAccounts) {
 		List<PortfolioAccountVO> exportAccountVOList = new ArrayList<PortfolioAccountVO>();
@@ -106,19 +110,31 @@ public class Impac2PortfolioAction extends BaseAction{
 	}
 	
 	/**
-	 * This method is responsible for preparing portfolio accounts search. 
+	 * This method is responsible for  portfolio accounts default search. 
 	 * @return String
 	 */    
-	public String preparePortfolioSearch() {
-		log.debug("Begin : preparePortfolioSearch");
+	public String defaultPortfolioSearch() {
+		log.debug("Begin : defaultPortfolioSearch");
     	String forward = SUCCESS; 
     	if(searchVO ==null){
     		searchVO = new AuditSearchVO();
     	}
-    	this.setFormAction("searchPortfolioAccounts");
-    	session.put(ApplicationConstants.SEARCHVO, searchVO);		
-		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
-		log.debug("End : preparePortfolioSearch");
+    	searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
+    	session.put(ApplicationConstants.SEARCHVO, searchVO);	
+  		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
+  		
+    	//No default search for Super User
+    	if(isSuperUser()){
+    		showResult = false;
+    		this.setFormAction("searchPortfolioAccounts");     		     		
+    		return forward;
+    	}
+    	//Default search for IC coordinators.    
+    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){      				
+    		searchVO.setOrganization(nciUser.getOrgPath());	
+    	} 
+    	forward = searchPortfolioAccounts();     	
+		log.debug("End : defaultPortfolioSearch");
 		return forward;
 	}
 	
@@ -181,10 +197,7 @@ public class Impac2PortfolioAction extends BaseAction{
 			if(searchVO.getDateRangeEndDate().after(new Date())){
 				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate"));
 			}
-			if (hasFieldErrors()) {
-				session.put(ApplicationConstants.SEARCHVO, searchVO);
-				auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);
-			}
+			session.put(ApplicationConstants.SEARCHVO, searchVO);		
 		}
 	}
 	
@@ -196,25 +209,8 @@ public class Impac2PortfolioAction extends BaseAction{
 		log.info("clearSearchPortfolioAccounts()");
 		searchVO = null;
 		session.remove(ApplicationConstants.SEARCHVO);
-		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService);	
 		return SUCCESS;
-	}
-	
-	/**
-	 * This method sets up default configuration. 
-	 * @return String
-	 */  
-	public void setupPortfolioDefaultSearch(){		
-		//Commenting default search.
-		/*if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){  
-			String organization = nciUser.getOrgPath();
-			if(isSuperUser()){
-				organization = ApplicationConstants.NCI_DOC_ALL.toLowerCase();				
-			}
-			searchVO.setOrganization(organization);
-		}  
-		*/
-	}
+	}	
 	
 	/**
 	 * @return the portfolioAccounts
