@@ -46,7 +46,7 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, false);
 		} else {
@@ -93,7 +93,7 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
@@ -141,7 +141,7 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchNewAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, false);
 		} else {
@@ -190,7 +190,7 @@ public class Impac2AuditAction extends BaseAction {
 	public String searchInactiveAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
+		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
