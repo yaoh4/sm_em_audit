@@ -103,6 +103,10 @@ public interface ApplicationConstants {
 	public static final String NEW_ACTION_ALL = "5";
 	public static final String DELETED_ACTION_ALL = "8";
 	public static final String INACTIVE_ACTION_ALL = "11";
+	public static final String VERIFIEDLEAVE = "2";
+	public static final int VERIFIEDLEAVEINT = 2;
+	public static final String NOTNEED = "13";
+	public static final int NOTNEEDINT = 13;
 	
     public static String PORTFOLIO_ACTIVE = "portfolioActive";
     public static String PORTFOLIO_NEW = "portfolioNew";

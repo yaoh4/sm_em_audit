@@ -4,9 +4,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.StringBufferInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +20,8 @@ public class SubmitAction extends BaseAction {
 	@Autowired
 	private Impac2AuditService impac2Service;
 	private InputStream inputStream;  
-	
+	@Autowired
+	protected EntMaintProperties entMaintProperties;
 	/**
 	 * This method is used for AJAX call when the user wants to submit account information.
 	 * @return String
@@ -37,13 +38,15 @@ public class SubmitAction extends BaseAction {
 		EmAuditAccountsVw account = impac2Service.getAuditAccountById(Long.parseLong(appId));
 		try{
 			if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE) && account.getActiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_NO) 
-					&& account.getActiveAction() != null &&  account.getActiveAction().getId() != null && account.getActiveAction().getId() == 2 
-					&& actId.equalsIgnoreCase("13")){
-				inputStream = new StringBufferInputStream("validationError; The below action conflicts with the action specified in the Active Tab");
+					&& account.getActiveAction() != null &&  account.getActiveAction().getId() != null && account.getActiveAction().getId() == ApplicationConstants.VERIFIEDLEAVEINT 
+					&& actId.equalsIgnoreCase(ApplicationConstants.NOTNEED)){
+				String errorMessage = entMaintProperties.getPropertyValue("inactive.validation.error");
+				inputStream = new StringBufferInputStream("validationError;" + errorMessage);
 			}else if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE) && account.getInactiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_NO)
-					&& account.getInactiveAction() != null &&  account.getInactiveAction().getId() != null && account.getInactiveAction().getId() == 13 
-					&& actId.equalsIgnoreCase("2")){
-				inputStream = new StringBufferInputStream("validationError; The below action conflicts with the action specified in the Inactive Tab");
+					&& account.getInactiveAction() != null &&  account.getInactiveAction().getId() != null && account.getInactiveAction().getId() == ApplicationConstants.NOTNEEDINT
+					&& actId.equalsIgnoreCase(ApplicationConstants.VERIFIEDLEAVE)){
+				String errorMessage = entMaintProperties.getPropertyValue("active.validation.error");
+				inputStream = new StringBufferInputStream("validationError;" + errorMessage);
 			}else{
 				Date date = new Date();
 				DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
