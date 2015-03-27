@@ -16,28 +16,40 @@ public interface Impac2AuditService {
 
     /**
      * Data retrieval for active accounts
-     * @return list of EmAuditAccountsVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
      */
-    public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
      * Data retrieval for new accounts
-     * @return list of EmAuditAccountsVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
      */
-    public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
      * Data retrieval for deleted accounts
-     * @return list of EmAuditAccountsVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
      */
-    public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
+    public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
      * Data retrieval for inactive > 130 days
-     * @return list of EmAuditAccountsVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
      */
-    public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
-
+    public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
+    
     /**
      * Update actions taken on account for submit.
      * @param category

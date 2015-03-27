@@ -36,7 +36,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private Date lastLoginDate;
 	private String inactiveUserFlag;
 	private List<EmAuditAccountRolesVw> accountRoles = new ArrayList<EmAuditAccountRolesVw>(0);
-	private List<EmAuditAccountActivityVw> accountActivities = new ArrayList<EmAuditAccountActivityVw>(0);
 	private EmAuditAccountActivityVw accountActivity;
 	private AppLookupT activeAction;
 	private String activeNotes;
@@ -106,7 +105,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.lastLoginDate = lastLoginDate;
 		this.inactiveUserFlag = inactiveUserFlag;
 		this.accountRoles = accountRoles;
-		this.setAccountActivities(accountActivities);
 		this.accountActivity = accountActivity;
 		this.activeAction = activeAction;
 		this.activeNotes = activeNotes;
@@ -530,14 +528,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setAccountActivity(EmAuditAccountActivityVw accountActivity) {
 		this.accountActivity = accountActivity;
-	}
-
-	public List<EmAuditAccountActivityVw> getAccountActivities() {
-		return accountActivities;
-	}
-
-	public void setAccountActivities(List<EmAuditAccountActivityVw> accountActivities) {
-		this.accountActivities = accountActivities;
 	}
 
 	public AppLookupT getActiveAction() {

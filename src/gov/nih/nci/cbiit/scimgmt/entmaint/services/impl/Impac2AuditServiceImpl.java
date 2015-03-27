@@ -50,8 +50,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchActiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
 	 */
 	@Override
-	public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO) {
-		paginatedList = impac2AuditDAO.searchActiveAccounts(paginatedList, searchVO);
+	public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+		paginatedList = impac2AuditDAO.searchActiveAccounts(paginatedList, searchVO, all);
 		List<EmAuditAccountsVw> auditAccountsList = paginatedList.getList();
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
@@ -67,8 +67,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchNewAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
 	 */
 	@Override
-	public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO) {
-		paginatedList = impac2AuditDAO.searchNewAccounts(paginatedList, searchVO);
+	public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+		paginatedList = impac2AuditDAO.searchNewAccounts(paginatedList, searchVO, all);
 		List<EmAuditAccountsVw> auditAccountsList = paginatedList.getList();
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
@@ -84,8 +84,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchDeletedAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
 	 */
 	@Override
-	public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO) {
-		paginatedList = impac2AuditDAO.searchDeletedAccounts(paginatedList, searchVO);
+	public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+		paginatedList = impac2AuditDAO.searchDeletedAccounts(paginatedList, searchVO, all);
 		List<EmAuditAccountsVw> auditAccountsList = paginatedList.getList();
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {
@@ -101,8 +101,8 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchInactiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
 	 */
 	@Override
-	public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO) {
-		paginatedList = impac2AuditDAO.searchInactiveAccounts(paginatedList, searchVO);
+	public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+		paginatedList = impac2AuditDAO.searchInactiveAccounts(paginatedList, searchVO, all);
 		List<EmAuditAccountsVw> auditAccountsList = paginatedList.getList();
 		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
 		for (final EmAuditAccountsVw account : auditAccountsList) {

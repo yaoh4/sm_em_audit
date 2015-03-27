@@ -47,7 +47,11 @@ public class Impac2AuditAction extends BaseAction {
 
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
-		activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO);
+		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, false);
+		} else {
+			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, true);
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
 		auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
@@ -90,7 +94,11 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
-		activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO);
+		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, false);
+		} else {
+			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, true);
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
 		auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
@@ -134,7 +142,11 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
-		activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO);
+		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, false);
+		} else {
+			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, true);
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
 		auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
@@ -179,7 +191,11 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request);
-		activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO);
+		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
+			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, false);
+		} else {
+			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, true);
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
 		auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);

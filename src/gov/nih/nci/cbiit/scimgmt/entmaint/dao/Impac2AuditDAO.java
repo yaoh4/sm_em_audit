@@ -48,7 +48,7 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II active accounts in audit view: " + searchVO);
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
@@ -94,12 +94,18 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 			}
 	
-			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+			List<EmAuditAccountsVw> auditList = null;
+			if (all) {
+				auditList = criteria.list();
+				paginatedList.setTotal(auditList.size());
+			} else {
+				auditList = criteria.setFirstResult(firstResult)
 					.setMaxResults(objectsPerPage)
 					.list();
+			}
 			
 			paginatedList.setList(auditList);
-			if(paginatedList.getFullListSize() == 0) {
+			if(!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));
 			}
 
@@ -117,7 +123,7 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II new accounts in audit view: " + searchVO);
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
@@ -151,12 +157,18 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 			
-			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+			List<EmAuditAccountsVw> auditList = null;
+			if (all) {
+				auditList = criteria.list();
+				paginatedList.setTotal(auditList.size());
+			} else {
+				auditList = criteria.setFirstResult(firstResult)
 					.setMaxResults(objectsPerPage)
 					.list();
+			}
 			
 			paginatedList.setList(auditList);
-			if(paginatedList.getFullListSize() == 0) {
+			if(!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));
 			}
 
@@ -173,7 +185,7 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II deleted accounts in audit view: " + searchVO);
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
@@ -207,12 +219,19 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
 						
-			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+			List<EmAuditAccountsVw> auditList = null;
+			
+			if (all) {
+				auditList = criteria.list();
+				paginatedList.setTotal(auditList.size());
+			} else {
+				auditList = criteria.setFirstResult(firstResult)
 					.setMaxResults(objectsPerPage)
 					.list();
+			}
 			
 			paginatedList.setList(auditList);
-			if(paginatedList.getFullListSize() == 0) {
+			if(!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));
 			}
 
@@ -230,7 +249,7 @@ public class Impac2AuditDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II inactive accounts in audit view: " + searchVO);
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
@@ -263,12 +282,18 @@ public class Impac2AuditDAO {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}				
 			
-			List<EmAuditAccountsVw> auditList = criteria.setFirstResult(firstResult)
+			List<EmAuditAccountsVw> auditList = null;
+			if (all) {
+				auditList = criteria.list();
+				paginatedList.setTotal(auditList.size());
+			} else {
+				auditList = criteria.setFirstResult(firstResult)
 					.setMaxResults(objectsPerPage)
 					.list();
+			}
 			
 			paginatedList.setList(auditList);
-			if(paginatedList.getFullListSize() == 0) {
+			if(!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));
 			}
 
