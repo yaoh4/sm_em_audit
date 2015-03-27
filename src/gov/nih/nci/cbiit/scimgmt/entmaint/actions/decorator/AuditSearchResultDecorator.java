@@ -44,16 +44,19 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				note = accountVO.getAccountActivity().getNotes();
 			}
 		}
+		if(note == null){
+			note = "";
+		}
 		String actId = getActionId(actionStr);
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
-						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>" +
-						    "</div>";
+						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
 			}
 			if(actId.equalsIgnoreCase("3")){
 				actionStr = actionStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
 			}
+			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
@@ -202,10 +205,14 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		if(accountVO.getAccountActivity() != null){
 			note = accountVO.getAccountActivity().getNotes();
 		}
+		if(note == null){
+			note = "";
+		}
 		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
 			note = "<input type='hidden' id='hidden" + id +"' value='" + note+ "'/>";
 		}
+	
 		String completedNote = "<div id='" + id +"'>" + note + "</div>";
 		
 		return completedNote;

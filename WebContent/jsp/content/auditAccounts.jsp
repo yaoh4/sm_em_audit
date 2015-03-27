@@ -43,10 +43,14 @@
 				 				}, 
 				 				error: function(){}		
 				 			});
+				 			var items = result.split(";");
 				 			
-				 			if(result == 'fail'){
+				 			if(items[0] == 'validationError'){
+				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
+				 			}else if(items[0] == "fail"){
 				 				$( this ).dialog( "close" );
 				 				openErrorDialog();
+				 				
 				 			}else{
 				 				$('#'+cId).html("");
 				 				var actStr = "";
