@@ -17,6 +17,8 @@
 		sortAction = (String)request.getParameter("sortAction");
 	}
 %>
+<s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
+
 <display:table name="${session.searchList}" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
