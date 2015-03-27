@@ -37,11 +37,15 @@ public class PaginatedListImpl<T> implements PaginatedList {
 	 * Factory-style constructor. Initializes properties with a request
 	 * attributes
 	 */
-	public PaginatedListImpl(HttpServletRequest request) {
+	public PaginatedListImpl(HttpServletRequest request, int changePageSize) {
+		
+		if(changePageSize == 0 ){
+			changePageSize = DEFAULT_PAGE_SIZE;
+		}
 		sortCriterion = request.getParameter("sort");
 		sortDirection = "desc".equals(request.getParameter("dir")) ? SortOrderEnum.DESCENDING
 				: SortOrderEnum.ASCENDING;
-		pageSize = DEFAULT_PAGE_SIZE;
+		pageSize = changePageSize;
 		String page = request.getParameter("page");
 		index = page == null ? 0 : Integer.parseInt(page) - 1;
 		String size = request.getParameter("size");
