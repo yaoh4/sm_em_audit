@@ -46,8 +46,11 @@ public class Impac2PortfolioAction extends BaseAction{
 		log.debug("Begin : searchPortfolioAccounts");
 		String forward = SUCCESS;  
 
-		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request);
+		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);
 		
+		if(searchVO == null){
+			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
+		}
 		if (portfolioAccounts.getFullListSize() != 0 && searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
 			discrepancyAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
 		} 
@@ -122,6 +125,7 @@ public class Impac2PortfolioAction extends BaseAction{
     	searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
     	session.put(ApplicationConstants.SEARCHVO, searchVO);	
   		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
+  		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
   		
     	//No default search for Super User
     	if(isSuperUser()){
