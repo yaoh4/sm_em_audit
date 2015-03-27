@@ -182,6 +182,7 @@ WebContent/jsp/error/errorDetails.jsp -text
 WebContent/jsp/error/errorMessages.jsp -text
 WebContent/jsp/footer/footer.jsp -text
 WebContent/jsp/header/header.jsp -text
+WebContent/jsp/helper/changePageSizeHelper.jsp -text
 WebContent/jsp/helper/submitActionContent.jsp -text
 WebContent/jsp/helper/submitNotesContent.jsp -text
 WebContent/jsp/layout/baselayout.jsp -text
