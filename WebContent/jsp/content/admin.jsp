@@ -9,9 +9,22 @@
 <script type="text/javascript">
 function sendAuditNotice()
  {
+	var result = "";
 	if (document.getElementById('sendAuditNotice').value == "true") {
 	 email = document.getElementById('icEmails').value;
-     location.href = "mailto:"+email+"?subject=Audit Open Notice";
+	 $.ajax({
+			url: "composeEmailAction.action",
+			type: "post",
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+			}, 
+			error: function(){}		
+		});
+	 var elements = result.split("|");
+	 //var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1]; 
+	 sMailto = "mailto:"+email+"?subject=" + elements[0];
+     location.href = sMailto;
 	}
 
  }
@@ -43,7 +56,7 @@ function validateForm() {
   
  
  
-  <form class="form-horizontal" role="form" action="adminHome.action" namespace="/admin">
+  <form class="form-horizontal" role="form" action="adminHome.action" namespace="/admin" method="post">
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />

@@ -1,0 +1,39 @@
+Dear IC Coordinators, %0D%0A%0D%0A
+The eRA has announced an annual audit of IMPAC II accounts that requires review and recertification of all accounts in your purview. As a result, 
+the following artifacts must be submitted to the eRA Helpdesk by a Primary IC Coordinator: %0D%0A
+	%0D%0A%09 - A listing of all current user accounts for NCI, including the roles assigned to those accounts. 
+	%0D%0A%09 - A listing of new accounts that have been created since $auditStartDate.
+	%0D%0A%09 - A listing of the accounts that were deleted or terminated in the prior year since $auditStartDate.
+	%0D%0A%09 - A listing of all accounts that have been inactive for over 130 days. 
+ 	
+%0D%0A%0D%0A
+As an IC Coordinator for your division or organization, please review and validate accounts in your respective division or organization by logging into 
+the NCI Enterprise Maintenance IMPAC II and I2E Audit Tracking System $ApplicationURL TBD. Once you have successfully logged into this system, 
+you will find the following tabs: %0D%0A%0D%0A
+
+%09 1.%20ACTIVE ACCOUNTS - By default, you will see a list of all active IMPAC II user accounts for your organization, including the roles assigned to 
+those accounts. Please review by clicking the Complete button corresponding to each account and specifying your selection that will ensure that the 
+listed IMPAC II accounts and associated roles are required to conduct the specific business function associated with eRA/IMPAC II. 
+To assist you with the review, we have added discrepancy flags as the first column in the search results. %0D%0A%0D%0A
+
+%09 2.%20	NEW ACCOUNTS - By default, you will see a list of IMPAC II user accounts for your organization created during the audit period, 
+including the roles assigned to those accounts. Please review by clicking the Complete button corresponding to each account and specifying 
+your selection to validate that listed new IMPAC II accounts and associated roles that have been created since $auditStartDate. %0D%0A%0D%0A 
+
+%09 3.%20	DELETED ACCOUNTS - By default, you will see a list of all IMPAC II user accounts for your organization that were 
+deleted during the audit period. Please review by clicking the Complete button corresponding to each account and specifying your 
+selection to validate that the extraneous IMPAC II accounts have been deleted or terminated in the prior year since $auditStartDate. %0D%0A%0D%0A
+
+%09 4.%20	INACTIVE >130 DAYS ACCOUNTS - By default, you will see a list of IMPAC II user accounts for your organization that have been inactive 
+for more than 130 days. Please review by clicking the Complete button corresponding to each account and specifying your 
+selection that will ensure that the listed IMPAC II accounts that have been inactive for more than 130 days are required to be active. 
+Please note that it is essential that you indicate the accounts that you need to retain by choosing Needed option from the Action drop-down. 
+Please delete all of the unneeded accounts and choose Not Needed option from the Action drop-down.%0D%0A%0D%0A
+
+Note that if a Flag Column is empty it means that our analysis did not identify any issues with an account.%0D%0A%0D%0A
+
+Please delete all extraneous accounts and roles in IMPAC II. In addition, make sure that you take appropriate actions to maintain 
+corresponding I2e user%80s accounts. The deadline to complete your account is $auditDeadLine. %0D%0A%0D%0A
+
+Once all of the IC Coordinators are finished their review, I will submit the NCI certification to the eRA Help desk. Thank you for 
+your understanding and help in completing this audit.  Please contact me if you have any questions or concerns regarding this process.
