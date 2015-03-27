@@ -55,6 +55,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected List<DropDownOption> organizationList = new ArrayList<DropDownOption>();
 	
 	protected InputStream inputStream;
+	protected int changePageSize;
 	
 	@Autowired
 	protected LookupService lookupService;	
@@ -292,16 +293,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		return entMaintProperties.getProperty(key);
 	}	
 	
-	/**
-	 * Gets PageSize from app properties
-	 * 
-	 * @return
-	 */
-	public String getPageSize(){
-		return getPropertyValue(ApplicationConstants.PAGE_SIZE);
-	}
-
-
 	public String getTableAction() {
 		return tableAction;
 	}
@@ -311,6 +302,22 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		this.tableAction = tableAction;
 	}
 	
+	/**
+	 * @return the changePageSize
+	 */
+	public int getChangePageSize() {
+		return changePageSize;
+	}
+
+
+	/**
+	 * @param changePageSize the changePageSize to set
+	 */
+	public void setChangePageSize(int changePageSize) {
+		this.changePageSize = changePageSize;
+	}
+
+
 	/**
 	 * Returns true if logged in user is superuser.
 	 * @return
