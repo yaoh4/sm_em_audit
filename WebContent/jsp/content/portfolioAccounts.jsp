@@ -164,7 +164,7 @@
 			<h3 class="panel-title">Search Results</h3>
 		</div>
 		<div align="center" style="overflow: auto;">
-			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{tableAction}"/>
+			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{formAction}"/>
 		</div>
 
 	</div>
