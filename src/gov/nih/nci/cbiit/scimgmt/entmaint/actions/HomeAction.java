@@ -41,10 +41,7 @@ public class HomeAction extends BaseAction {
         
         //Store this in the session
         setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);             
-
-        // Temporary putting here so roles will load into cache.
-        lookupService.getList(ApplicationConstants.ERA_ROLES_LIST);
-        
+  
         return forward;
 	}
 	

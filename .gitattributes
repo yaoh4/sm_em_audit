@@ -315,6 +315,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DBResult.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DisplayObject.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DisplayReader.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DropDownOption.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EmAppInitializer.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EmAppUtil.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EntMaintProperties.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/LdapUtil.java -text
