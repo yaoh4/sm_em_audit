@@ -346,6 +346,24 @@ public class Impac2AuditDAO {
 	}
 	
 	/**
+	 * Get audit account vw using id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public EmAuditAccountsVw getAuditAccountById(Long id) {
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+			crit.add(Restrictions.eq("id", id));
+			EmAuditAccountsVw result = (EmAuditAccountsVw) crit.uniqueResult();
+			return result;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+	
+	/**
 	 * Adding user specific search criteria
 	 * 
 	 * @param criteria

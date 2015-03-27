@@ -133,6 +133,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return impac2AuditDAO.unsubmit(category, eaaId);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#getAuditAccountById(java.lang.Long)
+	 */
+	public EmAuditAccountsVw getAuditAccountById(Long id) {
+		return impac2AuditDAO.getAuditAccountById(id);
+	}
+	
 	/**
 	 * Convert to AuditAccountVO object
 	 * 

@@ -1,12 +1,12 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -55,5 +55,12 @@ public interface Impac2AuditService {
      * @return DBResult
      */
     public DBResult unsubmit(String category, Long eaaId);
+    
+    /**
+     * Get EmAuditAccountsVw record using id (EAA_ID)
+     * @param id
+     * @return
+     */
+    public EmAuditAccountsVw getAuditAccountById(Long id);
     
 }
