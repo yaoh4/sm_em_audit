@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.helper.action;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -105,5 +106,18 @@ public class AuditSearchActionHelper {
 			 break;
 	}
 		return displayColumn;
+	}
+	
+	/**
+	 * This method is setting Up ChangePageSize DropDown List.
+	 * @return 
+	 */
+	public void setUpChangePageSizeDropDownList(String changePageSizeProperty, Map<String, Object> session){
+		List<DropDownOption> pageSizeList = new ArrayList<DropDownOption>();
+		for(String pageSize: changePageSizeProperty.split(",")){
+			DropDownOption pageSizeListOption = new DropDownOption(pageSize, pageSize);	
+			pageSizeList.add(pageSizeListOption);
+		}		
+		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);
 	}
 }
