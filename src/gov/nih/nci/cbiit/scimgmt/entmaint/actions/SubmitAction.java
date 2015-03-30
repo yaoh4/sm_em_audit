@@ -42,7 +42,7 @@ public class SubmitAction extends BaseAction {
 					&& actId.equalsIgnoreCase(ApplicationConstants.NOTNEED)){
 				String errorMessage = entMaintProperties.getPropertyValue("inactive.validation.error");
 				inputStream = new StringBufferInputStream("validationError;" + errorMessage);
-			}else if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE) && account.getInactiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_NO)
+			}else if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE) && ApplicationConstants.FLAG_NO.equalsIgnoreCase(account.getInactiveUnsubmittedFlag())
 					&& account.getInactiveAction() != null &&  account.getInactiveAction().getId() != null && account.getInactiveAction().getId() == ApplicationConstants.NOTNEEDINT
 					&& actId.equalsIgnoreCase(ApplicationConstants.VERIFIEDLEAVE)){
 				String errorMessage = entMaintProperties.getPropertyValue("active.validation.error");
