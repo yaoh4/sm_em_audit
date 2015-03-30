@@ -5,7 +5,9 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -88,6 +90,11 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	}
 	
 	
+	/**
+	 * Get the full name of the account holder represented by this row.
+	 * 
+	 * @return String the full name of the account holder
+	 */
     public String getFullName() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getFullName();
@@ -98,6 +105,12 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return "";
     }
 	
+    
+    /**
+	 * get the organization id of the account holder represented by this row
+	 * 
+	 * @return String the organization id
+	 */
     public String getOrgId() {
 		
 		String orgId = "";
@@ -110,6 +123,15 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return orgId;
     }
 	
+    
+    /**
+	 * get the application role of the account role for display on the current row.
+	 * In the excel spreadsheet, each role is displayed in a separate row, hence 
+	 * the accountRoles array is populated such that it has only one element with
+	 * the value of the role for that row.
+	 * 
+	 * String the role to be displayed in this row
+	 */
 	public String getApplicationRole() {
 		
 		String role = "";
@@ -123,6 +145,11 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	}
 	
 	
+	/**
+	 * Get the date on which the role being displayed in this row was created.
+	 * 
+	 * @return String the date on which the role was created
+	 */
 	public String getRoleCreateOn() {
 		String createdOn = "";
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -135,6 +162,11 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	}
 	
 	
+	/**
+	 * Get the notes information entered for the action performed on this account.
+	 * 
+	 * @return the notes info.
+	 */
 	public String getActionNote(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String note = "";
@@ -146,6 +178,36 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		}
 		
 		return note;
+	}
+	
+	
+	/**
+	 * Get the last updated date and the full name of the IC cordinator who made
+	 * the update
+	 * 
+	 * @return String last name and update date
+	 */
+	public String getAccountSubmitted(){
+		
+		StringBuffer lastUpdated = new StringBuffer();
+		
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		
+		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+		if(eaaVw != null){		
+			Date submittedDate = eaaVw.getSubmittedDate();
+			if(submittedDate != null){
+				String dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
+				lastUpdated.append("Submitted on ").append(dateStr);
+				String submittedBy = accountVO.getAccountActivity().getSubmittedByFullName();	
+				if(submittedBy == null) {
+					submittedBy = accountVO.getId().toString();
+				}
+				lastUpdated.append(" by ").append(submittedBy);				
+			}
+		}
+							
+		return lastUpdated.toString();
 	}
 
 }

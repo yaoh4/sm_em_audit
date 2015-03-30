@@ -18,18 +18,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * Decorator to display data in Excel spreadhsheet from Portfolio tab.
+ * 
  * @author menons2
  *
  */
 public class PortfolioSearchResultExportDecorator extends
 		PortfolioSearchResultDecorator {
-
-	/**
-	 * 
-	 */
-	public PortfolioSearchResultExportDecorator() {
-		// TODO Auto-generated constructor stub
-	}
 
 	
 	/**
@@ -92,6 +87,11 @@ public class PortfolioSearchResultExportDecorator extends
 	}
 	
 	
+	/**
+	 * Get the full name of the account holder represented by this row.
+	 * 
+	 * @return String the full name of the account holder
+	 */
 	public String getFullName() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getNedLastName() + ", " + accountVO.getNedFirstName();
@@ -103,13 +103,19 @@ public class PortfolioSearchResultExportDecorator extends
     }
 	
 	
-	public String getLastUpdated(){
+	/**
+	 * Get the last updated date and the full name of the IC cordinator who made
+	 * the update
+	 * 
+	 * @return String last name and update date
+	 */
+	public String getLastUpdated() {
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy hh:mm a");
 		StringBuffer lastUpdated = new StringBuffer();
 		
 		String id = portfolioVO.getImpaciiUserId();
-		if(portfolioVO.getNotesSubmittedDate() !=null) {
+		if(portfolioVO.getNotesSubmittedDate() != null) {
 			lastUpdated.append("Submitted on ").append(dateFormat.format(portfolioVO.getNotesSubmittedDate()));
 			if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName())) {
 				lastUpdated.append(" by ").append(portfolioVO.getNotesSubmittedByFullName());
@@ -121,6 +127,11 @@ public class PortfolioSearchResultExportDecorator extends
 	}
 	
 	
+	/**
+	 * get the organization id of the account holder represented by this row
+	 * 
+	 * @return String the organization id
+	 */
 	public String getOrgId() {
 		
 		String orgId = "";
@@ -133,6 +144,15 @@ public class PortfolioSearchResultExportDecorator extends
 		return orgId;
     }
 	
+	
+	/**
+	 * get the application role of the account role for display on the current row.
+	 * In the excel spreadsheet, each role is displayed in a separate row, hence 
+	 * the accountRoles array is populated such that it has only one element with
+	 * the value of the role for that row.
+	 * 
+	 * String the role to be displayed in this row
+	 */
 	public String getApplicationRole() {
 		
 		String role = "";
@@ -145,7 +165,11 @@ public class PortfolioSearchResultExportDecorator extends
 		return role;
 	}
 	
-	
+	/**
+	 * Get the date on which the role being displayed in this row was created.
+	 * 
+	 * @return String the date on which the role was created
+	 */
 	public String getRoleCreateOn() {
 		String createdOn = "";
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -158,6 +182,11 @@ public class PortfolioSearchResultExportDecorator extends
 	}
 	
 	
+	/**
+	 * Get the notes information entered for this account.
+	 * 
+	 * @return the notes info.
+	 */
 	public String getNotes(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		
