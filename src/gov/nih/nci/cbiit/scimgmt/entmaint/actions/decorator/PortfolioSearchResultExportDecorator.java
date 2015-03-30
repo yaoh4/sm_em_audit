@@ -11,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -100,6 +101,24 @@ public class PortfolioSearchResultExportDecorator extends
 		
 		return "";
     }
+	
+	
+	public String getLastUpdated(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy hh:mm a");
+		StringBuffer lastUpdated = new StringBuffer();
+		
+		String id = portfolioVO.getImpaciiUserId();
+		if(portfolioVO.getNotesSubmittedDate() !=null) {
+			lastUpdated.append("Submitted on ").append(dateFormat.format(portfolioVO.getNotesSubmittedDate()));
+			if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName())) {
+				lastUpdated.append(" by ").append(portfolioVO.getNotesSubmittedByFullName());
+			} else {
+				lastUpdated.append(" by ").append(id);
+			}
+		}			
+		return lastUpdated.toString();
+	}
 	
 	
 	public String getOrgId() {
