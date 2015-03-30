@@ -7,26 +7,31 @@
 <s:include value="/jsp/content/manageAccounts.jsp" />
 
 <script type="text/javascript">
-function sendAuditNotice()
+function sendNotice()
  {
 	var result = "";
-	if (document.getElementById('sendAuditNotice').value == "true") {
-	 email = document.getElementById('icEmails').value;
-	 $.ajax({
-			url: "composeEmailAction.action",
-			type: "post",
-			async:   false,
-			success: function(msg){
-				result = $.trim(msg);
-			}, 
-			error: function(){}		
-		});
-	 var elements = result.split("|");
-	 //var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1]; 
-	 sMailto = "mailto:"+email+"?subject=" + elements[0];
-     location.href = sMailto;
+	$('#sendAuditNotice').val(true);
+	if ($('#sendAuditNotice').val() == "true") {
+		 email = document.getElementById('icEmails').value;
+		
+		 $.ajax({
+				url: "composeEmailAction.action",
+				type: "post",
+				async:   false,
+				success: function(msg){
+					result = $.trim(msg);
+				}, 
+				error: function(){}		
+			});
+		 var elements = result.split("|");
+		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 512); 
+		
+	     var iframeHack;
+	     iframeHack = document.createElement("IFRAME");
+	     iframeHack.src = sMailto;
+	     document.body.appendChild(iframeHack);
+	     document.body.removeChild(iframeHack);
 	}
-
  }
  
 function validateFormAlert()
@@ -46,7 +51,7 @@ function validateForm() {
 </script>
    
 
-<body onload="sendAuditNotice()">
+<body onload="">
 </body>
 
 
@@ -125,7 +130,7 @@ function validateForm() {
       	
       	
   	</div>
-    
+    <input type="button" value="Test" onclick="sendNotice();"/>
 </form>
 
 <!--  tab-content -->
