@@ -33,7 +33,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	}
 	
 	public String getAccountCreatedDate(){
-		String dateString = null;
+		String dateString = "";
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		Date createDate = portfolioVO.getCreatedDate();
 		if(createDate != null) {
