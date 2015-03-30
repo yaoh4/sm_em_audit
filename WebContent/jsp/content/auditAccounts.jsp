@@ -223,4 +223,3 @@
 </div>  
 <s:hidden id="categoryId" name="category"/> 
 <s:hidden id="roleId" name="role"/>
-<br/><br/><br/>
