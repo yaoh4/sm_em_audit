@@ -56,6 +56,11 @@
 			<result name="success" type="redirect-action">home</result>
 		</action>
 		
+		<action name="sendErrorMessage"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.ErrorMessageAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
 	</package>
 	
 	<include file="impac2.xml"/>

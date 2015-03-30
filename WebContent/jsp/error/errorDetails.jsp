@@ -7,26 +7,19 @@
 <br>
   <fieldset style="width: 925px">
     <legend>Application Error Notification</legend>
-    <s:form action="sendErrorMessage">
+    <s:form action="sendErrorMessage" namespace="/">
       <s:hidden name="errorDetails" value="%{exceptionStack}"/>
       <div>
-        <br></br>
-         An error occurred in the Enterprise Maintenance system.
-        <br></br>
+         An error occurred in the Enterprise Maintenance Audit Module system. 
+        <br><br>
 
-        <br></br>
+        <strong> Please report the error with  details of the action you took when the error occurred </strong>
 
-        <strong> Please report unusual error with  details of the action you took when the error occured </strong>
-
-        <br></br><br></br>
+        <br><br>
          Notify Application Support of the error by clicking on the &quot;Send
         Email&quot; button below
-        <br></br>
-
-        <br></br>
       </div>
-      <br></br>
-      <br></br>
+      <br><br>
       <table width="701" border="0" cellspacing="0">
         <tr valign="middle">
           <td>&nbsp;</td>
@@ -54,9 +47,6 @@
               <strong>Description</strong>
             </font>
           </td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
         </tr>
         <tr>
           <td align="center">
