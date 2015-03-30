@@ -40,13 +40,6 @@
 			<result name="export" type="dispatcher">/jsp/content/portfolioSearchResultExport.jsp</result>
 		</action>
 		
-		<action name="getPortfolioAccountsList" method="getPortfolioAccountsList"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction">
-			<result name="success" type="tiles">impac2.portfolio.accts.page</result>
-			<result name="input" type="tiles">impac2.portfolio.accts.page</result>
-			<result name="export" type="dispatcher">/jsp/content/portfolioSearchResultExport.jsp</result>
-		</action>
-		
 		<action name="saveNotes" method="saveNotes"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction" />
 			
@@ -67,13 +60,6 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="primary" type="tiles">impac2.audit.active.accts.page</result>
 			<result name="regular" type="redirect-action">searchActiveAuditAccounts</result>
-		</action>
-		
-		<action name="getAuditAccounts" method="getAccounts"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
-			<result name="success" type="tiles">impac2.audit.active.accts.page</result>
-			<result name="input" type="tiles">impac2.audit.active.accts.page</result>
-			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
 		</action>
 		
 		<action name="searchDeletedAuditAccounts" method="searchDeletedAccounts"

@@ -19,7 +19,7 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 
-<display:table name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
+<display:table name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" excludedParams="act size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>

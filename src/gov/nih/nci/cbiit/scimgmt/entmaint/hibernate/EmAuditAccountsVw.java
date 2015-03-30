@@ -57,7 +57,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String inactiveUnsubmittedFlag;
 	private String inactiveSubmittedBy;
 	private Date inactiveSubmittedDate;
-
+	private List<String> accountDiscrepancies = new ArrayList<String>(0);
+	
 	public EmAuditAccountsVw() {
 	}
 
@@ -79,7 +80,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			AppLookupT deletedAction, String deletedNotes, String deletedUnsubmittedFlag, String deletedSubmittedBy,
 			Date deletedSubmittedDate, AppLookupT inactiveAction, String inactiveNotes, String inactiveUnsubmittedFlag,
 			String inactiveSubmittedBy, Date inactiveSubmittedDate, List accountRoles, List accountActivities,
-			EmAuditAccountActivityVw accountActivity) {
+			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
@@ -126,6 +127,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
 		this.inactiveSubmittedBy = inactiveSubmittedBy;
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
+		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
 	@Override
@@ -688,6 +690,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setInactiveSubmittedDate(Date inactiveSubmittedDate) {
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
+	}
+
+	public List<String> getAccountDiscrepancies() {
+		return accountDiscrepancies;
+	}
+
+	public void setAccountDiscrepancies(List<String> accountDiscrepancies) {
+		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
 }

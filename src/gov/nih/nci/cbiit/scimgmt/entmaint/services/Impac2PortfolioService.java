@@ -22,9 +22,11 @@ public interface Impac2PortfolioService {
     
     /**
      * Data retrieval from view, EmPortfolioVw
+     * @param paginatedList
      * @param searchVO
-     * @return list of PortfolioAccountVO
+     * @param all
+     * @return PaginatedListImpl<PortfolioAccountVO>
      */
-    public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO);
+    public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
 }

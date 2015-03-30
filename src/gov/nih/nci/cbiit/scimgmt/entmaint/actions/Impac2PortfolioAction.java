@@ -30,8 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Impac2PortfolioAction extends BaseAction{
 	
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
-	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;
-	private List<PortfolioAccountVO> discrepancyAccounts;	
+	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;	
 	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();	
 	
 	@Autowired
@@ -51,20 +50,11 @@ public class Impac2PortfolioAction extends BaseAction{
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
-		if (portfolioAccounts.getFullListSize() != 0 && searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
-			discrepancyAccounts = (List<PortfolioAccountVO>) session.get(ApplicationConstants.SEARCHLIST);
-		} 
-		else {			
-			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO);
-			
-			if (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
-				
-				discrepancyAccounts = portfolioAccounts.getList();
-				session.put(ApplicationConstants.SEARCHLIST, discrepancyAccounts);
-			} 
-			else {
-				session.put(ApplicationConstants.SEARCHLIST, portfolioAccounts);
-			}
+		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
+			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
+		}
+		else {
+			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, false);			
 		}
 
 		session.put(ApplicationConstants.SEARCHVO, searchVO);		
@@ -244,11 +234,4 @@ public class Impac2PortfolioAction extends BaseAction{
 		this.categoriesList = categoriesList;
 	}
 
-	public List<PortfolioAccountVO> getDiscrepancyAccounts() {
-		return discrepancyAccounts;
-	}
-
-	public void setDiscrepancyAccounts(List<PortfolioAccountVO> discrepancyAccounts) {
-		this.discrepancyAccounts = discrepancyAccounts;
-	}
 }

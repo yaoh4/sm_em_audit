@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -18,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -50,7 +52,7 @@ public class Impac2PortfolioDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	public PaginatedListImpl<EmPortfolioVw> searchImpac2Accounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO) {
+	public PaginatedListImpl<EmPortfolioVw> searchImpac2Accounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II accounts in portfolio view: " + searchVO);
 
 		try {
@@ -60,7 +62,12 @@ public class Impac2PortfolioDAO {
 			String sortOrder = paginatedList.getSqlSortDirection();
 			
 			Criteria criteria = null;
-			criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
+				criteria = sessionFactory.getCurrentSession().createCriteria(EmDiscrepancyAccountsVw.class);
+			}
+			else {
+				criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+			}
 
 			// Sort order
 			if (!StringUtils.isBlank(sortOrderCriterion)) {
@@ -89,18 +96,33 @@ public class Impac2PortfolioDAO {
 			addSearchCriteria(criteria, searchVO);
 
 			List<EmPortfolioVw> portfolioList = null;
-			if(searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
-				portfolioList = criteria.list();
-			}
-			else {
-				portfolioList = criteria.setFirstResult(firstResult)
-						.setMaxResults(objectsPerPage)
-						.list();
-			}
+			List<EmDiscrepancyAccountsVw> discrepancyList = null;
 			
-			paginatedList.setList(portfolioList);
-			if (paginatedList.getFullListSize() == 0
-					&& searchVO.getCategory() != ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
+			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
+				if(all) {
+					discrepancyList = criteria.list();
+					paginatedList.setTotal(discrepancyList.size());
+				}
+				else {
+					discrepancyList = criteria.setFirstResult(firstResult)
+							.setMaxResults(objectsPerPage)
+							.list();
+				}			
+				paginatedList.setList(discrepancyList);			}
+			else {
+				if(all) {
+					portfolioList = criteria.list();
+					paginatedList.setTotal(portfolioList.size());
+				}
+				else {
+					portfolioList = criteria.setFirstResult(firstResult)
+							.setMaxResults(objectsPerPage)
+							.list();
+				}			
+				paginatedList.setList(portfolioList);
+			}
+
+			if (!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));
 			}
 
@@ -184,7 +206,7 @@ public class Impac2PortfolioDAO {
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DELETED) {
 			addDeletedCriteria(criteria, searchVO);
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
-			addActiveCriteria(criteria, searchVO);
+			addDiscrepancyCriteria(criteria, searchVO);
 		}
 
 		return criteria;
@@ -240,6 +262,23 @@ public class Impac2PortfolioDAO {
 			criteria.add(Restrictions.le("deletedDate", new java.sql.Date(searchVO.getDateRangeEndDate().getTime())));
 		}
 
+		return criteria;
+	}
+	
+	/**
+	 * Add criteria specific to accounts with discrepancy
+	 * 
+	 * @param criteria
+	 * @param searchVO
+	 * @return
+	 */
+	private Criteria addDiscrepancyCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+		Disjunction disc = Restrictions.disjunction();
+        disc.add(Restrictions.eq("sodFlag", true));
+        disc.add(Restrictions.eq("icDiffFlag", true));
+        disc.add(Restrictions.eq("nedInactiveFlag", true));
+        disc.add(Restrictions.eq("lastNameDiffFlag", true));
+        criteria.add(disc);
 		return criteria;
 	}
 	
