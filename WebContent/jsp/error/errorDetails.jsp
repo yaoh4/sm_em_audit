@@ -37,10 +37,6 @@
             <s:submit value="Send Email"/>
           </td>
         </tr>
-        <tr valign="middle">
-          <td>&nbsp;</td>
-        </tr>
-
         <tr>
           <td align="center">
             <font size="2">
