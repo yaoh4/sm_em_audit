@@ -33,9 +33,14 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	}
 	
 	public String getAccountCreatedDate(){
+		String dateString = null;
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		Date createDate = portfolioVO.getCreatedDate();
-		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+		if(createDate != null) {
+			dateString = new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+		}
+		
+		return dateString;
 	}
 	
 	public String getApplicationRole(){
