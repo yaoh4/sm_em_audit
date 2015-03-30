@@ -3,6 +3,8 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
+import java.util.Date;
+
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 /**
@@ -47,6 +49,14 @@ public interface AdminService {
 	 * @return EmAuditsVO 
 	 */
 	public EmAuditsVO retrieveCurrentAuditVO();
+	
+	
+	/**
+	 * Retrieves the start date of the current Audit.
+	 * 
+	 * @return Date the audit start date.
+	 */
+	public Date retrieveAuditStartDate();
 	
 	
 	/**

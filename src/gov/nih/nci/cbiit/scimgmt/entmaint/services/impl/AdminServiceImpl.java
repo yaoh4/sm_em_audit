@@ -3,6 +3,7 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -118,6 +119,24 @@ public class AdminServiceImpl implements AdminService {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
 		return setupAuditVO(emAuditsVw);
+	}
+	
+	/**
+	 * Retrieves the start date of the current Audit.
+	 * 
+	 * @return Date the audit start date.
+	 */
+	public Date retrieveAuditStartDate() {
+		
+		Date auditStartDate = null;
+		
+		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
+		
+		if(emAuditsVw != null) {
+			auditStartDate = emAuditsVw.getStartDate();
+		}
+		
+		return auditStartDate;
 	}
 	
 	
