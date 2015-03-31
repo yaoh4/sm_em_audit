@@ -80,12 +80,11 @@ public class AdminAction extends BaseAction {
     	if(emAuditsVO.getImpaciiToDate().after(new Date())) {
     		this.addActionError(getText("error.daterange.enddate.future"));
     	}
-    	
-    	
+    	   	
     	//Audit End Date should be after Audit Start Date
     	if(emAuditsVO.getImpaciiFromDate() != null && emAuditsVO.getImpaciiToDate() != null
     			&& emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
-    		this.addActionError(getText("error.daterange.outofrange"));
+    		this.addActionError(getText("error.daterange.outofsequence"));
     	}
     	
     	if(this.hasActionErrors()) {
