@@ -120,6 +120,12 @@
 				<param name="inputName">inputStream</param>   
 			</result>
 		</action> 
-
+		<action name="clearAllFields" method="clearAll"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
+			<result name="active" type="tiles">impac2.audit.active.accts.page</result>
+			<result name="new" type="tiles">impac2.audit.new.accts.page</result>
+			<result name="delete" type="tiles">impac2.audit.del.accts.page</result>
+			<result name="inactive" type="tiles">impac2.audit.inactive.accts.page</result>
+			</action>
 	</package>
 </struts>

@@ -128,13 +128,17 @@
 		$('#unsubmitCellId').val(cellId);
 		$("#unsubmitAction").dialog( "open" );
 	}
+	function clearFields(){
+		$('#auditForm').attr("action", "clearAllFields");
+		$('#auditForm').submit();
+	}
 
 </script>
 
 <div class="tab-content">
 
 <div class="tab-pane fade active in" id="par1">
-  <s:form action="%{formAction}" cssClass="form-horizontal">
+  <s:form id="auditForm" action="%{formAction}" cssClass="form-horizontal">
   <fieldset style="padding: 15px 0;">
   <legend style="background-color: #fff; margin: 0 15px; padding: 0 10px; color: #333; border-radius:4px;">Search Criteria</legend>
     <div class="form-group">
@@ -178,10 +182,12 @@
     <div class="form-group">        
       <div class="col-sm-offset-3 col-sm-9">
        <s:submit value="Search" cssClass="btn btn-primary" onclick="openLoading();"/>
-	   <input type="button" value="Clear"  class="btn btn-default" onclick=""/>
+	   <input type="button" value="Clear"  class="btn btn-default" onclick="clearFields();"/>
       </div>
     </div>
     </fieldset>
+    <s:hidden id="categoryId" name="category"/> 
+	<s:hidden id="roleId" name="role"/>
   </s:form>
 </div>
 <br/>
@@ -221,5 +227,4 @@
 	<input type="hidden" id="unsubmitName"/>
 	<input type="hidden" id="unsubmitCellId"/>
 </div>  
-<s:hidden id="categoryId" name="category"/> 
-<s:hidden id="roleId" name="role"/>
+

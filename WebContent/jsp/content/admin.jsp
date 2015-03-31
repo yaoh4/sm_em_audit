@@ -24,7 +24,7 @@ function sendNotice()
 				error: function(){}		
 			});
 		 var elements = result.split("|");
-		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 512); 
+		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 1799); 
 		
 	     var iframeHack;
 	     iframeHack = document.createElement("IFRAME");

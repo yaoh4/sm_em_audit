@@ -38,13 +38,60 @@ public class Impac2AuditAction extends BaseAction {
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
+	
+	public String clearAll() {
+		String forward = "";
+		if(category == null){
+			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);	
+		}
+		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
+			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
+			this.setFormAction("searchActiveAuditAccounts");
+			forward = "active";
+		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(category)){
+			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
+			this.setFormAction("searchNewAuditAccounts");
+			forward = "new";
+		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(category)){
+			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
+			this.setFormAction("searchDeletedAuditAccounts");
+			forward = "delete";
+		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(category)){
+			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
+			this.setFormAction("searchInactiveAuditAccounts");
+			forward = "inactive";
+		}
+		session.put(ApplicationConstants.ACTIONLIST, actionList);
+		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+		displayColumn = colMap.get(category);
+		this.setFormAction(this.formAction);
+		actionWithoutAllList = getActionListWithAll();
+		this.setCategory(category);
+		this.setRole(getRole(nciUser));
+		searchVO.setAct("");
+		searchVO.setUserFirstname("");
+		searchVO.setUserLastname("");
+		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath())){    	
+    		boolean superUser = this.isSuperUser();
+    		if(superUser){
+    			searchVO.setOrganization("All");
+    		}else{
+    			searchVO.setOrganization(nciUser.getOrgPath());
+    		}
+    	}
+		
+		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		showResult = false;
+		
+		return forward;
+	}
 	/**
 	 * this method is performing search for deleted audit account
 	 * @return String
 	 */
 	public String searchDeletedAccounts() {
 		String forward = SUCCESS;
-
+		
 		setUpDefaultSearch(); //check if default search is needed
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
