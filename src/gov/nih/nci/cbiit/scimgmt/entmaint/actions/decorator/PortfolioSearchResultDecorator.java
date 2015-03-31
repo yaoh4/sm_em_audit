@@ -24,25 +24,37 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	@Autowired
 	private LookupService lookupService;
 	
+	/**
+	 * Get the submitNotes button.
+	 * @return submitNotes button UI element.
+	 */
 	public String getAction(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String actionStr = "";
 		String name = portfolioVO.getNedFirstName() + " " + portfolioVO.getNedLastName();
-		String id = ""+portfolioVO.getImpaciiUserId();
-		String actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
+		String id = portfolioVO.getImpaciiUserId();
+		actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
 		return actionStr;
 	}
 	
+	/**
+	 *  Get the date on which this account was created
+	 * @return accountCreatedDate in mm/dd/yyyy format.
+	 */
 	public String getAccountCreatedDate(){
 		String dateString = "";
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		Date createDate = portfolioVO.getCreatedDate();
 		if(createDate != null) {
 			dateString = new SimpleDateFormat("MM/dd/yyyy").format(createDate);
-		}
-		
+		}		
 		return dateString;
 	}
 	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
 	public String getApplicationRole(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
@@ -58,6 +70,10 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return role;
 	}
 	
+	/**
+	 * Get the organization ID for this row.
+	 * @return orgId
+	 */
 	public String getOrgId(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
@@ -72,6 +88,10 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return orgId;
 	}
 	
+	/**
+	 * Get the date on which this role was created.
+	 * @return role created date in mm/dd/yyyy format.
+	 */
 	public String getRoleCreateOn(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
@@ -86,6 +106,10 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return createDate;
 	}
 	
+	/**
+	 * Get the full name.
+	 * @return fullName
+	 */
 	public String getFullName() {
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String fullName = "";
@@ -100,6 +124,10 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return fullName;
 	}
 	
+	/**
+	 * Get Submitted by user and Submitted on date.
+	 * @return string representing submitted by + submitted on date.
+	 */
 	public String getLastUpdated(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
@@ -114,6 +142,10 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return lastUpdated;
 	}
 	
+	/**
+	 * Get notes submitted for this account.
+	 * @return notes
+	 */
 	public String getNotes(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String notes = "";
@@ -127,9 +159,12 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return notes;
 	}
 	
+	/**
+	 * Get discrepancy for this account.
+	 * @return discrepancy text with info icon.
+	 */
 	public String getDiscrepancy(){
-		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
-				.getServletContext());
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
 		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
 		acbf.autowireBean(this);
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -137,8 +172,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		String id = portfolioVO.getImpaciiUserId();
 		StringBuffer sbu = new StringBuffer();
 		for(String dis : discrepancies){
-			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
-					dis);
+			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 			if(disVw.getShortDescrip() != null){
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
