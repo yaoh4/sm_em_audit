@@ -204,7 +204,6 @@ public class Impac2AuditAction extends BaseAction {
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
 		this.setFormAction("searchInactiveAuditAccounts");
-		//this.setTableAction("getAuditAccounts");
 		actionWithoutAllList = getActionListWithAll();
 		this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
 		this.setRole(getRole(nciUser));
