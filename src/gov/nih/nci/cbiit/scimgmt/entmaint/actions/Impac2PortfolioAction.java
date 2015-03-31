@@ -48,7 +48,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);
 		
 		if(searchVO == null){
-			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
+			searchVO = (AuditSearchVO) session.get(ApplicationConstants.PORTFOLIO_SEARCHVO);
 		}
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
@@ -57,7 +57,7 @@ public class Impac2PortfolioAction extends BaseAction{
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, false);			
 		}
 
-		session.put(ApplicationConstants.SEARCHVO, searchVO);		
+		session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());			
 		this.setFormAction("searchPortfolioAccounts");
@@ -113,7 +113,7 @@ public class Impac2PortfolioAction extends BaseAction{
     		searchVO = new AuditSearchVO();
     	}
     	searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
-    	session.put(ApplicationConstants.SEARCHVO, searchVO);	
+    	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);	
   		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
   		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
   		
@@ -191,7 +191,7 @@ public class Impac2PortfolioAction extends BaseAction{
 			if(searchVO.getDateRangeEndDate().after(new Date())){
 				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate.future"));
 			}
-			session.put(ApplicationConstants.SEARCHVO, searchVO);		
+			session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);		
 		}
 	}
 	
@@ -202,7 +202,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	public String clearSearchPortfolioAccounts() {
 		log.info("clearSearchPortfolioAccounts()");
 		searchVO = null;
-		session.remove(ApplicationConstants.SEARCHVO);
+		session.remove(ApplicationConstants.PORTFOLIO_SEARCHVO);
 		return SUCCESS;
 	}	
 	

@@ -60,7 +60,7 @@
 						User First Name:</label>
 					<div class="col-sm-9">
 						<s:textfield name="searchVO.userFirstname" cssClass="form-control"
-							value="%{#session.searchVO.userFirstname}" id="f-name" />
+							value="%{#session.portfolioSearchVO.userFirstname}" id="f-name" />
 					</div>
 				</div>
 				
@@ -69,7 +69,7 @@
 						User Last Name:</label>
 					<div class="col-sm-9">
 						<s:textfield name="searchVO.userLastname" cssClass="form-control"
-							value="%{#session.searchVO.userLastname}" id="l-name" />
+							value="%{#session.portfolioSearchVO.userLastname}" id="l-name" />
 					</div>
 				</div>	
 				
@@ -79,7 +79,7 @@
 						<div class="col-sm-9">
 							<s:select name="searchVO.organization" onchange="onOrgChange(this.value);" 
 								id="portfolioOrg" cssClass="form-control"
-								value="%{#session.searchVO.organization}" list="session.orgList"
+								value="%{#session.portfolioSearchVO.organization}" list="session.orgList"
 								listKey="optionKey" listValue="optionValue" headerKey="all"
 								headerValue="All" style="width:590px;" />
 						</div>
@@ -100,7 +100,7 @@
 						<label class="control-label col-sm-3" for="portfolioOrg">NCI Organization:</label>
 						<div class="col-sm-9">
 							<s:select name="searchVO.organization" id="portfolioOrg" cssClass="form-control"
-								value="%{#session.searchVO.organization}" list="session.orgList"
+								value="%{#session.portfolioSearchVO.organization}" list="session.orgList"
 								listKey="optionKey" listValue="optionValue" headerKey="all"
 								headerValue="All" style="width:590px;" />
 						</div>
@@ -112,7 +112,7 @@
 					<div class="col-sm-9">
 						<s:select name="searchVO.category" id="portfolioCategory"
 							onchange="onCategoryChage(this.value);" cssClass="form-control"
-							value="%{#session.searchVO.category}" list="session.categoryList"
+							value="%{#session.portfolioSearchVO.category}" list="session.categoryList"
 							listKey="optionKey" listValue="optionValue" style="width:590px;" />
 					</div>
 				</div>
@@ -122,7 +122,7 @@
 					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
 							name="searchVO.dateRangeStartDate"
-							value="%{#session.searchVO.dateRangeStartDate}"
+							value="%{#session.portfolioSearchVO.dateRangeStartDate}"
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="Start date"
 							buttonImage="../images/calendar_icon.gif" buttonImageOnly="true"
@@ -130,7 +130,7 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<sj:datepicker size="15" id="dateRangeEndDate"
 							name="searchVO.dateRangeEndDate"
-							value="%{#session.searchVO.dateRangeEndDate}"
+							value="%{#session.portfolioSearchVO.dateRangeEndDate}"
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="End date" buttonImage="../images/calendar_icon.gif"
 							buttonImageOnly="true" buttonText="Select end date." />
