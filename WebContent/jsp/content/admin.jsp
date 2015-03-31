@@ -130,7 +130,6 @@ function validateForm() {
       	
       	
   	</div>
-    <input type="button" value="Test" onclick="sendNotice();"/>
 </form>
 
 <!--  tab-content -->
