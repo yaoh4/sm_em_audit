@@ -46,6 +46,12 @@ public class SysAdminAction extends BaseAction {
    // http://localhost/entmaint/ChangeUser.action?user=CHANGD3
    
    
+    /**
+     * Change user functionality support only for NON production environment
+     * 
+     * @return
+     * @throws Exception
+     */
     public String changeUser() throws Exception {
         
         String forward = SUCCESS;
@@ -71,6 +77,9 @@ public class SysAdminAction extends BaseAction {
         return forward;
     }
     
+    /* (non-Javadoc)
+     * @see com.opensymphony.xwork2.ActionSupport#execute()
+     */
     public String execute() throws Exception {
         
         String  log="";
@@ -117,21 +126,39 @@ public class SysAdminAction extends BaseAction {
         return action;
     }
     
+    /**
+     * Calls property init
+     */
     private void reloadProperties(){
     	logger.info("Initiating Reload properties...");
         entMaintProperties.init();
         logger.info("Reload properties completed");
     }
     
+    /**
+     * Calls initializer bean reinit
+     */
     private void refreshLists(){
     	logger.info("Initiating Refresh lists...");
     	emAppInitializer.reinit();
         logger.info("Refresh lists completed");
     }
     
+    /**
+     * Only Sys Admin users can execute SysAdmin Actions.
+     * @throws Exception
+     */
     private void  verifyUser()throws Exception{
         logger.info("Authenticating the User "+nciUser.getUserId()+" for Sys Administration Task");
-        if (!nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
+        String  adminUsers= entMaintProperties.getPropertyValue("SYS_ADMIN");
+        String[] sysAdminUsers  = adminUsers.split(",");
+        boolean validAdminUser =  false;
+        for (int i=0;i <sysAdminUsers.length;i++){
+            if (nciUser.getUserId().equalsIgnoreCase(sysAdminUsers[i])){
+                validAdminUser =  true;
+            }
+        }
+        if (!validAdminUser){
             String error =nciUser.getUserId() + " is NOT a valid user to perform System Administration Task";
             logger.error(error);
             throw new Exception(error);

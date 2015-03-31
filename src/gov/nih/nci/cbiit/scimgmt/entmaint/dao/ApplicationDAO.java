@@ -29,6 +29,11 @@ public class ApplicationDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	/**
+	 * Gets user role and org path for a given ldap id.
+	 * 
+	 * @param nciUser
+	 */
 	public void loadPersonInfo(final NciUser nciUser) {
 		
 		final Session session = sessionFactory.getCurrentSession();
