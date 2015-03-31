@@ -201,8 +201,16 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public String clearSearchPortfolioAccounts() {
 		log.info("clearSearchPortfolioAccounts()");
-		searchVO = null;
 		session.remove(ApplicationConstants.PORTFOLIO_SEARCHVO);
+		searchVO = new AuditSearchVO();
+		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
+		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && !isSuperUser()){      				
+    		searchVO.setOrganization(nciUser.getOrgPath());	
+    	} 
+		else{
+			searchVO.setOrganization(ApplicationConstants.NCI_DOC_ALL);	
+		}
+    	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);			
 		return SUCCESS;
 	}	
 	
