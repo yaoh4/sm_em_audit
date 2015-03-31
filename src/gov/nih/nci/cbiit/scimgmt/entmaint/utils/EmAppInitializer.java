@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+/**
+ * The Class EmAppInitializer.
+ */
 @Service
 @Scope(value = "singleton")
 public class EmAppInitializer {
