@@ -1,5 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.util.Date;
+
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
@@ -60,23 +62,30 @@ public class AdminAction extends BaseAction {
     	
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {
-    		this.addActionError(getText("error.audit.type"));
+    		this.addActionError(getText("error.audittypes.empty"));
     	}
     
     	//If either of the dates are not present, then error
     	if(emAuditsVO.getImpaciiFromDate() == null) {
-    		this.addActionError(getText("error.audit.start"));
+    		this.addActionError(getText("error.daterange.startdate.empty"));
+    	}  	  	
+    	if(emAuditsVO.getImpaciiToDate() == null) {
+    		this.addActionError(getText("error.daterange.enddate.empty"));
     	}
     	
-    	//If either of the dates are not present, then error
-    	if(emAuditsVO.getImpaciiToDate() == null) {
-    		this.addActionError(getText("error.audit.end"));
+    	//If either of the dates are in the future, then error
+    	if(emAuditsVO.getImpaciiFromDate().after(new Date())) {
+    		this.addActionError(getText("error.daterange.startdate.future"));
+    	} 
+    	if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    		this.addActionError(getText("error.daterange.enddate.future"));
     	}
+    	
     	
     	//Audit End Date should be after Audit Start Date
     	if(emAuditsVO.getImpaciiFromDate() != null && emAuditsVO.getImpaciiToDate() != null
     			&& emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
-    		this.addActionError(getText("error.audit.dates"));
+    		this.addActionError(getText("error.daterange.outofrange"));
     	}
     	
     	if(this.hasActionErrors()) {

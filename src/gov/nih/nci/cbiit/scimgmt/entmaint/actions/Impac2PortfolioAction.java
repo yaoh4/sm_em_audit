@@ -183,13 +183,13 @@ public class Impac2PortfolioAction extends BaseAction{
 				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.empty"));
 			}	
 			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
-				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofrange"));
+				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofsequence"));
 			}	
 			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(new Date())){
-				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate"));
+				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.future"));
 			}
 			if(searchVO.getDateRangeEndDate().after(new Date())){
-				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate"));
+				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate.future"));
 			}
 			session.put(ApplicationConstants.SEARCHVO, searchVO);		
 		}
