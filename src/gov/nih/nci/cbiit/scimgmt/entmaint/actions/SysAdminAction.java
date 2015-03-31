@@ -6,6 +6,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppInitializer;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,17 @@ public class SysAdminAction extends BaseAction {
 	private NciUser nciUser;
 	@Autowired
 	private EntMaintProperties entMaintProperties;
+	@Autowired
+	private EmAppInitializer emAppInitializer;
 	
     static Logger logger = Logger.getLogger(SysAdminAction.class);
     
     private static final String ADMIN_TASK_RELOAD_PROPERTIES="RELOAD_PROPERTIES";
+    private static final String ADMIN_TASK_REFRESH_LISTS="REFRESH_LISTS";
  
    // URL examples
    // http://localhost/entmaint/SysAdmin.action?action=RELOAD_PROPERTIES
+   // http://localhost/entmaint/SysAdmin.action?action=REFRESH_LISTS
    // http://localhost/entmaint/ChangeUser.action?user=CHANGD3
    
    
@@ -73,12 +78,11 @@ public class SysAdminAction extends BaseAction {
         logger.info(log);
                 
         if (nciUser== null){
-        	String message = "Invalid Access";
-			addActionError(message);
-			return "error";
+        	String error = "Invalid Access";
+        	throw new Exception(error);
         }
         
-        verifyUser();
+		verifyUser();
         
         if (ADMIN_TASK_RELOAD_PROPERTIES.equals(action)){
             logger.info("Task: Reload EM properties Initiated by :"+nciUser.getUserId());
@@ -86,6 +90,14 @@ public class SysAdminAction extends BaseAction {
             logger.info("Task: Reload EM properties Completed");
 
         }
+        
+        if (ADMIN_TASK_REFRESH_LISTS.equals(action)){
+            logger.info("Task: Refresh Lists Initiated by :"+nciUser.getUserId());
+            refreshLists();
+            logger.info("Task: Refresh Lists Completed");
+
+        }
+        
         return SUCCESS;       
     }
     
@@ -109,6 +121,12 @@ public class SysAdminAction extends BaseAction {
     	logger.info("Initiating Reload properties...");
         entMaintProperties.init();
         logger.info("Reload properties completed");
+    }
+    
+    private void refreshLists(){
+    	logger.info("Initiating Refresh lists...");
+    	emAppInitializer.reinit();
+        logger.info("Refresh lists completed");
     }
     
     private void  verifyUser()throws Exception{

@@ -11,4 +11,5 @@ public interface LookupService {
     public AppLookupT getAppLookupById(String listName, Long id);
     public Object getListObjectByCode(String listName, String code);
     public String getRoleDescription(String roleName);
+    public void refreshLists();
 }

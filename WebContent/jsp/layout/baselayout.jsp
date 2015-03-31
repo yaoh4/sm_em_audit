@@ -12,18 +12,18 @@
 <head>
    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/styles.css" />
+    <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/styles.css" />" />
 <!-- <link rel="stylesheet" type="text/css" href="../stylesheets/content.css" /> -->
-    <link rel="stylesheet" type="text/css" href="../stylesheets/displaytag.css"/>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../stylesheets/custom.css"/>
-	<link rel="stylesheet" type="text/css" href="../stylesheets/entmaint.css"/>
-	<script language="JavaScript" src="../scripts/jquery-2.1.3.min.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/respond.min.js" type="text/javascript"></script>
-	<script language="JavaScript" src="../scripts/entMaint.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/displaytag.css" />"/>
+    <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/bootstrap.min.css" />"/>
+	<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/custom.css" />"/>
+	<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/entmaint.css" />"/>
+	<script language="JavaScript" src="<s:url value="/scripts/jquery-2.1.3.min.js" />" type="text/javascript"></script>
+	<script language="JavaScript" src="<s:url value="/scripts/jquery-ui-1.11.3.js" />" type="text/javascript"></script>
+	<script language="JavaScript" src="<s:url value="/scripts/bootstrap.js" />" type="text/javascript"></script>
+	<script language="JavaScript" src="<s:url value="/scripts/bootstrap.min.js" />" type="text/javascript"></script>
+	<script language="JavaScript" src="<s:url value="/scripts/respond.min.js" />" type="text/javascript"></script>
+	<script language="JavaScript" src="<s:url value="/scripts/entMaint.js" />" type="text/javascript"></script>
 	
 	<!-- Page Title begins -->
 	<title><tiles:getAsString name="Title"/></title>

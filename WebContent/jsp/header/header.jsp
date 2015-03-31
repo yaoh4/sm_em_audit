@@ -4,7 +4,7 @@
 
 <div id="nci">
 	<div>
-		<img src="../images/nci-banner-h.gif" alt="National Cancer Institute" width="304" height="39" border="0" usemap="#ncibannermap" />
+		<img src="<s:url value="/images/nci-banner-h.gif" />" alt="National Cancer Institute" width="304" height="39" border="0" usemap="#ncibannermap" />
 		<map name="ncibannermap" id="ncibannermap">
 		 	<area shape="rect" coords="13,1,293,35" href="http://www.cancer.gov/" alt="National Cancer Institute" />	
 		</map>	

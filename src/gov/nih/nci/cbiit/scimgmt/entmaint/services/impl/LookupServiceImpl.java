@@ -288,4 +288,15 @@ public class LookupServiceImpl implements LookupService {
 		}
 		return null;
 	}
+	
+	/**
+	 * Flush the entire cache immediately.
+	 */
+	public void refreshLists() {
+		try {
+			cacheAdministrator.flushAll();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
 }

@@ -2,7 +2,7 @@
 <s:set name="env" value="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.CommonProperties@getInstance().getProperty(\'ENVIRONMENT\')}"/>
 
 
-<s:url id="goHome" action="Home"/><s:a href="%{goHome}">Click here to go back to Home Page</s:a>
+<s:url id="goHome" action="home"/><s:a href="%{goHome}">Click here to go back to Home Page</s:a>
 <div id="box1">
 <br>
   <fieldset style="width: 925px">

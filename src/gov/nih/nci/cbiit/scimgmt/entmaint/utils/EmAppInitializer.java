@@ -39,7 +39,15 @@ public class EmAppInitializer {
 	 * Re-initialize.
 	 */
 	public void reinit() {
-
+		lookupService.refreshLists();
+		lookupService.getList(ApplicationConstants.APP_LINK_LIST);
+		lookupService.getList(ApplicationConstants.ERA_ROLES_LIST);
+		lookupService.getList(ApplicationConstants.APP_LOOKUP_ACTIVE_ACTION_LIST);
+		lookupService.getList(ApplicationConstants.APP_LOOKUP_NEW_ACTION_LIST);
+		lookupService.getList(ApplicationConstants.APP_LOOKUP_DELETED_ACTION_LIST);
+		lookupService.getList(ApplicationConstants.APP_LOOKUP_INACTIVE_ACTION_LIST);
+		lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
+		lookupService.getList(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST);
 	}
 
 }
