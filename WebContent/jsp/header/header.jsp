@@ -11,6 +11,7 @@
 	</div>
 </div>
 
+<div class="container">
 
 
     <!-- header -->
@@ -57,7 +58,7 @@
         
         <br>
         
-<div class="container">
+
 	<header class="row">
 		<h2>IMPAC II & I2E Accounts Tracking System</h2> 
 	</header>

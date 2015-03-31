@@ -73,8 +73,8 @@ width: 980px;
 
 #admin_nav {
 
-font-family: Verdana, Arial,  Helvetica, sans-serif;
-font-size: 11px;
+font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+font-size: 0.9em;
 text-align: right;
 margin: 2px 0 0 0;
 padding: 5px 0 0 0;
@@ -116,7 +116,6 @@ background-image: none;
 #admin_nav ul  a:link, #admin_nav ul a:visited
 
 {
-font-size: 10px;
 color: #369;
 text-decoration: underline;
 
@@ -137,12 +136,12 @@ text-decoration: none;
 
 .admin_nav {	
 
-	font-size: 11px;
+	font-size: 0.9em;
 
 	text-align: right;
 
 	margin: 10px;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 
 }
 
