@@ -125,6 +125,7 @@ WebContent/WEB-INF/lib/xwork-core-2.3.16.3.jar -text
 WebContent/WEB-INF/tiles-admin.xml -text
 WebContent/WEB-INF/tiles-i2e.xml -text
 WebContent/WEB-INF/tiles-impac2.xml -text
+WebContent/WEB-INF/tld/displaytag-el.tld -text
 WebContent/WEB-INF/tld/displaytag.tld -text
 WebContent/WEB-INF/tld/ncilink.tld -text
 WebContent/WEB-INF/web.xml -text
