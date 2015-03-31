@@ -49,7 +49,10 @@ public class Impac2PortfolioDAO {
 	
 	/**
 	 * Search IMPACII portfolio accounts
+	 * 
+	 * @param paginatedList
 	 * @param searchVO
+	 * @param all
 	 * @return
 	 */
 	public PaginatedListImpl<EmPortfolioVw> searchImpac2Accounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
@@ -140,6 +143,7 @@ public class Impac2PortfolioDAO {
 	 * 
 	 * @param id
 	 * @param text
+	 * @param date
 	 * @return
 	 */
 	public DBResult saveNotes(String id, String text, Date date) {

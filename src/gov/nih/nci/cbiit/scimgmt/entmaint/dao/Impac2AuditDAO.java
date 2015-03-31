@@ -43,9 +43,10 @@ public class Impac2AuditDAO {
 	
 	/**
 	 * Search EmAuditAccountsVw for active accounts
-	 * @param paginatedList 
 	 * 
+	 * @param paginatedList
 	 * @param searchVO
+	 * @param all
 	 * @return
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
@@ -125,7 +126,9 @@ public class Impac2AuditDAO {
 	/**
 	 * Search EmAuditAccountsVw for new accounts
 	 * 
+	 * @param paginatedList
 	 * @param searchVO
+	 * @param all
 	 * @return
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
@@ -187,7 +190,9 @@ public class Impac2AuditDAO {
 	/**
 	 * Search EmAuditAccountsVw for deleted accounts
 	 * 
+	 * @param paginatedList
 	 * @param searchVO
+	 * @param all
 	 * @return
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
@@ -251,7 +256,9 @@ public class Impac2AuditDAO {
 	/**
 	 * Search EmAuditAccountsVw for inactive accounts
 	 * 
+	 * @param paginatedList
 	 * @param searchVO
+	 * @param all
 	 * @return
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
@@ -317,6 +324,7 @@ public class Impac2AuditDAO {
 	 * @param eaaId
 	 * @param actionId
 	 * @param actionComments
+	 * @param date
 	 * @return
 	 */
 	public DBResult submit(AppLookupT category, Long eaaId, Long actionId, String actionComments, Date date) {
