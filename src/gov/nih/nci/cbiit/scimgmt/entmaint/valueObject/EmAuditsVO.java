@@ -14,7 +14,7 @@ public class EmAuditsVO extends EmAuditsVw {
 	/**
 	 * Flags to indicate the type of audit data to set
 	 */
-	private String impac2AuditFlag = "false";
+	private String impac2AuditFlag = "true";
 	private String i2eAuditFlag = "false";
 	
 	/**

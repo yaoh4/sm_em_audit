@@ -70,11 +70,11 @@ function validateForm() {
     <div class="form-group">
     	<label for="Audit" class="col-sm-3 control-label" style="padding-top:0px;">Audit:</label>
     	<div class="col-sm-4" style="padding-bottom:0px;">
-    		<s:checkbox name="emAuditsVO.impac2AuditFlag" disabled="%{disableInput}"/> 
+    		<s:checkbox name="emAuditsVO.impac2AuditFlag" disabled="true"/> 
         	<label style="padding-left:0px;">IMPAC II</label>
 			&nbsp;&nbsp;&nbsp;
-        	<s:checkbox name="emAuditsVO.i2eAuditFlag" style="padding-right:0px;" disabled="true"/> 
-			<label style="padding-left:0px;">I2E</label>
+        <!--  <s:checkbox name="emAuditsVO.i2eAuditFlag" style="padding-right:0px;" disabled="true"/> 
+			<label style="padding-left:0px;">I2E</label> -->
    		</div>
     </div>
   
