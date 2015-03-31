@@ -24,9 +24,6 @@ public class HomeAction extends BaseAction {
 	@Autowired
 	AdminService adminService;
 	
-	@Autowired
-	LookupService lookupService;
-	
 	/**
 	 * Home action.
 	 * 
