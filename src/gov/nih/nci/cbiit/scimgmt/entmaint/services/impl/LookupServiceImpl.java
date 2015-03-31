@@ -203,29 +203,11 @@ public class LookupServiceImpl implements LookupService {
 		return resultMap;
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService#flushListForSession()
+	 */
 	public void flushListForSession() {
 		// These two lists are refreshed every session
-	}
-
-	private List search(String listName) {
-//		logger.debug("Searching for list by name: " + listName);
-		return propertyListDAO.retrieve(listName);
-	}
-	
-	public void setPropertyListDAO(PropertyListDAO acrPropertyListDAO) {
-		this.propertyListDAO = acrPropertyListDAO;
-	}
-
-	public PropertyListDAO getPropertyListDAO() {
-		return propertyListDAO;
-	}
-
-	public void setCacheAdministrator(GeneralCacheAdministrator cacheAdministrator) {
-		this.cacheAdministrator = cacheAdministrator;
-	}
-	
-	public GeneralCacheAdministrator getCacheAdministrator() {
-		return cacheAdministrator;
 	}
    
 	/**
@@ -298,5 +280,32 @@ public class LookupServiceImpl implements LookupService {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
+	}
+	
+	public void setPropertyListDAO(PropertyListDAO acrPropertyListDAO) {
+		this.propertyListDAO = acrPropertyListDAO;
+	}
+
+	public PropertyListDAO getPropertyListDAO() {
+		return propertyListDAO;
+	}
+
+	public void setCacheAdministrator(GeneralCacheAdministrator cacheAdministrator) {
+		this.cacheAdministrator = cacheAdministrator;
+	}
+	
+	public GeneralCacheAdministrator getCacheAdministrator() {
+		return cacheAdministrator;
+	}
+	
+	/**
+	 * Obtain list from DB
+	 * 
+	 * @param listName
+	 * @return
+	 */
+	private List search(String listName) {
+//		logger.debug("Searching for list by name: " + listName);
+		return propertyListDAO.retrieve(listName);
 	}
 }
