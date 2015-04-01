@@ -222,7 +222,7 @@
 <div id="unsubmitAction" style="display: none;" title="Unsubmit Action">
 	<br/>
 	<div align="center">
-	Are you sure want to unsubmit?
+	Are you sure want to undo the review?
 	</div>
 	<input type="hidden" id="unsubmitName"/>
 	<input type="hidden" id="unsubmitCellId"/>
