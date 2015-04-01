@@ -37,7 +37,7 @@ public class SubmitAction extends BaseAction {
 		//error message: The below action conflicts with the action specified in the Active Tab
 		EmAuditAccountsVw account = impac2Service.getAuditAccountById(Long.parseLong(appId));
 		try{
-			if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE) && account.getActiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_NO) 
+			if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE) && ApplicationConstants.FLAG_NO.equalsIgnoreCase(account.getActiveUnsubmittedFlag()) 
 					&& account.getActiveAction() != null &&  account.getActiveAction().getId() != null && account.getActiveAction().getId() == ApplicationConstants.VERIFIEDLEAVEINT 
 					&& actId.equalsIgnoreCase(ApplicationConstants.NOTNEED)){
 				String errorMessage = entMaintProperties.getPropertyValue("inactive.validation.error");
