@@ -1,40 +1,29 @@
-/**
- * 
- */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
-
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.apache.commons.collections.CollectionUtils;
 
 /**
+ * Decorator to display data in Excel spreadsheet from Audit tab.
+ * 
  * @author menons2
  *
  */
 public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator {
 
 	/**
-	 * Default Constructor
-	 */
-	public AuditSearchResultExportDecorator() {
-		
-	}
-	
-	/**
 	 * Checks if SOD discrepancy exists
 	 * 
-	 * @return true is discrepancy exists, else false.
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancySod() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -45,7 +34,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	/**
 	 * Checks if there NED IC discrepancy exists
 	 * 
-	 * @return true if discrepancy exists, else false
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyIc() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -56,7 +45,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	/**
 	 * Checks if NED Inactive discrepancy exists
 	 * 
-	 * @return true if discrepancy exists, else false
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyNedInactive() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -67,7 +56,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	/**
 	 * Checks if NED Last Name discrepancy exists
 	 * 
-	 * @return true if discrepancy exists, else false.
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyLastName() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -75,6 +64,15 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	}
 	
 	
+	/**
+	 * Checks if a discrepancy of the given type exists in the given account.
+	 * Helper method used by the other discrepancy specific methods.
+	 * 
+	 * @param accountVO the account in which to look for discrepancy
+	 * @param type the discrepancy type to check for.
+	 * 
+	 * @return String 'Y' if discrepancy exists, else return empty String.
+	 */
 	private String isDiscrepancy(AuditAccountVO accountVO, String type) {
 		String isDiscrepancy = "";
 		

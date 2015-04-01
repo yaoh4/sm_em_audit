@@ -1,13 +1,7 @@
-/**
- * 
- */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.text.DateFormat;
@@ -18,7 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Decorator to display data in Excel spreadhsheet from Portfolio tab.
+ * Decorator to display data in Excel spreadsheet from Portfolio tab.
  * 
  * @author menons2
  *
@@ -30,7 +24,7 @@ public class PortfolioSearchResultExportDecorator extends
 	/**
 	 * Checks if SOD discrepancy exists
 	 * 
-	 * @return true is discrepancy exists, else false.
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancySod() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -41,7 +35,7 @@ public class PortfolioSearchResultExportDecorator extends
 	/**
 	 * Checks if there NED IC discrepancy exists
 	 * 
-	 * @return true if discrepancy exists, else false
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyIc() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -52,7 +46,7 @@ public class PortfolioSearchResultExportDecorator extends
 	/**
 	 * Checks if NED Inactive discrepancy exists
 	 * 
-	 * @return true if discrepancy exists, else false
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyNedInactive() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -61,9 +55,9 @@ public class PortfolioSearchResultExportDecorator extends
 	
 	
 	/**
-	 * Checks if NED Last Name discrepancy exists
+	 * Checks if NED Last Name discrepancy exists for the current row.
 	 * 
-	 * @return true if discrepancy exists, else false.
+	 * @return String 'Y' if discrepancy exists, else empty string.
 	 */
 	public String getDiscrepancyLastName() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -71,6 +65,15 @@ public class PortfolioSearchResultExportDecorator extends
 	}
 	
 	
+	/**
+	 * Checks if a discrepancy of the given type exists in the given account.
+	 * Helper method used by the other discrepancy specific methods.
+	 * 
+	 * @param accountVO the account in which to look for discrepancy
+	 * @param type the discrepancy type to check for.
+	 * 
+	 * @return String 'Y' if discrepancy exists, else return empty String.
+	 */
 	private String isDiscrepancy(PortfolioAccountVO accountVO, String type) {
 		String isDiscrepancy = "";
 		

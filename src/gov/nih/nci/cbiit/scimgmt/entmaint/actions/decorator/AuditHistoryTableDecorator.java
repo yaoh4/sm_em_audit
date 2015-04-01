@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -13,6 +10,8 @@ import org.displaytag.decorator.TableDecorator;
 
 
 /**
+ * Decorator to display history table in Admin tab.
+ * 
  * @author menons2
  *
  */
@@ -22,15 +21,14 @@ public class AuditHistoryTableDecorator extends TableDecorator {
 	private static Logger logger = 
 		        Logger.getLogger(AuditHistoryTableDecorator.class);
 
-	/**
-	  * Default Constructor
-	  */
-	public AuditHistoryTableDecorator() {
-	    super();
-	 }
-	
 	 
-	 public String getActionCode() {
+	/**
+	 * Get the action string associated with the current row in the
+	 * history table.
+	 * 
+	 * @return String the action description for the current row.
+	 */
+	public String getActionCode() {
 		
 		EmAuditHistoryVw currentRowObject = 
 	            (EmAuditHistoryVw)getCurrentRowObject();
