@@ -15,7 +15,7 @@
 function sendNotice()
  {
 	var result = "";
-	$('#sendAuditNotice').val(true);
+	
 	if ($('#sendAuditNotice').val() == "true") {
 		 email = document.getElementById('icEmails').value;
 		
@@ -57,7 +57,7 @@ function validateForm() {
 </script>
    
 
-<body onload="">
+<body onload="sendNotice();">
 </body>
 
 
@@ -113,7 +113,7 @@ function validateForm() {
 	<div class="form-group">        
     	<div class="col-sm-offset-3">     
         	<s:if test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
-              	<s:submit value="Start Audit" cssClass="btn btn-primary" action="startAudit" onClick="openLoading();"/>      
+              	<s:submit value="Start Audit" cssClass="btn btn-primary" action="startAudit" onClick="openLoading(); $('#sendAuditNotice').val('true');"/>      
           	</s:if>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_ENABLED)}">
