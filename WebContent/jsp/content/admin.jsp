@@ -6,6 +6,11 @@
 
 <s:include value="/jsp/content/manageAccounts.jsp" />
 
+<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script type="text/javascript">
 function sendNotice()
  {
@@ -24,7 +29,7 @@ function sendNotice()
 				error: function(){}		
 			});
 		 var elements = result.split("|");
-		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 1799); 
+		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 1599); 
 		
 	     var iframeHack;
 	     iframeHack = document.createElement("IFRAME");
@@ -48,6 +53,7 @@ function validateFormAlert()
 function validateForm() {
    return true;
 }
+
 </script>
    
 
@@ -107,7 +113,7 @@ function validateForm() {
 	<div class="form-group">        
     	<div class="col-sm-offset-3">     
         	<s:if test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
-              	<s:submit value="Start Audit" cssClass="btn btn-primary" action="startAudit" onClick="return validateForm()"/>      
+              	<s:submit value="Start Audit" cssClass="btn btn-primary" action="startAudit" onClick="openLoading();"/>      
           	</s:if>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_ENABLED)}">
@@ -131,7 +137,7 @@ function validateForm() {
       	
   	</div>
 </form>
-
+<div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 <!--  tab-content -->
 </div>
 <!-- panel -->
