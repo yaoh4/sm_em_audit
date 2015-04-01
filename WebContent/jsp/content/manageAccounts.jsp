@@ -58,14 +58,14 @@
   	<ul class="nav nav-tabs">
   <s:if
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">
-	<h4 align="left">IMPAC II Accounts Portfolio Analysis</h4>
+	<h4>IMPAC II Accounts Portfolio Analysis <span style="font-weight: normal;"></span></h4>
 	<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
 			Search Criteria
 		</s:a></li>
   </s:if>
   
-  <s:else>
-	
+  <s:else>	
+  <h4>IMPAC II Accounts Audit <span style="font-weight: normal;"> (<s:property value="%{session.currentAudit.impaciiFromDate}"/> to <s:property value="%{session.currentAudit.impaciiToDate}"/>)</span></h4>
 	<s:if
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_ACTIVE_ACCOUNTS eq #request.selectedSubTab}">
 		<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
