@@ -54,34 +54,12 @@ public class Impac2AuditDAO {
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
 			final int firstResult = objectsPerPage * paginatedList.getIndex();
-			String sortOrderCriterion = paginatedList.getSortCriterion();
-			String sortOrder = paginatedList.getSqlSortDirection();
 					  
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			if (!StringUtils.isBlank(sortOrderCriterion)) {
-				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
-					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("nedLastName"));
-						criteria.addOrder(Order.asc("nedFirstName"));
-					} else {
-						criteria.addOrder(Order.desc("nedLastName"));
-						criteria.addOrder(Order.desc("nedFirstName"));
-					}
-				} else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
-					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-						criteria.addOrder(Order.asc("createdDate"));
-					else
-						criteria.addOrder(Order.desc("createdDate"));
-				} else {
-					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-						criteria.addOrder(Order.asc(sortOrderCriterion));
-					else
-						criteria.addOrder(Order.desc(sortOrderCriterion));
-				}
-			}
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
@@ -136,19 +114,12 @@ public class Impac2AuditDAO {
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
 			final int firstResult = objectsPerPage * paginatedList.getIndex();
-			String sortOrderCriterion = paginatedList.getSortCriterion();
-			String sortOrder = paginatedList.getSqlSortDirection();
 				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			if (!StringUtils.isBlank(sortOrderCriterion)) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-					criteria.addOrder(Order.asc(sortOrderCriterion));
-				else
-					criteria.addOrder(Order.desc(sortOrderCriterion));
-			}
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
@@ -200,19 +171,12 @@ public class Impac2AuditDAO {
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
 			final int firstResult = objectsPerPage * paginatedList.getIndex();
-			String sortOrderCriterion = paginatedList.getSortCriterion();
-			String sortOrder = paginatedList.getSqlSortDirection();
 				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			if (!StringUtils.isBlank(sortOrderCriterion)) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-					criteria.addOrder(Order.asc(sortOrderCriterion));
-				else
-					criteria.addOrder(Order.desc(sortOrderCriterion));
-			}
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
@@ -266,19 +230,12 @@ public class Impac2AuditDAO {
 		try {
 			final int objectsPerPage = paginatedList.getObjectsPerPage();
 			final int firstResult = objectsPerPage * paginatedList.getIndex();
-			String sortOrderCriterion = paginatedList.getSortCriterion();
-			String sortOrder = paginatedList.getSqlSortDirection();
 				
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			if (!StringUtils.isBlank(sortOrderCriterion)) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
-					criteria.addOrder(Order.asc(sortOrderCriterion));
-				else
-					criteria.addOrder(Order.desc(sortOrderCriterion));
-			}
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to inactive accounts
 			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
@@ -491,6 +448,46 @@ public class Impac2AuditDAO {
 		Long rowCount = (Long) criteria.uniqueResult();
 		return rowCount.intValue();
 
+	}
+	
+	/**
+	 * Add Sort Order
+	 * 
+	 * @param criteria
+	 * @param paginatedList
+	 * @return
+	 */
+	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList) {
+		String sortOrderCriterion = paginatedList.getSortCriterion();
+		String sortOrder = paginatedList.getSqlSortDirection();
+		
+		if (!StringUtils.isBlank(sortOrderCriterion)) {
+			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("nedLastName"));
+					criteria.addOrder(Order.asc("nedFirstName"));
+				} else {
+					criteria.addOrder(Order.desc("nedLastName"));
+					criteria.addOrder(Order.desc("nedFirstName"));
+				}
+			} else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc("createdDate"));
+				else
+					criteria.addOrder(Order.desc("createdDate"));
+			} else if (sortOrderCriterion.equalsIgnoreCase("accountDeletedDate")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc("deletedDate"));
+				else
+					criteria.addOrder(Order.desc("deletedDate"));
+			} else {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+		}
+		return criteria;
 	}
 
 }
