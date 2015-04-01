@@ -20,13 +20,22 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
+/**
+ * 
+ * @author zhoujim
+ * This class is used for Audit search result. It modifies results with certain format like time stamp and handles creating a div 
+ * for certian actions, such as after complete action, allows JQeury to change contents of table items 
+ */
 @Configurable
 public class AuditSearchResultDecorator extends TableDecorator{
 	
 	@Autowired
 	private LookupService lookupService;
 	
+	/**
+	 * This method is for creating action contents. 
+	 * @return String
+	 */
 	public String getAction(){
 		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -36,23 +45,30 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		String actionId ="";
 		String note = "";
 		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
-		
+		//check the action has been perfomed.
 		if(eaaVw != null && eaaVw.getAction() != null){
+			//if yes, intial action text, action id and note
 			if(accountVO.getAccountActivity().getAction().getDescription() != null){
 				actionStr = accountVO.getAccountActivity().getAction().getDescription();
 				actionId = ""+accountVO.getAccountActivity().getAction().getId();
 				note = accountVO.getAccountActivity().getNotes();
 			}
 		}
+		//prevent the GUi display null using empty string instead.
 		if(note == null){
 			note = "";
 		}
+		
 		String actId = getActionId(actionStr);
+		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
+			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
+				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
 			}
+			//if the action is verfiedaction,show two links
 			if(actId.equalsIgnoreCase("3")){
 				actionStr = actionStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
 			}
@@ -67,7 +83,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		return actionStr;
 	}
-	
+	/**
+	 * This method is for column discrepancy display.
+	 * @return
+	 */
 	public String getDiscrepancy(){
 		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
 				.getServletContext());
@@ -82,7 +101,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
 					dis);
 			if(disVw.getShortDescrip() != null){
+				//replace all single quote to HTML code
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
 				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
 						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
@@ -92,6 +113,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return sbu.toString();
 	}
 	
+	/**
+	 * This method is for account create date. It make date display as MM/dd/yyyy
+	 * @return
+	 */
 	public String getAccountCreatedDate(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		Date createDate = accountVO.getCreatedDate();
@@ -101,17 +126,26 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
+	/**
+	 * This method is for displaying the user full. The name is hyper link for the email.
+	 * @return
+	 */
 	public String getFullName(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getFullName();
 		String email = accountVO.getNedEmailAddress();
-		if(fullName == null || email == null || fullName.trim().length() < 1 || email.trim().length() < 1 ){
+		if(fullName == null){
 			return "";
+		}else if(email == null || fullName.trim().length() < 1 || email.trim().length() < 1 ){
+			return fullName;
 		}else{
 			return "<a href='mailto:" + email + "'>" + fullName + "</a>";
 		}
 	}
-	
+	/**
+	 * This method is for account submitted on and submitted by.
+	 * @return
+	 */
 	public String getAccountSubmitted(){
 		String submittedBy = "";
 		Date submittedDate = null;
@@ -134,7 +168,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
 			} 
 			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-				
 				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
 			}else{
 				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";
@@ -142,7 +175,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		return  submittedBy;
 	}
-	
+	/**
+	 * This is method is for deleted account. It display the deleted date with the format "MM/dd/yyyy"
+	 * @return String
+	 */
 	public String getAccountDeletedDate(){
 		Date deletedDate = null;
 		
@@ -154,6 +190,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(deletedDate);
 		
 	}
+	/**
+	 * This method is for display application roles. The roles can be multiple, each role will be displayed in seperated row.
+	 * @return
+	 */
 	public String getApplicationRole(){
 		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -170,6 +210,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return role;
 	}
 	
+	/**
+	 * This method is for displaying organization ID for application roles. It could be multiple.
+	 * @return String
+	 */
 	public String getOrgId(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
@@ -183,7 +227,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		orgId = orgId + "</table>";
 		return orgId;
 	}
-	
+	/**
+	 * This method id for displaying role created time. It could be multiple
+	 * @return
+	 */
 	public String getRoleCreateOn(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
@@ -197,7 +244,10 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		createDate = createDate + "</table>";
 		return createDate;
 	}
-	
+	/**
+	 * This method is for displaying the action note. If it is unsubmitted, the action note must be hidden.
+	 * @return
+	 */
 	public String getActionNote(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = "note"+accountVO.getId();
@@ -217,7 +267,11 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		
 		return completedNote;
 	}
-	
+	/**
+	 * This is help method to convert action label to action ID
+	 * @param label
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private String getActionId(String label){
 		String id = "";
