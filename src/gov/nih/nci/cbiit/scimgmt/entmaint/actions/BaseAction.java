@@ -320,4 +320,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		return isSuperUser;
 	}
 	
+	/**
+	 * This method sets defaultPageSize
+	 * @return 
+	 */
+	public void setDefaultPageSize(){
+		if(changePageSize == 0){
+			changePageSize = (int)session.get(ApplicationConstants.DEFAULT_PAGE_SIZE);
+		}
+	}
+	
 }

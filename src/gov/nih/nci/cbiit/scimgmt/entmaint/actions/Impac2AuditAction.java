@@ -97,6 +97,7 @@ public class Impac2AuditAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}		
+		setDefaultPageSize();
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, false);
@@ -146,6 +147,7 @@ public class Impac2AuditAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
+		setDefaultPageSize();
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, false);
@@ -178,7 +180,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String prepareActiveAccounts(){
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
-		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
+		//set up changePageSize dropdown and default pagesize
+		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session,getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
   		
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_ACTIVE);
@@ -198,6 +201,7 @@ public class Impac2AuditAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
+		setDefaultPageSize();
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, false);
@@ -250,6 +254,7 @@ public class Impac2AuditAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
+		setDefaultPageSize();
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, false);
@@ -348,7 +353,7 @@ public class Impac2AuditAction extends BaseAction {
 		
 		return exportAccountVOList;
 	}
-	
+		
 	/**
 	 * This method is retrieving Action List
 	 * @return List<DropDownOption>

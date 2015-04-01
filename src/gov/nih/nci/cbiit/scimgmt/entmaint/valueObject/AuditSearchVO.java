@@ -9,8 +9,8 @@ public class AuditSearchVO {
 	private String organization;
 	private boolean excludeNCIOrgs;
 	private String act;
-	private Date dateRangeStartDate = new Date();
-	private Date dateRangeEndDate = new Date();
+	private Date dateRangeStartDate;
+	private Date dateRangeEndDate;
 	private long category;
 	
 	public AuditSearchVO(String fname, String lname, String org, boolean exclude, String action){

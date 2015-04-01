@@ -130,4 +130,5 @@ public interface ApplicationConstants {
 	public static final String FLAG_NO = "N";
 	
 	public static final String PAGE_SIZE_LIST = "pageSizeList";
+	public static final String DEFAULT_PAGE_SIZE = "defaultPageSize";
 }

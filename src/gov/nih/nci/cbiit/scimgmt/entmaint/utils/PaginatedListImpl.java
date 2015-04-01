@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
 
-public class PaginatedListImpl<T> implements PaginatedList {
-
-	/** default page size */
-	private static int DEFAULT_PAGE_SIZE = 10;
+public class PaginatedListImpl<T> implements PaginatedList {	
 
 	/** current page index, starts at 0 */
 	private int index;
@@ -39,9 +36,6 @@ public class PaginatedListImpl<T> implements PaginatedList {
 	 */
 	public PaginatedListImpl(HttpServletRequest request, int changePageSize) {
 		
-		if(changePageSize == 0 ){
-			changePageSize = DEFAULT_PAGE_SIZE;
-		}
 		sortCriterion = request.getParameter("sort");
 		sortDirection = "desc".equals(request.getParameter("dir")) ? SortOrderEnum.DESCENDING
 				: SortOrderEnum.ASCENDING;
