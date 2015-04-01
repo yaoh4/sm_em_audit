@@ -14,6 +14,11 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * This class handles submit or unsubmit action (Complete or undo action).
+ * @author zhoujim
+ *
+ */
 @SuppressWarnings("serial")
 public class SubmitAction extends BaseAction {
 	private Logger log = Logger.getLogger(SubmitAction.class);
@@ -32,11 +37,11 @@ public class SubmitAction extends BaseAction {
 		String actId = (String)request.getParameter("aId");
 		String note = (String)request.getParameter("note");
 		String cate = (String)request.getParameter("cate");
-		//if category is inactive, need to do validation.
-		//if active action ID is 2, and inactive action id is 13 error out.
-		//error message: The below action conflicts with the action specified in the Active Tab
 		EmAuditAccountsVw account = impac2Service.getAuditAccountById(Long.parseLong(appId));
 		try{
+			//if category is inactive, need to do validation.
+			//if active action ID is 2, and inactive action id is 13 error out.
+			//error message: The below action conflicts with the action specified in the Active Tab
 			if(account != null &&  cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE) && ApplicationConstants.FLAG_NO.equalsIgnoreCase(account.getActiveUnsubmittedFlag()) 
 					&& account.getActiveAction() != null &&  account.getActiveAction().getId() != null && account.getActiveAction().getId() == ApplicationConstants.VERIFIEDLEAVEINT 
 					&& actId.equalsIgnoreCase(ApplicationConstants.NOTNEED)){
@@ -48,6 +53,7 @@ public class SubmitAction extends BaseAction {
 				String errorMessage = entMaintProperties.getPropertyValue("active.validation.error");
 				inputStream = new StringBufferInputStream("validationError;" + errorMessage);
 			}else{
+				//normal submit action 
 				Date date = new Date();
 				DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
@@ -91,7 +97,9 @@ public class SubmitAction extends BaseAction {
 		
 		return SUCCESS;
 	}
-
+	/**
+	 * This method defines a inputStream and it will send back to AJax Result.
+	 */
 	public InputStream getInputStream() {    
 		return inputStream;   
 	}

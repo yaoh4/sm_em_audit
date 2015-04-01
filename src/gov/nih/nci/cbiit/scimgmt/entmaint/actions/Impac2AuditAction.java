@@ -38,7 +38,10 @@ public class Impac2AuditAction extends BaseAction {
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
-	
+	/**
+	 * The method is for handling the clean button action. It shared by all categories (active, deleted, new, and inactive)
+	 * @return
+	 */
 	public String clearAll() {
 		String forward = "";
 		if(category == null){
@@ -449,7 +452,9 @@ public class Impac2AuditAction extends BaseAction {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+	/**
+	 * This method is for setting up the default search
+	 */
 	private void setUpDefaultSearch(){
 		//Default search
 		if(searchVO == null){

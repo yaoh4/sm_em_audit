@@ -8,6 +8,11 @@ import java.io.StringBufferInputStream;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * This class is for the handling role description. It will be invoked by AJax calls.
+ * @author zhoujim
+ *
+ */
 @SuppressWarnings({ "serial", "deprecation" })
 public class RoleDescriptionAction extends BaseAction {
 	
@@ -15,10 +20,13 @@ public class RoleDescriptionAction extends BaseAction {
 	private InputStream inputStream;  
 	@Autowired
 	private LookupService lookupService;
-	
+	/**
+	 * This method to return a input stream back to AJax result. 
+	 */
 	public InputStream getInputStream() {    
 		return inputStream;   
 	}   
+	//this method will throw a exception if there is anything wrong. Ajax will handle the exception
 	public String execute() throws Exception { 
 		String roleName = (String)request.getParameter("rId");
 		String roleDesc = lookupService.getRoleDescription(roleName);
