@@ -14,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
+import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -31,7 +32,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	@Autowired
 	private LookupService lookupService;
-	
+	public static final String VERIFIEDACTION = "3";
 	/**
 	 * This method is for creating action contents. 
 	 * @return String
@@ -69,7 +70,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
 			}
 			//if the action is verfiedaction,show two links
-			if(actId.equalsIgnoreCase("3")){
+			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
 				actionStr = actionStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
 			}
 			actionStr = actionStr + "</div>";
@@ -134,7 +135,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String fullName = accountVO.getFullName();
 		String email = accountVO.getNedEmailAddress();
-		if(fullName == null){
+		if(StringUtils.isBlank(fullName)){
 			return "";
 		}else if(email == null || fullName.trim().length() < 1 || email.trim().length() < 1 ){
 			return fullName;
