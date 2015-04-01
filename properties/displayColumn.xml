@@ -218,7 +218,7 @@
  		<type>deleted</type>
  		<columnName>Org ID</columnName>
  		<property>orgId</property>
- 		<sort>true</sort>
+ 		<sort>false</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
@@ -325,7 +325,7 @@
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
- 		<columnName>Org. ID</columnName>
+ 		<columnName>Org ID</columnName>
  		<property>orgId</property>
  		<sort>false</sort>
  	</Tab>	
