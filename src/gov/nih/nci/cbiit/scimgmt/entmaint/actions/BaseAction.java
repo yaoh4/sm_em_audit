@@ -68,12 +68,12 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
     }
 
 	
-	/*
+	/* 
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.apache.struts2.interceptor.ServletRequestAware#setServletRequest(javax.servlet.http.
+	 *  @see 
+	 *  org.apache.struts2.interceptor.ServletRequestAware#setServletRequest(javax.servlet.http.
 	 * HttpServletRequest)
+	 * 
 	 */
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
@@ -84,8 +84,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	/**
 	 * Sets the servlet context.
 	 * 
-	 * @param context
-	 *            the new servlet context
+	 * @param context the new servlet context
 	 */
 	public void setServletContext(ServletContext context) {
 		this.servletContext = context;
@@ -104,27 +103,20 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	/**
 	 * removes the attribute from the session.
 	 * 
-	 * @param sessionKey
-	 *            the session key
+	 * @param sessionKey the session key
 	 */
 	public void removeAttributeFromSession(String sessionKey) {
-		// Map<String, Object> session = ActionContext.getContext().getSession();
 		session.remove(sessionKey);
 	}
 
 	/**
 	 * Sets attribute in session.
 	 * 
-	 * Note that this method should be used sparingly, hence the deprecated annotation.
-	 * 
-	 * @param sessionKey
-	 *            the session key
-	 * @param sessionAttribute
-	 *            the session attribute
+	 * @param sessionKey the session key
+	 * @param sessionAttribute the session attribute
 	 */
 	public void setAttributeInSession(String sessionKey,
 										Object sessionAttribute) {
-		// Map<String, Object> session = ActionContext.getContext().getSession();
 		session.put(sessionKey, sessionAttribute);
 	}
 
@@ -132,12 +124,12 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
     /**
 	 * Gets the attribute from session.
 	 * 
-	 * @param sessionKey
-	 *            the session key
+	 * @param sessionKey the session key
+	 * 
 	 * @return the attribute from session
 	 */
 	public Object getAttributeFromSession(String sessionKey) {
-		// Map<String, Object> session = ActionContext.getContext().getSession();
+		
 		Object sessioAttribute = null;
 
 		if (session.containsKey(sessionKey)) {
@@ -150,10 +142,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	/**
 	 * Sets attribute in session.
 	 * 
-	 * @param requestKey
-	 *            the request key
-	 * @param requestAttribute
-	 *            the request attribute
+	 * @param requestKey the request key
+	 * @param requestAttribute the request attribute
 	 */
 	public void setAttributeInRequest(String requestKey,
 										Object requestAttribute) {
@@ -164,8 +154,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	/**
 	 * Gets the attribute from request.
 	 * 
-	 * @param requestKey
-	 *            the request key
+	 * @param requestKey the request key
+	 * 
 	 * @return the attribute from request
 	 */
 	public Object getAttributeFromRequest(String requestKey) {
@@ -183,8 +173,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 	
 	
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the session
 	 * 
 	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)
 	 */
@@ -214,6 +204,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 	
 	/**
+	 * Get the searchVO
+	 * 
 	 * @return the searchVO
 	 */
 	public AuditSearchVO getSearchVO() {
@@ -221,6 +213,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Set searchVO
+	 * 
 	 * @param searchVO the searchVO to set
 	 */
 	public void setSearchVO(AuditSearchVO searchVO) {
@@ -228,6 +222,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 		
 	/**
+	 * Get organization list.
+	 * 
 	 * @return the organizationList
 	 */
 	public List<DropDownOption> getOrganizationList() {
@@ -235,6 +231,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Set the organization list.
+	 * 
 	 * @param organizationList the organizationList to set
 	 */
 	public void setOrganizationList(List<DropDownOption> organizationList) {
@@ -242,6 +240,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 	
 	/**
+	 * Get showResult
+	 * 
 	 * @return the showResult
 	 */
 	public boolean isShowResult() {
@@ -249,6 +249,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Set showResult.
+	 * 
 	 * @param showResult the showResult to set
 	 */
 	public void setShowResult(boolean showResult) {
@@ -256,6 +258,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Get the formAction
+	 * 
 	 * @return the formAction
 	 */
 	public String getFormAction() {
@@ -263,6 +267,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Set the formAction
+	 * 
 	 * @param formAction the formAction to set
 	 */
 	public void setFormAction(String formAction) {
@@ -270,6 +276,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Get displayColumn.
+	 * 
 	 * @return the displayColumn
 	 */
 	public List<Tab> getDisplayColumn() {
@@ -277,6 +285,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 	/**
+	 * Set displayColumn.
+	 * 
 	 * @param displayColumn the displayColumn to set
 	 */
 	public void setDisplayColumn(List<Tab> displayColumn) {
@@ -286,13 +296,15 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	/**
 	 * Gets value from app properties
 	 * 
-	 * @return
+	 * @return the value of the given key.
 	 */
 	public String getPropertyValue(String key) {
 		return entMaintProperties.getProperty(key);
 	}
 	
 	/**
+	 * Get changePageSize value
+	 * 
 	 * @return the changePageSize
 	 */
 	public int getChangePageSize() {
@@ -301,6 +313,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 
 	/**
+	 * Set changePageSize value
+	 * 
 	 * @param changePageSize the changePageSize to set
 	 */
 	public void setChangePageSize(int changePageSize) {
@@ -309,8 +323,10 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 
 	/**
-	 * Returns true if logged in user is superuser.
-	 * @return
+	 * Check if logged in user is a superuser.
+	 * 
+	 * @return true if logged in user is a superuser, false otherwise.
+	 * 
 	 */
 	public boolean isSuperUser(){
 		boolean isSuperUser = false;
@@ -322,7 +338,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	
 	/**
 	 * This method sets defaultPageSize
-	 * @return 
+	 * 
+	 * @return the default page size.
 	 */
 	public void setDefaultPageSize(){
 		if(changePageSize == 0){
