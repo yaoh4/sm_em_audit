@@ -26,7 +26,12 @@ public class RoleDescriptionAction extends BaseAction {
 	public InputStream getInputStream() {    
 		return inputStream;   
 	}   
-	//this method will throw a exception if there is anything wrong. Ajax will handle the exception
+	
+	/**
+	 * This method is handling the role description retrieval. It will throw exception if there is an error occurs in lookupSerivce. Ajax will 
+	 * Handle the exception 
+	 */
+			
 	public String execute() throws Exception { 
 		String roleName = (String)request.getParameter("rId");
 		String roleDesc = lookupService.getRoleDescription(roleName);
