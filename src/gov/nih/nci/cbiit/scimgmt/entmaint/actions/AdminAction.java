@@ -53,6 +53,10 @@ public class AdminAction extends BaseAction {
     }
     
     
+    /**
+     * Validator for start audit action.
+     * 
+     */
     public void validateStartAudit() {
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {

@@ -10,22 +10,23 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-
+/**
+ * Action class for initial setup.
+ * 
+ * @author menons2
+ *
+ */
 @SuppressWarnings("serial")
 public class HomeAction extends BaseAction {
 
-    /*
-     * (non-Javadoc)
-     * @see com.opensymphony.xwork2.ActionSupport#execute()
-     */
-	
+   
 	static Logger logger = Logger.getLogger(HomeAction.class);
 	
 	@Autowired
 	AdminService adminService;
 	
 	/**
-	 * Home action.
+	 * Home action. Invoked when user logs into the application..
 	 * 
 	 * @return forward string
 	 */
