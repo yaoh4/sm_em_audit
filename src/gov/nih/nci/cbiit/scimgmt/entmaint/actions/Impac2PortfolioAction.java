@@ -43,15 +43,18 @@ public class Impac2PortfolioAction extends BaseAction{
 	public String searchPortfolioAccounts() {
 		log.debug("Begin : searchPortfolioAccounts");
 		String forward = SUCCESS;
+		
 		setDefaultPageSize();
 		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);	
 		setupSearchVO();
+		
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
 		}
 		else {
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, false);			
 		}
+		
 		session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);		
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());			
