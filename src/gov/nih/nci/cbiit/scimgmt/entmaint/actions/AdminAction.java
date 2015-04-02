@@ -10,7 +10,12 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+/**
+ * Action class for commands executed on the Admin tab.
+ * 
+ * @author menons2
+ *
+ */
 @SuppressWarnings("serial")
 public class AdminAction extends BaseAction {
 
@@ -29,16 +34,13 @@ public class AdminAction extends BaseAction {
 	
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
-	 * the state of the Audit, user will be redirected to the appropriate sub-screen.
-	 * If the Audit has started, user will be taken to the End Audit sub-screen
-	 * If the Audit has ended, user will be taken to the Enable Audit/Reset sub-screen
-	 * If the Audit has closed, user will be taken to the Start Audit sub-screen
+	 * the state of the Audit, the appropriate screen elements will be displayed.
 	 *
-     * @see also - com.opensymphony.xwork2.ActionSupport#execute()
+     * @return String success if no errors.
      */
     public String execute() throws Exception {
         
-    	//Retrieves audit info from the DB 
+    	//Retrieve current audit info from the DB 
     	emAuditsVO = adminService.retrieveCurrentAuditVO();
     			
     	//Store it into the session
@@ -51,15 +53,7 @@ public class AdminAction extends BaseAction {
     }
     
     
-    /**
-     * Invoked when the Start Audit button is clicked. 
-     * Setups up the data in the backend, enables display of the audit tab, and pops up
-     * an email screen with to field, subject field and body populated.
-     * If success, takes the user to the End Audit sub-screen.
-     * @return
-     */
-    public String startAudit() {
-    	
+    public void validateStartAudit() {
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {
     		this.addActionError(getText("error.audittypes.empty"));
@@ -90,8 +84,18 @@ public class AdminAction extends BaseAction {
     	if(this.hasActionErrors()) {
     		setDisableInput(false);
     		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
-    		return ApplicationConstants.INPUT;
     	}
+    }
+    
+    
+    /**
+     * Invoked when the Start Audit button is clicked. Sets up the data
+     * in the backend and enables the Audit. If success, takes the user 
+     * o the End Audit sub-screen.
+     * 
+     * @return String success if no error.
+     */
+    public String startAudit() {
     	
     	//Store the audit info into the DB
     	Long id = adminService.setupNewAudit(emAuditsVO);
@@ -105,18 +109,18 @@ public class AdminAction extends BaseAction {
     	//Audit has started, so disable input
     	setDisableInput(true);
     	
+    	//Open mail client
     	setSendAuditNotice(true);
-    	
-    	//Forward to the End Audit screen
+    	  	
     	return ApplicationConstants.SUCCESS;
     }
     
     
     /**
-     * Invoked when the End Audit button is clicked.
-     * Disables the Audit tab.
-     * If success, takes the user to the Enable/Reset Audit screen.
-     * @return
+     * Invoked when the End Audit button is clicked. Disables the Audit
+     * If success, takes the use to the Enable/Reset screen. 
+     * 
+     * @return String success if no error.
      */
     public String endAudit() {
     	
@@ -125,10 +129,10 @@ public class AdminAction extends BaseAction {
     
     
     /**
-     * Invoked when the Enable button is clicked.
-     * Enables the Audit tab.
+     * Invoked when the Enable button is clicked. Enables the Audit.
      * If success, takes the user to the End Audit screen.
-     * @return
+     * 
+     * @return success if no error
      */
     public String enableAudit() {
     	
@@ -137,8 +141,7 @@ public class AdminAction extends BaseAction {
     
     
     /**
-     * Invoked when the the Reset button is clicked.
-     * Removes the data setup for Audit.
+     * Invoked when the the Reset button is clicked. Closes the Audit.
      * If success, takes the user to the Start Audit screen.
      * @return
      */
@@ -154,7 +157,6 @@ public class AdminAction extends BaseAction {
     	//Remove attribute from session
     	removeAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	
-    	//Forward to Start Audit Screen
     	return ApplicationConstants.SUCCESS;
     }
 	
@@ -174,7 +176,6 @@ public class AdminAction extends BaseAction {
     	setSendAuditNotice(false);
     	setDisableInput(true);
     	
-    	//Forward to the End Audit screen.
     	return ApplicationConstants.SUCCESS;
     }
     
@@ -201,7 +202,10 @@ public class AdminAction extends BaseAction {
 
 
 	/**
-	 * @return the sendAuditNotice
+	 * Checks to see if the email client should be opened in preparation
+	 * for sending the Audit notice.
+	 * 
+	 * @return boolean true if audit notice should be sent, false otherwise. 
 	 */
 	public boolean isSendAuditNotice() {
 		return sendAuditNotice;
@@ -209,6 +213,8 @@ public class AdminAction extends BaseAction {
 
 	
 	/**
+	 * Set the sendAuditNotice flag.
+	 * 
 	 * @param sendAuditNotice the sendAuditNotice to set
 	 */
 	public void setSendAuditNotice(boolean sendAuditNotice) {
@@ -217,6 +223,8 @@ public class AdminAction extends BaseAction {
 
 
 	/**
+	 * Get the disableInput attribute.
+	 * 
 	 * @return the disableInput
 	 */
 	public boolean getDisableInput() {
@@ -225,6 +233,8 @@ public class AdminAction extends BaseAction {
 
 	
 	/**
+	 * Set the disableInput attribute.
+	 * 
 	 * @param disableInput the disableInput to set
 	 */
 	public void setDisableInput(boolean disableInput) {
@@ -233,7 +243,9 @@ public class AdminAction extends BaseAction {
 
 	
 	/**
-	 * @return the emAuditsVO
+	 * Get the Audit info.
+	 * 
+	 * @return the emAuditsVO containing Audit info.
 	 */
 	public EmAuditsVO getEmAuditsVO() {
 		return emAuditsVO;
@@ -241,7 +253,9 @@ public class AdminAction extends BaseAction {
 
 	
 	/**
-	 * @param emAuditsVO the emAuditsVO to set
+	 * Set Audit info.
+	 * 
+	 * @param emAuditsVO the emAuditsVO containing Audit info.
 	 */
 	public void setEmAuditsVO(EmAuditsVO emAuditsVO) {
 		this.emAuditsVO = emAuditsVO;
@@ -249,6 +263,8 @@ public class AdminAction extends BaseAction {
 
 	/**
 	 * Get the list of IC coordinator email addresses
+	 * 
+	 * @return String list of emails.
 	 */
 	public String getIcEmails() {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
