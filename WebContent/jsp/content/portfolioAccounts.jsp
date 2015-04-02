@@ -14,7 +14,7 @@
 			show : {effect : "slide",duration : 250},
 			hide : {effect : "slide",duration : 250},
 			buttons : {
-				Submit : function() {
+				Done : function() {
 					var result = "";
 					var ipac2Id = $('#cellId').val();
 					var name = $('#nameId').val();
@@ -36,7 +36,7 @@
 					}
 					else{$('#missingNotesMessage').html("<font color='red'>Please enter Notes.</font>");}
 				},
-				Close : function() {$(this).dialog("close");}
+				Cancel : function() {$(this).dialog("close");}
 			}
 		});		
 	});

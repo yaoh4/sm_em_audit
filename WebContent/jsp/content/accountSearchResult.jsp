@@ -19,7 +19,9 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 
+<s:if test="%{activeAuditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
+</s:if>
 
 <display:table name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" excludedParams="act size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
