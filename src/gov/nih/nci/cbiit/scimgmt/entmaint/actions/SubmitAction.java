@@ -24,7 +24,6 @@ public class SubmitAction extends BaseAction {
 	private Logger log = Logger.getLogger(SubmitAction.class);
 	@Autowired
 	private Impac2AuditService impac2Service;
-	private InputStream inputStream;  
 	@Autowired
 	protected EntMaintProperties entMaintProperties;
 	/**
@@ -96,11 +95,5 @@ public class SubmitAction extends BaseAction {
 		}
 		
 		return SUCCESS;
-	}
-	/**
-	 * This method defines a inputStream and it will send back to AJax Result.
-	 */
-	public InputStream getInputStream() {    
-		return inputStream;   
 	}
 }

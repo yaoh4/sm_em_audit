@@ -2,7 +2,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 
-import java.io.InputStream;
 import java.io.StringBufferInputStream;
 
 import org.apache.log4j.Logger;
@@ -17,15 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RoleDescriptionAction extends BaseAction {
 	
 	private Logger log = Logger.getLogger(RoleDescriptionAction.class);
-	private InputStream inputStream;  
+
 	@Autowired
 	private LookupService lookupService;
-	/**
-	 * This method to return a input stream back to AJax result. 
-	 */
-	public InputStream getInputStream() {    
-		return inputStream;   
-	}   
 	
 	/**
 	 * This method is handling the role description retrieval. It will throw exception if there is an error occurs in lookupSerivce. Ajax will 
