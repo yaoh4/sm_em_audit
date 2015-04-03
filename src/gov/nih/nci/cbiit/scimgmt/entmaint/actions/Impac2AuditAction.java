@@ -161,7 +161,7 @@ public class Impac2AuditAction extends BaseAction {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
 		//set up changePageSize dropdown and default pagesize
-		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session,getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
+		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
   		
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_ACTIVE);

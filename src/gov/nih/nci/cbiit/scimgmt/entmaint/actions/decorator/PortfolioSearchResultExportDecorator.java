@@ -97,7 +97,7 @@ public class PortfolioSearchResultExportDecorator extends
 	 */
 	public String getFullName() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
-		String fullName = accountVO.getNedLastName() + ", " + accountVO.getNedFirstName();
+		String fullName = accountVO.getFullName();
 		if(!fullName.replace(", ", "").isEmpty()) {
 			return fullName;
 		} 

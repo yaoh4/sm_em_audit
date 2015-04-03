@@ -18,6 +18,11 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+/**
+ * This class is responsible for decorating the rows of portfolio accounts search results table.
+ * @author tembharend
+ *
+ */
 @Configurable
 public class PortfolioSearchResultDecorator extends TableDecorator{
 	
@@ -113,12 +118,12 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	public String getFullName() {
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String fullName = "";
-		if(!StringUtils.isBlank(portfolioVO.getNedLastName()) && !StringUtils.isBlank(portfolioVO.getNedFirstName())){
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
 			if(!StringUtils.isBlank(portfolioVO.getNedEmailAddress())){
-				fullName =  "<a href=\"mailto:" + portfolioVO.getNedEmailAddress() +  "\">" + portfolioVO.getNedLastName() + ", " + portfolioVO.getNedFirstName() + "</a>";
+				fullName =  "<a href=\"mailto:" + portfolioVO.getNedEmailAddress() +  "\">" + portfolioVO.getFullName() + "</a>";
 			}
 			else{
-				fullName = portfolioVO.getNedLastName() + ", " + portfolioVO.getNedFirstName();
+				fullName = portfolioVO.getFullName();
 			}
 		}
 		return fullName;
@@ -174,7 +179,9 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 			if(disVw.getShortDescrip() != null){
+				//replace all single quote to HTML code
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
 				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
 						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +

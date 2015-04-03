@@ -343,7 +343,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	 */
 	public void setDefaultPageSize(){
 		if(changePageSize == 0){
-			changePageSize = (int)session.get(ApplicationConstants.DEFAULT_PAGE_SIZE);
+			changePageSize = Integer.parseInt(getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
 		}
 	}
 	

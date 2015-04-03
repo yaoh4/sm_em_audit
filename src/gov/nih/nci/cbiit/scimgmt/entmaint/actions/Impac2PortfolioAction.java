@@ -44,28 +44,34 @@ public class Impac2PortfolioAction extends BaseAction{
 		log.debug("Begin : searchPortfolioAccounts");
 		String forward = SUCCESS;
 		
+		//Set default page size.
 		setDefaultPageSize();
+		//Initialize PaginatedList.
 		portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);	
+		//Get search VO from session if its null and set dates if they are null.
 		setupSearchVO();
 		
+		//If export is requested then retrieve all accounts else retrieve only limited accounts as per pagination.
 		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
+			portfolioAccounts.setList(getExportAccountVOList(portfolioAccounts.getList()));
+			forward =  ApplicationConstants.EXPORT;
 		}
 		else {
 			portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, false);			
 		}
+		//Put searchVO in session.
+		session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);	
 		
-		session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);		
+		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());			
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
+		
+		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
 		log.debug("End : searchPortfolioAccounts");
-
-		if(DisplayTagHelper.isExportRequest(request, "portfolioAccountsId")) {
-			portfolioAccounts.setList(getExportAccountVOList(portfolioAccounts.getList()));
-			return ApplicationConstants.EXPORT;
-		}		
+		
 		return forward;
 	}
 	
@@ -125,11 +131,11 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * This method is responsible for portfolio accounts default search. 
 	 * @return String
 	 */    
-	public String defaultPortfolioSearch() {
-		log.debug("Begin : defaultPortfolioSearch");
+	public String execute() {
+		log.debug("Begin : execute");
     	String forward = SUCCESS; 
-    	
-    	setupDefaultSearchVO();
+    	//Set up initial values of searchVO
+    	initialComponent();
     	
     	//No default search for Super User
     	if(isSuperUser()){
@@ -138,11 +144,8 @@ public class Impac2PortfolioAction extends BaseAction{
     		return forward;
     	}
     	//Default search for IC coordinators.    
-    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){      				
-    		searchVO.setOrganization(nciUser.getOrgPath());	
-    	} 
     	forward = searchPortfolioAccounts();     	
-		log.debug("End : defaultPortfolioSearch");
+		log.debug("End : execute");
 		return forward;
 	}
 	
@@ -150,16 +153,20 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * This method sets up default values of searchVO for default search. 
 	 * @return String
 	 */ 
-	public void setupDefaultSearchVO(){
+	private void initialComponent(){
 		//Set default values
-		if(searchVO ==null){
-    		searchVO = new AuditSearchVO();
-    	}    	
+		searchVO = new AuditSearchVO();
     	searchVO.setDateRangeEndDate(new Date());
-    	searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
-    	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);	
+		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
+		if(isSuperUser()){  
+			searchVO.setOrganization(ApplicationConstants.NCI_DOC_ALL);	    		
+    	} 
+		else if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath())){      				
+    		searchVO.setOrganization(nciUser.getOrgPath());				
+		}
+    	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);    	
   		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
-  		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session,getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
+  		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
 	}
 	
 	/**
@@ -168,20 +175,16 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public String saveNotes(){
 		log.debug("Begin : saveNotes");
-		String ipac2Id = (String)request.getParameter("ipac2Id");
+		String impac2Id = (String)request.getParameter("impac2Id");
 		String notes = (String)request.getParameter("notes");
 		PrintWriter pw = null;
 		try{
-			DBResult dbResult = impac2PortfolioService.saveNotes(ipac2Id,notes,new Date());
-			if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
-				log.error("Exception occurred while saving portfolio notes.");
-				throw new Exception("Exception occurred while saving portfolio notes.");
-			}
+			impac2PortfolioService.saveNotes(impac2Id,notes,new Date());
 			pw = response.getWriter();
 			pw.print(decorateResponse());
 		}catch(Exception e){
-			log.error(e.getMessage());
-			pw.print("fail");
+			log.error("Exception occurred while saving portfolio notes.",e);
+			pw.print(ApplicationConstants.STATUS_FAIL);
 		}finally{
 			pw.close();
 		}
@@ -205,14 +208,14 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return 
 	 */
 	public void validateSearchPortfolioAccounts() {
-		if(searchVO != null && searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeEndDate() != null){							
-			if(searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
+		if(searchVO != null){							
+			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeEndDate() != null && searchVO.getDateRangeStartDate().after(searchVO.getDateRangeEndDate())){
 				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.outofsequence"));
 			}	
-			if(searchVO.getDateRangeStartDate().after(new Date())){
+			if(searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeStartDate().after(new Date())){
 				addFieldError("searchVO.dateRangeStartDate", getText("error.daterange.startdate.future"));
 			}
-			if(searchVO.getDateRangeEndDate().after(new Date())){
+			if(searchVO.getDateRangeEndDate() != null && searchVO.getDateRangeEndDate().after(new Date())){
 				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate.future"));
 			}
 			session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);		
@@ -226,16 +229,8 @@ public class Impac2PortfolioAction extends BaseAction{
 	public String clearSearchPortfolioAccounts() {
 		log.info("clearSearchPortfolioAccounts()");
 		session.remove(ApplicationConstants.PORTFOLIO_SEARCHVO);
-		searchVO = new AuditSearchVO();
-		searchVO.setDateRangeEndDate(new Date());
-		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE);
-		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && !isSuperUser()){      				
-    		searchVO.setOrganization(nciUser.getOrgPath());	
-    	} 
-		else{
-			searchVO.setOrganization(ApplicationConstants.NCI_DOC_ALL);	
-		}
-    	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);			
+		//Setting default searchVO
+		initialComponent();				
 		return SUCCESS;
 	}	
 	

@@ -16,12 +16,12 @@
 			buttons : {
 				Done : function() {
 					var result = "";
-					var ipac2Id = $('#cellId').val();
+					var impac2Id = $('#cellId').val();
 					var name = $('#nameId').val();
 					var notes = $('#noteText').val();
 					if(notes != ''){					
 						$.ajax({
-							url : "saveNotes.action", type : "get",	data : {ipac2Id : ipac2Id,name : name,notes : notes},async : false,
+							url : "saveNotes.action", type : "get",	data : {impac2Id : impac2Id,name : name,notes : notes},async : false,
 							success : function(msg) {result = $.trim(msg);},
 							error : function() {}
 						});	
@@ -29,8 +29,8 @@
 							$(this).dialog("close");
 							openErrorDialog();
 						} else {
-							$("#notesDiv_" + ipac2Id).html(notes);
-							$("#lastUpdateDiv_" + ipac2Id).html(result);
+							$("#notesDiv_" + impac2Id).html(notes);
+							$("#lastUpdateDiv_" + impac2Id).html(result);
 							$(this).dialog("close");
 						}
 					}

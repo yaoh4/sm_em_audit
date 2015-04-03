@@ -112,16 +112,12 @@ public class AuditSearchActionHelper {
 	 * This method is setting Up ChangePageSize DropDown List.
 	 * @return 
 	 */
-	public void setUpChangePageSizeDropDownList(String changePageSizeProperty, Map<String, Object> session, String defaultPageSize){
+	public void setUpChangePageSizeDropDownList(String changePageSizeProperty, Map<String, Object> session){
 		List<DropDownOption> pageSizeList = new ArrayList<DropDownOption>();
 		for(String pageSize: changePageSizeProperty.split(",")){
 			DropDownOption pageSizeListOption = new DropDownOption(pageSize, pageSize);	
 			pageSizeList.add(pageSizeListOption);
 		}		
-		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);
-		
-		//Set default page size 
-		session.put(ApplicationConstants.DEFAULT_PAGE_SIZE, Integer.parseInt(defaultPageSize));
-		
+		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
 	}
 }
