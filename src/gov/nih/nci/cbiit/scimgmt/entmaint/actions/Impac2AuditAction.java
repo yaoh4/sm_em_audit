@@ -33,6 +33,11 @@ public class Impac2AuditAction extends BaseAction {
 	private String category;
 	private String role;
 	
+	private static String FORWARD_ACTIVE = "active";
+	private static String FORWARD_INACTIVE = "inactive";
+	private static String FORWARD_NEW = "new";
+	private static String FORWARD_DELETE = "delete";
+	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
 	private String type = "active";
@@ -47,23 +52,7 @@ public class Impac2AuditAction extends BaseAction {
 		if(category == null){
 			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);	
 		}
-		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
-			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchActiveAuditAccounts");
-			forward = "active";
-		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(category)){
-			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchNewAuditAccounts");
-			forward = "new";
-		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(category)){
-			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchDeletedAuditAccounts");
-			forward = "delete";
-		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(category)){
-			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchInactiveAuditAccounts");
-			forward = "inactive";
-		}
+		forward = sortByCategory(category);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(category);
@@ -74,14 +63,8 @@ public class Impac2AuditAction extends BaseAction {
 		searchVO.setAct("");
 		searchVO.setUserFirstname("");
 		searchVO.setUserLastname("");
-		if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath())){    	
-    		boolean superUser = this.isSuperUser();
-    		if(superUser){
-    			searchVO.setOrganization("All");
-    		}else{
-    			searchVO.setOrganization(nciUser.getOrgPath());
-    		}
-    	}
+		searchVO.setOrganization("");
+		setUpDefaultSearch();
 		
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
@@ -103,13 +86,10 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, true);
-		}
-		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_DELETED);
-
-		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
+		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_DELETED);
 		
         return forward;
 	}
@@ -121,7 +101,7 @@ public class Impac2AuditAction extends BaseAction {
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_DELETED);
-			forward = "primary";
+			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchDeletedAccounts();
 		}
@@ -143,12 +123,10 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, true);
-		}
-		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_ACTIVE);
-		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
+		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_ACTIVE);
 
         return forward;
 	}
@@ -165,7 +143,7 @@ public class Impac2AuditAction extends BaseAction {
   		
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_ACTIVE);
-			forward = "primary";
+			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchActiveAccounts();
 		}
@@ -187,14 +165,11 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, true);
-		}
-		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_NEW);
-		
-		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
-
+		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_NEW);
+		
         return forward;
 	}
 	
@@ -207,7 +182,7 @@ public class Impac2AuditAction extends BaseAction {
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_NEW);
-			forward = "primary";
+			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchNewAccounts();
 		}
@@ -230,13 +205,11 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, true);
-		}
-
-		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_INACTIVE);
-		if(DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
+
+		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_INACTIVE);
 
 		return forward;
 	}
@@ -251,7 +224,7 @@ public class Impac2AuditAction extends BaseAction {
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_INACTIVE);
-			forward = "primary";
+			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchInactiveAccounts();
 		}
@@ -266,28 +239,26 @@ public class Impac2AuditAction extends BaseAction {
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 	
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+		displayColumn = colMap.get(pageName);
+		
 		if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
 			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
 			this.setFormAction("searchInactiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
 			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
 			this.setFormAction("searchActiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
 			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
 			this.setFormAction("searchDeletedAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
 			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
-			displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
@@ -304,28 +275,38 @@ public class Impac2AuditAction extends BaseAction {
 	private void initialComponent(String pageName){		
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, pageName);
-		if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)){
-			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchActiveAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
-		}else if (pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)){
-			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchNewAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_NEW);
-		}else if (pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)){
-			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchDeletedAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
-		}else if (pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
-			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
-			this.setFormAction("searchInactiveAuditAccounts");
-			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
-		}
+		sortByCategory(pageName);
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = false;
 		this.setRole(getRole(nciUser));
 	}
 	
+	private String sortByCategory(String pageName){
+		String forward = "";
+		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
+			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
+			this.setFormAction("searchActiveAuditAccounts");
+			this.setCategory(pageName);
+			forward = FORWARD_ACTIVE;
+		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(category)){
+				auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
+				this.setFormAction("searchNewAuditAccounts");
+				this.setCategory(pageName);
+				forward = FORWARD_NEW;
+		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(category)){
+				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
+				this.setFormAction("searchDeletedAuditAccounts");
+				this.setCategory(pageName);
+				forward = FORWARD_DELETE;
+		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(category)){
+				auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
+				this.setFormAction("searchInactiveAuditAccounts");
+				this.setCategory(pageName);
+				forward = FORWARD_INACTIVE;
+		}
+		
+		return forward;
+	}
 	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts) {
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
@@ -477,5 +458,5 @@ public class Impac2AuditAction extends BaseAction {
     			searchVO.setOrganization(nciUser.getOrgPath());
     		}
     	}
-	}
+   }
 }

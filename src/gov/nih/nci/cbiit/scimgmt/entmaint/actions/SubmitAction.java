@@ -54,14 +54,10 @@ public class SubmitAction extends BaseAction {
 			}else{
 				//normal submit action 
 				Date date = new Date();
-				DBResult dbResult = impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
+				impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
 				String timeStr = sdf.format(date);
 				String fullName = nciUser.getLastName() +", " + nciUser.getFirstName();
-				if(dbResult.getStatus().equalsIgnoreCase(DBResult.FAILURE)){
-					log.error("Exception occurs during saving data into EmAuditAccountActivityT table.");
-					throw new Exception("Exception occurs during saving data into EmAuditAccountActivityT table.");
-				}
 				
 				inputStream = new StringBufferInputStream(timeStr+";"+fullName);
 			}
