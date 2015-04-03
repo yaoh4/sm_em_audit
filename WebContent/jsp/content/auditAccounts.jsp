@@ -202,10 +202,14 @@
   <div class="panel-heading">
  <h3  class="panel-title">Search Results</h3>
   </div>
-  
+ <s:if test="%{activeAuditAccounts.list.size > 0}">
 <div align="center" style="overflow:auto;">
 	<s:include value="/jsp/content/accountSearchResult.jsp?act=%{formAction}"/>
 </div>
+</s:if>
+<s:else>
+	<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;">Nothing found to display.</div>
+</s:else>
 </div>
 </s:if> 
 

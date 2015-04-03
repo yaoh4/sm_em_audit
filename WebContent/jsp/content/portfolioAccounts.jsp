@@ -156,17 +156,21 @@
 		IMPAC II User Roles (.pdf) 
 		</a>
 	</span>
-</div> 
+</div>
 
 <s:if test="showResult">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">Search Results</h3>
 		</div>
-		<div align="center" style="overflow: auto;">
-			<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{formAction}"/>
-		</div>
-
+		<s:if test="%{portfolioAccounts.list.size > 0}">
+			<div align="center" style="overflow: auto;">
+				<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{formAction}" />
+			</div>
+		</s:if>
+		<s:else>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;">Nothing found to display.</div>
+		</s:else>
 	</div>
 </s:if>
 

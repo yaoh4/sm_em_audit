@@ -32,7 +32,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	private static final Logger log = Logger.getLogger(Impac2PortfolioAction.class);		
 	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;	
 	private List<DropDownOption> categoriesList = new ArrayList<DropDownOption>();	
-	
+	private boolean isDefaultSearch = false;
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
 	
@@ -70,6 +70,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
+		isDefaultSearch = false;
 		log.debug("End : searchPortfolioAccounts");
 		
 		return forward;
@@ -85,7 +86,9 @@ public class Impac2PortfolioAction extends BaseAction{
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.PORTFOLIO_SEARCHVO);
 		}
 		//If user doesn't enter Start date or End date, populate it.
-		if(searchVO.getDateRangeStartDate() == null){
+		if(searchVO.getDateRangeStartDate() == null && 
+				!isDefaultSearch && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED ||
+				searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW)){
 			searchVO.setDateRangeStartDate(new Date());
 		}	
 		if(searchVO.getDateRangeEndDate() == null){
@@ -143,7 +146,8 @@ public class Impac2PortfolioAction extends BaseAction{
     		this.setFormAction("searchPortfolioAccounts");     		     		
     		return forward;
     	}
-    	//Default search for IC coordinators.    
+    	//Default search for IC coordinators. 
+    	isDefaultSearch=true;
     	forward = searchPortfolioAccounts();     	
 		log.debug("End : execute");
 		return forward;
@@ -164,6 +168,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		else if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath())){      				
     		searchVO.setOrganization(nciUser.getOrgPath());				
 		}
+		
     	session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);    	
   		auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
   		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
