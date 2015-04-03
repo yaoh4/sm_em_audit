@@ -19,7 +19,7 @@
 					var impac2Id = $('#cellId').val();
 					var name = $('#nameId').val();
 					var notes = $('#noteText').val();
-					if(notes != ''){					
+					if($.trim(notes).length > 0){					
 						$.ajax({
 							url : "saveNotes.action", type : "get",	data : {impac2Id : impac2Id,name : name,notes : notes},async : false,
 							success : function(msg) {result = $.trim(msg);},
