@@ -95,12 +95,8 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	 */
     public String getFullName() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String fullName = accountVO.getFullName();
-		if(!fullName.replace(", ", "").isEmpty()) {
-			return fullName;
-		} 
 		
-		return "";
+		return accountVO.getFullName();
     }
 	
     
@@ -170,7 +166,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		String note = "";
 		EmAuditAccountActivityVw accountActivityVw = accountVO.getAccountActivity();
 		if(accountVO.getAccountActivity() != null) {
-			if(accountActivityVw != null && (accountActivityVw.getUnsubmittedFlag() == null || accountActivityVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+			if(accountActivityVw != null && (accountActivityVw.getUnsubmittedFlag() == null || accountActivityVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 				note = accountActivityVw.getNotes();
 			}
 		}
@@ -197,7 +193,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 			if(submittedDate != null){
 				String dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
 				lastUpdated.append("Submitted on ").append(dateStr);
-				String submittedBy = accountVO.getAccountActivity().getSubmittedByFullName();	
+				String submittedBy = eaaVw.getSubmittedByFullName();	
 				if(submittedBy == null) {
 					submittedBy = accountVO.getId().toString();
 				}

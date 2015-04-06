@@ -101,11 +101,13 @@ public class AdminAction extends BaseAction {
      */
     public String startAudit() {
     	
+    	logger.info("Setting up new Audit...");
     	//Store the audit info into the DB
-    	Long id = adminService.setupNewAudit(emAuditsVO);
+    	Long auditId = adminService.setupNewAudit(emAuditsVO);
+    	logger.info("Setup new Audit with auditId: " + auditId);
     	
     	//Retrieve the newly created audit from the DB
-    	emAuditsVO = adminService.retrieveAuditVO(id);
+    	emAuditsVO = adminService.retrieveAuditVO(auditId);
     	
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
@@ -151,8 +153,11 @@ public class AdminAction extends BaseAction {
      */
     public String resetAudit() {
     	
+    	logger.info("Closing current audit");
     	//Close the current Audit
     	adminService.closeCurrentAudit();
+    	logger.info("Closed audit with auditId " + emAuditsVO.getId());
+    	
     	
     	emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
     	
@@ -168,8 +173,10 @@ public class AdminAction extends BaseAction {
     private String updateAudit(String auditState) {
     	
     	//Store the auditState into the DB
+    	logger.debug("Updating current audit to state " + auditState);
     	Long auditId = adminService.updateCurrentAudit(
     		auditState, emAuditsVO.getComments());
+    	logger.debug("Updated current audit with auditId " + emAuditsVO.getId());
     	
     	//Retrieve the updated emAuditsVO from the DB
     	emAuditsVO = adminService.retrieveAuditVO(auditId);
