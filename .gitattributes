@@ -168,6 +168,12 @@ WebContent/images/nci-banner3.gif -text
 WebContent/images/nci_logo_bw.gif -text
 WebContent/images/q-icon.gif -text
 WebContent/images/subnav-divider.gif -text
+WebContent/images/ui-icons_444444_256x240.png -text
+WebContent/images/ui-icons_555555_256x240.png -text
+WebContent/images/ui-icons_777620_256x240.png -text
+WebContent/images/ui-icons_777777_256x240.png -text
+WebContent/images/ui-icons_cc0000_256x240.png -text
+WebContent/images/ui-icons_ffffff_256x240.png -text
 WebContent/images/uploadfile_table.png -text
 WebContent/index.jsp -text
 WebContent/jsp/content/accountSearchResult.jsp -text
