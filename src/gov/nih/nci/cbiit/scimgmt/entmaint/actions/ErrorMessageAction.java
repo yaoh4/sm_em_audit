@@ -17,11 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+/**
+ * Action class to display application error message with the capability 
+ * for the user to report the error through the 'send email' button. This 
+ * code has been reused from other I2E applications.
+ * 
+ * @author menons2
+ *
+ */
 public class ErrorMessageAction extends BaseAction {
     
-	private HttpServletRequest request;
-    
+	
 	private String message;
     
 	private String errorDetails;
@@ -34,10 +40,7 @@ public class ErrorMessageAction extends BaseAction {
     
 	Logger logger = Logger.getLogger(getClass());
 
-    public void setServletRequest(HttpServletRequest httpServletRequest) {
-        this.request = httpServletRequest;
-    }
-
+   
     public String execute() throws Exception {
        
     	logger.error(errorDetails);
@@ -80,7 +83,6 @@ public class ErrorMessageAction extends BaseAction {
             //Set message attributes
             
             msg.setFrom(new InternetAddress(from));
-          
             InternetAddress[] address = null;
             if ( to != null){
                 String[] addresses  =  to.split(",");
@@ -89,7 +91,6 @@ public class ErrorMessageAction extends BaseAction {
                     address[i] =  new InternetAddress(addresses[i]) ;
                 }
             }
-            
             msg.setRecipients(Message.RecipientType.TO, address);
             msg.setSentDate(new Date());
             msg.setSubject("Enterprise Maintenance (Audit Module)  " + envString + "Application Error  at " + errorTime);
@@ -98,20 +99,9 @@ public class ErrorMessageAction extends BaseAction {
             //Send the message
             Transport.send(msg);
         } catch (Throwable e) {
-            // Prints all nested (chained) exceptions as well
             logger.error("Error occurred emailing error message from " + from, e);
         }
         return SUCCESS;
-    }
-
-    
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
-    }
-    
-
-    public HttpServletRequest getRequest() {
-        return request;
     }
 
 
