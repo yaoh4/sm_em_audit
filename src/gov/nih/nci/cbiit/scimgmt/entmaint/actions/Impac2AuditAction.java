@@ -283,22 +283,22 @@ public class Impac2AuditAction extends BaseAction {
 	
 	private String sortByCategory(String pageName){
 		String forward = "";
-		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
+		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(pageName)){
 			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
 			this.setFormAction("searchActiveAuditAccounts");
 			this.setCategory(pageName);
 			forward = FORWARD_ACTIVE;
-		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(category)){
+		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(pageName)){
 				auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
 				this.setFormAction("searchNewAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_NEW;
-		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(category)){
+		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(pageName)){
 				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
 				this.setFormAction("searchDeletedAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_DELETE;
-		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(category)){
+		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(pageName)){
 				auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
 				this.setFormAction("searchInactiveAuditAccounts");
 				this.setCategory(pageName);
