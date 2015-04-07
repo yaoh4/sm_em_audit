@@ -7,6 +7,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminAction extends BaseAction {
 
    
+	private static final int COMMENTS_FIELD_SIZE = 1000;
+
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	protected boolean sendAuditNotice = false;	
@@ -63,26 +66,29 @@ public class AdminAction extends BaseAction {
     		this.addActionError(getText("error.audittypes.empty"));
     	}
     
-    	//If either of the dates are not present, then error
-    	if(emAuditsVO.getImpaciiFromDate() == null) {
-    		this.addActionError(getText("error.daterange.startdate.empty"));
-    	}  	  	
     	if(emAuditsVO.getImpaciiToDate() == null) {
-    		this.addActionError(getText("error.daterange.enddate.empty"));
-    	}
-    	
-    	//If either of the dates are in the future, then error
-    	if(emAuditsVO.getImpaciiFromDate().after(new Date())) {
-    		this.addActionError(getText("error.daterange.startdate.future"));
-    	} 
-    	if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    		emAuditsVO.setImpaciiToDate(new Date());
+    	} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    		//End date cannot be in future
     		this.addActionError(getText("error.daterange.enddate.future"));
     	}
-    	   	
-    	//Audit End Date should be after Audit Start Date
-    	if(emAuditsVO.getImpaciiFromDate() != null && emAuditsVO.getImpaciiToDate() != null
-    			&& emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
+    	
+    	//Start date cannot be null
+    	if(emAuditsVO.getImpaciiFromDate() == null) {
+    		this.addActionError(getText("error.daterange.startdate.empty"));
+    	} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
+    		//Start date cannot be in future	
+			this.addActionError(getText("error.daterange.startdate.future"));
+    	} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
+    		//Start date cannot be after end date
     		this.addActionError(getText("error.daterange.outofsequence"));
+    	}
+    	
+    	//Comments cannot be longer than 1000 characters.
+    	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
+    		if(emAuditsVO.getComments().length() > COMMENTS_FIELD_SIZE) {
+    			this.addActionError(getText("error.comments.size.exceeded"));
+    		}
     	}
     	
     	if(this.hasActionErrors()) {
