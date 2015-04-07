@@ -93,6 +93,7 @@ public class AdminAction extends BaseAction {
     	
     	if(this.hasActionErrors()) {
     		setDisableInput(false);
+    		setSendAuditNotice(false);
     		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
     	}
     }
@@ -166,6 +167,7 @@ public class AdminAction extends BaseAction {
     	
     	
     	emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
+    	emAuditsVO.setImpaciiToDate(new Date());
     	
     	setDisableInput(false);
     	
@@ -203,7 +205,8 @@ public class AdminAction extends BaseAction {
 		
 		switch(auditState) {
 			case ApplicationConstants.AUDIT_STATE_CODE_RESET:
-				setDisableInput(false);				
+				setDisableInput(false);
+				emAuditsVO.setImpaciiToDate(new Date());
 				break;
 				
 			case ApplicationConstants.AUDIT_STATE_CODE_ENABLED:
