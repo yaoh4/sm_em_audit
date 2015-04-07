@@ -4,6 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.text.SimpleDateFormat;
@@ -189,6 +190,21 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 			}
 		}
 		return sbu.toString();
+	}
+	
+	/**
+	 * This is method displays the deleted date with the format "MM/dd/yyyy"
+	 * @return String
+	 */
+	public String getDeletedDate(){
+
+		String dateString = "";
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		Date deletedDate = portfolioVO.getDeletedDate();
+		if(deletedDate != null) {
+			dateString = new SimpleDateFormat("MM/dd/yyyy").format(deletedDate);
+		}		
+		return dateString;
 	}
 	
 }
