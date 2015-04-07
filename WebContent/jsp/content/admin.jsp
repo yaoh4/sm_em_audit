@@ -29,7 +29,7 @@ function sendNotice()
 				error: function(){}		
 			});
 		 var elements = result.split("|");
-		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 1599); 
+		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&body=" + elements[1].substring(0, 1399); 
 		
 	     var iframeHack;
 	     iframeHack = document.createElement("IFRAME");
