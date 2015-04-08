@@ -144,13 +144,13 @@
     <div class="form-group">
       <label class="control-label col-sm-3" for="f-name">IMPAC II User First Name:</label>
       <div class="col-sm-9">
-        <s:textfield name="searchVO.userFirstname" cssClass="form-control" value="%{#session.searchVO.userFirstname}" id="f-name"/>
+        <s:textfield name="searchVO.userFirstname" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userFirstname}" id="f-name"/>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" for="l-name">IMPAC II User Last Name:</label>
       <div class="col-sm-9">          
-        <s:textfield name="searchVO.userLastname" cssClass="form-control" value="%{#session.searchVO.userLastname}" id="l-name"/>
+        <s:textfield name="searchVO.userLastname" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userLastname}" id="l-name"/>
       </div>
     </div>
  <div class="form-group">
