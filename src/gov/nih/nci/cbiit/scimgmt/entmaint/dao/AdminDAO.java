@@ -39,12 +39,6 @@ public class AdminDAO  {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-	/**
-	 * 
-	 */
-	public AdminDAO() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	
 	/**
@@ -78,11 +72,8 @@ public class AdminDAO  {
         				
 		} catch (Throwable e) {		
 			logger.error("Error setting up audit data, new auditId: " + auditId, e);
-			try {
-				
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
+			try {				
+				session.close();			
 				throw e;
 			} catch(Throwable b) {
 				logger.error("Error while closing session ", b);
@@ -117,9 +108,7 @@ public class AdminDAO  {
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);
 			try {
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
+				session.close();				
 				throw e;
 			} catch(Throwable b) {
 				logger.error("Error while closing session ", b);
@@ -155,9 +144,7 @@ public class AdminDAO  {
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);
 			try {
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
+				session.close();				
 				throw e;
 			} catch(Throwable b) {
 				logger.error("Error while closing session ", b);
@@ -179,16 +166,12 @@ public class AdminDAO  {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void freezeAuditRecords(Date impaciiFromDate, Date impaciiToDate, Session session) {
-				
-		try {
+					
 		ProcedureCall call = session.createStoredProcedureCall("EM_AUDIT_PKG.FREEZE_AUDIT_RECORDS");
 		call.registerParameter("p_start_date", Date.class, ParameterMode.IN).bindValue(impaciiToDate);
 		call.registerParameter("p_end_date", Date.class, ParameterMode.IN).bindValue(impaciiFromDate);
 		call.getOutputs();	
-		} catch (Throwable e) {		
-			logger.error("Error while calling stored procedure EM_AUDIT_PKG.FREEZE_AUDIT_RECORDS ", e);
-			throw e;	
-		}
+		
 	}
 	
 	
@@ -241,9 +224,7 @@ public class AdminDAO  {
 		} catch (Throwable e) {		
 			logger.error("Error retrieving data from EM_AUDITS_VW ", e);
 			try {
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
+				session.close();				
 				throw e;
 			} catch(Throwable b) {
 				logger.error("Error while closing session ", b);
