@@ -143,6 +143,7 @@ WebContent/images/PFR_banner.jpg -text
 WebContent/images/PFR_bg.jpg -text
 WebContent/images/PFR_bg2.jpg -text
 WebContent/images/PFR_logo.png -text
+WebContent/images/Thumbs.db -text
 WebContent/images/alert.png -text
 WebContent/images/arrow-down.png -text
 WebContent/images/arrow-up.png -text
@@ -165,6 +166,8 @@ WebContent/images/nci-banner-h.gif -text
 WebContent/images/nci-banner1.gif -text
 WebContent/images/nci-banner2.gif -text
 WebContent/images/nci-banner3.gif -text
+WebContent/images/nci_i2e_banner.png -text
+WebContent/images/nci_i2e_logo.png -text
 WebContent/images/nci_logo_bw.gif -text
 WebContent/images/q-icon.gif -text
 WebContent/images/subnav-divider.gif -text
