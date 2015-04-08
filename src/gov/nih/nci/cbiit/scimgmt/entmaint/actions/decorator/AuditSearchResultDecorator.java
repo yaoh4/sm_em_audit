@@ -71,7 +71,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			}
 			//if the action is verfiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
-				actionStr = actionStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
+				actionStr = actionStr + "<br/><a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>eRA UA</a><br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>I2E EM</a>";
 			}
 			actionStr = actionStr + "</div>";
 		}else{

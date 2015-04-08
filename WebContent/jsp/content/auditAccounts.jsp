@@ -61,7 +61,7 @@
 				 					actStr = actionLabel;
 				 				}
 				 				if(aId == "3"){
-				 					actStr = actStr + "<br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>EM</a>&nbsp;&nbsp;<a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>ERA</a>";
+				 					actStr = actStr + "<br/><a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>eRA UA</a><br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>I2E EM</a>";
 				 				}
 				 				$('#'+cId).html(actStr);
 				 				$('#note' + cId).html(comments);
