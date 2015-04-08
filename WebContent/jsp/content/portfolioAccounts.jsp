@@ -60,7 +60,7 @@
 						User First Name:</label>
 					<div class="col-sm-9">
 						<s:textfield name="searchVO.userFirstname" cssClass="form-control" maxlength="192"
-							value="%{#session.portfolioSearchVO.userFirstname}" id="f-name" />
+							placeholder="Enter First Name" value="%{#session.portfolioSearchVO.userFirstname}" id="f-name" />
 					</div>
 				</div>
 				
@@ -69,7 +69,7 @@
 						User Last Name:</label>
 					<div class="col-sm-9">
 						<s:textfield name="searchVO.userLastname" cssClass="form-control" maxlength="192"
-							value="%{#session.portfolioSearchVO.userLastname}" id="l-name" />
+							placeholder="Enter Last Name" value="%{#session.portfolioSearchVO.userLastname}" id="l-name" />
 					</div>
 				</div>	
 				
