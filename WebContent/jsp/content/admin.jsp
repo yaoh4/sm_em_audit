@@ -54,6 +54,10 @@ function validateForm() {
    return true;
 }
 
+function submitReset(){
+	$('#adminActionId').attr("action", "resetAudit");
+	$('#adminActionId').submit();
+}
 </script>
    
 
@@ -67,7 +71,7 @@ function validateForm() {
   
  
  
-  <form class="form-horizontal" role="form" action="adminHome.action" namespace="/admin" method="post">
+  <form class="form-horizontal" role="form" action="adminHome.action" id="adminActionId" namespace="/admin" method="post">
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
@@ -124,7 +128,8 @@ function validateForm() {
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_DISABLED)}">
               	<s:submit value="Enable Audit" cssClass="btn btn-primary" action="enableAudit" onClick="return validateForm()"/>      
-              	<s:submit value="Reset Audit" cssClass="btn btn-primary" action="resetAudit" onClick="return validateForm()"/> 
+              	<!-- <s:submit value="Reset Audit" cssClass="btn btn-primary" action="resetAudit" onClick="return validateForm()"/> -->
+              	<input type="button" class="btn btn-primary" value="Reset Audit" onclick="openConfirmation();";
           	</s:elseif>
       	</div>
       	
@@ -140,6 +145,11 @@ function validateForm() {
   	</div>
 </form>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
+<div id="confirmation" align="center" style="display:none;" title="Confirmation">
+<br/>
+You have attempted to reset the audit. Are you sure?
+</div>
+
 <!--  tab-content -->
 </div>
 <!-- panel -->

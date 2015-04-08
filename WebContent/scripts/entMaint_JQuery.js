@@ -5,8 +5,8 @@ $(function() {
 		 width: 400,
 		 height:300,
 		 modal: true,
-		 show: { effect: "slide", duration: 1000 },
-		 hide: { effect: "slide", duration: 1000 },
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
 		 buttons: {
 		 		OK: function() {
 		 			$( this ).dialog( "close" ); 
@@ -20,11 +20,30 @@ $(function() {
 		 width: 400,
 		 height:300,
 		 modal: true,
-		 show: { effect: "slide", duration: 1000 },
-		 hide: { effect: "slide", duration: 1000 },
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
 		 buttons: {
 		 		OK: function() {
 		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
+	$("#confirmation").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:200,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			submitReset();
+		 			$( this ).dialog( "close" ); 
+		 		},
+		 		Cancel: function(){
+		 			$( this ).dialog( "close" );
 		 		}
 		 }
 	});
@@ -54,7 +73,8 @@ $(function() {
 		 hide: { effect: "", duration: 1 },
 	}).siblings('div.ui-dialog-titlebar').remove();
 	
-});
+   });
+
 
 function openHelp(id){
 	$('#helpDiv').html($('#' + id).val());
@@ -84,6 +104,11 @@ function openErrorDialog(){
 function openLoading(){
 	
 	$('#loading').dialog("open");
+}
+
+function openConfirmation(){
+	
+	$('#confirmation').dialog("open");
 }
 
 function openRole(result){
