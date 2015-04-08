@@ -121,16 +121,14 @@
 					<label class="control-label col-sm-3" for="dateRange">Date Range:</label>
 					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
-							name="searchVO.dateRangeStartDate"
-							value="%{#session.portfolioSearchVO.dateRangeStartDate}"
+							name="searchVO.dateRangeStartDate"							
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="Start date"
 							buttonImage="../images/calendar_icon.gif" buttonImageOnly="true"
 							buttonText="Select start date." />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<sj:datepicker size="15" id="dateRangeEndDate"
-							name="searchVO.dateRangeEndDate"
-							value="%{#session.portfolioSearchVO.dateRangeEndDate}"
+							name="searchVO.dateRangeEndDate"							
 							displayFormat="mm/dd/yy" changeYear="true" yearRange="-10:+10"
 							placeholder="End date" buttonImage="../images/calendar_icon.gif"
 							buttonImageOnly="true" buttonText="Select end date." />
