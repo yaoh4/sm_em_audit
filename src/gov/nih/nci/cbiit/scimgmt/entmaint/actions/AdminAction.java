@@ -61,6 +61,9 @@ public class AdminAction extends BaseAction {
      * 
      */
     public void validateStartAudit() {
+    	
+    	this.clearActionErrors();
+    	
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {
     		this.addActionError(getText("error.audittypes.empty"));
@@ -162,7 +165,7 @@ public class AdminAction extends BaseAction {
     	
     	logger.info("Closing current audit");
     	//Close the current Audit
-    	adminService.closeCurrentAudit();
+    	adminService.closeCurrentAudit(emAuditsVO.getComments());
     	logger.info("Closed audit with auditId " + emAuditsVO.getId());
     	
     	

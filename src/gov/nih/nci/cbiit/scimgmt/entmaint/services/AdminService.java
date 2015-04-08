@@ -28,7 +28,7 @@ public interface AdminService {
 	 * 
 	 * @return
 	 */
-	public void closeCurrentAudit();
+	public void closeCurrentAudit(String comments);
 	
 	
 	/**

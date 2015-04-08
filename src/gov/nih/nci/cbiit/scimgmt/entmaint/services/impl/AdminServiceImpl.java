@@ -26,6 +26,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 
 /**
+ * Service layer for Admin functionality.
+ * 
  * @author menons2
  *
  */
@@ -33,30 +35,27 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 public class AdminServiceImpl implements AdminService {
 
 	
-	public static Logger log = Logger.getLogger(AdminServiceImpl.class);
+	public static Logger logger = Logger.getLogger(AdminServiceImpl.class);
 
 	@Autowired
 	private AdminDAO adminDAO;
 	
-	public static String TRUE = ApplicationConstants.TRUE;
-	public static String FALSE = ApplicationConstants.FALSE;
-	
-	
-	
-	/**
-	 * Default constructor
-	 */
-	public AdminServiceImpl() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	/**
 	 * Setup a new Audit
 	 * 
-	 * @param emAuditsVO
-	 * @return Long
+	 * @param emAuditsVO VO contains audit params
+	 * 
+	 * @return Long the new audit Id
 	 */
 	public Long setupNewAudit(EmAuditsVO emAuditsVO) {
+		
+		//Check if audit already exists
+		EmAuditsVO currentAuditsVO = retrieveCurrentAuditVO();
+		if(currentAuditsVO != null && currentAuditsVO.getId() != null) {
+			logger.warn("Audit already exists, auditId: " + currentAuditsVO.getId());
+			return currentAuditsVO.getId();
+		}
 		
 		//Setup a new audit
 		Long auditId = adminDAO.setupNewAudit(
@@ -69,23 +68,26 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * Close the current Audit
 	 * 
-	 * @param id
+	 * @return
 	 */
-	public void closeCurrentAudit() {
+	public void closeCurrentAudit(String comments) {
 		
 		//Get current Audit from DB
     	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
     	Long auditId = emAuditsVw.getId();
-    	
-    	//Close the current audit
-		adminDAO.closeAudit(auditId);
+    	   	
+    	//Close the audit
+		adminDAO.closeAudit(auditId, comments);
 	}
 	
 	
 	/**
 	 * Update the state of the current Audit
 	 * 
-	 * @param historyVO
+	 * @param actionCode the action code of the new state
+	 * @param comments the comments associated with the new state
+	 * 
+	 * @return Long the audit id
 	 */
 	public Long updateCurrentAudit(String actionCode, String comments) {
 		
@@ -93,14 +95,18 @@ public class AdminServiceImpl implements AdminService {
     	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
     	Long auditId = emAuditsVw.getId();
     	
-    	//Update the Audit History in the Audit
+    	//Update the Audit History for the Audit
 		adminDAO.updateAuditHistory(auditId, actionCode, comments);
 		
 		return auditId;
 		
 	}
 	
-	
+	/**
+	 * Retrieve the audit info associated with the given audit id
+	 * 
+	 * @param id the audit id of the audit to retrieve
+	 */
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
 		
@@ -149,7 +155,7 @@ public class AdminServiceImpl implements AdminService {
 			//Set the Audit flag
 			if(emAuditsVO.getImpaciiFromDate() != null && 
 				emAuditsVO.getImpaciiToDate() != null) {
-				emAuditsVO.setImpac2AuditFlag(TRUE);
+				emAuditsVO.setImpac2AuditFlag(ApplicationConstants.TRUE);
 			}
 		
 		
@@ -183,20 +189,24 @@ public class AdminServiceImpl implements AdminService {
 			BeanUtils.copyProperties(emAuditsVO, emAuditsVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating EmAuditsVO from EmAuditsVw",
+			logger.error("Error occured creating EmAuditsVO from EmAuditsVw",
 							e);
 		}
 		return emAuditsVO;
 	}
 
 	/**
-	 * @return the adminDAO
+	 * Get the adminDAO
+	 * 
+	 * @return AdminDAO
 	 */
 	public AdminDAO getAdminDAO() {
 		return adminDAO;
 	}
 
 	/**
+	 * Set the adminDAO
+	 * 
 	 * @param adminDAO the adminDAO to set
 	 */
 	public void setAdminDAO(AdminDAO adminDAO) {

@@ -4,12 +4,10 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.ParameterMode;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
@@ -26,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * DAO for retrieving and saving admin information.
+ * 
  * @author menons2
  *
  */
@@ -36,6 +36,7 @@ public class AdminDAO  {
 	
 	@Autowired
 	private NciUser nciUser;	
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	/**
@@ -52,7 +53,8 @@ public class AdminDAO  {
 	 * @param impaciiFromDate
 	 * @param impaciiToDate
 	 * @param comments
-	 * @return
+	 * 
+	 * @return Long audit id of the new Audit record
 	 */
 	public Long setupNewAudit(Date impaciiFromDate, Date impaciiToDate, String comments) {
 		
@@ -94,9 +96,9 @@ public class AdminDAO  {
 	 * Closes the current Audit by end dating the current audit record in
 	 * EM_AUDITS_T
 	 * 
-	 * @param id
+	 * @param id the audit id of the audit to close.
 	 */
-	public DBResult closeAudit(Long id) {
+	public DBResult closeAudit(Long auditId, String comments) {
 		
 		DBResult result = new DBResult();
 		Session session = sessionFactory.getCurrentSession();
@@ -105,12 +107,15 @@ public class AdminDAO  {
 		
 			//Set the Audit end date for the current audit in the EM_AUDIT_T table
 		
-			EmAuditsT emAuditsT = (EmAuditsT)session.load(EmAuditsT.class, new Long(id));
+			EmAuditsT emAuditsT = (EmAuditsT)session.load(EmAuditsT.class, new Long(auditId));
 			emAuditsT.setEndDate(new Date());
 			session.update(emAuditsT);
 			
+			//Update the Audit History for the Audit
+			updateAuditHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_RESET, comments);
+			
 		} catch (Throwable e) {		
-			logger.error("Error while updating data in EM_AUDITS_T for auditId " + id, e);
+			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);
 			try {
 				session.close();
 				//TBD - Setup error handling at the application level
@@ -130,9 +135,12 @@ public class AdminDAO  {
 	
 	/**
 	 * Updates the audit state by inserting a new record in EM_AUDIT_HISTORY_T
+	 * 
 	 * @param auditId
 	 * @param actionCode
 	 * @param comments
+	 * 
+	 * @return Long audit id of the updated audit
 	 */
 	public Long updateAuditHistory(Long auditId, String actionCode, String comments) {
 				
@@ -214,7 +222,8 @@ public class AdminDAO  {
 	
 	/**
 	 * Retrieves the current audit record from the EM_AUDITs_VW
-	 * @return
+	 * 
+	 * @return EmAuditsVw the data associated with the current audit
 	 */
 	public EmAuditsVw retrieveCurrentAudit() {
 		
@@ -247,8 +256,9 @@ public class AdminDAO  {
 
 	
 	/**
-	 * Retrieves the current audit record from the EM_AUDITs_VW
-	 * @return
+	 * Retrieves the audit record associated with the given id from the EM_AUDITs_VW
+	 * 
+	 * @return EmAuditsVw the audit info. associated with the given audit id
 	 */
 	public EmAuditsVw retrieveAudit(Long auditId) {
 		

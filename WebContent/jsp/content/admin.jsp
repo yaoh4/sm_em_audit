@@ -90,14 +90,16 @@ function validateForm() {
       	<div class="col-sm-4">
 			<s:if
 	    		test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
-        		<sj:datepicker id="auditStartDate" cssStyle="width:100px;" placeholder="Select" name="emAuditsVO.impaciiFromDate" displayFormat="mm/dd/yy" buttonImage="../images/calendar_icon.gif" buttonImageOnly="true" buttonText="Select start date."  changeYear="true" yearRange="-10:+10" />
+        		<sj:datepicker id="auditStartDate" size="15" placeholder="Select Start Date" name="emAuditsVO.impaciiFromDate" displayFormat="mm/dd/yy" buttonImage="../images/calendar_icon.gif" buttonImageOnly="true" buttonText="Select Start Date"  changeYear="true" yearRange="-10:+10" />
        			&nbsp;&nbsp;&nbsp;<label for="auditEndDate" style="width: auto;">to</label>&nbsp;&nbsp;&nbsp;
-         		<sj:datepicker id="auditEndDate" cssStyle="width:100px;" name="emAuditsVO.impaciiToDate" displayFormat="mm/dd/yy" buttonImage="../images/calendar_icon.gif" buttonImageOnly="true" buttonText="Select end date."  changeYear="true" yearRange="-10:+10" /> 
+         		<sj:datepicker id="auditEndDate" size="15" name="emAuditsVO.impaciiToDate" displayFormat="mm/dd/yy" buttonImage="../images/calendar_icon.gif" buttonImageOnly="true" buttonText="Select End Date"  changeYear="true" yearRange="-10:+10" /> 
        		</s:if>
        		<s:else>
-        		<s:property value="emAuditsVO.impaciiFromDate" />
-		  		&nbsp;&nbsp;&nbsp;<label for="auditEndDate" style="width: auto;">to</label>&nbsp;&nbsp;&nbsp;
-		 		<s:property value="emAuditsVO.impaciiToDate" />
+       			<div class="read_only">
+       				<s:date name="emAuditsVO.impaciiFromDate" format="MM/dd/yyyy" />
+		  			&nbsp;&nbsp;&nbsp;<label for="auditEndDate" style="width: auto;">to</label>&nbsp;&nbsp;&nbsp;
+		 			<s:date name="emAuditsVO.impaciiToDate" format="MM/dd/yyyy" />
+		 		</div>       		
        		</s:else>
       	</div> 
 	</div>
