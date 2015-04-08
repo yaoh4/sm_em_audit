@@ -14,6 +14,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Service Layer for LDAP access. This code has been reused from other
+ * I2E applications.
+ * 
+ * @author menons2
+ *
+ */
 @Component
 public class LdapServicesImpl implements LdapServices {
     Logger logger = Logger.getLogger(LdapServicesImpl.class);
@@ -33,16 +40,24 @@ public class LdapServicesImpl implements LdapServices {
     public static final String LAST_NAME = "lastname";
     public static final String FULL_NAME = "fullname";
     public static final String GROUP_MEMBERSHIP = "groupmembership";
-    public static final String TELEPHONE = "telephonenumber";
     public static final String OU = "nciaumembership";
 
     private static final String WHITE_SPACE = "";
     private static final String SINGLE_SPACE = " ";
 
     private String[] stAttrDirIDs = 
-    { CN, NCI_ORACLE_ID, FIRST_NAME, SUR_NAME, FULL_NAME, TELEPHONE, EMAIL, 
-      GROUP_MEMBERSHIP, OU };
+    { CN, NCI_ORACLE_ID, FIRST_NAME, SUR_NAME, FULL_NAME, EMAIL, GROUP_MEMBERSHIP, OU };
 
+    
+    /**
+     * Populates the nciUser with LDAP data and checks if the user has the privileges
+     * to access the application.
+     * 
+     * @param remoteUser
+     * 
+     * @return NciUser the nciUser object populated with data from LDAP.
+     * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
+     */
     public NciUser verifyNciUserWithRole(String remoteUser) throws UserLoginException {
         logger.debug("inside NCIInterceptor.verifyNciUserWithRole():" + 
                      remoteUser);
@@ -62,11 +77,13 @@ public class LdapServicesImpl implements LdapServices {
         return nciUser;
     }
 
+    
     /**
-     * Defines the user authorization for this action, this can be overiden by the actual actions
-     * if each requires a different authorization.
+     * Defines the user authorization for this action.
+     * 
      * @param nu NciUser to be verified
-     * @return
+     * 
+     * @return boolean true if the user has access, else false
      * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
      */
     private boolean verifyAuthorization(NciUser nciUser) throws UserLoginException {
@@ -77,15 +94,16 @@ public class LdapServicesImpl implements LdapServices {
     }
 
     /**
-     * Sets the user attributes from Ldap, this operation is called from the super class
-     * after it gets the remote user.
-     * @param user
+     * Sets the user attributes from Ldap, this operation is called after getting
+     * the remote user.
+     * 
+     * @param remoteUser
      * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
      */
     private NciUser populateNCIUser(String remoteUser) throws UserLoginException {
-        logger.debug("Retrieving NciUser from LDAP for user id "+remoteUser);
-        String loginErrorMessage = "Error while verifying  the User , roles , permissions " +
-                            "of user '"+remoteUser+"' in LDAP : ";
+        logger.debug("Retrieving NciUser from LDAP for user id " + remoteUser);
+        String loginErrorMessage = " Error while verifying  the User , roles , permissions " +
+                            "of user '"+ remoteUser +"' in LDAP : ";
         String stFDN = null;
         Attributes attribs = null;
         if (nciUser != null) {
@@ -101,14 +119,13 @@ public class LdapServicesImpl implements LdapServices {
                         ru.append(remoteUser.charAt(i));
                     remoteUser = ru.toString();
                 }
-                nciUser.setUserId(remoteUser);
-                logger.debug("before using ctx which got injected by SprngCntnr.S");
+                nciUser.setUserId(remoteUser);             
                 stFDN = ctx.getUserFDN(remoteUser);
-                logger.debug("ct.getUserFDN ():" + stFDN);
+                logger.debug("stFDN from ctx:" + stFDN);
                 attribs = ctx.getAttributes(stFDN, stAttrDirIDs);
-                logger.debug("ct.getUserFDN ():" + attribs);
+                logger.debug("attributes from ctx:" + attribs);
             } catch (Exception ex) {
-                logger.debug(ex);
+                logger.error(ex);
                 throw new UserLoginException(this.getClass().getName(), 
                                              "setUserAttributes", 
                                              loginErrorMessage + 
@@ -123,7 +140,6 @@ public class LdapServicesImpl implements LdapServices {
                 }
             } catch (Exception ex) {
                 logger.error(ex);
-                ex.printStackTrace();
                 throw new UserLoginException(this.getClass().getName(), 
                                              "setUserAttributes",
                                              loginErrorMessage+ EMAIL + " "+ex.getMessage());
@@ -137,7 +153,6 @@ public class LdapServicesImpl implements LdapServices {
                 }               
             } catch (Exception ex) {
                 logger.error(ex);
-                ex.printStackTrace();
                 throw new UserLoginException(this.getClass().getName(), 
                                              "setUserAttributes", 
                                              loginErrorMessage+"(NCI_ORCALE_ID) "+ 
@@ -176,10 +191,12 @@ public class LdapServicesImpl implements LdapServices {
                 } else {
                     String givenName = (String)nciUser.getFirstName();
                     String lastName = nciUser.getLastName();
-                    if (givenName == null)
+                    if (givenName == null) {
                         givenName = WHITE_SPACE;
-                    if (lastName == null)
+                    }
+                    if (lastName == null) {
                         lastName = WHITE_SPACE;
+                    }
                     nciUser.setFullName(givenName + SINGLE_SPACE + lastName);
                     logger.info("Attribute full name missing from LDAP for " + 
                                 nciUser.getFullName());
@@ -203,15 +220,6 @@ public class LdapServicesImpl implements LdapServices {
                                              ex.getMessage());
             }
             try {
-                if (attribs.get(TELEPHONE).get() != null) {
-                    nciUser.setPhone(attribs.get(TELEPHONE).get().toString());
-                } else {
-                    nciUser.setPhone(null);
-                }
-            } catch (Exception ex) {
-                logger.error(loginErrorMessage+TELEPHONE+" "+ex.getMessage());
-            }
-            try {
                 if (attribs.get(GROUP_MEMBERSHIP).get() != null) {
                     NamingEnumeration<?> groupMembership = 
                         attribs.get(GROUP_MEMBERSHIP).getAll();
@@ -231,36 +239,54 @@ public class LdapServicesImpl implements LdapServices {
                     nciUser.setGroupMembership(null);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
                 logger.error(ex);
                 throw new UserLoginException(this.getClass().getName(), 
                                              "setUserAttributes", 
-                                             loginErrorMessage+" (GROUP_MEMBERSHIP)  " + 
+                                             loginErrorMessage +" (GROUP_MEMBERSHIP)  " + 
                                              ex.getMessage());
             }
         } else {
             // did not find a User
             throw new UserLoginException(this.getClass().getName(), 
                                          "verifyAuthorization", 
-                                         loginErrorMessage+" (GROUP_MEMBERSHIP) ");
+                                         loginErrorMessage + " (User not found) ");
 
         }
         return nciUser;
     }
 
- 
+    /**
+     * Sets ctx
+     * 
+     * @param ctx 
+     */
     public void setCtx(LdapUtil ctx) {
         this.ctx = ctx;
     }
 
+    /**
+     * Gets ctx
+     * 
+     * @return LdapUtil
+     */
     public LdapUtil getCtx() {
         return ctx;
     }
 
+    /**
+     * Sets nciUser
+     * 
+     * @param nciUser
+     */
     public void setNciUser(NciUser nciUser) {
         this.nciUser = nciUser;
     }
 
+    /**
+     * Gets nciUser
+     * 
+     * @return NciUser
+     */
     public NciUser getNciUser() {
         return nciUser;
     }

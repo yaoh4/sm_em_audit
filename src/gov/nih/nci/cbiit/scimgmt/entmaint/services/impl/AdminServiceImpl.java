@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.Date;
