@@ -159,10 +159,10 @@
 <s:if test="showResult">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Search Results</h3>
+			<h3 class="panel-title">Results - <s:property value="%{getSearchResultsCat()}"/></h3>
 		</div>
 		<s:if test="%{portfolioAccounts.list.size > 0}">
-			<div align="center" style="overflow: auto;">
+			<div class="panel-body">
 				<s:include value="/jsp/content/portfolioAccountSearchResult.jsp?sortAction=%{formAction}" />
 			</div>
 		</s:if>

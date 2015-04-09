@@ -242,6 +242,17 @@ public class Impac2PortfolioAction extends BaseAction{
 	}	
 	
 	/**
+	 * Get the selected category	
+	 * @return category
+	 * 
+	 */
+	public String getSearchResultsCat(){
+		String category = "";
+		category = lookupService.getAppLookupById(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST, searchVO.getCategory()).getDescription();
+		return category;
+	}	
+	
+	/**
 	 * @return the portfolioAccounts
 	 */
 	public PaginatedListImpl<PortfolioAccountVO> getPortfolioAccounts() {

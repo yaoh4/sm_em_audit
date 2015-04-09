@@ -21,13 +21,15 @@
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
 
-<display:table name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
+<div class="table-responsive">
+<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
 </s:if>
 </s:iterator>
 </display:table>
+</div>
 <div id="help" style="display: none; overflow:auto;" title="IMPAC Discrepancy Report">
 	<br/>
 	<div align="left" id="helpDiv"></div>
