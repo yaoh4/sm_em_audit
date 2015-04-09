@@ -362,13 +362,6 @@
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
- 		<columnName>IMPAC II Discrepancy</columnName>
- 		<property>discrepancy</property>
- 		<sort>false</sort>
- 		<export>false</export>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioActive</type>
  		<columnName>Segregation of Duties Violation</columnName>
  		<property>discrepancySod</property>
  		<sort>false</sort>
@@ -571,12 +564,6 @@
  		<property>nihNetworkId</property>
  		<sort>true</sort>
  	</Tab>	 	
- 	<Tab>
- 		<type>portfolioDeleted</type>
- 		<columnName>Org ID</columnName>
- 		<property>orgId</property>
- 		<sort>false</sort>
- 	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>NED Org Path</columnName>
