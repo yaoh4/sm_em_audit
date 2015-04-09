@@ -123,25 +123,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		return setupAuditVO(emAuditsVw);
 	}
-	
-	/**
-	 * Retrieves the start date of the current Audit.
-	 * 
-	 * @return Date the audit start date.
-	 */
-	public Date retrieveAuditStartDate() {
 		
-		Date auditStartDate = null;
-		
-		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
-		
-		if(emAuditsVw != null) {
-			auditStartDate = emAuditsVw.getStartDate();
-		}
-		
-		return auditStartDate;
-	}
-	
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw) {
 		EmAuditsVO emAuditsVO = null;
@@ -190,24 +172,6 @@ public class AdminServiceImpl implements AdminService {
 							e);
 		}
 		return emAuditsVO;
-	}
-
-	/**
-	 * Get the adminDAO
-	 * 
-	 * @return AdminDAO
-	 */
-	public AdminDAO getAdminDAO() {
-		return adminDAO;
-	}
-
-	/**
-	 * Set the adminDAO
-	 * 
-	 * @param adminDAO the adminDAO to set
-	 */
-	public void setAdminDAO(AdminDAO adminDAO) {
-		this.adminDAO = adminDAO;
 	}
 
 }

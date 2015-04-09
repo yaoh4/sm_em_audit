@@ -46,14 +46,7 @@ public interface AdminService {
 	 * @return EmAuditsVO 
 	 */
 	public EmAuditsVO retrieveCurrentAuditVO();
-	
-	
-	/**
-	 * Retrieves the start date of the current Audit.
-	 * 
-	 * @return Date the audit start date.
-	 */
-	public Date retrieveAuditStartDate();
+		
 	
 	
 	/**

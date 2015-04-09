@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import java.util.Date;
@@ -24,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * DAO for retrieving and saving admin information.
+ * DAO for retrieving and saving Admin information.
  * 
  * @author menons2
  *
@@ -71,14 +68,8 @@ public class AdminDAO  {
 			session.save(history);
         				
 		} catch (Throwable e) {		
-			logger.error("Error setting up audit data, new auditId: " + auditId, e);
-			try {				
-				session.close();			
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
+			logger.error("Error setting up audit data, new auditId: " + auditId, e);			
+			throw e;		
 		}
 		return auditId;
 	}
@@ -106,14 +97,8 @@ public class AdminDAO  {
 			updateAuditHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_RESET, comments);
 			
 		} catch (Throwable e) {		
-			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);
-			try {
-				session.close();				
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
+			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);						
+			throw e;			 
 		}
 		
 		result.setStatus(DBResult.SUCCESS);
@@ -142,14 +127,8 @@ public class AdminDAO  {
 			id = (Long) session.save(history);
         
 		} catch (Throwable e) {		
-			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);
-			try {
-				session.close();				
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
+			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);						
+			throw e;			
 		}
 		
 		return id;
@@ -184,7 +163,7 @@ public class AdminDAO  {
 		emAuditsT.setImpaciiToDate(impaciiToDate);
 		emAuditsT.setI2eFromDate(impaciiFromDate);
 		emAuditsT.setI2eToDate(impaciiToDate);
-		emAuditsT.setCreateUserId(getNciUser().getOracleId());
+		emAuditsT.setCreateUserId(nciUser.getOracleId());
 		
 		return emAuditsT;
 	}
@@ -195,7 +174,7 @@ public class AdminDAO  {
 		
 		EmAuditHistoryT history = new EmAuditHistoryT();
         history.setEauId(auditId);
-        history.setCreateUserId(getNciUser().getOracleId());
+        history.setCreateUserId(nciUser.getOracleId());
         history.setActionCode(actionCode);
         history.setComments(comments);
         
@@ -214,7 +193,7 @@ public class AdminDAO  {
 		EmAuditsVw emAuditsVw = null;
 		
 		try {
-			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditsVw.class);
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
 			criteria.add(Restrictions.isNull("endDate"));			
 			Object result =  criteria.uniqueResult();
 			if (result != null) {
@@ -222,14 +201,8 @@ public class AdminDAO  {
 				session.evict(emAuditsVw);
 			}
 		} catch (Throwable e) {		
-			logger.error("Error retrieving data from EM_AUDITS_VW ", e);
-			try {
-				session.close();				
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
+			logger.error("Error retrieving data from EM_AUDITS_VW ", e);			
+			throw e;	
 		}
 		
 		return emAuditsVw;
@@ -250,33 +223,11 @@ public class AdminDAO  {
 			emAuditsVw = (EmAuditsVw)session.get(EmAuditsVw.class, new Long(auditId));
 			session.evict(emAuditsVw);
 		} catch (Throwable e) {		
-			logger.error("Error retrieving data from EM_AUDITS_VW for auditId " + auditId, e);
-			try {
-				session.close();
-				//TBD - Setup error handling at the application level
-				//and remove this code
-				throw e;
-			} catch(Throwable b) {
-				logger.error("Error while closing session ", b);
-				throw b;
-			}
+			logger.error("Error retrieving data from EM_AUDITS_VW for auditId " + auditId, e);			
+			throw e;
 		}
 		
 		return emAuditsVw;
 	}
-
-	/**
-	 * @return the nciUser
-	 */
-	public NciUser getNciUser() {
-		return nciUser;
-	}
-
-
-	/**
-	 * @param nciUser the nciUser to set
-	 */
-	public void setNciUser(NciUser nciUser) {
-		this.nciUser = nciUser;
-	}
+	
 }
