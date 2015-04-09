@@ -359,35 +359,7 @@
  		<columnName>Submitted</columnName>
  		<property>accountSubmitted</property>
  		<sort>false</sort>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioActive</type>
- 		<columnName>Segregation of Duties Violation</columnName>
- 		<property>discrepancySod</property>
- 		<sort>false</sort>
- 		<display>false</display>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioActive</type>
- 		<columnName>IMPAC II Vs. NED IC Discrepancy</columnName>
- 		<property>discrepancyIc</property>
- 		<sort>false</sort>
- 		<display>false</display>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioActive</type>
- 		<columnName>Active IMPAC II/Inactive NED</columnName>
- 		<property>discrepancyNedInactive</property>
- 		<sort>false</sort>
- 		<display>false</display>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioActive</type>
- 		<columnName>IMPAC II Vs. NED Last Name Discrepancy</columnName>
- 		<property>discrepancyLastName</property>
- 		<sort>false</sort>
- 		<display>false</display>
- 	</Tab>	
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Name</columnName>
@@ -625,6 +597,34 @@
  		<property>lastUpdated</property>
  		<sort>false</sort>
  	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Segregation of Duties Violation</columnName>
+ 		<property>discrepancySod</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Vs. NED IC Discrepancy</columnName>
+ 		<property>discrepancyIc</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Active IMPAC II/Inactive NED</columnName>
+ 		<property>discrepancyNedInactive</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Vs. NED Last Name Discrepancy</columnName>
+ 		<property>discrepancyLastName</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II Discrepancy</columnName>
