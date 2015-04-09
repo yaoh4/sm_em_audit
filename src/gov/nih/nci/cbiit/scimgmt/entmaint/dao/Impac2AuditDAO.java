@@ -52,9 +52,7 @@ public class Impac2AuditDAO {
 	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II active accounts in audit view: " + searchVO);
 		try {
-			final int objectsPerPage = paginatedList.getObjectsPerPage();
-			final int firstResult = objectsPerPage * paginatedList.getIndex();
-					  
+	  
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
@@ -77,27 +75,12 @@ public class Impac2AuditDAO {
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 			}
-	
-			List<EmAuditAccountsVw> auditList = null;
-			if (all) {
-				auditList = criteria.list();
-				paginatedList.setTotal(auditList.size());
-			} else {
-				auditList = criteria.setFirstResult(firstResult)
-					.setMaxResults(objectsPerPage)
-					.list();
-			}
-			
-			paginatedList.setList(auditList);
-			if(!all && paginatedList.getFullListSize() == 0) {
-				paginatedList.setTotal(getTotalResultCount(criteria));
-			}
 
-			return paginatedList;
+			return getPaginatedListResult(paginatedList, criteria, all);
 
-		} catch (final RuntimeException re) {
-			log.error("Error while searching", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("Error while searching for IMPAC II active accounts in audit view", e);
+			throw e;
 		}
 	}
 	
@@ -112,9 +95,7 @@ public class Impac2AuditDAO {
 	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II new accounts in audit view: " + searchVO);
 		try {
-			final int objectsPerPage = paginatedList.getObjectsPerPage();
-			final int firstResult = objectsPerPage * paginatedList.getIndex();
-				
+	
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
@@ -135,26 +116,11 @@ public class Impac2AuditDAO {
 				criteria.createAlias("newAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
-			
-			List<EmAuditAccountsVw> auditList = null;
-			if (all) {
-				auditList = criteria.list();
-				paginatedList.setTotal(auditList.size());
-			} else {
-				auditList = criteria.setFirstResult(firstResult)
-					.setMaxResults(objectsPerPage)
-					.list();
-			}
-			
-			paginatedList.setList(auditList);
-			if(!all && paginatedList.getFullListSize() == 0) {
-				paginatedList.setTotal(getTotalResultCount(criteria));
-			}
 
-			return paginatedList;
-		} catch (final RuntimeException re) {
-			log.error("Error while searching", re);
-			throw re;
+			return getPaginatedListResult(paginatedList, criteria, all);
+		} catch (Throwable e) {
+			log.error("searching for IMPAC II new accounts in audit view", e);
+			throw e;
 		}
 	}
 	
@@ -169,9 +135,7 @@ public class Impac2AuditDAO {
 	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II deleted accounts in audit view: " + searchVO);
 		try {
-			final int objectsPerPage = paginatedList.getObjectsPerPage();
-			final int firstResult = objectsPerPage * paginatedList.getIndex();
-				
+
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
@@ -192,28 +156,12 @@ public class Impac2AuditDAO {
 				criteria.createAlias("deletedAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}
-						
-			List<EmAuditAccountsVw> auditList = null;
-			
-			if (all) {
-				auditList = criteria.list();
-				paginatedList.setTotal(auditList.size());
-			} else {
-				auditList = criteria.setFirstResult(firstResult)
-					.setMaxResults(objectsPerPage)
-					.list();
-			}
-			
-			paginatedList.setList(auditList);
-			if(!all && paginatedList.getFullListSize() == 0) {
-				paginatedList.setTotal(getTotalResultCount(criteria));
-			}
 
-			return paginatedList;
+			return getPaginatedListResult(paginatedList, criteria, all);
 			
-		} catch (final RuntimeException re) {
-			log.error("Error while searching", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("searching for IMPAC II deleted accounts in audit view", e);
+			throw e;
 		}
 	}
 	
@@ -228,9 +176,7 @@ public class Impac2AuditDAO {
 	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II inactive accounts in audit view: " + searchVO);
 		try {
-			final int objectsPerPage = paginatedList.getObjectsPerPage();
-			final int firstResult = objectsPerPage * paginatedList.getIndex();
-				
+
 			Criteria criteria = null;
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
@@ -250,27 +196,12 @@ public class Impac2AuditDAO {
 				criteria.createAlias("inactiveAction", "action");
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 			}				
-			
-			List<EmAuditAccountsVw> auditList = null;
-			if (all) {
-				auditList = criteria.list();
-				paginatedList.setTotal(auditList.size());
-			} else {
-				auditList = criteria.setFirstResult(firstResult)
-					.setMaxResults(objectsPerPage)
-					.list();
-			}
-			
-			paginatedList.setList(auditList);
-			if(!all && paginatedList.getFullListSize() == 0) {
-				paginatedList.setTotal(getTotalResultCount(criteria));
-			}
 
-			return paginatedList;
+			return getPaginatedListResult(paginatedList, criteria, all);
 			
-		} catch (final RuntimeException re) {
-			log.error("Error while searching", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("searching for IMPAC II inactive accounts in audit view", e);
+			throw e;
 		}
 	}
 	
@@ -294,20 +225,21 @@ public class Impac2AuditDAO {
 				activity.setCategory(category);
 				activity.setCreateUserId(nciUser.getUserId().toUpperCase());
 				activity.setCreateDate(date);
-				activity.setLastSubmittedByUserId(nciUser.getUserId().toUpperCase());
-				activity.setLastSubmittedDate(date);
+			} else {
+				activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+				activity.setLastChangeDate(date);
 			}
 			activity.setActionId(actionId);
 			activity.setNotes(actionComments);
-			activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
-			activity.setLastChangeDate(date);
 			activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
 			activity.setLastSubmittedByUserId(nciUser.getUserId().toUpperCase());
 			activity.setLastSubmittedDate(date);
 			saveOrUpdateActivity(activity);
-		} catch (RuntimeException re) {
-			log.error("Submit failed, " + re.getMessage());
-			throw re;
+		} catch (Throwable e) {
+			log.error("Submit Action in Audit failed for eaaId=" + eaaId + " category=" + category.getCode()
+					+ " actionId=" + actionId + " actionComments=" + actionComments
+					+ e.getMessage(), e);
+			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
@@ -331,10 +263,13 @@ public class Impac2AuditDAO {
 				activity.setLastSubmittedByUserId(null);
 				activity.setLastSubmittedDate(null);
 				saveOrUpdateActivity(activity);
+			} else {
+				log.error("Account activity doesn't exist for eaaId=" + eaaId + " and category=" + category);
 			}
-		} catch (RuntimeException re) {
-			log.error("Unsubmit failed, " + re.getMessage());
-			throw re;
+		} catch (Throwable e) {
+			log.error("Unsubmit Action in Audit failed for eaaId=" + eaaId + " category=" + category
+					+ e.getMessage(), e);
+			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
@@ -352,9 +287,9 @@ public class Impac2AuditDAO {
 			crit.add(Restrictions.eq("id", id));
 			EmAuditAccountsVw result = (EmAuditAccountsVw) crit.uniqueResult();
 			return result;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("getAuditAccountById failed for id=" + id + e.getMessage(), e);
+			throw e;
 		}
 	}
 	
@@ -410,9 +345,9 @@ public class Impac2AuditDAO {
 			crit.add(Restrictions.eq("category.code", category));
 			EmAuditAccountActivityT result = (EmAuditAccountActivityT) crit.uniqueResult();
 			return result;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("getAccountActivityT failed for eaaId=" + eaaId + " category=" + category + e.getMessage(), e);
+			throw e;
 		}
 	}
 
@@ -428,10 +363,10 @@ public class Impac2AuditDAO {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(transientInstance);
-			log.debug("saveOrUpdate successful");
-		} catch (final RuntimeException re) {
-			log.error("saveOrUpdate failed", re);
-			throw re;
+			log.debug("saveOrUpdateActivity successful");
+		} catch (Throwable e) {
+			log.error("saveOrUpdateActivity failed", e);
+			throw e;
 		}
 	}
 	
@@ -490,4 +425,24 @@ public class Impac2AuditDAO {
 		return criteria;
 	}
 
+	private PaginatedListImpl getPaginatedListResult(PaginatedListImpl paginatedList, Criteria criteria, boolean all) {
+		final int objectsPerPage = paginatedList.getObjectsPerPage();
+		final int firstResult = objectsPerPage * paginatedList.getIndex();
+			
+		List<EmAuditAccountsVw> auditList = null;
+		if (all) {
+			auditList = criteria.list();
+			paginatedList.setTotal(auditList.size());
+		} else {
+			auditList = criteria.setFirstResult(firstResult)
+				.setMaxResults(objectsPerPage)
+				.list();
+		}
+		
+		paginatedList.setList(auditList);
+		if(!all && paginatedList.getFullListSize() == 0) {
+			paginatedList.setTotal(getTotalResultCount(criteria));
+		}
+		return paginatedList;
+	}
 }

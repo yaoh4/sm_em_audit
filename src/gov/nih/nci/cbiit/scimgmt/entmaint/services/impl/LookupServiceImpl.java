@@ -134,7 +134,7 @@ public class LookupServiceImpl implements LookupService {
 	 * @param listName
 	 * @return List
 	 */
-	public Map<String, ? extends Object> getListMap(String listName) {
+	private Map<String, ? extends Object> getListMap(String listName) {
 	  	List result = null;
 	  	Map resultMap = null;
 		boolean updated = false; // int myRefreshPeriod = 86400; //set refresh period to one day

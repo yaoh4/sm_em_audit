@@ -12,8 +12,7 @@ import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 @Component
 public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 
-	private static final Log log = LogFactory.getLog(Impac2PortfolioServiceImpl.class);
+	static Logger log = Logger.getLogger(Impac2PortfolioServiceImpl.class);
 	public static final String FLAG_NO = "N";
 	public static final String ORG_ID_CA = "CA";
 	public static final String ROLE_GM_MANAGER = "GM_MANAGER_ROLE";
@@ -188,7 +187,7 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	}
 	
 	/**
-	 * Compute account discrepancies on the fly and populate a list of discrepancies
+	 * Add account discrepancies if DB flag is set to the list of discrepancies
 	 * 
 	 * @param account
 	 * @param category

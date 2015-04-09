@@ -1,8 +1,11 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.LdapUtil;
 
 import java.util.ArrayList;
@@ -30,6 +33,12 @@ public class LdapServicesImpl implements LdapServices {
     
     @Autowired
     private NciUser nciUser;
+    
+    @Autowired
+    private ApplicationService applicationService; 
+    
+    @Autowired
+	private EntMaintProperties entMaintProperties;
 
     public static final String NCI_ORACLE_ID = "nciOracleId";
 
@@ -62,17 +71,33 @@ public class LdapServicesImpl implements LdapServices {
         logger.debug("inside NCIInterceptor.verifyNciUserWithRole():" + 
                      remoteUser);
         nciUser = populateNCIUser(remoteUser);
+        // Load user EM roles
+        applicationService.loadPersonInfo(nciUser);
+        
+        // For non production environment, give IC coordinator role to application developers
+        if (entMaintProperties.getPropertyValue("ENVIRONMENT").contains("Development") ||
+            	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") ||
+            	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage")) {
+        	String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
+            String[] appDevUsers  = devUsers.split(",");
+            for (int i=0;i <appDevUsers.length;i++){
+                if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])){
+                    nciUser.setCurrentUserRole("EMREP");
+                }
+            }
+        }
+        
         // Verify that the logged on user has the role to access the application
         if (!verifyAuthorization(nciUser)) {
             // If user does not have permission
             logger.info(nciUser + 
-                        "does not have Priviledges to access application.  " + 
-                        "The access is denied for this application !!! ");
+                        "does not have the privilege to access this application. " + 
+                        "Access is denied!!! ");
 
             throw new UserLoginException(this.getClass().getName(), 
                                          "verifyNciUserWithRole", 
                                          "User " + remoteUser + 
-                                         " does not have the necessary role to access the appliacation");
+                                         " does not have the necessary role to access the application");
         }
         return nciUser;
     }
@@ -84,12 +109,17 @@ public class LdapServicesImpl implements LdapServices {
      * @param nu NciUser to be verified
      * 
      * @return boolean true if the user has access, else false
-     * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
+     * @throws gov.nih.nci.cbiit.oracle.entmaint.exceptions.UserLoginException
      */
     private boolean verifyAuthorization(NciUser nciUser) throws UserLoginException {
         logger.debug("In the verifyAuthorization method with user: " + 
                      nciUser);
-      //TBD based on EM requirements, for now, return true always
+		if (nciUser.getCurrentUserRole() == null
+				|| (!nciUser.getCurrentUserRole().equalsIgnoreCase(
+						ApplicationConstants.USER_ROLE_IC_COORDINATOR) && !nciUser.getCurrentUserRole()
+						.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))) {
+			return false;
+		}
         return true;
     }
 

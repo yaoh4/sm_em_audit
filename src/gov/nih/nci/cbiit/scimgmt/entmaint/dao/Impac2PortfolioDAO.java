@@ -131,9 +131,9 @@ public class Impac2PortfolioDAO {
 
 			return paginatedList;
 
-		} catch (final RuntimeException re) {
-			log.error("Error while searching", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("Error while searching for IMPAC II accounts in portfolio view", e);
+			throw e;
 		}
 
 	}
@@ -162,9 +162,9 @@ public class Impac2PortfolioDAO {
 			notes.setLastChangeDate(date);
 			notes.setNotes(text);
 			saveOrUpdateNotes(notes);
-		} catch (RuntimeException re) {
-			log.error("Save notes failed, " + re.getMessage());
-			throw re;
+		} catch (Throwable e) {
+			log.error("Save notes failed for id=" + id + " text=" + text + e.getMessage(), e);
+			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
@@ -204,13 +204,13 @@ public class Impac2PortfolioDAO {
 		}
 
 		if (searchVO.getCategory() == PORTFOLIO_CATEGORY_ACTIVE) {
-			addActiveCriteria(criteria, searchVO);
+			addActiveCriteria(criteria);
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_NEW) {
 			addNewCriteria(criteria, searchVO);
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DELETED) {
 			addDeletedCriteria(criteria, searchVO);
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
-			addDiscrepancyCriteria(criteria, searchVO);
+			addDiscrepancyCriteria(criteria);
 		}
 
 		return criteria;
@@ -223,7 +223,7 @@ public class Impac2PortfolioDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	private Criteria addActiveCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+	private Criteria addActiveCriteria(final Criteria criteria) {
 		// Criteria specific to active accounts
 		criteria.add(Restrictions.isNull("deletedDate"));
 
@@ -276,7 +276,7 @@ public class Impac2PortfolioDAO {
 	 * @param searchVO
 	 * @return
 	 */
-	private Criteria addDiscrepancyCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+	private Criteria addDiscrepancyCriteria(final Criteria criteria) {
 		Disjunction disc = Restrictions.disjunction();
         disc.add(Restrictions.eq("sodFlag", true));
         disc.add(Restrictions.eq("icDiffFlag", true));
@@ -298,14 +298,14 @@ public class Impac2PortfolioDAO {
 			crit.add(Restrictions.eq("impaciiUserId", id));
 			EmPortfolioNotesT instance = (EmPortfolioNotesT) crit.uniqueResult();
 			if (instance == null) {
-				log.debug("get successful, no instance found");
+				log.debug("get EmPortfolioNotesT successful, no instance found");
 			} else {
-				log.debug("get successful, instance found");
+				log.debug("get EmPortfolioNotesT successful, instance found");
 			}
 			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
+		} catch (Throwable e) {
+			log.error("findNotesById failed for id=" + id, e);
+			throw e;
 		}
 	}
 
@@ -320,10 +320,10 @@ public class Impac2PortfolioDAO {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(transientInstance);
-			log.debug("saveOrUpdate successful");
-		} catch (final RuntimeException re) {
-			log.error("saveOrUpdate failed", re);
-			throw re;
+			log.debug("saveOrUpdateNotes successful");
+		} catch (Throwable e) {
+			log.error("saveOrUpdateNotes failed", e);
+			throw e;
 		}
 	}
 	

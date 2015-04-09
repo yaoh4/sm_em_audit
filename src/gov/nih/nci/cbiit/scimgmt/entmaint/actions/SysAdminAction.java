@@ -21,7 +21,7 @@ public class SysAdminAction extends BaseAction {
      * SYS Admin Action 
      * See Constants below
      */
-    private String action;
+    private String task;
     private String user;
     
     @Autowired
@@ -41,8 +41,8 @@ public class SysAdminAction extends BaseAction {
     private static final String ADMIN_TASK_REFRESH_LISTS="REFRESH_LISTS";
  
    // URL examples
-   // http://localhost/entmaint/SysAdmin.action?action=RELOAD_PROPERTIES
-   // http://localhost/entmaint/SysAdmin.action?action=REFRESH_LISTS
+   // http://localhost/entmaint/SysAdmin.action?task=RELOAD_PROPERTIES
+   // http://localhost/entmaint/SysAdmin.action?task=REFRESH_LISTS
    // http://localhost/entmaint/ChangeUser.action?user=CHANGD3
    
    
@@ -64,15 +64,6 @@ public class SysAdminAction extends BaseAction {
         }
         
         nciUser = ldapServices.verifyNciUserWithRole(user);
-        applicationService.loadPersonInfo(nciUser);
-		if (nciUser.getCurrentUserRole() == null
-				|| (!nciUser.getCurrentUserRole().equalsIgnoreCase(
-						ApplicationConstants.USER_ROLE_IC_COORDINATOR) && !nciUser.getCurrentUserRole()
-						.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))) {
-			String error = "Login attempt by user  '" + user
-					+ "' . User  has NO privileges for this application";
-			throw new Exception(error);
-		}
         session.put(ApplicationConstants.SESSION_USER, nciUser);
         return forward;
     }
@@ -83,7 +74,7 @@ public class SysAdminAction extends BaseAction {
     public String execute() throws Exception {
         
         String  log="";
-        log="System Administration Task  "+getAction()+" Initiated by "+nciUser.getUserId();
+        log="System Administration Task  "+getTask()+" Initiated by "+nciUser.getUserId();
         logger.info(log);
                 
         if (nciUser== null){
@@ -93,14 +84,14 @@ public class SysAdminAction extends BaseAction {
         
 		verifyUser();
         
-        if (ADMIN_TASK_RELOAD_PROPERTIES.equals(action)){
+        if (ADMIN_TASK_RELOAD_PROPERTIES.equals(task)){
             logger.info("Task: Reload EM properties Initiated by :"+nciUser.getUserId());
             reloadProperties();
             logger.info("Task: Reload EM properties Completed");
 
         }
         
-        if (ADMIN_TASK_REFRESH_LISTS.equals(action)){
+        if (ADMIN_TASK_REFRESH_LISTS.equals(task)){
             logger.info("Task: Refresh Lists Initiated by :"+nciUser.getUserId());
             refreshLists();
             logger.info("Task: Refresh Lists Completed");
@@ -118,12 +109,12 @@ public class SysAdminAction extends BaseAction {
 		this.user = user;
 	}
   
-    public void setAction(String action) {
-        this.action = action;
+    public void setTask(String task) {
+        this.task = task;
     }
 
-    public String getAction() {
-        return action;
+    public String getTask() {
+        return task;
     }
     
     /**
@@ -156,6 +147,7 @@ public class SysAdminAction extends BaseAction {
         for (int i=0;i <sysAdminUsers.length;i++){
             if (nciUser.getUserId().equalsIgnoreCase(sysAdminUsers[i])){
                 validAdminUser =  true;
+                nciUser.setCurrentUserRole("SYS_ADMIN");
             }
         }
         if (!validAdminUser){

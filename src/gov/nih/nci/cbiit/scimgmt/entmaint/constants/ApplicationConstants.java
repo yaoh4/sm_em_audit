@@ -4,6 +4,9 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.constants;
 
 public interface ApplicationConstants {
     
+	/* Application name in lookup and property table */
+	public static final String APP_NAME = "EM";
+	
 	/* Application tabs */
     public static final String TAB_IMPAC2 = "impac2";
     public static final String TAB_I2E = "i2e";

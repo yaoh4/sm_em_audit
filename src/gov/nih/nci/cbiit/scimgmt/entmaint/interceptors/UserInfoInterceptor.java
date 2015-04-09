@@ -28,8 +28,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
 	@Autowired
     private LdapServices ldapServices; 
-	@Autowired
-    private ApplicationService applicationService; 
+	
     public static Logger logger = Logger.getLogger(UserInfoInterceptor.class);
 
     private static final String EXCLUDED_USER_ID="ncildap";
@@ -53,7 +52,13 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             (NciUser)session.get(ApplicationConstants.SESSION_USER);
         
 
-        if (nciUser == null) {
+    	//Check if this is a change user action
+        String changeUser = request.getParameter("user");
+        
+       //Check if this is a sys admin action
+        String sysAdminAction = request.getParameter("task");
+        
+        if (nciUser == null && StringUtils.isEmpty(changeUser) && StringUtils.isEmpty(sysAdminAction)) {
                 ServletContext sc = request.getSession().getServletContext();
                 
             // get the User header from Site Minder
@@ -76,8 +81,10 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
             }
             
+            
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
+
                 // Check for excluded user
                 if (EXCLUDED_USER_ID.equalsIgnoreCase(remoteUser)) {
                     String message  = "Login attempt by user  '"+remoteUser+
@@ -90,18 +97,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                     return "error";
                 }
                 nciUser = ldapServices.verifyNciUserWithRole(remoteUser);
-                applicationService.loadPersonInfo(nciUser);
-				if (nciUser.getCurrentUserRole() == null
-						|| (!nciUser.getCurrentUserRole().equalsIgnoreCase(
-								ApplicationConstants.USER_ROLE_IC_COORDINATOR) && !nciUser.getCurrentUserRole()
-								.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))) {
-					String message = "Login attempt by user  '" + remoteUser
-							+ "' . User  has NO privileges for this application";
-					if (action instanceof ValidationAware) {
-						((ValidationAware) action).addActionError("<B>" + message + "</B>");
-					}
-					return "error";
-				}
+                
                 session.put(ApplicationConstants.SESSION_USER, nciUser);
                 logger.debug("NCI user retrive  fm session:" + nciUser);
                 return invocation.invoke();
