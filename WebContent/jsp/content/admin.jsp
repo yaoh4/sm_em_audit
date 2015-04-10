@@ -101,7 +101,7 @@ function submitReset(){
        		<s:else>
        			<div class="read_only">
        				<s:date name="emAuditsVO.impaciiFromDate" format="MM/dd/yyyy" />
-		  			&nbsp;&nbsp;&nbsp;<label for="auditEndDate" style="width: auto;">to</label>&nbsp;&nbsp;&nbsp;
+		  			&nbsp;&nbsp;<label for="auditEndDate" style="width: auto;">to</label>&nbsp;&nbsp;
 		 			<s:date name="emAuditsVO.impaciiToDate" format="MM/dd/yyyy" />
 		 		</div>       		
        		</s:else>
@@ -110,14 +110,14 @@ function submitReset(){
   
 	<div class="form-group">
     	<label class="control-label col-sm-3" for="comments">Comments:</label>
-      	<div class="col-sm-6">          
+      	<div class="col-sm-9">          
         	<s:textarea cssClass="form-control" id="comments" name="emAuditsVO.comments" placeholder="Enter Your Comments" rows="4"></s:textarea>
     	</div>
 	</div>
  
    
 	<div class="form-group">        
-    	<div class="col-sm-offset-3">     
+    	<div class="col-sm-offset-3 col-sm-9">
         	<s:if test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
               	<s:submit value="Start Audit" cssClass="btn btn-primary" action="startAudit" onClick="openLoading(); $('#sendAuditNotice').val('true');"/>      
           	</s:if>
@@ -128,14 +128,14 @@ function submitReset(){
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_DISABLED)}">
               	<s:submit value="Enable Audit" cssClass="btn btn-primary" action="enableAudit" onClick="return validateForm()"/>      
-              	<!-- <s:submit value="Reset Audit" cssClass="btn btn-primary" action="resetAudit" onClick="return validateForm()"/> -->
-              	<input type="button" class="btn btn-primary" value="Reset Audit" onclick="openConfirmation();";
+           <!--  <s:submit value="Reset Audit" cssClass="btn btn-primary" action="resetAudit" onClick="return validateForm()"/> -->
+           <input type="button" class="btn btn-primary" value="Reset Audit" onclick="openConfirmation();";
           	</s:elseif>
       	</div>
       	
       	<br><br>
       	<s:if test="%{!emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
-      		<div class="col-sm-offset-3">
+      		<div class="content">
    					<h4>Audit History</h4>
    					<s:include value="auditHistory.jsp"/>
  			</div>
