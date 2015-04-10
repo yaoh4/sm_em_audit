@@ -117,7 +117,7 @@
 	function submitAct(name, cellId){
 		$('#errorMessage').html("");
 		$('#nameId').val(name);
-		$('#nameValue').html("<label>" + name + "</label>");
+		$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
 		$('#cellId').val(cellId);
 		$('#selectActId').val($('#hiddenAction'+cellId).val());
 		$('#noteText').val($('#hiddennote'+cellId).val());
