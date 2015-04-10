@@ -2,14 +2,14 @@
 <%@ taglib uri="/WEB-INF/tld/ncilink.tld" prefix="ncilink"%>
 
 
-<div id="nci">
-	<div>
-		<img src="<s:url value="/images/nci-banner-h.gif" />" alt="National Cancer Institute" width="304" height="39" border="0" usemap="#ncibannermap" />
+
+	<div id="impac2">
+		<img src="<s:url value="/images/nci_i2e_logo.png" />" alt="National Cancer Institute" width="421" height="44" border="0" usemap="#ncibannermap" />
 		<map name="ncibannermap" id="ncibannermap">
 		 	<area shape="rect" coords="13,1,293,35" href="http://www.cancer.gov/" alt="National Cancer Institute" />	
 		</map>	
 	</div>
-</div>
+
 
 <div class="container">
 
