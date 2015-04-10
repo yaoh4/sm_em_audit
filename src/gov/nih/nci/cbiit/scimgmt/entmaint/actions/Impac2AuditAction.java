@@ -86,6 +86,8 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchDeletedAccounts(activeAuditAccounts, searchVO, true);
+			Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_DELETED);
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
@@ -123,6 +125,8 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchActiveAccounts(activeAuditAccounts, searchVO, true);
+			Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_ACTIVE);
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
@@ -165,6 +169,8 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchNewAccounts(activeAuditAccounts, searchVO, true);
+			Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_NEW);
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
@@ -205,6 +211,8 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, false);
 		} else {
 			activeAuditAccounts = impac2AuditService.searchInactiveAccounts(activeAuditAccounts, searchVO, true);
+			Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+			displayColumn = colMap.get(ApplicationConstants.CATEGORY_INACTIVE);
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			return ApplicationConstants.EXPORT;
 		}
