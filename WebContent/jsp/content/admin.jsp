@@ -132,17 +132,15 @@ function submitReset(){
            <input type="button" class="btn btn-primary" value="Reset Audit" onclick="openConfirmation();">
           	</s:elseif>
       	</div>
-      	
+     </div>
       	<br><br>
       	<s:if test="%{!emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
-      		<div class="content">
+      		<div>
    					<h4>Audit History</h4>
    					<s:include value="auditHistory.jsp"/>
  			</div>
       	</s:if>
-      	
-      	
-  	</div>
+      	     	 
 </form>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 <div id="confirmation" align="center" style="display:none;" title="Confirmation">
