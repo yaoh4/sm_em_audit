@@ -60,8 +60,10 @@ public class AdminDAO  {
 			//The freeze_audit_records procedure needs the above record to be present
 			session.flush();
 			
+			logger.info("Calling freezeAuditRecords, start date: " + impaciiFromDate + ", end date: " + impaciiToDate);
 			//Setup audit data
 			freezeAuditRecords(impaciiFromDate, impaciiToDate, session);
+			logger.info("freeze audit records invovation completed with start date: " + impaciiFromDate + ", end date: " + impaciiToDate);
 		
 			//Setup audit status
 			EmAuditHistoryT history = setupHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, comments);   
