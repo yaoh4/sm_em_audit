@@ -4,10 +4,8 @@
  <div id="errorMessage"></div>
  <br/>
  <div class="form-group">
-      <label class="control-label col-sm-2" for="f-name"> Name:</label>
-      <div class="col-sm-10" style="margin-top: 7px;">
-       <span><div id="nameValue"></div></span>
-      </div>
+      <label class="control-label col-sm-2" for="f-name"> Name:</label>     
+       <span><div id="nameValue"></div></span>      
  </div>
 <br/>
 <br/>
