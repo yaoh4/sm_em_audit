@@ -108,7 +108,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
 				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
 						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
-						"<br/>");
+						"<br/><br/>");
 			}
 		}
 		return sbu.toString();
