@@ -26,7 +26,12 @@
 <display:table name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" excludedParams="act size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
-	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+	<s:if test="#t.columnName == 'IMPAC II Application Role(s)'">
+		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}" style="white-space:nowrap;"/>
+	</s:if>
+	<s:else>
+		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+	</s:else>
 </s:if>
 </s:iterator>
 </display:table>
