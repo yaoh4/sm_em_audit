@@ -4,10 +4,10 @@
 
  
 <s:include value="/jsp/content/manageAccounts.jsp" />
-<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 
 <script>
@@ -223,10 +223,10 @@
 	</div>
 </div>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
-<div id="unsubmitAction" style="display: none;" title="Unsubmit Action">
+<div id="unsubmitAction" style="display: none;" title="Undo Action">
 	<br/>
 	<div align="center">
-	Are you sure want to undo the review?
+	Are you sure to undo the review?
 	</div>
 	<input type="hidden" id="unsubmitName"/>
 	<input type="hidden" id="unsubmitCellId"/>

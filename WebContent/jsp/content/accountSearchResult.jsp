@@ -13,11 +13,11 @@
 		action = (String)request.getParameter("act");
 	}
 %>
-<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 
 <s:if test="%{activeAuditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
