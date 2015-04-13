@@ -21,10 +21,7 @@
 					var notes = $('#noteText').val();
 					if($.trim(notes).length > 200){
 						$('#missingNotesMessage').html("<font color='red'>Notes cannot be greater than 200 characters.</font>");
-					}
-					else if($.trim(notes).length == 0){		
-						$('#missingNotesMessage').html("<font color='red'>Please enter Notes.</font>");
-					}
+					}					
 					else{
 						$.ajax({
 							url : "saveNotes.action", type : "get",	data : {impac2Id : impac2Id,name : name,notes : notes},async : false,

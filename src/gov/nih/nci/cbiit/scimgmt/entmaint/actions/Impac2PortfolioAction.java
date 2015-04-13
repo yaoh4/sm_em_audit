@@ -186,7 +186,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		try{
 			impac2PortfolioService.saveNotes(impac2Id,notes,new Date());
 			pw = response.getWriter();
-			pw.print(decorateResponse());
+			pw.print(decorateResponse(notes));
 		}catch(Exception e){
 			log.error("Exception occurred while saving portfolio notes.",e);
 			pw.print(ApplicationConstants.STATUS_FAIL);
@@ -201,11 +201,14 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * This method generates the repsonse to be returned to the ajax call.
 	 * @return
 	 */
-	public String decorateResponse(){
+	public String decorateResponse(String notes){
+		if(notes.length() == 0){
+			return "";
+		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mm a");
 		String lastUpdateDate = dateFormat.format(new Date());
 		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();
-		return "Submitted on "+ lastUpdateDate + " by " +lastUpdateBy;
+		return "Updated on "+ lastUpdateDate + " by " +lastUpdateBy;
 	}
 	
 	/**

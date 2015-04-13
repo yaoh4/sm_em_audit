@@ -139,7 +139,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
 		String lastUpdated = "";
 		String id = portfolioVO.getImpaciiUserId();
-		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null){
+		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null && !StringUtils.isBlank(portfolioVO.getNotes())){
 			lastUpdated =  "<div id=\"lastUpdateDiv_"+id+ "\"> Updated on " +dateFormat.format(portfolioVO.getNotesSubmittedDate()) + " by "  +portfolioVO.getNotesSubmittedByFullName() + "</div>";
 		}
 		else{
