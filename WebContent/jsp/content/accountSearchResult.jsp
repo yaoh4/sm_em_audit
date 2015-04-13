@@ -18,6 +18,8 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
+<input type="hidden" id="i2eemlinkId" value="<s:text name='i2e_em_link' />"/>
+<input type="hidden" id="eraualinkId" value="<s:text name='era_ua_link' />"/>
 
 <s:if test="%{activeAuditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>

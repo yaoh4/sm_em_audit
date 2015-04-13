@@ -12,6 +12,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +33,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	@Autowired
 	private LookupService lookupService;
+	@Autowired
+	protected EntMaintProperties entMaintProperties;
+	
 	public static final String VERIFIEDACTION = "3";
 	/**
 	 * This method is for creating action contents. 
@@ -69,9 +73,12 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
 			}
+			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			
 			//if the action is verfiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
-				actionStr = actionStr + "<br/><a href='https://apps.era.nih.gov/useradmin/SearchAccount.action' target='_BLANK'>eRA UA</a><br/><a href='https://i2e.nci.nih.gov/common/PersonController' target='_BLANK'>I2E EM</a>";
+				actionStr = actionStr + "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a><br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
 			}
 			actionStr = actionStr + "</div>";
 		}else{

@@ -137,4 +137,7 @@ public interface ApplicationConstants {
 	public static final String DEFAULT_PAGE_SIZE = "defaultPageSize";
 	
 	public static final String STATUS_FAIL = "fail";
+	
+	public static final String ERA_US_LINK = "ERA_UA_LINK";
+	public static final String I2E_EM_LINK = "I2E_EM_LINK";
 }
