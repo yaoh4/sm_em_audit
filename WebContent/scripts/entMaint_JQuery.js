@@ -128,11 +128,14 @@ function onOrgChange(org){
 
 function onCategoryChage(category){
 	if(category == '22' || category == '25'){
-		$('#dateRangeStartDate').datepicker('disable'); 
-		$('#dateRangeEndDate').datepicker('disable'); 		
+		$('#dateRangeStartDate').datepicker('disable'); 		
+		$('#dateRangeEndDate').datepicker('disable'); 
+		$('#dateRangeStartDate').val(''); 
+		$('#dateRangeEndDate').val(''); 
 	}
 	else{
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
+		$('#dateRangeEndDate').datepicker('setDate', new Date());
 	}		
 }
