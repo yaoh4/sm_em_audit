@@ -143,7 +143,7 @@ function submitReset(){
       	     	 
 </form>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
-<div id="confirmation" align="center" style="display:none;" title="Confirmation">
+<div id="confirmation" align="center" style="display:none;" title="Reset Audit Confirmation">
 <br/>
 You have attempted to reset the audit. Are you sure?
 </div>
