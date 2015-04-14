@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import java.util.Date;
+import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
@@ -61,21 +62,27 @@ public class AdminAction extends BaseAction {
      * 
      */
     public void validateStartAudit() {
+    	Map fieldErrors = null;
     	
-    	this.clearActionErrors();
+    	if (hasFieldErrors()) {
+    		fieldErrors = getFieldErrors();
+    	}
     	
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {
     		this.addActionError(getText("error.audittypes.empty"));
     	}
     
+    	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiToDate")) {
     	if(emAuditsVO.getImpaciiToDate() == null) {
     		emAuditsVO.setImpaciiToDate(new Date());
     	} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
     		//End date cannot be in future
     		this.addActionError(getText("error.daterange.enddate.future"));
     	}
+    	}
     	
+    	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiFromDate")) {
     	//Start date cannot be null
     	if(emAuditsVO.getImpaciiFromDate() == null) {
     		this.addActionError(getText("error.daterange.startdate.empty"));
@@ -86,6 +93,7 @@ public class AdminAction extends BaseAction {
     		//Start date cannot be after end date
     		this.addActionError(getText("error.daterange.outofsequence"));
     	}
+    	}
     	
     	//Comments cannot be longer than 1000 characters.
     	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
@@ -94,7 +102,7 @@ public class AdminAction extends BaseAction {
     		}
     	}
     	
-    	if(this.hasActionErrors()) {
+    	if(this.hasErrors()) {
     		setDisableInput(false);
     		setSendAuditNotice(false);
     		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);

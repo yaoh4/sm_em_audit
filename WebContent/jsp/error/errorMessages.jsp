@@ -8,18 +8,12 @@
     <strong><s:actionmessage/></strong>
 	</fieldset>
    </s:if>
-   <s:if test="%{ !actionErrors.isEmpty  }">
+   <s:if test="%{ !actionErrors.isEmpty || !fieldErrors.isEmpty }">
     <fieldset style="width: auto">
     <legend>Error</legend>
     <strong><s:actionerror/></strong>
+     <strong><s:fielderror/></strong>
 	</fieldset>
    </s:if>
-   <s:if test="%{ !fieldErrors.isEmpty  }">
-    <fieldset style="width: auto">
-    <legend>Field Error</legend>
-    <strong><s:fielderror/></strong>
-	</fieldset>
-   </s:if>
-  
  </div>
 </s:if>
