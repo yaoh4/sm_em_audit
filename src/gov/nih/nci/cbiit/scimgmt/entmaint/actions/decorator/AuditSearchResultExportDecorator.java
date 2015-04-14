@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
@@ -60,7 +61,11 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	 */
 	public String getDiscrepancyLastName() {
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
+		if(!isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_LAST_NAME).isEmpty()) {
+			return accountVO.getImpaciiLastName();
+		}
+		
+		return "";
 	}
 	
 	
@@ -155,6 +160,25 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return createdOn;
 	}
 	
+	/**
+	 * Get the action performed on this account
+	 * 
+	 * String action info
+	 */
+	public String getAction() {
+		String actionStr = "";
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		
+		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+		if (eaaVw != null) {
+			AppLookupT action = eaaVw.getAction();
+			if (action != null && action.getDescription() != null) {
+				actionStr = action.getDescription();			
+			}
+		}
+		return actionStr;
+	}
+	
 	
 	/**
 	 * Get the notes information entered for the action performed on this account.
@@ -176,14 +200,13 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	
 	
 	/**
-	 * Get the last updated date and the full name of the IC cordinator who made
-	 * the update
+	 * Get the last submitted date.
 	 * 
-	 * @return String last name and update date
+	 * @return String the update date
 	 */
-	public String getAccountSubmitted(){
+	public String getSubmittedOn(){
 		
-		StringBuffer lastUpdated = new StringBuffer();
+		String dateStr = "";
 		
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		
@@ -191,17 +214,36 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if(eaaVw != null){		
 			Date submittedDate = eaaVw.getSubmittedDate();
 			if(submittedDate != null){
-				String dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
-				lastUpdated.append("Submitted on ").append(dateStr);
-				String submittedBy = eaaVw.getSubmittedByFullName();	
-				if(submittedBy == null) {
-					submittedBy = accountVO.getId().toString();
-				}
-				lastUpdated.append(" by ").append(submittedBy);				
+				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);		
 			}
 		}
 							
-		return lastUpdated.toString();
+		return dateStr;
+	}
+	
+	
+	/**
+	 * Get the full name of the person who made the submission
+	 * 
+	 * @return the name of the person who submitted the action.
+	 */
+	public String getSubmittedBy() {
+	String submittedBy = "";
+		
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		
+		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+		if(eaaVw != null){		
+			Date submittedDate = eaaVw.getSubmittedDate();
+			if(submittedDate != null){
+				submittedBy = eaaVw.getSubmittedByFullName();	
+				if(submittedBy == null) {
+					submittedBy = accountVO.getId().toString();
+				}			
+			}
+		}
+							
+		return submittedBy;
 	}
 
 }

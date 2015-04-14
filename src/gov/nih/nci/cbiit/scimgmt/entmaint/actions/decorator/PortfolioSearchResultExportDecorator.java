@@ -61,7 +61,11 @@ public class PortfolioSearchResultExportDecorator extends
 	 */
 	public String getDiscrepancyLastName() {
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
-		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
+		if(!isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_LAST_NAME).isEmpty()) {
+			return accountVO.getImpaciiLastName();
+		}
+		
+		return "";
 	}
 	
 	
@@ -108,21 +112,38 @@ public class PortfolioSearchResultExportDecorator extends
 	 * 
 	 * @return String last name and update date
 	 */
-	public String getLastUpdated() {
+	public String getUpdatedOn() {
+		String lastUpdatedOn = "";
+		
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy hh:mm a");
-		StringBuffer lastUpdated = new StringBuffer();
 		
-		String id = portfolioVO.getImpaciiUserId();
 		if(portfolioVO.getNotesSubmittedDate() != null) {
-			lastUpdated.append("Submitted on ").append(dateFormat.format(portfolioVO.getNotesSubmittedDate()));
+			lastUpdatedOn = dateFormat.format(portfolioVO.getNotesSubmittedDate());
+		}			
+		return lastUpdatedOn;
+	}
+	
+	
+	/**
+	 * Get the last updated date and the full name of the IC coordinator who made
+	 * the update
+	 * 
+	 * @return String last name and update date
+	 */
+	public String getUpdatedBy() {
+		String lastUpdatedBy = "";
+		
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		
+		if(portfolioVO.getNotesSubmittedDate() != null) {
 			if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName())) {
-				lastUpdated.append(" by ").append(portfolioVO.getNotesSubmittedByFullName());
+				lastUpdatedBy = portfolioVO.getNotesSubmittedByFullName();
 			} else {
-				lastUpdated.append(" by ").append(id);
+				lastUpdatedBy = portfolioVO.getImpaciiUserId();
 			}
 		}			
-		return lastUpdated.toString();
+		return lastUpdatedBy;
 	}
 	
 	
