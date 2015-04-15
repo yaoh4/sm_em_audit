@@ -35,7 +35,7 @@
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",
-				 				type: "get",
+				 				type: "post",
 				 				data: {pId: cId, aId: aId, note: comments, cate: category},
 				 				async:   false,
 				 				success: function(msg){
@@ -91,7 +91,7 @@
 			 			var category = $('#categoryId').val();
 			 			$.ajax({
 			 				url: "unsubmitAction.action",
-			 				type: "get",
+			 				type: "post",
 			 				data: {pId: cId, cate: category},
 			 				async:   false,
 			 				success: function(msg){

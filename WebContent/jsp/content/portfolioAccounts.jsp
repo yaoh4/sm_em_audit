@@ -24,7 +24,7 @@
 					}					
 					else{
 						$.ajax({
-							url : "saveNotes.action", type : "get",	data : {impac2Id : impac2Id,name : name,notes : notes},async : false,
+							url : "saveNotes.action", type : "post",	data : {impac2Id : impac2Id,name : name,notes : notes},async : false,
 							success : function(msg) {result = $.trim(msg);},
 							error : function() {}
 						});	
