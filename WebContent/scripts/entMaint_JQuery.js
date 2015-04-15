@@ -86,7 +86,7 @@ function getRoleDescription(id){
 	
 	$.ajax({
 			url: "roleDescriptionAction.action",
-			type: "get",
+			type: "post",
 			data: {rId: id},
 			async:   false,
 			success: function(msg){
