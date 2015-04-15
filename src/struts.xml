@@ -34,7 +34,9 @@
 				class="gov.nih.nci.cbiit.scimgmt.entmaint.interceptors.UserInfoInterceptor" />
 			<interceptor-stack name="defaultLoginStack">
 				<interceptor-ref name="logger" />			
-				<interceptor-ref name="defaultStack" />	
+				<interceptor-ref name="defaultStack">
+					<param name="params.excludeMethods">clearSearchPortfolioAccounts</param>
+				</interceptor-ref>	
 				<interceptor-ref name="userInfo" />		
 			</interceptor-stack>	
 			</interceptors>

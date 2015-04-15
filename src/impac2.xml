@@ -46,7 +46,7 @@
 		<action name="clearSearchPortfolioAccounts" method="clearSearchPortfolioAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2PortfolioAction">
 			<result name="success" type="tiles">impac2.portfolio.accts.page</result>
-			<result name="input" type="tiles">tiles.error.details</result>
+			<result name="input" type="tiles">impac2.portfolio.accts.page</result>
 		</action>	
 					
 		<action name="searchActiveAuditAccounts" method="searchActiveAccounts"

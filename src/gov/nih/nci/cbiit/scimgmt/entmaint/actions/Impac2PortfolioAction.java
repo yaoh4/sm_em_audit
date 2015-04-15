@@ -226,9 +226,7 @@ public class Impac2PortfolioAction extends BaseAction{
 			if(searchVO.getDateRangeEndDate() != null && searchVO.getDateRangeEndDate().after(new Date())){
 				addFieldError("searchVO.dateRangeEndDate", getText("error.daterange.enddate.future"));
 			}
-			if(hasFieldErrors() && (searchVO.getDateRangeStartDate() != null && searchVO.getDateRangeEndDate() != null)){
-				session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);	
-			}
+			session.put(ApplicationConstants.PORTFOLIO_SEARCHVO, searchVO);			
 		}
 	}	
 	
