@@ -106,6 +106,7 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.Impac2AuditAction">
 			<result name="success" type="tiles">impac2.audit.inactive.accts.page</result>
 			<result name="input" type="tiles">impac2.audit.inactive.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/accountSearchResultExport.jsp</result>
 		</action>
 		
 		<action name="prepareInactiveAuditAccounts" method="prepareInactiveAccounts"
