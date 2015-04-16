@@ -1,11 +1,14 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +37,8 @@ public class AdminAction extends BaseAction {
 	
 	@Autowired
 	protected AdminService adminService;
-	
+	@Autowired
+	protected Impac2AuditService impac2AuditService;	
 	
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
@@ -188,7 +192,20 @@ public class AdminAction extends BaseAction {
     	return ApplicationConstants.SUCCESS;
     }
 	
-    
+    /**
+     * Set up all necessary component for dashboard. If success, takes the user to dashboard page. 
+     * @param auditState
+     * @return
+     */
+    public String gotoDashboard(){
+    	
+    	//set up all environment for displaying dashboard page.
+    	EmAuditsVO emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	Long auditId = emAuditsVO.getId();
+    	List<AuditAccountVO> auditAccountVO = impac2AuditService.getAllAccountsByAuditId(auditId);
+    	
+    	return ApplicationConstants.SUCCESS;
+    }
     private String updateAudit(String auditState) {
     	
     	//Store the auditState into the DB

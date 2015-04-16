@@ -139,3 +139,16 @@ function onCategoryChage(category){
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
 	}		
 }
+
+function toggle(thisname) {
+   tr=document.getElementsByTagName('tr');
+   for (var i=0;i<tr.length;i++){
+	    if (tr[i].getAttribute(thisname)){
+	    if ( tr[i].style.display=='none' ){
+	       tr[i].style.display = '';
+	    }else {
+	       tr[i].style.display = 'none';
+	    }
+   }
+  }
+}

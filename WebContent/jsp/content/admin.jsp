@@ -58,6 +58,10 @@ function submitReset(){
 	$('#adminActionId').attr("action", "resetAudit");
 	$('#adminActionId').submit();
 }
+function gotoDashboard(){
+	$('#adminActionId').attr("action", "gotoDashboard");
+	$('#adminActionId').submit();
+}
 </script>
    
 
@@ -75,7 +79,7 @@ function submitReset(){
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
- 
+ <a href="#" onclick="javascript:gotoDashboard();">Dashboard</a>
  <h3>Administer Audit</h3>
     <div class="form-group">
     	<label for="Audit" class="col-sm-3 control-label" style="padding-top:0px;">Audit:</label>
