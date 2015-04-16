@@ -7,6 +7,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -74,5 +75,12 @@ public interface Impac2AuditService {
      * @return
      */
     public EmAuditAccountsVw getAuditAccountById(Long id);
+    
+    /**
+     * Retrieve all accounts for a specific audit id
+     * @param auditId
+     * @return
+     */
+    public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId);
     
 }

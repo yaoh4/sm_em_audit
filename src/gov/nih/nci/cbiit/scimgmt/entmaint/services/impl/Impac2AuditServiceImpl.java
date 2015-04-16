@@ -140,6 +140,20 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return impac2AuditDAO.getAuditAccountById(id);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#getAllAccountsByAuditId(java.lang.Long)
+	 */
+	@Override
+	public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId) {
+		List<EmAuditAccountsVw> auditAccountsList = impac2AuditDAO.getAllAccountsByAuditId(auditId);
+		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
+		for (final EmAuditAccountsVw account : auditAccountsList) {
+			AuditAccountVO acct = populateAuditAccountVO(account);
+			list.add(acct);
+		}
+		return list;
+	}
+	
 	/**
 	 * Convert to AuditAccountVO object
 	 * 
@@ -268,5 +282,6 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		}
 		return discrepancyList;
 	}
+
 
 }

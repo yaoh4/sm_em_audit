@@ -23,6 +23,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -289,6 +290,45 @@ public class Impac2AuditDAO {
 			return result;
 		} catch (Throwable e) {
 			log.error("getAuditAccountById failed for id=" + id + e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	/**
+	 * Get all audit accounts for a specific audit
+	 * 
+	 * @param auditId
+	 * @return
+	 */
+	public List<EmAuditAccountsVw> getAllAccountsByAuditId(Long auditId) {
+		log.debug("retrieving all accounts from audit view for auditId: " + auditId);
+		try {
+
+			Criteria criteria = null;
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+			criteria.createAlias("audit", "audit");
+			criteria.add(Restrictions.eq("audit.id", auditId));
+			
+			// Only retrieve necessary columns	
+			criteria.setProjection(Projections.projectionList().add(Projections.property("id"), "id")
+					.add(Projections.property("deletedDate"), "deletedDate")
+					.add(Projections.property("createdDate"), "createdDate")
+					.add(Projections.property("inactiveUserFlag"), "inactiveUserFlag")
+					.add(Projections.property("nedIc"), "nedIc")
+					.add(Projections.property("parentNedOrgPath"), "parentNedOrgPath")
+					.add(Projections.property("nciDoc"), "nciDoc")
+					.add(Projections.property("activeSubmittedBy"), "activeSubmittedBy")
+					.add(Projections.property("newSubmittedBy"), "newSubmittedBy")
+					.add(Projections.property("deletedSubmittedBy"), "deletedSubmittedBy")
+					.add(Projections.property("inactiveSubmittedBy"), "inactiveSubmittedBy"));
+
+			List<EmAuditAccountsVw> auditList = null;
+			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmAuditAccountsVw.class))
+					.list();
+
+			return auditList;
+		} catch (Throwable e) {
+			log.error("getAllAccountsByAuditId failed for auditId=" + auditId + e.getMessage(), e);
 			throw e;
 		}
 	}
