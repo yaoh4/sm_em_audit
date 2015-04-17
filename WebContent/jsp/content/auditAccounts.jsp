@@ -136,7 +136,7 @@
 </script>
 
 <div class="tab-content">
-
+<s:set name="act" value="formAction"/>
 <div class="tab-pane fade active in" id="par1">
   <s:form id="auditForm" action="%{formAction}" cssClass="form-horizontal">
   <fieldset style="padding: 15px 0;">
@@ -200,7 +200,19 @@
 <s:if test="showResult">
 <div class="panel panel-default">
   <div class="panel-heading">
- <h3  class="panel-title">Search Results</h3>
+  <s:if test="%{#act == 'searchActiveAuditAccounts'}">
+  <h3  class="panel-title">Results - All Active Accounts</h3>
+  </s:if>
+  <s:if test="%{#act == 'searchNewAuditAccounts'}">
+  <h3  class="panel-title">Results - All New Accounts</h3>
+  </s:if>
+  <s:if test="%{#act == 'searchDeletedAuditAccounts'}">
+  <h3  class="panel-title">Results - All Deleted Accounts</h3>
+  </s:if>
+  <s:if test="%{#act == 'searchInactiveAuditAccounts'}">
+  <h3  class="panel-title">Results - All Inactive Accounts</h3>
+  </s:if>
+  
   </div>
  <s:if test="%{activeAuditAccounts.list.size > 0}">
 <div align="center" style="overflow:auto;">
