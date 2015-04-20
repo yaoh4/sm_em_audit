@@ -1,12 +1,16 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
@@ -24,14 +28,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SuppressWarnings("serial")
 public class AdminAction extends BaseAction {
 
-   
-	private static final int COMMENTS_FIELD_SIZE = 1000;
+  private static final int COMMENTS_FIELD_SIZE = 1000;
 
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	protected boolean sendAuditNotice = false;	
 	protected boolean disableInput = true;
 	
+	public static final String ACTIVE = "active";
+	public static final String NEW = "new";
+	public static final String DELETED = "deleted";
+	public static final String INACTIVE = "inactive";
 	
 	static Logger logger = Logger.getLogger(AdminAction.class);
 	
@@ -40,6 +47,11 @@ public class AdminAction extends BaseAction {
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
 	
+	//------------------------------
+	//Attributes for Dashboard
+	//-----------------------------------
+	private List<Object> orgKeys;
+	private HashMap<String, HashMap<String, DashboardData>> orgsData;
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
 	 * the state of the Audit, the appropriate screen elements will be displayed.
@@ -198,13 +210,175 @@ public class AdminAction extends BaseAction {
      * @return
      */
     public String gotoDashboard(){
-    	
+    	orgsData = new HashMap<String, HashMap<String,DashboardData>>();
     	//set up all environment for displaying dashboard page.
-    	EmAuditsVO emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	Long auditId = emAuditsVO.getId();
-    	List<AuditAccountVO> auditAccountVO = impac2AuditService.getAllAccountsByAuditId(auditId);
-    	
+    
+    	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
+    	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
+    		for(AuditAccountVO audit : auditAccountVOs){
+//    			System.out.println("id : " + audit.getId());
+//    			System.out.println("nedIC : " + audit.getNedIc());
+//    			System.out.println("parentNedOrgPath: " + audit.getParentNedOrgPath());
+    			System.out.println("nciDoc: " + audit.getNciDoc());
+//    			System.out.println("create date: " + audit.getCreatedDate());
+//    			System.out.println("deleted Date: " + audit.getDeletedDate());
+//    			System.out.println("inactive user flag: " + audit.getInactiveUserFlag());
+//    			System.out.println("active Submitted by: " + audit.getActiveSubmittedBy());
+//    			System.out.println("new submitted by: " + audit.getNewSubmittedBy());
+//    			System.out.println("deleted submitted by: " + audit.getDeletedSubmittedBy());
+//    			System.out.println("Inactive Submitted by: " + audit.getInactiveSubmittedBy());
+//    			System.out.println("=========================================");
+    			String org = audit.getParentNedOrgPath();
+    			if(org != null){
+    				if(containsKey(orgsData, org)){
+    					HashMap<String,DashboardData> dashData = orgsData.get(org);
+    					//calculate Count
+    					setTotalCountForEachCategory(audit, dashData);
+    					orgsData.put(org, dashData);
+    				}else{
+    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+    					//calculate count
+    					setFirstElementTotalCountForEachCategory(audit, dashData);
+    					orgsData.put(org, dashData);
+    				}
+    			}
+    		}
+    	}
+
+    	Set<String> keySet = orgsData.keySet();
+    	Object[] keys = keySet.toArray();
+    	Arrays.sort(keys);
+    	//set arrays for displaying
+    	orgKeys = Arrays.asList(keys);
+//    	for( Object s : keys){
+//    		System.out.println("====" + s);
+//    		HashMap<String, DashboardData> dData = orgsData.get(s);
+//    		System.out.println("***"+dData.get(ACTIVE).getActiveAccountCount());
+//    		System.out.println("***"+dData.get(NEW).getNewAccountCount());
+//    		System.out.println("***"+dData.get(DELETED).getDeletedAccountCount());
+//    		System.out.println("***"+dData.get(INACTIVE).getInactiveAccountCount());
+//    		System.out.println("---------------------");
+//    	}
+    
     	return ApplicationConstants.SUCCESS;
+    }
+    
+
+    /**
+     * Find out if the hashmap has the organization initialized.
+     * @param orgData
+     * @param key
+     * @return
+     */
+    private boolean containsKey(HashMap<String, HashMap<String, DashboardData>> orgData, String key){
+    	return orgData.containsKey(key);
+    }
+    /** 
+     * Calculate counts, including total, uncompleted numbers sorted by organization names. The other organization needs to computer seperately.
+     * @param audit
+     * @param dashData
+     */
+    private void setTotalCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
+		
+    	Long impaciiToDate = emAuditsVO.getImpaciiToDate().getTime();
+    	Long impaciiFromDate = emAuditsVO.getImpaciiFromDate().getTime();
+    	
+    	//determine active account
+    	if(audit.getCreatedDate() != null && (audit.getDeletedDate() == null || audit.getDeletedDate().getTime() > impaciiToDate) && audit.getCreatedDate().getTime() <= impaciiToDate){
+    		calculateCountByCategory(audit, dashData, ACTIVE);
+    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    			calculateCompletedCountByCategory(audit, dashData, ACTIVE);
+    		}
+    	}
+    	//determine new account
+    	if(audit.getCreatedDate() != null && audit.getCreatedDate().getTime() >= impaciiFromDate && audit.getCreatedDate().getTime() <=impaciiToDate){
+    		calculateCountByCategory(audit, dashData, NEW);
+    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    			calculateCompletedCountByCategory(audit, dashData, NEW);
+    		}
+    	}
+    	//determine deleted account
+    	if(audit.getDeletedDate() != null && audit.getDeletedDate().getTime() >= impaciiFromDate && audit.getDeletedDate().getTime() <= impaciiToDate){
+    		calculateCountByCategory(audit, dashData, DELETED);
+    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    			calculateCompletedCountByCategory(audit, dashData, DELETED);
+    		}
+    	}
+    	//determine inactive account
+    	if(audit.getInactiveUnsubmittedFlag() != null && audit.getInactiveUnsubmittedFlag().equalsIgnoreCase("Y")){
+    		calculateCountByCategory(audit, dashData, INACTIVE);
+    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    			calculateCompletedCountByCategory(audit, dashData, INACTIVE);
+    		}
+    	}
+    }
+    
+    private void calculateCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    	if(category.equalsIgnoreCase(ACTIVE)){
+    		DashboardData ddata = dashData.get(ACTIVE);
+    		int count = ddata.getActiveAccountCount();
+    		ddata.setActiveAccountCount(++count);
+    		dashData.put(ACTIVE, ddata);
+    	}else if(category.equalsIgnoreCase(NEW)){
+    		DashboardData ddata = dashData.get(NEW);
+    		int count = ddata.getNewAccountCount();
+    		ddata.setNewAccountCount(++count);
+    		dashData.put(NEW, ddata);
+    	}else if(category.equalsIgnoreCase(DELETED)){
+    		DashboardData ddata = dashData.get(DELETED);
+    		int count = ddata.getDeletedAccountCount();
+    		ddata.setDeletedAccountCount(++count);
+    		dashData.put(DELETED, ddata);
+    	}else if(category.equalsIgnoreCase(INACTIVE)){
+    		DashboardData ddata = dashData.get(INACTIVE);
+    		int count = ddata.getInactiveAccountCount();
+    		ddata.setInactiveAccountCount(++count);
+    		dashData.put(INACTIVE, ddata);
+    	}
+    }
+    
+    private void calculateCompletedCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    	if(category.equalsIgnoreCase(ACTIVE)){
+    		DashboardData ddata = dashData.get(ACTIVE);
+    		int count = ddata.getActiveCompleteCount();
+    		ddata.setActiveCompleteCount(++count);
+    		dashData.put(ACTIVE, ddata);
+    	}else if(category.equalsIgnoreCase(NEW)){
+    		DashboardData ddata = dashData.get(NEW);
+    		int count = ddata.getNewCompleteCount();
+    		ddata.setNewCompleteCount(++count);
+    		dashData.put(NEW, ddata);
+    	}else if(category.equalsIgnoreCase(DELETED)){
+    		DashboardData ddata = dashData.get(DELETED);
+    		int count = ddata.getDeletedCompleteCount();
+    		ddata.setDeletedCompleteCount(++count);
+    		dashData.put(DELETED, ddata);
+    	}else if(category.equalsIgnoreCase(INACTIVE)){
+    		DashboardData ddata = dashData.get(INACTIVE);
+    		int count = ddata.getInactiveCompleteCount();
+    		ddata.setInactiveCompleteCount(++count);
+    		dashData.put(INACTIVE, ddata);
+    	}
+    }
+    
+    /**
+     * First map element, initial all categories with hashmap<String, DashboardData, make sure next computing will not get nullPoint.
+     * All categories include ACTIVE, NEW, DELETED, INACTIVE.
+     * @param audit
+     * @param dashData
+     */
+    private void setFirstElementTotalCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
+    	DashboardData dash = new DashboardData();
+    	dashData.put(ACTIVE, dash);
+    	dash = new DashboardData();
+    	dashData.put(NEW, dash);
+    	dash = new DashboardData();
+    	dashData.put(DELETED, dash);
+    	dash = new DashboardData();
+    	dashData.put(INACTIVE, dash);
+    	setTotalCountForEachCategory(audit, dashData);
     }
     private String updateAudit(String auditState) {
     	
@@ -318,4 +492,36 @@ public class AdminAction extends BaseAction {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
 	}
 
+
+	/**
+	 * @return the orgKeys
+	 */
+	public List<Object> getOrgKeys() {
+		return orgKeys;
+	}
+
+
+	/**
+	 * @param orgKeys the orgKeys to set
+	 */
+	public void setOrgKeys(List<Object> orgKeys) {
+		this.orgKeys = orgKeys;
+	}
+
+
+	/**
+	 * @return the orgsData
+	 */
+	public HashMap<String, HashMap<String, DashboardData>> getOrgsData() {
+		return orgsData;
+	}
+
+
+	/**
+	 * @param orgsData the orgsData to set
+	 */
+	public void setOrgsData(HashMap<String, HashMap<String, DashboardData>> orgsData) {
+		this.orgsData = orgsData;
+	}
+	
 }

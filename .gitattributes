@@ -329,6 +329,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LdapServicesImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LookupServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/tags/WorkbenchApplicationLinkTag.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DBResult.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DashboardData.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DisplayObject.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DisplayReader.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DropDownOption.java -text
