@@ -191,11 +191,13 @@ public class PortfolioSearchResultExportDecorator extends
 	 * @return String the date on which the role was created
 	 */
 	public String getRoleCreateOn() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy");
+		
 		String createdOn = "";
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
 		if(!CollectionUtils.isEmpty(accountRoles)) {
-			createdOn =  DateFormat.getDateInstance().format(accountRoles.get(0).getCreatedDate());
+			createdOn =  dateFormat.format(accountRoles.get(0).getCreatedDate());
 		}
 		
 		return createdOn;

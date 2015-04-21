@@ -150,11 +150,13 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	 * @return String the date on which the role was created
 	 */
 	public String getRoleCreateOn() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy");
+		
 		String createdOn = "";
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
 		if(!CollectionUtils.isEmpty(accountRoles)) {
-			createdOn =  DateFormat.getDateInstance().format(accountRoles.get(0).getCreatedDate());
+			createdOn =  dateFormat.format(accountRoles.get(0).getCreatedDate());
 		}
 		
 		return createdOn;
