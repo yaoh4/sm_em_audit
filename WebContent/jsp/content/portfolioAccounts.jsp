@@ -45,7 +45,7 @@
 	function submitNotes(name, cellId) { 
 		$('#missingNotesMessage').html("");
 		$('#nameId').val(name);
-		$('#nameValue').html("<label>" + name + "</label>");
+		$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
 		$('#cellId').val(cellId);
 		$('#noteText').val($('#notesDiv_'+cellId).text());
 		$("#submitNotesAction").dialog("open");

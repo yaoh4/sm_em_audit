@@ -37,9 +37,15 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	public String getAction(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String actionStr = "";
-		String name = portfolioVO.getNedFirstName() + " " + portfolioVO.getNedLastName();
+		StringBuffer name = new StringBuffer("&nbsp;");
+		if(!StringUtils.isBlank(portfolioVO.getNedFirstName())){
+			name.append(portfolioVO.getNedFirstName());
+		}
+		if(!StringUtils.isBlank(portfolioVO.getNedLastName())){
+			name.append(" "+portfolioVO.getNedLastName());
+		}		 
 		String id = portfolioVO.getImpaciiUserId();
-		actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
+		actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
 		return actionStr;
 	}
 	
