@@ -148,6 +148,7 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
 		int role1Count = 0;
+		boolean nedActive=true;
 		for (EmPortfolioRolesVw role: account.getAccountRoles()) {
 			if (role.getOrgId().equalsIgnoreCase(ORG_ID_CA) && 
 					(role.getRoleName().equalsIgnoreCase(ROLE_GM_MANAGER) ||
@@ -169,18 +170,19 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
-		// Check if NED_IC is not NCI
-		if (!StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
-		}
-
 		// Check if NED_ACTIVE_FLAG is N
 		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
+			nedActive=false;
 		}
 
+		// Check if NED_IC is not NCI
+		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
+		}
+		
 		// Check if last name is different between IMPACII and NED
-		if (!StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
+		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;
