@@ -57,11 +57,10 @@
         </div>
          
         
-        <br>
-        
 
 	<header class="row">
-		<h2>IMPAC II & I2E Accounts Tracking System</h2> 
+		<h2>Enterprise Maintenance</h2>
+		<h5><span style="font-weight:bold;">&nbsp;IMPAC II & I2E Accounts Tracking System</span></h5> 
 	</header>
 	<br>
 	
