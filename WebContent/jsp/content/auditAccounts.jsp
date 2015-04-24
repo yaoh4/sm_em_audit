@@ -117,7 +117,11 @@
 	function submitAct(name, cellId){
 		$('#errorMessage').html("");
 		$('#nameId').val(name);
-		$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
+		if($.trim(name).length < 1){
+			$('#nameValue').html("<label style=padding-left:13px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>");
+		}else{
+			$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
+		}
 		$('#cellId').val(cellId);
 		$('#selectActId').val($('#hiddenAction'+cellId).val());
 		$('#noteText').val($('#hiddennote'+cellId).val());

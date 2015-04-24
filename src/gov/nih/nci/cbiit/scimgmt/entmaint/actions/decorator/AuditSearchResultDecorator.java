@@ -42,9 +42,15 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 * @return String
 	 */
 	public String getAction(){
+		String name = "";
+		startAutowired();
 		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String name = accountVO.getNedFirstName() + " " + accountVO.getNedLastName();
+		if(accountVO.getDeletedDate() != null){
+			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
+		}else{
+			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
+		}
 		String id = ""+accountVO.getId();
 		String actionStr = "";
 		String actionId ="";
@@ -96,10 +102,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 * @return
 	 */
 	public String getDiscrepancy(){
-		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
-				.getServletContext());
-		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
-		acbf.autowireBean(this);
+		startAutowired();
 		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = ""+accountVO.getId();
@@ -293,4 +296,13 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return id;
 	}
 
+	/**
+	 * start autowired
+	 */
+	private void startAutowired(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+	}
 }

@@ -8,9 +8,16 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 public class AuditAccountVO extends EmAuditAccountsVw{
 	
 	public String getFullName() {
+		String lastName = "";
+		String firstName = "";
 		final StringBuffer sb = new StringBuffer("");
-		String lastName = getNedLastName();
-		String firstName = getNedFirstName();
+		if(this.getDeletedDate() != null){
+			lastName = getImpaciiLastName();
+			firstName = getImpaciiFirstName();
+		}else{
+			lastName = getNedLastName();
+			firstName = getNedFirstName();
+		}
 		
 		if(!StringUtils.isBlank(lastName)){
 			sb.append(lastName);
@@ -24,5 +31,7 @@ public class AuditAccountVO extends EmAuditAccountsVw{
 		
 		return sb.toString();
 	}
+	
+	
 
 }
