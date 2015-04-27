@@ -145,6 +145,8 @@ WebContent/images/bg_sh.gif -text
 WebContent/images/bubble.png -text
 WebContent/images/bubble1.png -text
 WebContent/images/calendar_icon.gif -text
+WebContent/images/commentchecked.gif -text
+WebContent/images/commentunchecked.gif -text
 WebContent/images/copy.png -text
 WebContent/images/delete.png -text
 WebContent/images/down.gif -text
