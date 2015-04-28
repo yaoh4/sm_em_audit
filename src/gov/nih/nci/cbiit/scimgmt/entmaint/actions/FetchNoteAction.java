@@ -17,8 +17,13 @@ public class FetchNoteAction extends BaseAction{
 	public String fetchAuditNote(){
 		String appId = (String)request.getParameter("pId");
 		String cate = (String)request.getParameter("cate");
-		String note = impac2Service.getAuditNoteById(Long.parseLong(appId), cate);
-		inputStream = new StringBufferInputStream(note);
+		try{
+			String note = impac2Service.getAuditNoteById(Long.parseLong(appId), cate);
+			inputStream = new StringBufferInputStream(note);
+		}catch(Exception e){
+			log.error("fetchAuditNote failed, id=" + appId +",  " +  e.getMessage(), e);
+			inputStream = new StringBufferInputStream("Unable to find the AUdit Account Note.");
+		}
 		
 		return SUCCESS;
 	}
