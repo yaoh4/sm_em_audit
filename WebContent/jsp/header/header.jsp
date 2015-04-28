@@ -50,6 +50,9 @@
             </ul>
              
             <ul>
+            	<li>                                                    
+                     <a href="<s:property value="%{getPropertyValue('HELP_DOCUMENT')}"/>">Help</a>
+                </li>
                 <li class="last">                                                    
                      <a href="mailto:<s:property value="%{getPropertyValue('COMMENTS_EMAIL')}"/>?subject=Enterprise Maintenance">Send Comments</a>
                 </li>
