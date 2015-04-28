@@ -54,6 +54,9 @@
 				 			}else{
 				 				$('#'+cId).html("");
 				 				var actStr = "";
+				 				if($.trim(comments).length > 0){
+				 					actionLabel = actionLabel + "<br/><img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + cId + ", '" + category + "');\"/>";
+				 				}
 				 				if(role == "EMADMIN"){
 				 					actStr = actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
 				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' />";
@@ -122,7 +125,8 @@
 		}
 		$('#cellId').val(cellId);
 		$('#selectActId').val($('#hiddenAction'+cellId).val());
-		$('#noteText').val($('#hiddennote'+cellId).val());
+		var note = getNote(cellId, $('#categoryId').val());
+		$('#noteText').val(note);
 		$("#submitAction").dialog( "open" );
 	}	
 	function unsubmitAct(name, cellId){

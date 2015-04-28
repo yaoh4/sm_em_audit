@@ -75,13 +75,15 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		String noteImg = "<img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + id + ", '" + cate + "');\"/>";
 		if(note != null && note.trim().length() > 0 && (eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")))){
 			actionStr = actionStr + "</br>" + noteImg;
+		}else{
+			actionStr = actionStr + "</br>";
 		}
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
 				//if yes, show undo button
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "&nbsp;&nbsp;&nbsp;<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);

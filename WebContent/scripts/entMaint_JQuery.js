@@ -156,6 +156,23 @@ function onCategoryChage(category){
 	}		
 }
 
+function getNote(id, category){
+	var result = "";
+	$.ajax({
+		url: "getNoteAction.action",
+		type: "post",
+		data: {pId: id, cate:category},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
 function fetchAuditNote(id, category){
 	$.ajax({
 			url: "getNoteAction.action",
