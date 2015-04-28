@@ -13,9 +13,11 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -289,6 +291,32 @@ public class Impac2AuditDAO {
 			return result;
 		} catch (Throwable e) {
 			log.error("getAuditAccountById failed for id=" + id + e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	/**
+	 * get Audit Note by id
+	 */
+	public String getAuditNoteById(Long id, String category){
+		String note = "";
+		Criteria crit;
+		try {
+			crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
+				note = "activeNotes";
+			}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(category)){
+				note = "newNotes";
+			}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(category)){
+				note = "deletedNotes";
+			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(category)){
+				note="inactiveNotes";
+			}
+			crit.setProjection(Projections.property(note));
+			crit.add(Restrictions.eq("id", id));
+			return (String)crit.uniqueResult();
+		} catch (HibernateException e) {
+			log.error("getAuditNoteById failed for id=" + id + e.getMessage(), e);
 			throw e;
 		}
 	}

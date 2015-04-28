@@ -29,6 +29,21 @@ $(function() {
 		 }
 	});
 	
+	$("#note").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
 	$("#confirmation").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -83,11 +98,12 @@ function openHelp(id){
 
 function getRoleDescription(id){
 	var result = "";
+	var category = $('#categoryId').val();
 	
 	$.ajax({
 			url: "roleDescriptionAction.action",
 			type: "post",
-			data: {rId: id},
+			data: {rId: id, cate:category},
 			async:   false,
 			success: function(msg){
 				result = $.trim(msg);
@@ -138,4 +154,22 @@ function onCategoryChage(category){
 		$('#dateRangeEndDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
 	}		
+}
+
+function fetchAuditNote(id, category){
+	$.ajax({
+			url: "getNoteAction.action",
+			type: "post",
+			data: {pId: id, cate:category},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				$('#noteId').html(result);
+				openNote();
+			}, 
+			error: function(){}		
+		});
+}
+function openNote(){
+	$('#note').dialog("open");
 }

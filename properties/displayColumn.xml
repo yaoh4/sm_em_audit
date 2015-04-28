@@ -46,14 +46,8 @@
  	</Tab>
  	<Tab>
  		<type>active</type>
- 		<columnName>IMPAC II ID</columnName>
- 		<property>impaciiUserId</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>active</type>
- 		<columnName>NIH (Network) ID</columnName>
- 		<property>nihNetworkId</property>
+ 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
  	</Tab>
   	<Tab>
@@ -104,12 +98,6 @@
  		<property>action</property>
  		<sort>false</sort>
  	</Tab>	 	 	
- 	<Tab>
- 		<type>active</type>
- 		<columnName>Notes</columnName>
- 		<property>actionNote</property>
- 		<sort>false</sort>
- 	</Tab> 	
   	<Tab>
  		<type>active</type>
  		<columnName>Submitted</columnName>
@@ -139,16 +127,11 @@
  	</Tab>
  	<Tab>
  		<type>new</type>
- 		<columnName>IMPAC II ID</columnName>
- 		<property>impaciiUserId</property>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
  	</Tab>
- 	<Tab>
- 		<type>new</type>
- 		<columnName>NIH (Network) ID</columnName>
- 		<property>nihNetworkId</property>
- 		<sort>true</sort>
- 	</Tab>
+
 	<Tab>
  		<type>new</type>
  		<columnName>NED Org Path</columnName>
@@ -200,12 +183,6 @@
  	</Tab>
 	<Tab>
  		<type>new</type>
- 		<columnName>Notes</columnName>
- 		<property>actionNote</property>
- 		<sort>false</sort>
- 	</Tab>
-	<Tab>
- 		<type>new</type>
  		<columnName>Submitted</columnName>
  		<property>accountSubmitted</property>
  		<sort>false</sort>
@@ -233,14 +210,8 @@
  	</Tab>
  	<Tab>
  		<type>deleted</type>
- 		<columnName>IMPAC II ID</columnName>
- 		<property>impaciiUserId</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>deleted</type>
- 		<columnName>NIH (Network) ID</columnName>
- 		<property>nihNetworkId</property>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -300,12 +271,6 @@
  	</Tab> 	
  	<Tab>
  		<type>deleted</type>
- 		<columnName>Notes</columnName>
- 		<property>actionNote</property>
- 		<sort>false</sort>
- 	</Tab>	
- 	<Tab>
- 		<type>deleted</type>
  		<columnName>Submitted</columnName>
  		<property>accountSubmitted</property>
  		<sort>false</sort>
@@ -333,16 +298,10 @@
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
- 		<columnName>IMPAC II ID</columnName>
- 		<property>impaciiUserId</property>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
  	</Tab>	
-  	<Tab>
- 		<type>inactive</type>
- 		<columnName>NIH (Network) ID</columnName>
- 		<property>nihNetworkId</property>
- 		<sort>true</sort>
- 	</Tab> 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NED Org Path</columnName>
@@ -391,12 +350,6 @@
  		<property>action</property>
  		<sort>false</sort>
  		<export>false</export>
- 	</Tab>
-  	<Tab>
- 		<type>inactive</type>
- 		<columnName>Notes</columnName>
- 		<property>actionNote</property>
- 		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>inactive</type>

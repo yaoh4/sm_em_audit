@@ -56,7 +56,7 @@
 				 				var actStr = "";
 				 				if(role == "EMADMIN"){
 				 					actStr = actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
-				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + comments +"'/>";
+				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' />";
 				 				}else{
 				 					actStr = actionLabel;
 				 				}
@@ -64,7 +64,6 @@
 				 					actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
 				 				}
 				 				$('#'+cId).html(actStr);
-				 				$('#note' + cId).html(comments);
 				 				var elements = result.split(";");
 				 				var submitted = "Submitted on " + elements[0] + " by " + elements[1];
 				 				$('#submittedby'+cId).html(submitted);
@@ -104,8 +103,7 @@
 			 				openErrorDialog();
 			 			}else{
 			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
-			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> <input type='hidden' id='hiddennote" + cId +"' value='" + $('#hiddennote' + cId).val() +"'/>");
-			 				$('#note' + cId).html("");
+			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
 			 			}

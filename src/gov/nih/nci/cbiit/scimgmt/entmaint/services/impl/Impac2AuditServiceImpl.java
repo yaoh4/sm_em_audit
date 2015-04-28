@@ -140,6 +140,10 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return impac2AuditDAO.getAuditAccountById(id);
 	}
 	
+	public String getAuditNoteById(Long id, String category){
+		
+		return impac2AuditDAO.getAuditNoteById(id, category);
+	}
 	/**
 	 * Convert to AuditAccountVO object
 	 * 

@@ -71,6 +71,11 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		
 		String actId = getActionId(actionStr);
+		String cate = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
+		String noteImg = "<img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + id + ", '" + cate + "');\"/>";
+		if(note != null && note.trim().length() > 0 && (eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")))){
+			actionStr = actionStr + "</br>" + noteImg;
+		}
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
@@ -92,8 +97,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			if(EmAppUtil.isAuditEnabled()){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>" + "</div>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
 			}
+			actionStr = actionStr + "</div>";
 		}
 		return actionStr;
 	}
@@ -259,7 +265,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 * This method is for displaying the action note. If it is unsubmitted, the action note must be hidden.
 	 * @return
 	 */
-	public String getActionNote(){
+	private String getActionNote(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = "note"+accountVO.getId();
 		String note = "";
@@ -269,14 +275,29 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		if(note == null){
 			note = "";
 		}
-		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
-		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-			note = "<input type='hidden' id='hidden" + id +"' value='" + note+ "'/>";
-		}
-	
-		String completedNote = "<div id='" + id +"'>" + note + "</div>";
+//		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+//		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+//			note = "<input type='hidden' id='hidden" + id +"' value='" + note+ "'/>";
+//		}
+//	
+//		String completedNote = "<div id='" + id +"'>" + note + "</div>";
 		
-		return completedNote;
+		return note;
+	}
+
+	public String getImpaciiUserIdNetworkId(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String impaciiId = accountVO.getImpaciiUserId();
+		String networkId = accountVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return impaciiId + "/ <br/>" + networkId;
 	}
 	/**
 	 * This is help method to convert action label to action ID

@@ -45,3 +45,7 @@
 	<br>
 	<div align="left" id="roleHelpId"></div>
 </div>	
+<div id="note" style="display: none; overflow:auto;" title="Note">
+	<br>
+	<div align="left" id="noteId"></div>
+</div>	

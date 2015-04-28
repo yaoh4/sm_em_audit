@@ -243,6 +243,7 @@ public class Impac2AuditAction extends BaseAction {
 	
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(pageName);
+		this.processList(displayColumn);
 		
 		if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
@@ -274,6 +275,12 @@ public class Impac2AuditAction extends BaseAction {
 		i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 	}
 	
+	private void processList(List<Tab> disColumn){
+		for(Tab tab : disColumn){
+			String colName = tab.getColumnName().replace("#R", "<br/>");
+			tab.setColumnName(colName);
+		}
+	}
 	/**
 	 * This method is shared method for initial components of loading search page for all tabs
 	 * @param pageName

@@ -241,6 +241,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/BaseAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ComposeEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ErrorMessageAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/FetchNoteAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/HomeAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/I2eAuditAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/I2ePortfolioAction.java -text
