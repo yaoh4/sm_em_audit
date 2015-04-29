@@ -34,9 +34,9 @@
 						} else {
 							var note = $.trim(getPortfolioNote(impac2Id));
 							if(note.length < 1){
-								$('#action_'+impac2Id).html("<img src='../images/commentunchecked.gif' onclick=\"submitNotes('" + name +"','" + impac2Id + "')\" alt=\"Add Notes\"/>");
+								$('#action_'+impac2Id).html("<a href=\"javascript:submitNotes('" + name +"','" + impac2Id + "')\"><img src='../images/commentunchecked.gif' alt=\"Add Notes\"/></a>");
 							}else{
-								$('#action_'+impac2Id).html("<img src='../images/commentchecked.gif' onclick=\"submitNotes('" + name +"','" + impac2Id + "')\" alt=\"Add Notes\"/>");
+								$('#action_'+impac2Id).html("<a href=\"javascript:submitNotes('" + name +"','" + impac2Id + "')\"><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>");
 							}
 							
 							$("#lastUpdateDiv_" + impac2Id).html(result);

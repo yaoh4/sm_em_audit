@@ -55,7 +55,7 @@
 				 				$('#'+cId).html("");
 				 				var actStr = "";
 				 				if($.trim(comments).length > 0){
-				 					actionLabel = actionLabel + "<br/><img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + cId + ", '" + category + "');\"/>";
+				 					actionLabel = actionLabel + "<br/><a href=\"javascript:fetchAuditNote(" + cId + ", '" + category + "');\"><img src='../images/commentchecked.gif' alt=\"NOTE\"/></a>";
 				 				}
 				 				if(role == "EMADMIN"){
 				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 

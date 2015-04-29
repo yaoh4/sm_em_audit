@@ -47,9 +47,9 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		String id = portfolioVO.getImpaciiUserId();
 		String note = portfolioVO.getNotes();
 		if(note != null && note.length() > 0){
-			actionStr = "<div id='action_" + id + "'>" + "<img src='../images/commentchecked.gif' onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" alt=\"Add Notes\"/>" + "</div>";
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
 		}else{
-			actionStr = "<div id='action_" + id + "'>" + "<img src='../images/commentunchecked.gif' onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" alt=\"Add Notes\"/>" + "</div>";
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentunchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
 		}
 		return actionStr;
 	}

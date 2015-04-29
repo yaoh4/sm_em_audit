@@ -72,7 +72,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		
 		String actId = getActionId(actionStr);
 		String cate = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
-		String noteImg = "<img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + id + ", '" + cate + "');\"/>";
+		String noteImg = "<a href=\"javascript:fetchAuditNote(" + id + ", '" + cate + "');\"><img src='../images/commentchecked.gif' alt=\"NOTE\"/></a>";
 		if(note != null && note.trim().length() > 0 && (eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")))){
 			actionStr = actionStr + "</br>" + noteImg;
 		}else{
