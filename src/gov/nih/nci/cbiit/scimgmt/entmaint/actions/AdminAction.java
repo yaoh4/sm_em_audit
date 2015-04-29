@@ -57,6 +57,34 @@ public class AdminAction extends BaseAction {
     }
     
     
+    private void validateComments() {
+    	//Comments cannot be longer than 1000 characters.
+    	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
+    		if(emAuditsVO.getComments().length() > COMMENTS_FIELD_SIZE) {
+    			this.addActionError(getText("error.comments.size.exceeded"));  			
+    		}
+    	}
+    }
+    
+    
+    private void restoreStateOnError(boolean disableInput) {
+    	if(this.hasErrors()) {
+    		setDisableInput(disableInput);
+    		setSendAuditNotice(false);
+    		//Temporarily save the comments
+    		String comments = emAuditsVO.getComments();
+    		emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    		emAuditsVO.setComments(comments);
+    	}
+    }
+    
+    
+    public void validate() {
+    	validateComments();
+    	restoreStateOnError(true);
+    }
+    
+    
     /**
      * Validator for start audit action.
      * 
@@ -74,33 +102,28 @@ public class AdminAction extends BaseAction {
     	}
     
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiToDate")) {
-    	if(emAuditsVO.getImpaciiToDate() == null) {
-    		emAuditsVO.setImpaciiToDate(new Date());
-    	} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
-    		//End date cannot be in future
-    		this.addActionError(getText("error.daterange.enddate.future"));
-    	}
+    		if(emAuditsVO.getImpaciiToDate() == null) {
+    			emAuditsVO.setImpaciiToDate(new Date());
+    		} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    			//End date cannot be in future
+    			this.addActionError(getText("error.daterange.enddate.future"));
+    		}
     	}
     	
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiFromDate")) {
-    	//Start date cannot be null
-    	if(emAuditsVO.getImpaciiFromDate() == null) {
-    		this.addActionError(getText("error.daterange.startdate.empty"));
-    	} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
-    		//Start date cannot be in future	
-			this.addActionError(getText("error.daterange.startdate.future"));
-    	} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
-    		//Start date cannot be after end date
-    		this.addActionError(getText("error.daterange.outofsequence"));
-    	}
-    	}
-    	
-    	//Comments cannot be longer than 1000 characters.
-    	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
-    		if(emAuditsVO.getComments().length() > COMMENTS_FIELD_SIZE) {
-    			this.addActionError(getText("error.comments.size.exceeded"));
+    		//Start date cannot be null
+    		if(emAuditsVO.getImpaciiFromDate() == null) {
+    			this.addActionError(getText("error.daterange.startdate.empty"));
+    		} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
+    			//Start date cannot be in future	
+    			this.addActionError(getText("error.daterange.startdate.future"));
+    		} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
+    			//Start date cannot be after end date
+    			this.addActionError(getText("error.daterange.outofsequence"));
     		}
     	}
+    	
+    	validateComments();
     	
     	if(this.hasErrors()) {
     		setDisableInput(false);
