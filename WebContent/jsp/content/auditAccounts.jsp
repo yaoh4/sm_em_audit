@@ -58,7 +58,7 @@
 				 					actionLabel = actionLabel + "<br/><img src='../images/commentchecked.gif' onclick=\"fetchAuditNote(" + cId + ", '" + category + "');\"/>";
 				 				}
 				 				if(role == "EMADMIN"){
-				 					actStr = actionLabel + "<br/><input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
+				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
 				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' />";
 				 				}else{
 				 					actStr = actionLabel;

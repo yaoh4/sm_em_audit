@@ -84,7 +84,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
 				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "&nbsp;&nbsp;&nbsp;<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
-						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
+						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
 			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);

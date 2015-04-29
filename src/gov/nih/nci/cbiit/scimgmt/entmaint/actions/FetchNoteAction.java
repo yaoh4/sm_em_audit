@@ -19,6 +19,9 @@ public class FetchNoteAction extends BaseAction{
 		String cate = (String)request.getParameter("cate");
 		try{
 			String note = impac2Service.getAuditNoteById(Long.parseLong(appId), cate);
+			if(note == null){
+				note = "";
+			}
 			inputStream = new StringBufferInputStream(note);
 		}catch(Exception e){
 			log.error("fetchAuditNote failed, id=" + appId +",  " +  e.getMessage(), e);
