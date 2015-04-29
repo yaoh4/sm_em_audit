@@ -301,6 +301,20 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		
 		return impaciiId + "/ <br/>" + networkId;
 	}
+	
+	public String getCreatedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + accountVO.getCreatedByFullName() + "'>" + accountVO.getCreatedByUserId() + "</span>";
+		return displayStr;
+	}
+
+	public String getDeletedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + accountVO.getDeletedByFullName() + "'>" + accountVO.getDeletedByUserId() + "</span>";
+		return displayStr;
+	}
+	
+	
 	/**
 	 * This is help method to convert action label to action ID
 	 * @param label

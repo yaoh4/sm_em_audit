@@ -71,7 +71,7 @@
   	<Tab>
  		<type>active</type>
  		<columnName>Created By</columnName>
- 		<property>createdByUserId</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab>	
   	<Tab>
@@ -153,7 +153,7 @@
 	<Tab>
  		<type>new</type>
  		<columnName>Created By</columnName>
- 		<property>createdByUserId</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab>
 	<Tab>
@@ -241,7 +241,7 @@
 	<Tab>
  		<type>deleted</type>
  		<columnName>Created By</columnName>
- 		<property>createdByUserId</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab> 	
 	<Tab>
@@ -253,7 +253,7 @@
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted By</columnName>
- 		<property>deletedByUserId</property>
+ 		<property>deletedBy</property>
  		<sort>true</sort>
  	</Tab> 	
  	<Tab>
@@ -323,7 +323,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>Created By</columnName>
- 		<property>createdByUserId</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab> 	
    	<Tab>
