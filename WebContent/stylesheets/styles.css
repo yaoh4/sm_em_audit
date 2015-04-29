@@ -53,10 +53,9 @@ visibility: hidden;
 {
 background-image: url(../images/impac_banner.jpg);
 background-repeat: no-repeat;
-background-position: center;
+background-position: left;
 margin: 0 auto;
 height: 44px;
-width: 980px;
 
 }
 
