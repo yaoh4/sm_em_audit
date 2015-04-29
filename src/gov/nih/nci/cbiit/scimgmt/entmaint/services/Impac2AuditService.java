@@ -80,5 +80,5 @@ public interface Impac2AuditService {
      * @return String (Note)
      */
     public String getAuditNoteById(Long id, String category);
-    
+
 }

@@ -82,6 +82,16 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	public DBResult saveNotes(String impaciiUserId, String notes, Date date) {
 		return impac2PortfolioDAO.saveNotes(impaciiUserId, notes, date);
 	}
+	/**
+	 * 
+	 * @param id
+	 * @param category
+	 * @return
+	 */
+	public String getPortfolioNoteById(String id){
+		
+		return impac2PortfolioDAO.getPortfolioNoteById(id);
+	}
 	
 	/**
 	 * Convert to PortfolioAccountVO object

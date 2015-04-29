@@ -45,7 +45,12 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 			name.append(" "+portfolioVO.getNedLastName());
 		}		 
 		String id = portfolioVO.getImpaciiUserId();
-		actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
+		String note = portfolioVO.getNotes();
+		if(note != null && note.length() > 0){
+			actionStr = "<div id='action_" + id + "'>" + "<img src='../images/commentchecked.gif' onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" alt=\"Add Notes\"/>" + "</div>";
+		}else{
+			actionStr = "<div id='action_" + id + "'>" + "<img src='../images/commentunchecked.gif' onclick=\"submitNotes('" + name.toString() +"','" + id + "')\" alt=\"Add Notes\"/>" + "</div>";
+		}
 		return actionStr;
 	}
 	
@@ -155,23 +160,6 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	}
 	
 	/**
-	 * Get notes submitted for this account.
-	 * @return notes
-	 */
-	public String getNotes(){
-		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		String notes = "";
-		String id = portfolioVO.getImpaciiUserId();
-		if(!StringUtils.isBlank(portfolioVO.getNotes())){
-			notes = "<div id=\"notesDiv_"+id+ "\">" + portfolioVO.getNotes() + "</div>";
-		}
-		else{
-			notes = "<div id=\"notesDiv_"+id+ "\"> </div>";
-		}
-		return notes;
-	}
-	
-	/**
 	 * Get discrepancy for this account.
 	 * @return discrepancy text with info icon.
 	 */
@@ -211,6 +199,25 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 			dateString = new SimpleDateFormat("MM/dd/yyyy").format(deletedDate);
 		}		
 		return dateString;
+	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return impaciiId + "/ <br/>" + networkId;
 	}
 	
 }

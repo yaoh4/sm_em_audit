@@ -187,6 +187,37 @@ function fetchAuditNote(id, category){
 			error: function(){}		
 		});
 }
+function getPortfolioNote(id){
+	var result = "";
+	$.ajax({
+		url: "getPortFolioNoteAction.action",
+		type: "post",
+		data: {pId: id},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
+function fetchPortfolioNote(id){
+	$.ajax({
+			url: "getPortFolioNoteAction.action",
+			type: "post",
+			data: {pId: id},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				//$('#noteId').html(result);
+				openPortfolioNote();
+			}, 
+			error: function(){}		
+		});
+}
 function openNote(){
 	$('#note').dialog("open");
 }

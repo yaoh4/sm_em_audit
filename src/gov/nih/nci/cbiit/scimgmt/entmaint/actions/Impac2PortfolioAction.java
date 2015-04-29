@@ -66,7 +66,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
-		
+		processList(displayColumn);
 		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
@@ -279,6 +279,16 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public void setCategoriesList(List<DropDownOption> categoriesList) {
 		this.categoriesList = categoriesList;
+	}
+	/**
+	 * Process display tag table header to remove #R to <br/>
+	 * @param disColumn
+	 */
+	private void processList(List<Tab> disColumn){
+		for(Tab tab : disColumn){
+			String colName = tab.getColumnName().replace("#R", "<br/>");
+			tab.setColumnName(colName);
+		}
 	}
 
 }

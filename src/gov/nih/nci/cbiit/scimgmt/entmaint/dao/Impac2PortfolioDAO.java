@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
@@ -13,10 +14,12 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -168,6 +171,24 @@ public class Impac2PortfolioDAO {
 		}
 		result.setStatus(DBResult.SUCCESS);
 		return result;
+	}
+	
+	/**
+	 * get Audit Note by id
+	 */
+	public String getPortfolioNoteById(String id){
+		String note = "";
+		Criteria crit;
+		try {
+			crit = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+			note = "notes";
+			crit.setProjection(Projections.property(note));
+			crit.add(Restrictions.eq("impaciiUserId", id));
+			return (String)crit.uniqueResult();
+		} catch (HibernateException e) {
+			log.error("getPortfolioNoteById failed for id=" + id + e.getMessage(), e);
+			throw e;
+		}
 	}
 	
 	/**

@@ -32,7 +32,13 @@
 							$(this).dialog("close");
 							openErrorDialog();
 						} else {
-							$("#notesDiv_" + impac2Id).html(notes);
+							var note = $.trim(getPortfolioNote(impac2Id));
+							if(note.length < 1){
+								$('#action_'+impac2Id).html("<img src='../images/commentunchecked.gif' onclick=\"submitNotes('" + name +"','" + impac2Id + "')\" alt=\"Add Notes\"/>");
+							}else{
+								$('#action_'+impac2Id).html("<img src='../images/commentchecked.gif' onclick=\"submitNotes('" + name +"','" + impac2Id + "')\" alt=\"Add Notes\"/>");
+							}
+							
 							$("#lastUpdateDiv_" + impac2Id).html(result);
 							$(this).dialog("close");
 						}
@@ -47,7 +53,8 @@
 		$('#nameId').val(name);
 		$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
 		$('#cellId').val(cellId);
-		$('#noteText').val($('#notesDiv_'+cellId).text());
+		var note = getPortfolioNote(cellId);
+		$('#noteText').val(note);
 		$("#submitNotesAction").dialog("open");
 	}	
 </script>

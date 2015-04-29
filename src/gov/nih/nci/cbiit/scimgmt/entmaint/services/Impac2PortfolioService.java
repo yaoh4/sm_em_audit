@@ -29,4 +29,9 @@ public interface Impac2PortfolioService {
      */
     public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
+    /**
+     * Note retrieve from view
+     */
+	public String getPortfolioNoteById(String id);
+    
 }
