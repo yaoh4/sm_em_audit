@@ -150,7 +150,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
 		String lastUpdated = "";
 		String id = portfolioVO.getImpaciiUserId();
-		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null && !StringUtils.isBlank(portfolioVO.getNotes())){
+		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null){
 			lastUpdated =  "<div id=\"lastUpdateDiv_"+id+ "\"> Updated on " +dateFormat.format(portfolioVO.getNotesSubmittedDate()) + " by "  +portfolioVO.getNotesSubmittedByFullName() + "</div>";
 		}
 		else{
@@ -217,7 +217,18 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 			networkId = "";
 		}
 		
-		return impaciiId + "/ <br/>" + networkId;
+		return "<span style='white-space: nowrap;'>I2: " + impaciiId + "</span><br/>" + "<span style='white-space:nowrap;'>NIH: " + networkId + "</span>";
 	}
 	
+	public String getCreatedBy(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + portfolioVO.getCreatedByFullName() + "'>" + portfolioVO.getCreatedByUserId() + "</span>";
+		return displayStr;
+	}
+	
+	public String getDeletedBy(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + portfolioVO.getDeletedByFullName() + "'>" + portfolioVO.getDeletedByUserId() + "</span>";
+		return displayStr;
+	}
 }

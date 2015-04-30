@@ -489,7 +489,7 @@
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Created By</columnName>
- 		<property>createdByFullName</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -571,7 +571,7 @@
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Created By</columnName>
- 		<property>createdByFullName</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -653,7 +653,7 @@
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Created By</columnName>
- 		<property>createdByFullName</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab> 	
  	<Tab>
@@ -665,7 +665,7 @@
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Deleted By</columnName>
- 		<property>deletedByFullName</property>
+ 		<property>deletedBy</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -770,7 +770,7 @@
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Created By</columnName>
- 		<property>createdByFullName</property>
+ 		<property>createdBy</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>

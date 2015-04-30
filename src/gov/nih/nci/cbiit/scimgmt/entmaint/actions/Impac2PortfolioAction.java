@@ -202,9 +202,6 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return
 	 */
 	public String decorateResponse(String notes){
-		if(notes.length() == 0){
-			return "";
-		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mm a");
 		String lastUpdateDate = dateFormat.format(new Date());
 		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();

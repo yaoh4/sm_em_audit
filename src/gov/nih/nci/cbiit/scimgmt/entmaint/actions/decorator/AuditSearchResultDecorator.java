@@ -277,13 +277,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		if(note == null){
 			note = "";
 		}
-//		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
-//		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-//			note = "<input type='hidden' id='hidden" + id +"' value='" + note+ "'/>";
-//		}
-//	
-//		String completedNote = "<div id='" + id +"'>" + note + "</div>";
-		
 		return note;
 	}
 
@@ -299,7 +292,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			networkId = "";
 		}
 		
-		return impaciiId + "/ <br/>" + networkId;
+		return "<span style='white-space: nowrap;'>I2: " + impaciiId + "</span><br/>" + "<span style='white-space:nowrap;'>NIH: " + networkId + "</span>";
 	}
 	
 	public String getCreatedBy(){
