@@ -102,7 +102,7 @@
  	</Tab>	
   	<Tab>
  		<type>active</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>	
@@ -205,7 +205,7 @@
  	</Tab>
 	<Tab>
  		<type>new</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
@@ -417,7 +417,7 @@
  	</Tab>	
    	<Tab>
  		<type>inactive</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>	
@@ -506,7 +506,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
@@ -588,7 +588,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
@@ -787,7 +787,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>IMPAC II Application Role(s) Created On</columnName>
+ 		<columnName>IMPAC II Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
