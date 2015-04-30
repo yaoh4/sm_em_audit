@@ -292,7 +292,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			networkId = "";
 		}
 		
-		return "<span style='white-space: nowrap;'>I2: " + impaciiId + "</span><br/>" + "<span style='white-space:nowrap;'>NIH: " + networkId + "</span>";
+		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
 	}
 	
 	public String getCreatedBy(){
