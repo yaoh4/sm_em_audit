@@ -531,7 +531,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  		<export>false</export>
@@ -627,7 +627,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  		<export>false</export>
@@ -723,7 +723,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  		<export>false</export>
@@ -854,7 +854,7 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  		<export>false</export>
