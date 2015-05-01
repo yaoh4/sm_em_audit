@@ -63,6 +63,7 @@
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
+ 		<export>false</export>
  	</Tab>
   	<Tab>
  		<type>active</type>
@@ -164,6 +165,7 @@
  		<type>new</type>
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
  		<sort>true</sort>
  	</Tab>
 
@@ -269,6 +271,7 @@
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
+ 		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>deleted</type>
@@ -378,6 +381,7 @@
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
+ 		<export>false</export>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
@@ -464,9 +468,24 @@
  	</Tab>	
  	<Tab>
  		<type>portfolioActive</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioActive</type>
 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
  		<sort>true</sort>
+ 		<export>false</export>
  	</Tab>	
  	<Tab>
  		<type>portfolioActive</type>
@@ -544,6 +563,20 @@
  		<property>fullName</property>
  		<sort>true</sort>
  	</Tab>	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
@@ -626,6 +659,20 @@
  		<property>fullName</property>
  		<sort>true</sort>
  	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
@@ -743,6 +790,20 @@
  		<property>fullName</property>
  		<sort>true</sort>
  	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>

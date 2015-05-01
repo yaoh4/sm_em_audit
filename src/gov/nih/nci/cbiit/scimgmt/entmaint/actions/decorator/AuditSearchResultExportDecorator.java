@@ -1,6 +1,5 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * Decorator to display data in Excel spreadsheet from Audit tab.
@@ -161,6 +161,26 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		
 		return createdOn;
 	}
+	
+	
+	public String getCreatedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String createdBy =  accountVO.getCreatedByFullName();
+		if(StringUtils.isEmpty(createdBy)) {
+			createdBy = accountVO.getCreatedByUserId();
+		}
+		return createdBy;
+	}
+
+	public String getDeletedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String deletedBy = accountVO.getDeletedByFullName();
+		if(StringUtils.isEmpty(deletedBy)) {
+			deletedBy = accountVO.getDeletedByUserId();
+		}
+		return deletedBy;
+	}
+	
 	
 	/**
 	 * Get the action performed on this account

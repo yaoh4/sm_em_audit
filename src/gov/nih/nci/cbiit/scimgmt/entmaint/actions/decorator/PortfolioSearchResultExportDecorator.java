@@ -4,7 +4,6 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -201,6 +200,26 @@ public class PortfolioSearchResultExportDecorator extends
 		}
 		
 		return createdOn;
+	}
+	
+	
+	public String getCreatedBy(){
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		String createdBy =  accountVO.getCreatedByFullName();
+		if(StringUtils.isEmpty(createdBy)) {
+			createdBy = accountVO.getCreatedByUserId();
+		}
+		return createdBy;
+	}
+
+	
+	public String getDeletedBy(){
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		String deletedBy = accountVO.getDeletedByFullName();
+		if(StringUtils.isEmpty(deletedBy)) {
+			deletedBy = accountVO.getDeletedByUserId();
+		}
+		return deletedBy;
 	}
 	
 	
