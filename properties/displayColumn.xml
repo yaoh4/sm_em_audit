@@ -42,7 +42,6 @@
  		<type>active</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
@@ -62,32 +61,27 @@
  		<type>active</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>active</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>active</type>
@@ -145,7 +139,6 @@
  		<type>new</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>new</type>
@@ -166,32 +159,27 @@
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
  		<export>false</export>
- 		<sort>true</sort>
  	</Tab>
 
 	<Tab>
  		<type>new</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab>
 	<Tab>
  		<type>new</type>
@@ -250,7 +238,6 @@
  		<type>deleted</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>deleted</type>
@@ -270,7 +257,6 @@
  		<type>deleted</type>
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
@@ -283,37 +269,31 @@
  		<type>deleted</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>deleted</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab> 	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted Date</columnName>
  		<property>accountDeletedDate</property>
- 		<sort>true</sort>
  	</Tab> 	
 	<Tab>
  		<type>deleted</type>
  		<columnName>Deleted By</columnName>
  		<property>deletedBy</property>
- 		<sort>true</sort>
  	</Tab> 	
  	<Tab>
  		<type>deleted</type>
@@ -360,7 +340,6 @@
  		<type>inactive</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>inactive</type>
@@ -380,32 +359,27 @@
  		<type>inactive</type>
  		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  		<export>false</export>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>inactive</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>inactive</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab> 	
    	<Tab>
  		<type>inactive</type>
@@ -464,7 +438,6 @@
  		<type>portfolioActive</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioActive</type>
@@ -484,32 +457,27 @@
  		<type>portfolioActive</type>
 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  		<export>false</export>
  	</Tab>	
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
@@ -568,7 +536,6 @@
  		<type>portfolioNew</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioNew</type>
@@ -588,31 +555,26 @@
  		<type>portfolioNew</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>		
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
@@ -671,7 +633,6 @@
  		<type>portfolioDeleted</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDeleted</type>
@@ -691,49 +652,41 @@
  		<type>portfolioDeleted</type>
 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab> 	
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Deleted Date</columnName>
  		<property>deletedDate</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>Deleted By</columnName>
  		<property>deletedBy</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
  		<columnName>IMPAC II Deletion Comments</columnName>
  		<property>deactivationComments</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDeleted</type>
@@ -809,7 +762,6 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
@@ -829,31 +781,26 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>NED Org Path</columnName>
  		<property>nedOrgPath</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
- 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>

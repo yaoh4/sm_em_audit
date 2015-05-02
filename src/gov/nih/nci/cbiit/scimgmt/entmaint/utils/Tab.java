@@ -121,6 +121,10 @@ public class Tab {
 			export = "true";
 		}
 		
+		if(sort == null) {
+			sort = "true";
+		}
+		
 		return this;
 	}
 	
