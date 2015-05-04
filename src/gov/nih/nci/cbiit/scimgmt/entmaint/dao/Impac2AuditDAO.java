@@ -433,7 +433,13 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.desc("nedLastName"));
 					criteria.addOrder(Order.desc("nedFirstName"));
 				}
-			} else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
+			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("createdByUserId"));
+				}else{
+					criteria.addOrder(Order.desc("createdByUserId"));
+				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
 				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
 					criteria.addOrder(Order.asc("impaciiUserId"));
 					criteria.addOrder(Order.asc("nihNetworkId"));
