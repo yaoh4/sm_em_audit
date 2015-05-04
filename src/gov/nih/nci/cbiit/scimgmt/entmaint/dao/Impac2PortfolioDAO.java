@@ -85,7 +85,13 @@ public class Impac2PortfolioDAO {
 						criteria.addOrder(Order.desc("nedLastName"));
 						criteria.addOrder(Order.desc("nedFirstName"));
 					}
-				} else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
+				}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("createdByUserId"));
+					}else{
+						criteria.addOrder(Order.desc("createdByUserId"));
+					}
+				}else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc("createdDate"));
 					else
