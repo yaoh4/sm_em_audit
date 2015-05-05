@@ -4,14 +4,16 @@
 <%@ taglib uri="/WEB-INF/tld/displaytag.tld" prefix="display"%>
 
 
-<s:include value="/jsp/content/manageAccounts.jsp" />
-
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
+<link rel="stylesheet" type="text/css" href="../stylesheets/jquery.cleditor.css" />
+<script src="../scripts/jquery.cleditor.min.js" type="text/javascript"></script>
+<% String contextPath = request.getContextPath(); %>
 <script type="text/javascript">
+
 function sendNotice()
  {
 	var result = "";
@@ -58,6 +60,15 @@ function submitReset(){
 	$('#adminActionId').attr("action", "resetAudit");
 	$('#adminActionId').submit();
 }
+function submitForm(){
+	var url = "<%=contextPath%>" + "/admin/openEmail";
+	var winName = "email";
+	var features = "menubar=yes,scrollbars=yes,resizable=yes,fullscreen=yes";
+
+	var newWin = window.open(url, winName, features);
+
+}
+
 </script>
    
 
@@ -76,7 +87,12 @@ function submitReset(){
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
  
- <h3>Administer Audit</h3>
+ <p style="text-align:left;">
+ <label style="font-size:2em;">Administer Audit</label>
+<span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
+<a href="#" onclick="submitForm();" target="_BLANK"><font color="#33CCFF">Open/Edit Audit Email</font></a></span>
+</p>
+ 
     <div class="form-group">
     	<label for="Audit" class="col-sm-3 control-label" style="padding-top:0px;">Audit:</label>
     	<div class="col-sm-4" style="padding-bottom:0px;">
@@ -147,7 +163,6 @@ function submitReset(){
 <br/>
 You have attempted to reset the audit. Are you sure?
 </div>
-
 <!--  tab-content -->
 </div>
 <!-- panel -->

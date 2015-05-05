@@ -1,13 +1,18 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Date;
 import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +39,8 @@ public class AdminAction extends BaseAction {
 	
 	@Autowired
 	protected AdminService adminService;
-	
+	@Autowired
+	private EntMaintProperties properties;
 	
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
@@ -186,6 +192,18 @@ public class AdminAction extends BaseAction {
     	return updateAudit(ApplicationConstants.AUDIT_STATE_CODE_ENABLED);
     }
     
+    public String openEmail() {
+    	String content = "";
+    	try{
+    		content = readEmailContent();
+    	}catch(Exception e){
+    		logger.error("Failed to read email from email file.", e);
+    	}
+    	//content = StringEscapeUtils.escapeHtml(content);
+    	request.setAttribute("emailContent", content);
+    	
+    	return SUCCESS;
+    }
     
     /**
      * Invoked when the the Reset button is clicked. Closes the Audit.
@@ -322,6 +340,22 @@ public class AdminAction extends BaseAction {
 	 */
 	public String getIcEmails() {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
+	}
+	
+	private String readEmailContent() throws Exception{
+		String fileName = properties.getPropertyValue("EMAIL_FILE") + File.separator + "email.txt";
+		File f = new File(fileName);
+		if(!f.exists()){
+			return "";
+		}else{
+			BufferedReader bread = new BufferedReader(new FileReader(new File(fileName)));
+			String content = bread.readLine();
+			if(content == null){
+				content = "";
+			}
+			bread.close();
+			return content;
+		}
 	}
 
 }
