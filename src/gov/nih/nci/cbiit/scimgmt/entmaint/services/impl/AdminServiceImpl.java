@@ -1,7 +1,8 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -110,7 +111,7 @@ public class AdminServiceImpl implements AdminService {
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
 		
-		return setupAuditVO(emAuditsVw);
+		return setupAuditVO(emAuditsVw, false);
 	}
 	
 	
@@ -124,7 +125,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
-		return setupAuditVO(emAuditsVw);
+		return setupAuditVO(emAuditsVw, false);
 	}
 		
 	
@@ -139,8 +140,10 @@ public class AdminServiceImpl implements AdminService {
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
 		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		boolean latest = true;
 		for(EmAuditsVw audit: emAuditsList) {	
-			emAuditVOList.add(setupAuditVO(audit));
+			emAuditVOList.add(setupAuditVO(audit,latest));
+			latest = false;
 		}
 		
 		return emAuditVOList;
@@ -148,7 +151,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 	
-	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw) {
+	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest) {
 		EmAuditsVO emAuditsVO = null;
 		
 		if(emAuditsVw != null) {
@@ -167,6 +170,19 @@ public class AdminServiceImpl implements AdminService {
 				String currentAuditState = statusHistories.get(0).getActionCode();
 				emAuditsVO.setAuditState(currentAuditState);
 			}
+			
+			//Set the description for impac II audit
+			if(emAuditsVO.getImpac2AuditFlag() != null && emAuditsVO.getImpac2AuditFlag().equalsIgnoreCase(ApplicationConstants.TRUE)){
+				final StringBuffer sb = new StringBuffer();
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
+				if(latest) {
+					// Add (Current) to description
+					sb.append(" (Current)");
+				}
+				emAuditsVO.setDescription(sb.toString());
+			}
+			
 		} else {
 			emAuditsVO = new EmAuditsVO();
 			emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);

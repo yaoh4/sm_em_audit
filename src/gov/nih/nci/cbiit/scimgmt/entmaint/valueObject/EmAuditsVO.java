@@ -29,6 +29,11 @@ public class EmAuditsVO extends EmAuditsVw {
 
 
 	/**
+	 * Description used for drop down label
+	 */
+	private String description;
+	
+	/**
 	 * @return the impac2AuditFlag
 	 */
 	public String getImpac2AuditFlag() {
@@ -89,6 +94,22 @@ public class EmAuditsVO extends EmAuditsVw {
 	 */
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
