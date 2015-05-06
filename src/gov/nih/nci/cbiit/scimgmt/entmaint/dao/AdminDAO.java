@@ -12,6 +12,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -243,7 +244,12 @@ public class AdminDAO  {
 			Object result =  criteria.list();
 			if (result != null) {
 				emAudits = (List<EmAuditsVw>)result;
-				session.evict(emAudits);
+				
+				if(!CollectionUtils.isEmpty(emAudits)) {
+					for(EmAuditsVw audit: emAudits) {
+						session.evict(audit);
+					}
+				}
 			}
 		} catch (Throwable e) {		
 			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
