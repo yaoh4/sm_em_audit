@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
 import java.util.Date;
+import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
@@ -39,7 +40,6 @@ public interface AdminService {
 	public Long updateCurrentAudit(String actionCode, String comments);
 	
 	
-	
 	/**
 	 * Retrieves the audit info for the current Audit 
 	 * 
@@ -48,12 +48,19 @@ public interface AdminService {
 	public EmAuditsVO retrieveCurrentAuditVO();
 		
 	
-	
 	/**
 	 * Retrieves the audit info for the Audit with the given auditId 
 	 * 
 	 * @return EmAuditsVO t
 	 */
 	public EmAuditsVO retrieveAuditVO(Long auditId);
+	
+	
+	/**
+	 * Retrieves the audit info for all Audits 
+	 * 
+	 * @return List<EmAuditsVO> t
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList();
 	
 }

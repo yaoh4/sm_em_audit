@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.ParameterMode;
 
@@ -209,7 +210,7 @@ public class AdminDAO  {
 		
 		return emAuditsVw;
 	}
-
+	
 	
 	/**
 	 * Retrieves the audit record associated with the given id from the EM_AUDITs_VW
@@ -231,5 +232,26 @@ public class AdminDAO  {
 		
 		return emAuditsVw;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EmAuditsVw> retrieveAuditList() {
+		Session session = sessionFactory.getCurrentSession();
+		List<EmAuditsVw> emAudits = null;
+		
+		try {
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);			
+			Object result =  criteria.list();
+			if (result != null) {
+				emAudits = (List<EmAuditsVw>)result;
+				session.evict(emAudits);
+			}
+		} catch (Throwable e) {		
+			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
+			throw e;	
+		}
+		
+		return emAudits;
+	}
+	
 	
 }

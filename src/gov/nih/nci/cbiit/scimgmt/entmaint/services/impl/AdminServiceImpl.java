@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -124,6 +125,26 @@ public class AdminServiceImpl implements AdminService {
 		return setupAuditVO(emAuditsVw);
 	}
 		
+	
+	
+	/**
+	 * Retrieves the attributes of all Audit.
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList() {
+		
+		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
+		
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		for(EmAuditsVw audit: emAuditsList) {	
+			emAuditVOList.add(setupAuditVO(audit));
+		}
+		
+		return emAuditVOList;
+	}
+	
+	
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw) {
 		EmAuditsVO emAuditsVO = null;
