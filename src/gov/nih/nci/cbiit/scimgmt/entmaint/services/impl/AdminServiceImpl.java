@@ -68,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
 	 * 
 	 * @return
 	 */
-	public void closeCurrentAudit(String comments) {
+	public Long closeCurrentAudit(String comments) {
 		
 		//Get current Audit from DB
     	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
@@ -76,6 +76,8 @@ public class AdminServiceImpl implements AdminService {
     	   	
     	//Close the audit
 		adminDAO.closeAudit(auditId, comments);
+		
+		return auditId;
 	}
 	
 	

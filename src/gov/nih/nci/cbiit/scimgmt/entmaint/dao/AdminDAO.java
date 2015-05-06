@@ -83,9 +83,8 @@ public class AdminDAO  {
 	 * 
 	 * @param id the audit id of the audit to close.
 	 */
-	public DBResult closeAudit(Long auditId, String comments) {
+	public void closeAudit(Long auditId, String comments) {
 		
-		DBResult result = new DBResult();
 		Session session = sessionFactory.getCurrentSession();
 		
 		try {
@@ -104,8 +103,6 @@ public class AdminDAO  {
 			throw e;			 
 		}
 		
-		result.setStatus(DBResult.SUCCESS);
-		return result;
 	}
 	
 	
@@ -128,6 +125,7 @@ public class AdminDAO  {
 			//Insert a new row into the EM_AUDIT_HISTORY_T table for the current state
 			EmAuditHistoryT history = setupHistory(auditId, actionCode, comments);     
 			id = (Long) session.save(history);
+			logger.info("Inserted Audit History with id " + id + " for audit " + auditId);
         
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);						

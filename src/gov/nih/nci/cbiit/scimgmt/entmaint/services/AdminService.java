@@ -1,6 +1,5 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
-import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
@@ -26,7 +25,7 @@ public interface AdminService {
 	 * 
 	 * @return
 	 */
-	public void closeCurrentAudit(String comments);
+	public Long closeCurrentAudit(String comments);
 	
 	
 	/**

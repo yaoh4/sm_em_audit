@@ -212,19 +212,19 @@ public class AdminAction extends BaseAction {
      */
     public String resetAudit() {
     	
-    	logger.info("Closing current audit");
     	//Close the current Audit
-    	adminService.closeCurrentAudit(emAuditsVO.getComments());
+    	logger.info("Closing current audit");
+    	
+    	Long auditId = adminService.closeCurrentAudit(emAuditsVO.getComments());
     	logger.info("Closed audit with auditId " + emAuditsVO.getId());
     	
+    	//Retrieve the updated emAuditsVO from the DB
+    	emAuditsVO = adminService.retrieveAuditVO(auditId);
     	
-    	emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
-    	emAuditsVO.setImpaciiToDate(new Date());
+    	//Store it into the session
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
     	
     	setDisableInput(false);
-    	
-    	//Remove attribute from session
-    	removeAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	
     	return ApplicationConstants.SUCCESS;
     }
