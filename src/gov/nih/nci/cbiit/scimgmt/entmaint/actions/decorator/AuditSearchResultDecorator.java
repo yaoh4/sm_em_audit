@@ -98,7 +98,8 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
-			if(EmAppUtil.isAuditEnabled()){
+			if(EmAppUtil.isAuditEnabled() || (nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && 
+					accountVO.getAudit() != null && EmAppUtil.isAuditCurrentOrLastActive(accountVO.getAudit().getId()))){
 				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
 			}
 			actionStr = actionStr + "</div>";
