@@ -52,7 +52,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected List<Tab> displayColumn;
 	protected AuditSearchActionHelper auditSearchActionHelper = new AuditSearchActionHelper();
 	protected List<DropDownOption> organizationList = new ArrayList<DropDownOption>();
-	
+	protected List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
 	protected InputStream inputStream;
 	protected int changePageSize;
 	
@@ -345,6 +345,22 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		if(changePageSize == 0){
 			changePageSize = Integer.parseInt(getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
 		}
+	}
+
+
+	/**
+	 * @return the auditPeriodList
+	 */
+	public List<DropDownOption> getAuditPeriodList() {
+		return auditPeriodList;
+	}
+
+
+	/**
+	 * @param auditPeriodList the auditPeriodList to set
+	 */
+	public void setAuditPeriodList(List<DropDownOption> auditPeriodList) {
+		this.auditPeriodList = auditPeriodList;
 	}
 	
 }

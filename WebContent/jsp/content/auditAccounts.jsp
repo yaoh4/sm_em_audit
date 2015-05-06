@@ -168,16 +168,18 @@
       <s:else>
       <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
       </s:else>
-      </div>
-      </div>
-       <div class="form-group" style="margin-top: -10px;">
-         <label class="control-label col-sm-3" > </label>
       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
-      <div class="col-sm-9">  
-      	<s:checkbox name="searchVO.excludeNCIOrgs" id="excludeNciCheck"/><label style="font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
-      </div>
+      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       </s:if>
-    </div>
+      </div>
+ </div>     
+ <div class="form-group">
+   <!--  Audit Period selection -->
+    <label class="control-label col-sm-3" >Audit Period:</label>
+      <div class="col-sm-9"> 
+      <s:select name="searchVO.auditId" cssClass="form-control" value="%{#session.searchVO.auditId}" list ="auditPeriodList" listKey="optionKey" listValue="optionValue" style="width:590px;" />
+     </div>
+ </div>   
 <div class="form-group">
       <label class="control-label col-sm-3" >Action:</label>
       <div class="col-sm-9">  

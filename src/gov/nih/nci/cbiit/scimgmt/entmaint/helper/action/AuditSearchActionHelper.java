@@ -7,9 +7,11 @@ import java.util.Map;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
@@ -57,6 +59,14 @@ public class AuditSearchActionHelper {
 		for(EmOrganizationVw org : orgList){
 			DropDownOption ddp = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());
 			organizationList.add(ddp);
+		}
+	}
+	
+	public void createAuditPeriodDropDownList(List<DropDownOption> auditPeriodList, AdminService adminService){
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
 		}
 	}
 	

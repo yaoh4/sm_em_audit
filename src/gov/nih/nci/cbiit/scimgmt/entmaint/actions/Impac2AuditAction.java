@@ -10,6 +10,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -40,6 +41,8 @@ public class Impac2AuditAction extends BaseAction {
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
+	@Autowired
+	protected AdminService adminService;
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
@@ -266,6 +269,8 @@ public class Impac2AuditAction extends BaseAction {
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
+		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
@@ -286,6 +291,8 @@ public class Impac2AuditAction extends BaseAction {
 	 * @param pageName
 	 */
 	private void initialComponent(String pageName){		
+		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, pageName);
 		sortByCategory(pageName);
