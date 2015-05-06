@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.procedure.ProcedureCall;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,7 +238,8 @@ public class AdminDAO  {
 		List<EmAuditsVw> emAudits = null;
 		
 		try {
-			Criteria criteria = session.createCriteria(EmAuditsVw.class);			
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			criteria.addOrder(Order.desc("startDate"));
 			Object result =  criteria.list();
 			if (result != null) {
 				emAudits = (List<EmAuditsVw>)result;
