@@ -87,7 +87,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
-			if(EmAppUtil.isAuditActionEditable(auditId)){
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "&nbsp;&nbsp;&nbsp;<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
