@@ -86,11 +86,11 @@ function submitForm(){
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
- 
+ <br/>
  <p style="text-align:left;">
  <label style="font-size:2em;">Administer Audit</label>
 <span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
-<a href="#" onclick="submitForm();" target="_BLANK"><font color="#33CCFF">Open/Edit Audit Email</font></a></span>
+<a href="#" onclick="submitForm();" target="_BLANK">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 </p>
  
     <div class="form-group">
