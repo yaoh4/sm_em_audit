@@ -6,13 +6,7 @@
 <s:if
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_IMPAC2 eq #request.selectedTab
 	    || @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_I2E eq #request.selectedTab}">
-	    
-	    
-<!--  We want to show the breadcrumb with both Portfolio and Audit only if Audit has not been reset 
- Otherwise there is no Audit, so no need to have breadcrumb to select between them -->
-<s:if test=
-  		"%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET != #session.currentAudit.auditState}">	    
-  
+	    	    
   <ol class="breadcrumb">
   <s:if
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">
@@ -22,7 +16,7 @@
   	<li><a href="execute.action">Portfolio Analysis</a></li><li  class="active">Audit</li>
   </s:else>
   </ol>
-</s:if>
+
 
 </s:if>
 
