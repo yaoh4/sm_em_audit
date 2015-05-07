@@ -33,7 +33,7 @@
 	<!-- Initiated Task Tab: End -->
 
 	<!-- Initiated Task Tab: Begin -->
-	<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAdminUser(#session)}">
+	<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAdminUser()}">
 
     	<s:if
 			test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_ADMIN eq #request.selectedTab}">
