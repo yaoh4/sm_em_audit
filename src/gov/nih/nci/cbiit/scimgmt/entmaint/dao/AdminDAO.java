@@ -240,7 +240,7 @@ public class AdminDAO  {
 		
 		try {
 			Criteria criteria = session.createCriteria(EmAuditsVw.class);
-			criteria.addOrder(Order.desc("startDate"));
+			criteria.addOrder(Order.desc("id"));
 			Object result =  criteria.list();
 			if (result != null) {
 				emAudits = (List<EmAuditsVw>)result;
