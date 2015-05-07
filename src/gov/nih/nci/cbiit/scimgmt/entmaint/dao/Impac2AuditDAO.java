@@ -68,7 +68,6 @@ public class Impac2AuditDAO {
             disc.add(Restrictions.gtProperty("deletedDate", "audit.impaciiToDate"));
             criteria.add(disc);
 			criteria.add(Restrictions.leProperty("createdDate", "audit.impaciiToDate"));
-			criteria.add(Restrictions.isNull("audit.endDate"));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -108,7 +107,6 @@ public class Impac2AuditDAO {
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("createdDate", "audit.impaciiFromDate"));
 			criteria.add(Restrictions.leProperty("createdDate", "audit.impaciiToDate"));
-			criteria.add(Restrictions.isNull("audit.endDate"));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -148,7 +146,6 @@ public class Impac2AuditDAO {
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("deletedDate", "audit.impaciiFromDate"));
 			criteria.add(Restrictions.leProperty("deletedDate", "audit.impaciiToDate"));
-			criteria.add(Restrictions.isNull("audit.endDate"));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -188,7 +185,6 @@ public class Impac2AuditDAO {
 			// Criteria specific to inactive accounts
 			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
 			criteria.createAlias("audit", "audit");
-			criteria.add(Restrictions.isNull("audit.endDate"));
 			
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -331,6 +327,9 @@ public class Impac2AuditDAO {
 	private Criteria addSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
 		log.debug("adding search criteria for IMPAC II account query in audit view: " + searchVO);
 
+		// audit id
+		criteria.add(Restrictions.eq("audit.id", searchVO.getAuditId()));
+		
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
 			criteria.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
