@@ -14,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
@@ -37,14 +38,19 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	protected EntMaintProperties entMaintProperties;
 	
 	public static final String VERIFIEDACTION = "3";
+	
+	
 	/**
 	 * This method is for creating action contents. 
 	 * @return String
 	 */
 	public String getAction(){
 		String name = "";
+	
 		startAutowired();
 		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
+		AuditSearchVO searchVO = (AuditSearchVO)this.getPageContext().getSession().getAttribute(ApplicationConstants.SEARCHVO);
+		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		if(accountVO.getDeletedDate() != null){
 			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
@@ -81,7 +87,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
-			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
+			if(EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "&nbsp;&nbsp;&nbsp;<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
@@ -98,8 +104,8 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
-			if(EmAppUtil.isAuditEnabled() || (nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && 
-					accountVO.getAudit() != null && EmAppUtil.isAuditCurrentOrLastActive(accountVO.getAudit().getId()))){
+			//Calling Aunita's service call to determine if we need to show button or not.
+			if(EmAppUtil.isAuditActionEditable(auditId)){
 				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
 			}
 			actionStr = actionStr + "</div>";
