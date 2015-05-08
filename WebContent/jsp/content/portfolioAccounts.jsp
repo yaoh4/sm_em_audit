@@ -20,7 +20,7 @@
 					var name = $('#nameId').val();
 					var notes = $('#noteText').val();
 					if($.trim(notes).length > 200){
-						$('#missingNotesMessage').html("<font color='red'>Notes cannot be greater than 200 characters.</font>");
+						$('#missingNotesMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/></font>");
 					}					
 					else{
 						$.ajax({
@@ -176,7 +176,7 @@
 			</div>
 		</s:if>
 		<s:else>
-			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;">Nothing found to display.</div>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
 		</s:else>
 	</div>
 </s:if>
@@ -185,8 +185,7 @@
 
 <div id="errorDialog" style="display: none;" title="Submit Action">
 	<div align="center">
-		<br /> <font color='red'>Failed to save data into database,
-			please contact system administrator.</font>
+		<br /> <font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}"/></font>
 	</div>
 </div>
 

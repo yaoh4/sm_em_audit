@@ -71,7 +71,7 @@ public class Impac2AuditAction extends BaseAction {
 		searchVO.setUserLastname("");
 		searchVO.setOrganization("");
 		setUpDefaultSearch();
-		
+		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
 		

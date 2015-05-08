@@ -31,7 +31,7 @@
 			 			var comments = $('#noteText').val();
 			 			var category = $('#categoryId').val();
 			 			if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
-			 				$('#errorMessage').html("<font color='red'>Please enter Notes for the submission.</font>");
+			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@EMPTY_NOTE)}'/></font>");
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",
@@ -228,7 +228,7 @@
 </div>
 </s:if>
 <s:else>
-	<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;">Nothing found to display.</div>
+	<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
 </s:else>
 </div>
 </s:if> 
@@ -239,14 +239,14 @@
 <div id="errorDialog" style="display: none;" title="Submit Action">
 	<br/>
 	<div align="center">
-	<font color='red'>Failed to save data into database, please contact system administrator.</font>
+	<font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}"/></font>
 	</div>
 </div>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 <div id="unsubmitAction" style="display: none;" title="Undo Action">
 	<br/>
 	<div align="center">
-	Are you sure to undo the review?
+	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@UNDO_COMFIRMATION)}"/>
 	</div>
 	<input type="hidden" id="unsubmitName"/>
 	<input type="hidden" id="unsubmitCellId"/>
