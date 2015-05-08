@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
+import org.apache.commons.collections.CollectionUtils;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.AdminDAO;
@@ -116,6 +117,21 @@ public class AdminServiceImpl implements AdminService {
 	
 	
 	/**
+	 * Retrieve the attributes of the newest audit
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public EmAuditsVO retrieveCurrentOrLastAuditVO() {
+		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList();
+		if(!CollectionUtils.isEmpty(auditList)) {
+			return setupAuditVO(auditList.get(0), true);
+		}
+		
+		return null;
+	}
+	
+	
+	/**
 	 * Retrieves the attributes of the current Audit.
 	 * 
 	 * @return EmAuditsVO
@@ -125,7 +141,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
-		return setupAuditVO(emAuditsVw, false);
+		return setupAuditVO(emAuditsVw, true);
 	}
 		
 	

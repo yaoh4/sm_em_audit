@@ -40,6 +40,13 @@ public interface AdminService {
 	
 	
 	/**
+	 * Retrieve the attributes of the newest audit
+	 * @return
+	 */
+	public EmAuditsVO retrieveCurrentOrLastAuditVO();
+	
+	
+	/**
 	 * Retrieves the audit info for the current Audit 
 	 * 
 	 * @return EmAuditsVO 
