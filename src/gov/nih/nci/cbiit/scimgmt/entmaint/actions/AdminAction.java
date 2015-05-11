@@ -51,7 +51,10 @@ public class AdminAction extends BaseAction {
 	//Attributes for Dashboard
 	//-----------------------------------
 	private List<Object> orgKeys;
+	private List<Object> otherOrgKeys;
 	private HashMap<String, HashMap<String, DashboardData>> orgsData;
+	private HashMap<String, HashMap<String, DashboardData>> otherOrgsData;
+	private DashboardData others;
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
 	 * the state of the Audit, the appropriate screen elements will be displayed.
@@ -211,17 +214,20 @@ public class AdminAction extends BaseAction {
      */
     public String gotoDashboard(){
     	orgsData = new HashMap<String, HashMap<String,DashboardData>>();
+    	otherOrgsData = new HashMap<String, HashMap<String, DashboardData>>();
+    	
     	//set up all environment for displaying dashboard page.
     	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	Long auditId = emAuditsVO.getId();
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
+    	int i = 0;
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
 //    			System.out.println("id : " + audit.getId());
 //    			System.out.println("nedIC : " + audit.getNedIc());
-//    			System.out.println("parentNedOrgPath: " + audit.getParentNedOrgPath());
-    			System.out.println("nciDoc: " + audit.getNciDoc());
+    			System.out.println("parentNedOrgPath " + i + ": " + audit.getParentNedOrgPath());
+    			System.out.println("nciDoc " + i + ": " + audit.getNciDoc());
 //    			System.out.println("create date: " + audit.getCreatedDate());
 //    			System.out.println("deleted Date: " + audit.getDeletedDate());
 //    			System.out.println("inactive user flag: " + audit.getInactiveUserFlag());
@@ -231,27 +237,50 @@ public class AdminAction extends BaseAction {
 //    			System.out.println("Inactive Submitted by: " + audit.getInactiveSubmittedBy());
 //    			System.out.println("=========================================");
     			String org = audit.getParentNedOrgPath();
+    			String nciDoc = audit.getNciDoc();
     			if(org != null){
-    				if(containsKey(orgsData, org)){
-    					HashMap<String,DashboardData> dashData = orgsData.get(org);
-    					//calculate Count
-    					setTotalCountForEachCategory(audit, dashData);
-    					orgsData.put(org, dashData);
-    				}else{
-    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
-    					//calculate count
-    					setFirstElementTotalCountForEachCategory(audit, dashData);
-    					orgsData.put(org, dashData);
+    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+	    				if(containsKey(otherOrgsData, org)){
+	    					HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
+	    					//calculate Count
+	    					setTotalCountForEachCategory(audit, dashData);
+	    					otherOrgsData.put(org, dashData);
+	    				}else{
+	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+	    					//calculate count
+	    					setFirstElementTotalCountForEachCategory(audit, dashData);
+	    					otherOrgsData.put(org, dashData);
+	    				}
+	    			}else{
+	    				if(containsKey(orgsData, org)){
+	    					HashMap<String,DashboardData> dashData = orgsData.get(org);
+	    					//calculate Count
+	    					setTotalCountForEachCategory(audit, dashData);
+	    					orgsData.put(org, dashData);
+	    				}else{
+	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+	    					//calculate count
+	    					setFirstElementTotalCountForEachCategory(audit, dashData);
+	    					orgsData.put(org, dashData);
+	    				}
     				}
     			}
     		}
     	}
-
+    	//calculate the total other orgs
+    	others = calculateOther(otherOrgsData);
+    	
     	Set<String> keySet = orgsData.keySet();
     	Object[] keys = keySet.toArray();
     	Arrays.sort(keys);
+    	
+    	Set<String> otherKeySet = otherOrgsData.keySet();
+    	Object[] otherKeys = otherKeySet.toArray();
+    	Arrays.sort(otherKeys);
+    	
     	//set arrays for displaying
     	orgKeys = Arrays.asList(keys);
+    	otherOrgKeys = Arrays.asList(otherKeys);
 //    	for( Object s : keys){
 //    		System.out.println("====" + s);
 //    		HashMap<String, DashboardData> dData = orgsData.get(s);
@@ -422,6 +451,28 @@ public class AdminAction extends BaseAction {
 		}
 	}
 
+	/** 
+	 * Calculate the other orgs total
+	 */
+	private DashboardData calculateOther(HashMap<String, HashMap<String, DashboardData>> otherOrgsMap){
+		DashboardData otherTotalData = new DashboardData();
+		Set<String> keys = otherOrgsMap.keySet();
+		Object[] keyArr = keys.toArray();
+		for(int i = 0; i < keyArr.length; i++){
+			String key = (String)keyArr[i];
+			HashMap<String, DashboardData> tempMap = otherOrgsMap.get(key);
+			DashboardData actData = tempMap.get(ACTIVE);
+			otherTotalData.setActiveAccountCount(otherTotalData.getActiveAccountCount() + actData.getActiveAccountCount());
+			DashboardData newData = tempMap.get(NEW);
+			otherTotalData.setNewAccountCount(otherTotalData.getNewAccountCount() + newData.getNewAccountCount());
+			DashboardData deleteData = tempMap.get(DELETED);
+			otherTotalData.setDeletedAccountCount(otherTotalData.getDeletedAccountCount() + deleteData.getDeletedAccountCount());
+			DashboardData InactData = tempMap.get(INACTIVE);
+			otherTotalData.setInactiveAccountCount(otherTotalData.getInactiveAccountCount() + InactData.getInactiveAccountCount());
+
+		}
+		return otherTotalData;
+	}
 
 	/**
 	 * Checks to see if the email client should be opened in preparation
@@ -522,6 +573,55 @@ public class AdminAction extends BaseAction {
 	 */
 	public void setOrgsData(HashMap<String, HashMap<String, DashboardData>> orgsData) {
 		this.orgsData = orgsData;
+	}
+
+
+	/**
+	 * @return the otherOrgsData
+	 */
+	public HashMap<String, HashMap<String, DashboardData>> getOtherOrgsData() {
+		return otherOrgsData;
+	}
+
+
+	/**
+	 * @param otherOrgsData the otherOrgsData to set
+	 */
+	public void setOtherOrgsData(
+			HashMap<String, HashMap<String, DashboardData>> otherOrgsData) {
+		this.otherOrgsData = otherOrgsData;
+	}
+
+
+	/**
+	 * @return the others
+	 */
+	public DashboardData getOthers() {
+		return others;
+	}
+
+
+	/**
+	 * @param others the others to set
+	 */
+	public void setOthers(DashboardData others) {
+		this.others = others;
+	}
+
+
+	/**
+	 * @return the otherOrgKeys
+	 */
+	public List<Object> getOtherOrgKeys() {
+		return otherOrgKeys;
+	}
+
+
+	/**
+	 * @param otherOrgKeys the otherOrgKeys to set
+	 */
+	public void setOtherOrgKeys(List<Object> otherOrgKeys) {
+		this.otherOrgKeys = otherOrgKeys;
 	}
 	
 }

@@ -20,8 +20,15 @@
     </tr>
     <s:set var="orgData" value="orgsData"/>
     <s:set var="keys" value="orgKeys"/>
+    <s:set var="otherTotal" value="others"/>
+    <s:set var="otherKeys" value="otherOrgKeys"/>
+    <s:set var="otherOrgData" value="otherOrgsData"/>
 	<jsp:useBean id="orgData" type="java.util.HashMap"/>
 	<jsp:useBean id="keys" type="java.util.List"/>
+	<jsp:useBean id="otherTotal" type="gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData"/>
+	<jsp:useBean id="otherKeys" type="java.util.List"/>
+	<jsp:useBean id="otherOrgData" type="java.util.HashMap"/>
+	
 	<% 
 		for (int i = 0; i< keys.size(); i++) {
 			String key = (String)keys.get(i);
@@ -37,20 +44,29 @@
     	<td style="white-space: nowrap;"><%= dData.get("inactive").getInactiveAccountDataStr() %></td>
     </tr>
     <% } %>
-<!--     <tr class="org">
-      <td><strong>OGA</strong></td>
-      <td><a href="#">23/40</a></td>
-      <td><a href="#">18/21</a></td>
-      <td><a href="#">0/4</a>                    <span> (0%)</span></td>
-      <td><a href="#">21/21</a>                                 <span>(100%)</span></td>
+    <tr class="org">
+      <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
+      <td style="white-space: nowrap;"><%= otherTotal.getActiveAccountDataStr() %></td>
+      <td style="white-space: nowrap;"><%= otherTotal.getNewAccountDataStr() %></td>
+      <td style="white-space: nowrap;"><%= otherTotal.getDeletedAccountDataStr() %></td>
+      <td style="white-space: nowrap;"><%= otherTotal.getInactiveAccountDataStr() %></td>
     </tr>
-   <tr class="org">
-      <td class="other">DCEG</td>
-      <td><a href="#">xx</a></td>
-      <td><a href="#">xx</a></td>
-      <td><a href="#">xx</a></td>
-      <td><a href="#">xx</a></td>
-    </tr> -->
-    
+   
+    <% 
+		for (int i = 0; i< otherKeys.size(); i++) {
+			String key = (String)otherKeys.get(i);
+	%>
+    <tr class="org" nameit=other style="display:none;">
+      <td class="other"><%= key %></td>
+    	<% 
+    		HashMap<String, DashboardData> oData = (HashMap<String, DashboardData>)otherOrgData.get(key); 
+    	%>    
+     	<td style="white-space: nowrap;"><%= oData.get("active").getActiveAccountDataStr() %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("new").getNewAccountDataStr() %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("deleted").getDeletedAccountDataStr() %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("inactive").getInactiveAccountDataStr() %></td>
+    </tr>
+    <% } %>
+
   </table>
   </div>

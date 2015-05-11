@@ -152,3 +152,18 @@ function toggle(thisname) {
    }
   }
 }
+
+function toggleOther(thisname){
+		tr=document.getElementsByTagName('tr')
+		for (var i=0;i<tr.length;i++){
+		  if (tr[i].getAttribute(thisname)){
+		   if ( tr[i].style.display=='none' ){
+		     tr[i].style.display = '';
+		     $('#otherAnchor').html("<strong><a href=\"javascript:toggleOther('nameit');\"><img src='../images/CriteriaOpen.gif' alt='Plus'></a>OTHER</strong>");
+		   } else {
+		     tr[i].style.display = 'none';
+		     $('#otherAnchor').html("<strong><a href=\"javascript:toggleOther('nameit');\"><img src='../images/CriteriaClosed.gif' alt='Minus'></a>OTHER</strong>");	
+		   }
+		  }
+		}
+}
