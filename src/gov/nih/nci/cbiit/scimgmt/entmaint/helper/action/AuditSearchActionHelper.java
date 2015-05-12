@@ -130,4 +130,19 @@ public class AuditSearchActionHelper {
 		}		
 		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
 	}
+	
+	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
+		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
+		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		
+		if(cateList != null){
+			for(AppLookupT obj : cateList){
+				DropDownOption ddo = new DropDownOption();
+				ddo.setOptionKey(obj.getCode());
+				ddo.setOptionValue(obj.getDescription());
+				categoryList.add(ddo);
+			}
+		}
+		return categoryList;
+	}
 }

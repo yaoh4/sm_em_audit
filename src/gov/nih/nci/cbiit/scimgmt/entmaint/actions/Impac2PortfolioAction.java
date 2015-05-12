@@ -65,7 +65,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		
 		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
 		processList(displayColumn);
 		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");

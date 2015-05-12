@@ -11,7 +11,7 @@ public class AuditSearchVO {
 	private String act;
 	private Date dateRangeStartDate;
 	private Date dateRangeEndDate;
-	private long category;
+	private Long category;
 	private Long auditId;
 	
 	public AuditSearchVO(String fname, String lname, String org, boolean exclude, String action){
@@ -87,14 +87,14 @@ public class AuditSearchVO {
 	/**
 	 * @return the category
 	 */
-	public long getCategory() {
+	public Long getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(long category) {
+	public void setCategory(Long category) {
 		this.category = category;
 	}
 
