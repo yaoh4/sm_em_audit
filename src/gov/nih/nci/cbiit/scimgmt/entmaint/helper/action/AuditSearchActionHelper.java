@@ -138,7 +138,7 @@ public class AuditSearchActionHelper {
 		if(cateList != null){
 			for(AppLookupT obj : cateList){
 				DropDownOption ddo = new DropDownOption();
-				ddo.setOptionKey(obj.getCode());
+				ddo.setOptionKey(""+obj.getId());
 				ddo.setOptionValue(obj.getDescription());
 				categoryList.add(ddo);
 			}

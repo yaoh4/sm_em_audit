@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ <Display>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IC</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>NIH ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>CREATED</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>DATABASE ROLE NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>ORG ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>ROLE DATE</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>SECONDARY</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>IC</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>CREATED</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>CREATOR</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>ACCOUNT TYPE</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>new</type>
+ 		<columnName>DATABASE ROLE NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	
+   	<Tab>
+ 		<type>new</type>
+ 		<columnName>SECONDARY</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>IC</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	
+   	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>DELETED</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 		
+  	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>DELETED BY</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	
+  	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	
+  	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	
+   	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>SECONDARY</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 		
+  	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>COMMENTS</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>EXT SYS NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	 	 	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>EXT SYS USER ID</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	 	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>FIRST NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	 	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>LAST NAME</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	 	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>LAST LOG IN</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 	 	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>RESULT</columnName>
+ 		<property>xxx</property>
+ 		<sort>false</sort>
+ 	</Tab> 	 
+ </Display>			

@@ -238,6 +238,7 @@ properties/messages.properties -text
 properties/production/entmaint.properties -text
 properties/production/ldap.properties -text
 properties/production/log4j.properties -text
+properties/reportColumn.xml -text
 properties/stage/entmaint.properties -text
 properties/stage/ldap.properties -text
 properties/stage/log4j.properties -text
