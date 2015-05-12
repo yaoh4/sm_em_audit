@@ -246,6 +246,7 @@ properties/test/ldap.properties -text
 properties/test/log4j.properties -text
 src/admin.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminReportsAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/BaseAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ComposeEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ErrorMessageAction.java -text
