@@ -177,6 +177,7 @@ WebContent/index.jsp -text
 WebContent/jsp/content/accountSearchResult.jsp -text
 WebContent/jsp/content/accountSearchResultExport.jsp -text
 WebContent/jsp/content/admin.jsp -text
+WebContent/jsp/content/adminReports.jsp -text
 WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/email.jsp -text
