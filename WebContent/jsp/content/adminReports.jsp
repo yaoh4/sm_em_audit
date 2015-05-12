@@ -11,9 +11,10 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 
 <div class="tab-content">
-<s:set name="act" value="formAction"/>
+<s:set name="type" value="searchType"/>
 <div class="tab-pane fade active in" id="par1">
   <s:form id="reportForm" action="reportSearch" cssClass="form-horizontal">
+  <s:set name="type" value="searchType"/>
   <fieldset style="padding: 15px 0;">
   <legend style="background-color: #fff; margin: 0 15px; padding: 0 10px; color: #333; border-radius:4px;">Report Criteria</legend>
  <div class="form-group">
@@ -40,4 +41,29 @@
 </div>
 <br/>
 </div>
-
+<s:if test="showResult">
+<div class="panel panel-default">
+  <div class="panel-heading">
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE}">
+  <h3  class="panel-title">Results - All Active Accounts</h3>
+  </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW}">
+  <h3  class="panel-title">Results - All New Accounts</h3>
+  </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED}">
+  <h3  class="panel-title">Results - All Deleted Accounts</h3>
+  </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
+  <h3  class="panel-title">Results - All Inactive Accounts</h3>
+  </s:if>
+  </div>
+ <s:if test="%{auditAccounts.list.size > 0}">
+<div align="center" style="overflow:auto; width: 100%;">
+	<s:include value="/jsp/content/adminReportSearchResult.jsp"/>
+</div>
+</s:if>
+<s:else>
+	<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
+</s:else> 
+</div>
+</s:if>

@@ -6,56 +6,56 @@
  	<Tab>
  		<type>active</type>
  		<columnName>IC</columnName>
- 		<property>xxx</property>
+ 		<property>nedIc</property>
  		<sort>false</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>IMPACII USER ID</columnName>
- 		<property>xxx</property>
+ 		<property>impaciiUserId</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>NIH ID</columnName>
- 		<property>xxx</property>
+ 		<property>nihNetworkId</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>NAME</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>CREATED</columnName>
- 		<property>xxx</property>
+ 		<property>createdDate</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>DATABASE ROLE NAME</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>ORG ID</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>ROLE DATE</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>SECONDARY</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>

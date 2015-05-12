@@ -195,6 +195,9 @@ public class EmAppUtil {
 				break;
 			}
 		}
+		if(label.indexOf("inactive") >= 0){
+			label = "inactive";
+		}
 		return label;
 	}
 

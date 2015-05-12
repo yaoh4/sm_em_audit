@@ -27,6 +27,7 @@ public class AdminReportsAction extends BaseAction {
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
 	
+	private String searchType;
 	private PaginatedListImpl<AuditAccountVO> auditAccounts = null;
 	private List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
 	
@@ -47,16 +48,21 @@ public class AdminReportsAction extends BaseAction {
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		this.setDefaultPageSize();
-		Long categoryId = searchVO.getCategory();
-		
-		auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
-		auditAccounts = impac2AuditService.searchActiveAccounts(auditAccounts, searchVO, false);
-	    for(AuditAccountVO account : auditAccounts.getList()){
-	    	System.out.println("====" + account.getImpaciiUserId());
-	    }
-	    setResultColumn(categoryId); 
-		showResult = true;
 		setUpEnvironment();
+	    searchType = EmAppUtil.getOptionLabelByValue(searchVO.getCategory(), categoryList).toUpperCase();
+		auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
+		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(searchType) == true){
+			auditAccounts = impac2AuditService.searchActiveAccounts(auditAccounts, searchVO, false);
+		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(searchType) == true){
+			auditAccounts = impac2AuditService.searchNewAccounts(auditAccounts, searchVO, false);
+		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(searchType) == true){
+			auditAccounts = impac2AuditService.searchDeletedAccounts(auditAccounts, searchVO, false);
+		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
+			auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, false);
+		}
+	    setResultColumn(searchType); 
+		showResult = true;
+
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
 		return ApplicationConstants.SUCCESS;	
@@ -71,8 +77,7 @@ public class AdminReportsAction extends BaseAction {
 		}
 	}
 
-	private void setResultColumn(Long categoryId){
-	    String searchType = EmAppUtil.getOptionLabelByValue(categoryId, categoryList);
+	private void setResultColumn(String searchType){
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.REPORTCOLATTRIBUTE);
 		displayColumn = colMap.get(searchType);
 	}
@@ -88,6 +93,34 @@ public class AdminReportsAction extends BaseAction {
 	 */
 	public void setCategoryList(List<DropDownOption> categoryList) {
 		this.categoryList = categoryList;
+	}
+
+	/**
+	 * @return the searchType
+	 */
+	public String getSearchType() {
+		return searchType;
+	}
+
+	/**
+	 * @param searchType the searchType to set
+	 */
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	/**
+	 * @return the auditAccounts
+	 */
+	public PaginatedListImpl<AuditAccountVO> getAuditAccounts() {
+		return auditAccounts;
+	}
+
+	/**
+	 * @param auditAccounts the auditAccounts to set
+	 */
+	public void setAuditAccounts(PaginatedListImpl<AuditAccountVO> auditAccounts) {
+		this.auditAccounts = auditAccounts;
 	}
 	
 }
