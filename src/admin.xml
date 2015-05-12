@@ -23,10 +23,15 @@
 		
 		<action name="adminHome" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
-			<result name="success" type="tiles">entmaint.admin.page</result>
-			<result name="error" type="tiles">entmaint.admin.page</result>
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>
 		
+		<action name="adminReports" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
+			<result name="success" type="tiles">entmaint.admin.reports.page</result>
+			<result name="error" type="tiles">entmaint.admin.reports.page</result>
+		</action>
 		
 		<action name="startAudit" method="startAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">

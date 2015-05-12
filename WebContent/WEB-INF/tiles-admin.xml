@@ -24,14 +24,21 @@
         <put-attribute name="Title" type="string" value="Enterprise Maintenance: Error Details"/>
     </definition>
 
-    <!-- My Task Page -->
+    <!-- Administer Audit Page -->
                
-    
-     <definition name="entmaint.admin.page" extends="base.definition">
+     <definition name="entmaint.admin.administer.page" extends="base.definition">
         <put-attribute name="selectedTab" value="admin"/>
         <put-attribute name="selectedSubNav" value="administer"/>
         <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
         <put-attribute name="content" value="/jsp/content/admin.jsp"/>       
+    </definition>
+    
+    <!--  Reports page -->
+    <definition name="entmaint.admin.reports.page" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="reports"/>
+        <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
+        <put-attribute name="content" value="/jsp/content/adminReports.jsp"/>       
     </definition>
 	
 </tiles-definitions>
