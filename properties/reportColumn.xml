@@ -31,163 +31,163 @@
  	<Tab>
  		<type>active</type>
  		<columnName>CREATED</columnName>
- 		<property>createdDate</property>
+ 		<property>accountCreatedDate</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>DATABASE ROLE NAME</columnName>
- 		<property>fullName</property>
+ 		<property>applicationRole</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>ORG ID</columnName>
- 		<property>fullName</property>
+ 		<property>orgId</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>ROLE DATE</columnName>
- 		<property>fullName</property>
+ 		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>SECONDARY</columnName>
- 		<property>fullName</property>
+ 		<property>secondaryOrgText</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>IC</columnName>
- 		<property>xxx</property>
+ 		<property>nedIc</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>CREATED</columnName>
- 		<property>xxx</property>
+ 		<property>accountCreatedDate</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>CREATOR</columnName>
- 		<property>xxx</property>
+ 		<property>createdBy</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>IMPACII USER ID</columnName>
- 		<property>xxx</property>
+ 		<property>impaciiUserId</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>ACCOUNT TYPE</columnName>
- 		<property>xxx</property>
+ 		<property>accountType</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>NAME</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>DATABASE ROLE NAME</columnName>
- 		<property>xxx</property>
+ 		<property>applicationRole</property>
  		<sort>false</sort>
  	</Tab> 	
    	<Tab>
  		<type>new</type>
  		<columnName>SECONDARY</columnName>
- 		<property>xxx</property>
+ 		<property>secondaryOrgText</property>
  		<sort>false</sort>
  	</Tab>	
   	<Tab>
  		<type>deleted</type>
  		<columnName>IC</columnName>
- 		<property>xxx</property>
+ 		<property>nedIc</property>
  		<sort>false</sort>
  	</Tab> 	
    	<Tab>
  		<type>deleted</type>
  		<columnName>DELETED</columnName>
- 		<property>xxx</property>
+ 		<property>accountDeletedDate</property>
  		<sort>false</sort>
  	</Tab> 		
   	<Tab>
  		<type>deleted</type>
  		<columnName>DELETED BY</columnName>
- 		<property>xxx</property>
+ 		<property>deletedBy</property>
  		<sort>false</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>deleted</type>
  		<columnName>NAME</columnName>
- 		<property>xxx</property>
+ 		<property>fullName</property>
  		<sort>false</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>deleted</type>
  		<columnName>IMPACII USER ID</columnName>
- 		<property>xxx</property>
+ 		<property>impaciiUserId</property>
  		<sort>false</sort>
  	</Tab> 	 	
    	<Tab>
  		<type>deleted</type>
  		<columnName>SECONDARY</columnName>
- 		<property>xxx</property>
+ 		<property>secondaryOrgText</property>
  		<sort>false</sort>
  	</Tab> 		
   	<Tab>
  		<type>deleted</type>
  		<columnName>COMMENTS</columnName>
- 		<property>xxx</property>
+ 		<property>deactivationComments</property>
  		<sort>false</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>IMPACII USER ID</columnName>
- 		<property>xxx</property>
+ 		<property>impaciiUserId</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>inactive</type>
  		<columnName>EXT SYS NAME</columnName>
- 		<property>xxx</property>
+ 		<property>extSysName</property>
  		<sort>false</sort>
  	</Tab> 	 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>EXT SYS USER ID</columnName>
- 		<property>xxx</property>
+ 		<property>nihNetworkId</property>
  		<sort>false</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>FIRST NAME</columnName>
- 		<property>xxx</property>
+ 		<property>nedFirstName</property>
  		<sort>false</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>LAST NAME</columnName>
- 		<property>xxx</property>
+ 		<property>nedLastName</property>
  		<sort>false</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>LAST LOG IN</columnName>
- 		<property>xxx</property>
+ 		<property>MaxLastLoginDate</property>
  		<sort>false</sort>
  	</Tab> 	 	 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>RESULT</columnName>
- 		<property>xxx</property>
+ 		<property>result</property>
  		<sort>false</sort>
  	</Tab> 	 
  </Display>			

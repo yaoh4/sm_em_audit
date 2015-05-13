@@ -9,7 +9,12 @@
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
-
+<script type="text/javascript">
+function clearFields(){
+	$('#reportForm').attr("action", "resetFields");
+	$('#reportForm').submit();
+}
+</script>
 <div class="tab-content">
 <s:set name="type" value="searchType"/>
 <div class="tab-pane fade active in" id="par1">
@@ -67,3 +72,4 @@
 </s:else> 
 </div>
 </s:if>
+<div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>

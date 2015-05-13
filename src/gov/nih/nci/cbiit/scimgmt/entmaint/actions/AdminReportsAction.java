@@ -38,9 +38,21 @@ public class AdminReportsAction extends BaseAction {
 		}
 		setUpEnvironment();
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		//default Search
+		String forward = searchReports();
 		
-        return ApplicationConstants.SUCCESS;
+        return forward;
     }
+	
+	public String clearAll(){
+		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
+		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
+		session.put(ApplicationConstants.SEARCHVO, searchVO);
+		showResult = false;
+		return ApplicationConstants.SUCCESS;
+	}
 	
 	public String searchReports() throws Exception{
 		//perform the report search
