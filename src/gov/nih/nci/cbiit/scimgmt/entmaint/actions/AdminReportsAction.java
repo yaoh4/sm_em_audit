@@ -116,8 +116,10 @@ public class AdminReportsAction extends BaseAction {
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			String nedIc = auditAccountVO.getNedIc();
 			exportAccountVOList.add(auditAccountVO);
 			List<EmAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
+			
 			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
 				//Exclude the first role, because it is already present in auditAccountVO
 				for(int index = 1; index < accountRoles.size(); index++) {
@@ -132,7 +134,7 @@ public class AdminReportsAction extends BaseAction {
 					
 					//Prevent false discrepancies
 					auditAccountVOItem.setImpaciiLastName("");
-					auditAccountVOItem.setNedIc("NCI");
+					auditAccountVOItem.setNedIc(nedIc);
 					
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
 					exportAccountVOList.add(auditAccountVOItem);				
