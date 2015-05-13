@@ -178,6 +178,7 @@ WebContent/jsp/content/accountSearchResult.jsp -text
 WebContent/jsp/content/accountSearchResultExport.jsp -text
 WebContent/jsp/content/admin.jsp -text
 WebContent/jsp/content/adminReportSearchResult.jsp -text
+WebContent/jsp/content/adminReportSearchResultExport.jsp -text
 WebContent/jsp/content/adminReports.jsp -text
 WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
@@ -263,6 +264,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SaveEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SubmitAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SysAdminAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text

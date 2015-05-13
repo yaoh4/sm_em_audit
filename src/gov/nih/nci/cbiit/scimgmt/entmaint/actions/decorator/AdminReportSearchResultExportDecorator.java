@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Configurable;
  * for certian actions, such as after complete action, allows JQeury to change contents of table items 
  */
 @Configurable
-public class AdminReportSearchResultDecorator extends TableDecorator{
+public class AdminReportSearchResultExportDecorator extends TableDecorator{
 	
 	@Autowired
 	private LookupService lookupService;
@@ -107,13 +107,8 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		String role = "<table width='100%' border='0'>";
-		for(EmAuditAccountRolesVw roleVw : roles){
-			String roleName = roleVw.getRoleName();
-			//role = role + "<tr><td>" + roleName + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
-			role = role + "<tr><td>" + roleName + "</td></tr>";
-		}
-		role = role + "</table>";
+		String role = roles.get(0).getRoleName();
+
 		return role;
 	}
 	
@@ -127,11 +122,8 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		String orgId = "<table width='100%' border='0'>";
-		for(EmAuditAccountRolesVw roleVw : roles){
-			orgId = orgId + "<tr><td>" + roleVw.getOrgId()+"</td></tr>";
-		}
-		orgId = orgId + "</table>";
+		String orgId = roles.get(0).getOrgId();
+	
 		return orgId;
 	}
 	/**
@@ -144,23 +136,20 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		String createDate = "<table width='100%' border='0'>";
-		for(EmAuditAccountRolesVw roleVw : roles){
-			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
-		}
-		createDate = createDate + "</table>";
+		String createDate = new SimpleDateFormat("MM/dd/yyyy").format(roles.get(0).getCreatedDate());
+	
 		return createDate;
 	}
 
 	public String getCreatedBy(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String displayStr = "<span title='" + accountVO.getCreatedByFullName() + "'>" + accountVO.getCreatedByUserId() + "</span>";
+		String displayStr = accountVO.getCreatedByFullName();
 		return displayStr;
 	}
 
 	public String getDeletedBy(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String displayStr = "<span title='" + accountVO.getDeletedByFullName() + "'>" + accountVO.getDeletedByUserId() + "</span>";
+		String displayStr =  accountVO.getDeletedByFullName();
 		return displayStr;
 	}
 	
