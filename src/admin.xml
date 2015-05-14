@@ -45,6 +45,14 @@
 			<result name="success" type="tiles">entmaint.admin.dashboard</result>
 		</action>	
 		
+		<action name="searchAudit" method="searchAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="ACTIVE" type="redirectAction">../impac2/searchActiveAuditAccounts</result>
+			<result name="NEW" type="redirectAction">../impac2/searchNewAuditAccounts</result>
+			<result name="DELETED" type="redirectAction">../impac2/searchDeletedAuditAccounts</result>
+			<result name="INACTIVE" type="redirectAction">../impac2/searchInactiveAuditAccounts</result>
+		</action>	
+		
 		<action name="enableAudit" method="enableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.page</result>

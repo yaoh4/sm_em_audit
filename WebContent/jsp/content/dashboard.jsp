@@ -9,6 +9,7 @@
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
   
   <div class="table-responsive">
+  <form id="dashboardFormId" action="gotoDashboard" method="post">
   <table class="table table-condensed table-striped">
       <caption>2015 IMPAC II and I2E Account Audit Status</caption>
     <tr>
@@ -28,7 +29,6 @@
 	<jsp:useBean id="otherTotal" type="gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData"/>
 	<jsp:useBean id="otherKeys" type="java.util.List"/>
 	<jsp:useBean id="otherOrgData" type="java.util.HashMap"/>
-	
 	<% 
 		for (int i = 0; i< keys.size(); i++) {
 			String key = (String)keys.get(i);
@@ -38,18 +38,18 @@
     	<% 
     		HashMap<String, DashboardData> dData = (HashMap<String, DashboardData>)orgData.get(key); 
     	%>
-    	<td style="white-space: nowrap;"><%= dData.get("active").getActiveAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("new").getNewAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("deleted").getDeletedAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("inactive").getInactiveAccountDataStr() %></td>
+    	<td style="white-space: nowrap;"><%= dData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= dData.get("new").getNewAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
     </tr>
     <% } %>
     <tr class="org">
       <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
-      <td style="white-space: nowrap;"><%= otherTotal.getActiveAccountDataStr() %></td>
-      <td style="white-space: nowrap;"><%= otherTotal.getNewAccountDataStr() %></td>
-      <td style="white-space: nowrap;"><%= otherTotal.getDeletedAccountDataStr() %></td>
-      <td style="white-space: nowrap;"><%= otherTotal.getInactiveAccountDataStr() %></td>
+      <td style="white-space: nowrap;"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
+      <td style="white-space: nowrap;"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
+      <td style="white-space: nowrap;"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
+      <td style="white-space: nowrap;"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
     </tr>
    
     <% 
@@ -61,12 +61,13 @@
     	<% 
     		HashMap<String, DashboardData> oData = (HashMap<String, DashboardData>)otherOrgData.get(key); 
     	%>    
-     	<td style="white-space: nowrap;"><%= oData.get("active").getActiveAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("new").getNewAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("deleted").getDeletedAccountDataStr() %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("inactive").getInactiveAccountDataStr() %></td>
+     	<td style="white-space: nowrap;"><%= oData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("new").getNewAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td style="white-space: nowrap;"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
     </tr>
     <% } %>
 
   </table>
+  </form>
   </div>

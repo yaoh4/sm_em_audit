@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import org.apache.commons.lang3.StringUtils;
@@ -206,7 +208,28 @@ public class AdminAction extends BaseAction {
     	
     	return ApplicationConstants.SUCCESS;
     }
-	
+	/**
+	 * This method provide a bridge to search audit page based on category, active, new, deleted, or inactive
+	 */
+    public String searchAudit(){
+    	searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
+    	String forward = "";
+    	String cate = request.getParameter("cate");
+    	String orgName = request.getParameter("orgName");
+    	searchVO.setOrganization(orgName);
+    	session.put(ApplicationConstants.SEARCHVO, searchVO);
+    	if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)){
+    		forward = ApplicationConstants.CATEGORY_ACTIVE;
+    	}else if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)){
+    		forward = ApplicationConstants.CATEGORY_NEW;
+    	}else if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)){
+    		forward = ApplicationConstants.CATEGORY_DELETED;
+    	}else if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
+    		forward = ApplicationConstants.CATEGORY_INACTIVE;
+    	}
+    	
+    	return forward;
+    }
     /**
      * Set up all necessary component for dashboard. If success, takes the user to dashboard page. 
      * @param auditState
@@ -224,24 +247,16 @@ public class AdminAction extends BaseAction {
     	int i = 0;
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
-//    			System.out.println("id : " + audit.getId());
-//    			System.out.println("nedIC : " + audit.getNedIc());
-    			System.out.println("parentNedOrgPath " + i + ": " + audit.getParentNedOrgPath());
-    			System.out.println("nciDoc " + i + ": " + audit.getNciDoc());
-//    			System.out.println("create date: " + audit.getCreatedDate());
-//    			System.out.println("deleted Date: " + audit.getDeletedDate());
-//    			System.out.println("inactive user flag: " + audit.getInactiveUserFlag());
-//    			System.out.println("active Submitted by: " + audit.getActiveSubmittedBy());
-//    			System.out.println("new submitted by: " + audit.getNewSubmittedBy());
-//    			System.out.println("deleted submitted by: " + audit.getDeletedSubmittedBy());
-//    			System.out.println("Inactive Submitted by: " + audit.getInactiveSubmittedBy());
-//    			System.out.println("=========================================");
     			String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
+    			String nedIc = audit.getNedIc();
     			if(org != null){
     				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
-	    				if(containsKey(otherOrgsData, org)){
-	    					HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
+    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+							org = ApplicationConstants.ORG_PATH_NON_NCI;
+						}
+    					if(containsKey(otherOrgsData, org)){
+    						HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
 	    					//calculate Count
 	    					setTotalCountForEachCategory(audit, dashData);
 	    					otherOrgsData.put(org, dashData);
@@ -281,19 +296,27 @@ public class AdminAction extends BaseAction {
     	//set arrays for displaying
     	orgKeys = Arrays.asList(keys);
     	otherOrgKeys = Arrays.asList(otherKeys);
-//    	for( Object s : keys){
-//    		System.out.println("====" + s);
-//    		HashMap<String, DashboardData> dData = orgsData.get(s);
-//    		System.out.println("***"+dData.get(ACTIVE).getActiveAccountCount());
-//    		System.out.println("***"+dData.get(NEW).getNewAccountCount());
-//    		System.out.println("***"+dData.get(DELETED).getDeletedAccountCount());
-//    		System.out.println("***"+dData.get(INACTIVE).getInactiveAccountCount());
-//    		System.out.println("---------------------");
-//    	}
-    
+    	//move NON-NCI to the last element
+    	otherOrgKeys = moveNonNCIToLast();
     	return ApplicationConstants.SUCCESS;
     }
     
+    /**
+     * Move NON NCI to be last element
+     */
+    private List<Object> moveNonNCIToLast(){
+    	List<Object> sortedList = new ArrayList<Object>();
+    	for(Object s : otherOrgKeys){
+    		String key = (String)s;
+    		if(key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)){
+    			continue;
+    		}else{
+    			sortedList.add(s);
+    		}
+    	}
+    	sortedList.add(ApplicationConstants.ORG_PATH_NON_NCI);
+    	return sortedList;
+    }
 
     /**
      * Find out if the hashmap has the organization initialized.

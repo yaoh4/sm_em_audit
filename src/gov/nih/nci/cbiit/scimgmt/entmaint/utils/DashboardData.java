@@ -1,5 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+
 public class DashboardData {
 	
 	private String orgName;
@@ -27,27 +29,41 @@ public class DashboardData {
 	/**
 	 * @return the activeAccountDataStr
 	 */
-	public String getActiveAccountDataStr() {
-		return "<a href='#'>" + this.activeCompleteCount + "/" + this.activeAccountCount + " </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getActivePercent() + "%)</span>";
+	public String getActiveAccountDataStr(String key) {
+		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_ACTIVE + "\",\"" + key + "\");'>" + this.activeCompleteCount + "/" + this.activeAccountCount + " </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getActivePercent() + "%)</span>";
 	}
 
+	public String getActiveAccountDataStr() {
+		return this.activeCompleteCount + "/" + this.activeAccountCount + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getActivePercent() + "%)</span>";
+	}
+	
 	/**
 	 * @return the newAccountDataStr
 	 */
+	public String getNewAccountDataStr(String key) {
+		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_NEW + "\",\"" + key + "\");'>" + this.newCompleteCount + "/" + this.newAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getNewPercent() + "%)</span>";
+	}
+	
 	public String getNewAccountDataStr() {
-		return "<a href='#'>" + this.newCompleteCount + "/" + this.newAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getNewPercent() + "%)</span>";
+		return this.newCompleteCount + "/" + this.newAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getNewPercent() + "%)</span>";
 	}
 	/**
 	 * @return the deletedAccountDataStr
 	 */
+	public String getDeletedAccountDataStr(String key) {
+		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_DELETED + "\",\"" + key + "\");'>" + this.deletedCompleteCount + "/" + this.deletedAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
+	}
 	public String getDeletedAccountDataStr() {
-		return "<a href='#'>" + this.deletedCompleteCount + "/" + this.deletedAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
+		return this.deletedCompleteCount + "/" + this.deletedAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
 	}
 	/**
 	 * @return the inactiveAccountDataStr
 	 */
+	public String getInactiveAccountDataStr(String key) {
+		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_INACTIVE + "\",\"" + key + "\");'>" + this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
+	}
 	public String getInactiveAccountDataStr() {
-		return "<a href='#'>" + this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
+		return this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
 	}
 	/**
 	 * @return the activeAccountCount
