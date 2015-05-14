@@ -175,3 +175,7 @@ function searchAuditByCategory(cate, org){
 
 	var newWin = window.open(url, winName, features);
 }
+function refresh(){
+	$('#dashboardFormId').attr("action", "gotoDashboard");
+	$('#dashboardFormId').submit();
+}
