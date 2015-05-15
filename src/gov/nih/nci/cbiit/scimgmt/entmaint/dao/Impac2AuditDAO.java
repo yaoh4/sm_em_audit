@@ -59,7 +59,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList);
+			criteria = addSortOrder(criteria, paginatedList, false);
 			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
@@ -101,7 +101,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList);
+			criteria = addSortOrder(criteria, paginatedList, false);
 			
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
@@ -140,7 +140,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList);
+			criteria = addSortOrder(criteria, paginatedList, true);
 			
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
@@ -180,7 +180,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList);
+			criteria = addSortOrder(criteria, paginatedList, false);
 			
 			// Criteria specific to inactive accounts
 			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
@@ -419,18 +419,28 @@ public class Impac2AuditDAO {
 	 * @param paginatedList
 	 * @return
 	 */
-	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList) {
+	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList, boolean isDeletedAccount) {
 		String sortOrderCriterion = paginatedList.getSortCriterion();
 		String sortOrder = paginatedList.getSqlSortDirection();
 		
 		if (!StringUtils.isBlank(sortOrderCriterion)) {
 			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-					criteria.addOrder(Order.asc("nedLastName"));
-					criteria.addOrder(Order.asc("nedFirstName"));
-				} else {
-					criteria.addOrder(Order.desc("nedLastName"));
-					criteria.addOrder(Order.desc("nedFirstName"));
+				if(isDeletedAccount){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("impaciiLastName"));
+						criteria.addOrder(Order.asc("impaciiFirstName"));
+					} else {
+						criteria.addOrder(Order.desc("impaciiLastName"));
+						criteria.addOrder(Order.desc("impaciiFirstName"));
+					}
+				}else{
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("nedLastName"));
+						criteria.addOrder(Order.asc("nedFirstName"));
+					} else {
+						criteria.addOrder(Order.desc("nedLastName"));
+						criteria.addOrder(Order.desc("nedFirstName"));
+					}
 				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
 				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
