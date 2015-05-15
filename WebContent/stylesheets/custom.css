@@ -47,9 +47,14 @@
 }
 table {
 	border-collapse: collapse;
-	font-size: 0.9em;
+	font-size: 0.85em;
 	background-color: #fff;
 }
+
+table .btn-xs {
+	font-size: .9em;		
+}
+
 /* Zebra striping */
 tr:nth-of-type(odd) {
 	background: #eee;
