@@ -157,8 +157,13 @@
 	<!--  For tab-content -->
 </div>
 
-<div style="text-align:right; width: 100%; padding-right: 10px; padding-bottom: 20px;">
-	<span style="font-size: 0.9em;">
+<div style="width: 100%; padding-right: 10px; padding-bottom: 40px; padding-left: 20px;">
+	<s:if test="showResult && getLastRefreshDate() != null">
+		<span style="font-size: 0.9em; float:left;font-weight:bold;">
+			Last Refreshed Date: <s:property value="%{getLastRefreshDate()}" />
+		</span>
+	</s:if>
+	<span style="font-size: 0.9em; float:right;">
 		<a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">
 		IMPAC II User Roles (.pdf) 
 		</a>

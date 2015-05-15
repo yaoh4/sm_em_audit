@@ -229,4 +229,12 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return discrepancyList;
 	}
 	
+	/**
+	 * Get the Last Refresh date
+	 * @return Date
+	 */
+	public Date getLastRefreshDate(){
+		return impac2PortfolioDAO.getLastRefreshDate();
+	}
+	
 }

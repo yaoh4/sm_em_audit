@@ -251,6 +251,15 @@ public class Impac2PortfolioAction extends BaseAction{
 	}	
 	
 	/**
+	 * Get the Last Refresh date	
+	 * @return lastRefreshDate
+	 * 
+	 */
+	public String getLastRefreshDate(){
+		return new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a").format(impac2PortfolioService.getLastRefreshDate());		
+	}	
+	
+	/**
 	 * @return the portfolioAccounts
 	 */
 	public PaginatedListImpl<PortfolioAccountVO> getPortfolioAccounts() {

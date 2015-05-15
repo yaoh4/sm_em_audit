@@ -33,5 +33,11 @@ public interface Impac2PortfolioService {
      * Note retrieve from view
      */
 	public String getPortfolioNoteById(String id);
+	
+	/**
+	 * Get the Last Refresh date
+	 * @return Date
+	 */
+	public Date getLastRefreshDate();
     
 }

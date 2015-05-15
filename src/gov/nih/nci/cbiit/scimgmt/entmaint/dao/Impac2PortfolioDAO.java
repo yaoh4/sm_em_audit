@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -368,5 +369,24 @@ public class Impac2PortfolioDAO {
 		Long rowCount = (Long) criteria.uniqueResult();
 		return rowCount.intValue();
 
+	}
+	
+	/**
+	 * Get the Last Refresh date
+	 * @return Date
+	 */
+	public Date getLastRefreshDate(){
+		log.debug("Begin getLastRefreshDate()");
+		try {
+			String lastRefershDatequery = "SELECT MAX(RUNTIME) FROM NCI_PROCESS_LOG_T WHERE PROCESS_NAME = 'EM IMPACII REFRESH' AND ORA_ERROR_MESS = 'SUCCESS'";
+			Date lastRefreshDate = (Date) sessionFactory.getCurrentSession().createSQLQuery(lastRefershDatequery).uniqueResult();
+			
+			log.debug("End getLastRefreshDate(). Value of lastRefreshDate : "+lastRefreshDate);
+			return lastRefreshDate;
+			
+		} catch (Throwable e) {
+			log.error("saveOrUpdateNotes failed", e);
+			throw e;
+		}
 	}
 }
