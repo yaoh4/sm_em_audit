@@ -189,7 +189,7 @@
  	</Tab>
 	<Tab>
  		<type>new</type>
- 		<columnName>IMPAC II Acpplication Role</columnName>
+ 		<columnName>IMPAC II Application Role</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
  	</Tab>
