@@ -172,7 +172,7 @@
       <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
       </s:else>
       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
-      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude Accounts with IC Coordinators</label>
+      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       </s:if>
       </div>
  </div>     
