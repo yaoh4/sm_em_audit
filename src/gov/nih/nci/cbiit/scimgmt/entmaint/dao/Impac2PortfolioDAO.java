@@ -91,6 +91,14 @@ public class Impac2PortfolioDAO {
 					}else{
 						criteria.addOrder(Order.desc("createdByUserId"));
 					}
+				}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
+					if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("impaciiUserId"));
+						criteria.addOrder(Order.asc("nihNetworkId"));
+					}else{
+						criteria.addOrder(Order.desc("impaciiUserId"));
+						criteria.addOrder(Order.desc("nihNetworkId"));
+					}
 				}else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc("createdDate"));
