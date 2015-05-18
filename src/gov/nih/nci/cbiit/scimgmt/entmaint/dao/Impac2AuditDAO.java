@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -435,11 +436,11 @@ public class Impac2AuditDAO {
 					}
 				}else{
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("nedLastName"));
-						criteria.addOrder(Order.asc("nedFirstName"));
+						criteria.addOrder(Order.asc("nedLastName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.asc("nedFirstName").nulls(NullPrecedence.LAST));
 					} else {
-						criteria.addOrder(Order.desc("nedLastName"));
-						criteria.addOrder(Order.desc("nedFirstName"));
+						criteria.addOrder(Order.desc("nedLastName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.desc("nedFirstName").nulls(NullPrecedence.LAST));
 					}
 				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
