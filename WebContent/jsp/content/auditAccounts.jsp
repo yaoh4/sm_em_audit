@@ -163,7 +163,7 @@
 </div>
 <s:if test="category == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
   <div class="form-group">
-      <label class="control-label col-sm-3" >Account Deleted:</label>
+      <label class="control-label col-sm-3" >Accounts Deleted:</label>
       <div class="col-sm-9"> 
        <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">    
       <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
@@ -172,7 +172,7 @@
       <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
       </s:else>
       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
-      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude Accounts with IC Coordinators</label>
       </s:if>
       </div>
  </div>     
