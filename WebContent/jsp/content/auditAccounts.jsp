@@ -50,9 +50,7 @@
 				 			if(items[0] == 'validationError'){
 				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
 				 			}else if(items[0] == "fail"){
-				 				$( this ).dialog( "close" );
-				 				openErrorDialog();
-				 				
+				 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}'/></font>");
 				 			}else{
 				 				$('#'+cId).html("");
 				 				var actStr = "";
