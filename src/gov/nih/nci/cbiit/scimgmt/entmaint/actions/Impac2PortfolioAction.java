@@ -171,9 +171,13 @@ public class Impac2PortfolioAction extends BaseAction{
 				//
 				auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
 				pw.print("<select name=\"searchVO.organization\" id=\"portfolioOrg\" " + scriptCall + "class=\"form-control\" style=\"width:590px;\">");
-				pw.print("<option value=\"all\">All</option>");
+				if(isSuperUser()){
+					pw.print("<option value=\"all\" selected=\"selected\">All</option>");
+				}else{
+					pw.print("<option value=\"all\">All</option>");
+				}
 				for(DropDownOption ddo : organizationList){
-					if(ddo.getOptionKey().equalsIgnoreCase(defaultOrg)){
+					if(ddo.getOptionKey().equalsIgnoreCase(defaultOrg) && !isSuperUser()){
 						pw.print("<option value='" + ddo.getOptionKey() +"' selected=\"selected\">" + ddo.getOptionValue() +"</option>");
 					}else{
 						pw.print("<option value='" + ddo.getOptionKey() +"' >" + ddo.getOptionValue() +"</option>");
