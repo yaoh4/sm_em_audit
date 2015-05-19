@@ -153,6 +153,41 @@ public class Impac2PortfolioAction extends BaseAction{
 		return forward;
 	}
 	
+	public void getOptionAction(){
+		PrintWriter pw = null;
+		String defaultOrg = nciUser.getOrgPath();
+		String category = request.getParameter("cate");
+		String scriptCall = "";
+		if(isSuperUser()){
+			scriptCall  = "onchange=\"onOrgChange(this.value);\"";
+		}
+		try{
+			pw = response.getWriter();
+			if(Long.parseLong(category) == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED){
+				pw.print("<select name=\"searchVO.organization\" id=\"portfolioOrg\" class=\"form-control\" style=\"width:590px;\">");
+				pw.println("<option value=\"all\">All</option>");
+				pw.println("</select>");
+			}else{
+				//
+				auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
+				pw.print("<select name=\"searchVO.organization\" id=\"portfolioOrg\" " + scriptCall + "class=\"form-control\" style=\"width:590px;\">");
+				pw.print("<option value=\"all\">All</option>");
+				for(DropDownOption ddo : organizationList){
+					if(ddo.getOptionKey().equalsIgnoreCase(defaultOrg)){
+						pw.print("<option value='" + ddo.getOptionKey() +"' selected=\"selected\">" + ddo.getOptionValue() +"</option>");
+					}else{
+						pw.print("<option value='" + ddo.getOptionKey() +"' >" + ddo.getOptionValue() +"</option>");
+					}
+				}
+				pw.println("</select>");
+			}
+		}catch(Exception e){
+			log.error(e.getMessage(), e);
+		}finally{
+			pw.close();
+		}
+	}
+	
 	/**
 	 * This method sets up default values of searchVO for default search. 
 	 * @return String
