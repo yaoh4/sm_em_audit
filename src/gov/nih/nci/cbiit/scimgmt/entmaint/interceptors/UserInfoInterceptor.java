@@ -81,7 +81,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
             }
             
-            
+          
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
@@ -90,7 +90,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                     String message  = "Login attempt by user  '"+remoteUser+
                                       "' . User  has NO privileges for this application";
                     
-                    //logger.info(message);
+                    logger.info(message);
                     if (action instanceof ValidationAware) {
                         ((ValidationAware)action).addActionError("<B>"+message+"</B>");
                     }
@@ -103,7 +103,9 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                 return invocation.invoke();
             } else {
                 if (action instanceof ValidationAware) {
-                    ((ValidationAware)action).addActionError("Site Minder did not pass the SM User");
+                	String message  = "Site Minder did not pass the SM User";         
+                	logger.info(message);
+                    ((ValidationAware)action).addActionError(message);                 
                 }
                 // user has not signed on with Apache yet, this should only happen one time
                 return "error";
