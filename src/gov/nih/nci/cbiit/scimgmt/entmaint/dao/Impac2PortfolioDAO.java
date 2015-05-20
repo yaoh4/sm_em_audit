@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
+import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -80,17 +80,25 @@ public class Impac2PortfolioDAO {
 			if (!StringUtils.isBlank(sortOrderCriterion)) {
 				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("nedLastName"));
-						criteria.addOrder(Order.asc("nedFirstName"));
+						criteria.addOrder(Order.asc("nedLastName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.asc("nedFirstName").nulls(NullPrecedence.LAST));
 					} else {
-						criteria.addOrder(Order.desc("nedLastName"));
-						criteria.addOrder(Order.desc("nedFirstName"));
+						criteria.addOrder(Order.desc("nedLastName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.desc("nedFirstName").nulls(NullPrecedence.LAST));
 					}
 				}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
 						criteria.addOrder(Order.asc("createdByUserId"));
 					}else{
 						criteria.addOrder(Order.desc("createdByUserId"));
+					}
+				}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
+					if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("impaciiUserId"));
+						criteria.addOrder(Order.asc("nihNetworkId"));
+					}else{
+						criteria.addOrder(Order.desc("impaciiUserId"));
+						criteria.addOrder(Order.desc("nihNetworkId"));
 					}
 				}else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))

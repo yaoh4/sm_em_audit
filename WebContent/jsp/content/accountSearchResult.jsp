@@ -20,11 +20,11 @@
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <input type="hidden" id="i2eemlinkId" value="<s:text name='i2e_em_link' />"/>
 <input type="hidden" id="eraualinkId" value="<s:text name='era_ua_link' />"/>
-
+<!-- 
 <s:if test="%{activeAuditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
-
+ -->
 <display:table style="width: 100%;" name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" excludedParams="act size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">

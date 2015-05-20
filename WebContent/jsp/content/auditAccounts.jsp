@@ -50,9 +50,7 @@
 				 			if(items[0] == 'validationError'){
 				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
 				 			}else if(items[0] == "fail"){
-				 				$( this ).dialog( "close" );
-				 				openErrorDialog();
-				 				
+				 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}'/></font>");
 				 			}else{
 				 				$('#'+cId).html("");
 				 				var actStr = "";
@@ -160,7 +158,24 @@
       <div class="col-sm-9">          
         <s:textfield name="searchVO.userLastname" placeholder="Enter Last Name" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userLastname}" id="l-name"/>
       </div>
-    </div>
+</div>
+<s:if test="category == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
+  <div class="form-group">
+      <label class="control-label col-sm-3" >Accounts Deleted:</label>
+      <div class="col-sm-9"> 
+       <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">    
+      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
+      </s:if>
+      <s:else>
+      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
+      </s:else>
+      <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">   
+      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      </s:if>
+      </div>
+ </div>     
+</s:if>
+<s:else>
  <div class="form-group">
       <label class="control-label col-sm-3" >NCI Organization:</label>
       <div class="col-sm-9"> 
@@ -175,6 +190,7 @@
       </s:if>
       </div>
  </div>     
+ </s:else>
  <div class="form-group">
    <!--  Audit Period selection -->
     <label class="control-label col-sm-3" >Audit Period:</label>

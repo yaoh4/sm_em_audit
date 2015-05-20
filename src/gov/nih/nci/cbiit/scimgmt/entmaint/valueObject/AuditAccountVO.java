@@ -15,8 +15,14 @@ public class AuditAccountVO extends EmAuditAccountsVw{
 			lastName = getImpaciiLastName();
 			firstName = getImpaciiFirstName();
 		}else{
-			lastName = getNedLastName();
-			firstName = getNedFirstName();
+			if((getNedLastName() == null || getNedLastName().trim().length() < 1) && 
+					(getNedFirstName() == null || getNedFirstName().trim().length() < 1)){
+				lastName = this.getImpaciiLastName();
+				firstName = this.getImpaciiFirstName();
+			}else{
+				lastName = getNedLastName();
+				firstName = getNedFirstName();
+			}
 		}
 		
 		if(!StringUtils.isBlank(lastName)){

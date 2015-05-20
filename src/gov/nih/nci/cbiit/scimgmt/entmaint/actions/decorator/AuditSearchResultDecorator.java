@@ -120,19 +120,19 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		startAutowired();
 		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String id = ""+accountVO.getId();
 		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
 					dis);
+			String code ="" + disVw.getCode();
 			if(disVw.getShortDescrip() != null){
 				//replace all single quote to HTML code
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
-						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
+				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + code + "');\"/>" + 
+						"<input type='hidden' id='help" + code + "' value='" + longDesc + resolution + "'/>" +
 						"<br/><br/>");
 			}
 		}

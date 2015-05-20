@@ -85,7 +85,7 @@
 				<s:if test="isSuperUser()">				
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="portfolioOrg">NCI Organization:</label>
-						<div class="col-sm-9">
+						<div id="orgListId" class="col-sm-9">
 							<s:select name="searchVO.organization" onchange="onOrgChange(this.value);" 
 								id="portfolioOrg" cssClass="form-control"
 								value="%{#session.portfolioSearchVO.organization}" list="session.orgList"
@@ -107,7 +107,7 @@
 				<s:else>
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="portfolioOrg">NCI Organization:</label>
-						<div class="col-sm-9">
+						<div id="orgListId" class="col-sm-9">
 							<s:select name="searchVO.organization" id="portfolioOrg" cssClass="form-control"
 								value="%{#session.portfolioSearchVO.organization}" list="session.orgList"
 								listKey="optionKey" listValue="optionValue" headerKey="all"

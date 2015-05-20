@@ -140,6 +140,7 @@ function onOrgChange(org){
 		$("#excludeNciCheck").removeAttr('checked');
 		$("#excludeNciCheck").attr("disabled","disabled");
 	}		
+	
 }
 
 function onCategoryChage(category){
@@ -153,7 +154,18 @@ function onCategoryChage(category){
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
-	}		
+	}
+	$.ajax({
+		url: "orgOptionAction.action",
+		type: "post",
+		data: {cate: category},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			$('#orgListId').html(result);
+		}, 
+		error: function(){}		
+	});
 }
 
 function getNote(id, category){
