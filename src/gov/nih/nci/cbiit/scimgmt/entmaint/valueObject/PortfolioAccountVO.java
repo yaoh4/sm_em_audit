@@ -16,6 +16,12 @@ public class PortfolioAccountVO extends EmPortfolioVw{
 		String lastName = getNedLastName();
 		String firstName = getNedFirstName();
 		
+		if(StringUtils.isBlank(lastName)){
+			lastName = this.getImpaciiLastName();
+		}
+		if(StringUtils.isBlank(firstName)){
+			firstName = this.getImpaciiFirstName();
+		}
 		if(!StringUtils.isBlank(lastName)){
 			sb.append(lastName);
 		}
