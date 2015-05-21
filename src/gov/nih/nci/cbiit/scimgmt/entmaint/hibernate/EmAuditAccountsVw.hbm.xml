@@ -136,6 +136,12 @@
             <property name="inactiveSubmittedDate" type="timestamp">
                 <column name="INACTIVE_SUBMITTED_DATE" length="7" />
             </property>
+            <property name="deletedByParentOrgPath" type="string">
+                <column name="DELETED_BY_PARENT_ORG_PATH" length="2304" />
+            </property>
+            <property name="deletedByNciDoc" type="string">
+                <column name="DELETED_BY_NCI_DOC" length="5" />
+            </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>
                 	<column name="EAA_ID" />

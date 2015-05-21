@@ -57,6 +57,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String inactiveUnsubmittedFlag;
 	private String inactiveSubmittedBy;
 	private Date inactiveSubmittedDate;
+	private String deletedByParentOrgPath;
+	private String deletedByNciDoc;
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
 	public EmAuditAccountsVw() {
@@ -79,7 +81,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			String newNotes, String newUnsubmittedFlag, String newSubmittedBy, Date newSubmittedDate,
 			AppLookupT deletedAction, String deletedNotes, String deletedUnsubmittedFlag, String deletedSubmittedBy,
 			Date deletedSubmittedDate, AppLookupT inactiveAction, String inactiveNotes, String inactiveUnsubmittedFlag,
-			String inactiveSubmittedBy, Date inactiveSubmittedDate, List accountRoles, List accountActivities,
+			String inactiveSubmittedBy, Date inactiveSubmittedDate, String deletedByParentOrgPath, String deletedByNciDoc,
+			List accountRoles, List accountActivities,
 			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies) {
 		this.id = id;
 		this.audit = audit;
@@ -127,6 +130,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.inactiveUnsubmittedFlag = inactiveUnsubmittedFlag;
 		this.inactiveSubmittedBy = inactiveSubmittedBy;
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
+		this.deletedByParentOrgPath = deletedByParentOrgPath;
+		this.deletedByNciDoc = deletedByNciDoc;
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
@@ -265,7 +270,13 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						.getInactiveSubmittedBy().equals(castOther.getInactiveSubmittedBy())))
 				&& ((getInactiveSubmittedDate() == castOther.getInactiveSubmittedDate()) || (this
 						.getInactiveSubmittedDate() != null && castOther.getInactiveSubmittedDate() != null && this
-						.getInactiveSubmittedDate().equals(castOther.getInactiveSubmittedDate())));
+						.getInactiveSubmittedDate().equals(castOther.getInactiveSubmittedDate())))
+				&& ((getDeletedByParentOrgPath() == castOther.getDeletedByParentOrgPath()) || (this
+						.getDeletedByParentOrgPath() != null && castOther.getDeletedByParentOrgPath() != null && this
+						.getDeletedByParentOrgPath().equals(castOther.getDeletedByParentOrgPath())))
+				&& ((getDeletedByNciDoc() == castOther.getDeletedByNciDoc()) || (this
+						.getDeletedByNciDoc() != null && castOther.getDeletedByNciDoc() != null && this
+						.getDeletedByNciDoc().equals(castOther.getDeletedByNciDoc())));
 	}
 
 	public EmAuditsT getAudit() {
@@ -413,6 +424,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				+ (getInactiveUnsubmittedFlag() == null ? 0 : getInactiveUnsubmittedFlag().hashCode());
 		result = 37 * result + (getInactiveSubmittedBy() == null ? 0 : getInactiveSubmittedBy().hashCode());
 		result = 37 * result + (getInactiveSubmittedDate() == null ? 0 : getInactiveSubmittedDate().hashCode());
+		result = 37 * result + (getDeletedByParentOrgPath() == null ? 0 : getDeletedByParentOrgPath().hashCode());
+		result = 37 * result + (getDeletedByNciDoc() == null ? 0 : getDeletedByNciDoc().hashCode());
 		return result;
 	}
 
@@ -612,6 +625,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return inactiveSubmittedDate;
 	}
 
+	public String getDeletedByParentOrgPath() {
+		return deletedByParentOrgPath;
+	}
+
+	public String getDeletedByNciDoc() {
+		return deletedByNciDoc;
+	}
+	
 	public void setActiveAction(AppLookupT activeAction) {
 		this.activeAction = activeAction;
 	}
@@ -690,6 +711,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setInactiveSubmittedDate(Date inactiveSubmittedDate) {
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
+	}
+
+	public void setDeletedByParentOrgPath(String deletedByParentOrgPath) {
+		this.deletedByParentOrgPath = deletedByParentOrgPath;
+	}
+
+	public void setDeletedByNciDoc(String deletedByNciDoc) {
+		this.deletedByNciDoc = deletedByNciDoc;
 	}
 
 	public List<String> getAccountDiscrepancies() {

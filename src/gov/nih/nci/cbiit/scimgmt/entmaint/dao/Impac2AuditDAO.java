@@ -149,7 +149,7 @@ public class Impac2AuditDAO {
 			criteria.add(Restrictions.leProperty("deletedDate", "audit.impaciiToDate"));
 
 			// Add user specific search criteria
-			addSearchCriteria(criteria, searchVO);
+			addDeletedSearchCriteria(criteria, searchVO);
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
@@ -353,6 +353,46 @@ public class Impac2AuditDAO {
 		// excludeNCIOrgs
 		if (searchVO.isExcludeNCIOrgs()) {
 			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}
+
+		return criteria;
+	}
+	
+	/**
+	 * Adding user specific search criteria for deleted accounts
+	 * 
+	 * @param criteria
+	 * @param searchVO
+	 * @return
+	 */
+	private Criteria addDeletedSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+		log.debug("adding search criteria for IMPAC II account query in audit view - deleted accounts: " + searchVO);
+
+		// audit id
+		criteria.add(Restrictions.eq("audit.id", searchVO.getAuditId()));
+		
+		// firstName partial search
+		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			criteria.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			criteria.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			}
+			else {
+				criteria.add(Restrictions.eq("deletedByParentOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("deletedByNciDoc", ApplicationConstants.NCI_DOC_OTHER));
 		}
 
 		return criteria;
