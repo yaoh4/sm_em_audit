@@ -233,5 +233,24 @@ public class PortfolioSearchResultExportDecorator extends
 		
 		return portfolioVO.getNotes();
 	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return impaciiId + "/" + networkId ;
+	}
 
 }

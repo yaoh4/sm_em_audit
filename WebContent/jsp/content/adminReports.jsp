@@ -44,6 +44,7 @@ function clearFields(){
     </fieldset>
   </s:form>
 </div>
+<div id="anchor"></div>
 <br/>
 </div>
 <s:if test="showResult">

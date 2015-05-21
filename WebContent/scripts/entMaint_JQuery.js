@@ -233,3 +233,7 @@ function fetchPortfolioNote(id){
 function openNote(){
 	$('#note').dialog("open");
 }
+
+function moveToAnchor(){
+	$(document).scrollTop( $("#anchor").offset().top );  
+}

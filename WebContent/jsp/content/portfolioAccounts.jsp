@@ -156,7 +156,7 @@
 	<br />
 	<!--  For tab-content -->
 </div>
-
+<div id="anchor"></div>
 <div style="width: 100%; padding-right: 10px; padding-bottom: 40px; padding-left: 20px;">
 	<s:if test="showResult && getLastRefreshDate() != null">
 		<span style="font-size: 0.9em; float:left;font-weight:bold;">

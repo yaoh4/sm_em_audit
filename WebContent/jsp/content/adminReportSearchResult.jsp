@@ -19,6 +19,7 @@
 		action = "reportSearch";
 	}
 %>
+<body onload="moveToAnchor();"></body>
 <display:table style="width: 100%;" name="auditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action %>" excludedParams="size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AdminReportSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">

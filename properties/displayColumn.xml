@@ -652,6 +652,7 @@
  		<type>portfolioDeleted</type>
 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
  	</Tab>	
  	<Tab>
  		<type>portfolioDeleted</type>
@@ -781,6 +782,7 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
  	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
