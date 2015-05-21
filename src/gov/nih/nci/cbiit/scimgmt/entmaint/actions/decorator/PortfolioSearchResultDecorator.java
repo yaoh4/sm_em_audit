@@ -147,7 +147,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	 */
 	public String getLastUpdated(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
 		String lastUpdated = "";
 		String id = portfolioVO.getImpaciiUserId();
 		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null){

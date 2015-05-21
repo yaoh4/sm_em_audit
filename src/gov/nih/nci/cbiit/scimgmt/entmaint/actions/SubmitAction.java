@@ -55,7 +55,7 @@ public class SubmitAction extends BaseAction {
 				//normal submit action 
 				Date date = new Date();
 				impac2Service.submit(cate, Long.parseLong(appId), Long.parseLong(actId), note, date);
-				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy h:mm a");
 				String timeStr = sdf.format(date);
 				String fullName = nciUser.getLastName() +", " + nciUser.getFirstName();
 				

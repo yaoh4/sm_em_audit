@@ -115,7 +115,7 @@ public class PortfolioSearchResultExportDecorator extends
 		String lastUpdatedOn = "";
 		
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
 		
 		if(portfolioVO.getNotesSubmittedDate() != null) {
 			lastUpdatedOn = dateFormat.format(portfolioVO.getNotesSubmittedDate());
