@@ -63,10 +63,10 @@ function submitReset(){
 function submitForm(){
 	var url = "<%=contextPath%>" + "/admin/openEmail";
 	var winName = "email";
-	var features = "menubar=yes,scrollbars=yes,resizable=yes,fullscreen=yes";
+	var features = "scrollbars=yes,resizable=yes,fullscreen=yes,menubar=yes,toolbar=yes, status=yes";
 
 	var newWin = window.open(url, winName, features);
-
+	return false;
 }
 
 </script>
@@ -88,7 +88,7 @@ function submitForm(){
     <s:hidden id="icEmails" name="icEmails" />
  <p style="text-align:left;"> 
 <span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
-<a href="#" onclick="submitForm();" target="_BLANK">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<a href="#" onclick="submitForm();">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 </p>
  
     <div class="form-group">
