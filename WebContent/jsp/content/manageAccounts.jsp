@@ -6,7 +6,11 @@
 <s:if
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_IMPAC2 eq #request.selectedTab
 	    || @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_I2E eq #request.selectedTab}">
-	    	    
+	
+<!--  We want to show the breadcrumb with both Portfolio and Audit only if there is at least one Audit in the system 
+ Otherwise there is no Audit tab, so no need to have breadcrumb to select between them -->
+<s:if test="isAuditPresent()">
+  		    
   <ol class="breadcrumb">
   
   <s:if
@@ -18,6 +22,7 @@
   </s:else>
   
   </ol>
+</s:if>
 </s:if>
 
 <!-- Admin tab selected -->

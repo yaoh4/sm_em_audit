@@ -5,6 +5,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.action.AuditSearchActionHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
@@ -58,6 +59,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	
 	@Autowired
 	protected LookupService lookupService;	
+	@Autowired
+	protected AdminService adminService;
 	@Autowired
 	protected NciUser nciUser;
 	@Autowired
@@ -361,6 +364,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	 */
 	public void setAuditPeriodList(List<DropDownOption> auditPeriodList) {
 		this.auditPeriodList = auditPeriodList;
+	}
+	
+	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent() {
+		return adminService.isAuditPresent();
 	}
 	
 }

@@ -167,6 +167,16 @@ public class AdminServiceImpl implements AdminService {
 		return emAuditVOList;
 	}
 	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent() {
+		
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList()));
+		
+	}
 	
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest) {
