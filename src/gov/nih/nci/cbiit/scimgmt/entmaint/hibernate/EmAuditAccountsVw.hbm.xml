@@ -13,6 +13,12 @@
             <property name="impaciiUserId" type="string">
                 <column name="IMPACII_USER_ID" length="30" />
             </property>
+            <property name="lastName" type="string">
+                <column name="LAST_NAME" length="576" />
+            </property>
+            <property name="firstName" type="string">
+                <column name="FIRST_NAME" length="576" />
+            </property>
             <property name="impaciiLastName" type="string">
                 <column name="IMPACII_LAST_NAME" length="30" />
             </property>
@@ -141,6 +147,18 @@
             </property>
             <property name="deletedByNciDoc" type="string">
                 <column name="DELETED_BY_NCI_DOC" length="5" />
+            </property>
+            <property name="sodFlag" type="yes_no">
+                <column name="SOD_FLAG" length="1" />
+            </property>
+            <property name="icDiffFlag" type="yes_no">
+                <column name="IC_DIFF_FLAG" length="1" />
+            </property>
+            <property name="nedInactiveFlag" type="yes_no">
+                <column name="NED_INACTIVE_FLAG" length="1" />
+            </property>
+            <property name="lastNameDiffFlag" type="yes_no">
+                <column name="LAST_NAME_DIFF_FLAG" length="1" />
             </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>

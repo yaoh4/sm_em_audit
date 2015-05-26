@@ -7,7 +7,6 @@
  		<type>active</type>
  		<columnName>IMPAC II Discrepancy</columnName>
  		<property>discrepancy</property>
- 		<sort>false</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>

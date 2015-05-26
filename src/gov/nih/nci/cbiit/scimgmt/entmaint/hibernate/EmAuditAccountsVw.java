@@ -15,6 +15,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private EmAuditsT audit;
 	private String impaciiUserId;
 	private String nihNetworkId;
+	private String lastName;
+	private String firstName;
 	private String impaciiLastName;
 	private String impaciiFirstName;
 	private String nedLastName;
@@ -59,6 +61,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private Date inactiveSubmittedDate;
 	private String deletedByParentOrgPath;
 	private String deletedByNciDoc;
+	private Boolean sodFlag;
+	private Boolean icDiffFlag;
+	private Boolean nedInactiveFlag;
+	private Boolean lastNameDiffFlag;
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
 	public EmAuditAccountsVw() {
@@ -71,7 +77,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.createdByUserId = createdByUserId;
 	}
 
-	public EmAuditAccountsVw(Long id, EmAuditsT audit, String impaciiUserId, String nihNetworkId,
+	public EmAuditAccountsVw(Long id, EmAuditsT audit, String impaciiUserId, String nihNetworkId, String lastName, String firstName,
 			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName,
 			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag,
 			String nciDoc, Date createdDate, String createdByUserId, String createdByFullName, Date deletedDate,
@@ -82,12 +88,15 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			AppLookupT deletedAction, String deletedNotes, String deletedUnsubmittedFlag, String deletedSubmittedBy,
 			Date deletedSubmittedDate, AppLookupT inactiveAction, String inactiveNotes, String inactiveUnsubmittedFlag,
 			String inactiveSubmittedBy, Date inactiveSubmittedDate, String deletedByParentOrgPath, String deletedByNciDoc,
-			List accountRoles, List accountActivities,
+			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag,
+			Boolean lastNameDiffFlag, List accountRoles, List accountActivities,
 			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
 		this.nihNetworkId = nihNetworkId;
+		this.lastName = lastName;
+		this.firstName = firstName;
 		this.impaciiLastName = impaciiLastName;
 		this.impaciiFirstName = impaciiFirstName;
 		this.nedLastName = nedLastName;
@@ -132,6 +141,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.inactiveSubmittedDate = inactiveSubmittedDate;
 		this.deletedByParentOrgPath = deletedByParentOrgPath;
 		this.deletedByNciDoc = deletedByNciDoc;
+		this.sodFlag = sodFlag;
+		this.icDiffFlag = icDiffFlag;
+		this.nedInactiveFlag = nedInactiveFlag;
+		this.lastNameDiffFlag = lastNameDiffFlag;
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
@@ -158,6 +171,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				&& (getNihNetworkId() == castOther.getNihNetworkId() || getNihNetworkId() != null
 						&& castOther.getNihNetworkId() != null
 						&& getNihNetworkId().equals(castOther.getNihNetworkId()))
+				&& (getLastName() == castOther.getLastName() || getLastName() != null
+						&& castOther.getLastName() != null && getLastName().equals(castOther.getLastName()))
+				&& (getFirstName() == castOther.getFirstName() || getFirstName() != null
+						&& castOther.getFirstName() != null && getFirstName().equals(castOther.getFirstName()))
 				&& (getImpaciiLastName() == castOther.getImpaciiLastName() || getImpaciiLastName() != null
 						&& castOther.getImpaciiLastName() != null
 						&& getImpaciiLastName().equals(castOther.getImpaciiLastName()))
@@ -276,7 +293,17 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						.getDeletedByParentOrgPath().equals(castOther.getDeletedByParentOrgPath())))
 				&& ((getDeletedByNciDoc() == castOther.getDeletedByNciDoc()) || (this
 						.getDeletedByNciDoc() != null && castOther.getDeletedByNciDoc() != null && this
-						.getDeletedByNciDoc().equals(castOther.getDeletedByNciDoc())));
+						.getDeletedByNciDoc().equals(castOther.getDeletedByNciDoc())))
+				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
+						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
+				&& ((this.getIcDiffFlag() == castOther.getIcDiffFlag()) || (this.getIcDiffFlag() != null
+						&& castOther.getIcDiffFlag() != null && this.getIcDiffFlag().equals(castOther.getIcDiffFlag())))
+				&& ((this.getNedInactiveFlag() == castOther.getNedInactiveFlag()) || (this.getNedInactiveFlag() != null
+						&& castOther.getNedInactiveFlag() != null && this.getNedInactiveFlag().equals(
+						castOther.getNedInactiveFlag())))
+				&& ((this.getLastNameDiffFlag() == castOther.getLastNameDiffFlag()) || (this.getLastNameDiffFlag() != null
+						&& castOther.getLastNameDiffFlag() != null && this.getLastNameDiffFlag().equals(
+						castOther.getLastNameDiffFlag())));
 	}
 
 	public EmAuditsT getAudit() {
@@ -315,6 +342,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		return id;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
 	public String getImpaciiFirstName() {
 		return impaciiFirstName;
 	}
@@ -383,6 +418,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getAudit() == null ? 0 : getAudit().hashCode());
 		result = 37 * result + (getImpaciiUserId() == null ? 0 : getImpaciiUserId().hashCode());
 		result = 37 * result + (getNihNetworkId() == null ? 0 : getNihNetworkId().hashCode());
+		result = 37 * result + (getLastName() == null ? 0 : getLastName().hashCode());
+		result = 37 * result + (getFirstName() == null ? 0 : getFirstName().hashCode());
 		result = 37 * result + (getImpaciiLastName() == null ? 0 : getImpaciiLastName().hashCode());
 		result = 37 * result + (getImpaciiFirstName() == null ? 0 : getImpaciiFirstName().hashCode());
 		result = 37 * result + (getNedLastName() == null ? 0 : getNedLastName().hashCode());
@@ -426,6 +463,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getInactiveSubmittedDate() == null ? 0 : getInactiveSubmittedDate().hashCode());
 		result = 37 * result + (getDeletedByParentOrgPath() == null ? 0 : getDeletedByParentOrgPath().hashCode());
 		result = 37 * result + (getDeletedByNciDoc() == null ? 0 : getDeletedByNciDoc().hashCode());
+		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
+		result = 37 * result + (getIcDiffFlag() == null ? 0 : this.getIcDiffFlag().hashCode());
+		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
+		result = 37 * result + (getLastNameDiffFlag() == null ? 0 : this.getLastNameDiffFlag().hashCode());
 		return result;
 	}
 
@@ -465,10 +506,18 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.id = id;
 	}
 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public void setImpaciiFirstName(String impaciiFirstName) {
 		this.impaciiFirstName = impaciiFirstName;
 	}
-
+	
 	public void setImpaciiLastName(String impaciiLastName) {
 		this.impaciiLastName = impaciiLastName;
 	}
@@ -727,6 +776,38 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setAccountDiscrepancies(List<String> accountDiscrepancies) {
 		this.accountDiscrepancies = accountDiscrepancies;
+	}
+	
+	public Boolean getSodFlag() {
+		return this.sodFlag;
+	}
+
+	public void setSodFlag(Boolean sodFlag) {
+		this.sodFlag = sodFlag;
+	}
+
+	public Boolean getIcDiffFlag() {
+		return this.icDiffFlag;
+	}
+
+	public void setIcDiffFlag(Boolean icDiffFlag) {
+		this.icDiffFlag = icDiffFlag;
+	}
+
+	public Boolean getNedInactiveFlag() {
+		return this.nedInactiveFlag;
+	}
+
+	public void setNedInactiveFlag(Boolean nedInactiveFlag) {
+		this.nedInactiveFlag = nedInactiveFlag;
+	}
+
+	public Boolean getLastNameDiffFlag() {
+		return this.lastNameDiffFlag;
+	}
+
+	public void setLastNameDiffFlag(Boolean lastNameDiffFlag) {
+		this.lastNameDiffFlag = lastNameDiffFlag;
 	}
 
 }

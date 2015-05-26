@@ -50,28 +50,15 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	@Override
 	public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2PortfolioDAO.searchImpac2Accounts(paginatedList, searchVO, all);
-		if (searchVO.getCategory() != ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY) {
-			List<EmPortfolioVw> portfolioList = paginatedList.getList();
+		List<EmPortfolioVw> portfolioList = paginatedList.getList();
 
-			List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
-			for (final EmPortfolioVw account : portfolioList) {
-				if(searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_ACTIVE) {
-					account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
-				}
-				list.add(populatePortfolioAccountVO(account));
-			}
-			paginatedList.setList(list);
+		List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
+		for (final EmPortfolioVw account : portfolioList) {
+			account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
+			list.add(populatePortfolioAccountVO(account));
 		}
-		else {
-			List<EmDiscrepancyAccountsVw> discrepancyList = paginatedList.getList();
+		paginatedList.setList(list);
 
-			List<PortfolioAccountVO> list = new ArrayList<PortfolioAccountVO>();
-			for (final EmDiscrepancyAccountsVw account : discrepancyList) {
-				account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
-				list.add(populatePortfolioAccountVO(account));
-			}
-			paginatedList.setList(list);
-		}
 		return paginatedList;
 	}
 	
@@ -148,64 +135,13 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	}
 
 	/**
-	 * Compute account discrepancies on the fly and populate a list of discrepancies
-	 * 
-	 * @param account
-	 * @param category
-	 * @return
-	 */
-	private List<String> populateAccountDiscrepancy(EmPortfolioVw account) {
-		List<String> discrepancyList = new ArrayList<String>();
-		// Check if there is a violation in roles given to the user
-		int role1Count = 0;
-		boolean nedActive=true;
-		for (EmPortfolioRolesVw role: account.getAccountRoles()) {
-			if (role.getOrgId().equalsIgnoreCase(ORG_ID_CA) && 
-					(role.getRoleName().equalsIgnoreCase(ROLE_GM_MANAGER) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_ICO_PROGRAM_OFFICIAL) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_RR_CHIEF))) {
-				role1Count++;
-			}
-		}
-		int role2Count = 0;
-		for (EmPortfolioRolesVw role: account.getAccountRoles()) {
-			if (role.getOrgId().equalsIgnoreCase(ORG_ID_CA) && 
-					(role.getRoleName().equalsIgnoreCase(ROLE_GM_MANAGER) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_UADM_ADMIN) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_RR_CHIEF))) {
-				role2Count++;
-			}
-		}
-		if (role1Count > 1 || role2Count > 1) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
-		}
-
-		// Check if NED_ACTIVE_FLAG is N
-		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
-			nedActive=false;
-		}
-
-		// Check if NED_IC is not NCI
-		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
-		}
-		
-		// Check if last name is different between IMPACII and NED
-		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
-		}
-		return discrepancyList;
-	}
-	
-	/**
 	 * Add account discrepancies if DB flag is set to the list of discrepancies
 	 * 
 	 * @param account
 	 * @param category
 	 * @return
 	 */
-	private List<String> populateAccountDiscrepancy(EmDiscrepancyAccountsVw account) {
+	private List<String> populateAccountDiscrepancy(EmPortfolioVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
 		if(account.getSodFlag() != null) {

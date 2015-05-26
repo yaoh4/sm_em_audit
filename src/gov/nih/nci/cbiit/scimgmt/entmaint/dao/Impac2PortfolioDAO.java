@@ -3,8 +3,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -20,7 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
@@ -69,22 +66,17 @@ public class Impac2PortfolioDAO {
 			String sortOrder = paginatedList.getSqlSortDirection();
 			
 			Criteria criteria = null;
-			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
-				criteria = sessionFactory.getCurrentSession().createCriteria(EmDiscrepancyAccountsVw.class);
-			}
-			else {
-				criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
-			}
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
 
 			// Sort order
 			if (!StringUtils.isBlank(sortOrderCriterion)) {
 				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("nedLastName").nulls(NullPrecedence.LAST));
-						criteria.addOrder(Order.asc("nedFirstName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.asc("lastName"));
+						criteria.addOrder(Order.asc("firstName"));
 					} else {
-						criteria.addOrder(Order.desc("nedLastName").nulls(NullPrecedence.LAST));
-						criteria.addOrder(Order.desc("nedFirstName").nulls(NullPrecedence.LAST));
+						criteria.addOrder(Order.desc("lastName"));
+						criteria.addOrder(Order.desc("firstName"));
 					}
 				}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
@@ -117,31 +109,15 @@ public class Impac2PortfolioDAO {
 			addSearchCriteria(criteria, searchVO);
 
 			List<EmPortfolioVw> portfolioList = null;
-			List<EmDiscrepancyAccountsVw> discrepancyList = null;
-			
-			if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
-				if(all) {
-					discrepancyList = criteria.list();
-					paginatedList.setTotal(discrepancyList.size());
-				}
-				else {
-					discrepancyList = criteria.setFirstResult(firstResult)
-							.setMaxResults(objectsPerPage)
-							.list();
-				}			
-				paginatedList.setList(discrepancyList);			}
-			else {
-				if(all) {
-					portfolioList = criteria.list();
-					paginatedList.setTotal(portfolioList.size());
-				}
-				else {
-					portfolioList = criteria.setFirstResult(firstResult)
-							.setMaxResults(objectsPerPage)
-							.list();
-				}			
-				paginatedList.setList(portfolioList);
+		
+			if (all) {
+				portfolioList = criteria.list();
+				paginatedList.setTotal(portfolioList.size());
+			} else {
+				portfolioList = criteria.setFirstResult(firstResult).setMaxResults(objectsPerPage).list();
 			}
+			paginatedList.setList(portfolioList);
+
 
 			if (!all && paginatedList.getFullListSize() == 0) {
 				paginatedList.setTotal(getTotalResultCount(criteria));

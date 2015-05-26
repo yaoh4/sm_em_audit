@@ -235,42 +235,22 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	private List<String> populateAccountDiscrepancy(EmAuditAccountsVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
-		int role1Count = 0;
-		boolean nedActive=true;
-		for (EmAuditAccountRolesVw role: account.getAccountRoles()) {
-			if (role.getOrgId().equalsIgnoreCase(ORG_ID_CA) && 
-					(role.getRoleName().equalsIgnoreCase(ROLE_GM_MANAGER) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_ICO_PROGRAM_OFFICIAL) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_RR_CHIEF))) {
-				role1Count++;
-			}
-		}
-		int role2Count = 0;
-		for (EmAuditAccountRolesVw role: account.getAccountRoles()) {
-			if (role.getOrgId().equalsIgnoreCase(ORG_ID_CA) && 
-					(role.getRoleName().equalsIgnoreCase(ROLE_GM_MANAGER) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_UADM_ADMIN) ||
-					role.getRoleName().equalsIgnoreCase(ROLE_RR_CHIEF))) {
-				role2Count++;
-			}
-		}
-		if (role1Count > 1 || role2Count > 1) {
+		if(account.getSodFlag() != null) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
-		// Check if NED_ACTIVE_FLAG is N
-		if (StringUtils.equalsIgnoreCase(account.getNedActiveFlag(), FLAG_NO)) {
-			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
-			nedActive=false;
-		}
-
 		// Check if NED_IC is not NCI
-		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedIc(), ApplicationConstants.NED_IC_NCI)) {
+		if (account.getIcDiffFlag() != null) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
 		}
 
+		// Check if NED_ACTIVE_FLAG is N
+		if (account.getNedInactiveFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
+		}
+
 		// Check if last name is different between IMPACII and NED
-		if (nedActive && !StringUtils.equalsIgnoreCase(account.getNedLastName(), account.getImpaciiLastName())) {
+		if (account.getLastNameDiffFlag() != null) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;
