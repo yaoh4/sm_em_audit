@@ -393,7 +393,7 @@ public class Impac2PortfolioDAO {
 			return lastRefreshDate;
 			
 		} catch (Throwable e) {
-			log.error("saveOrUpdateNotes failed", e);
+			log.error("getLastRefreshDate() failed", e);
 			throw e;
 		}
 	}
