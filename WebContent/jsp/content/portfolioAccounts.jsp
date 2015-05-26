@@ -127,7 +127,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-3" for="dateRange">Date Range:</label>
+					<label class="control-label col-sm-3" for="dateRange"><img id="newDeletedHelpIcon" src="../images/q-icon.gif" title="" style="display:none; padding-bottom:5px;">&nbsp;&nbsp;Date Range:</label>
 					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
 							name="searchVO.dateRangeStartDate"							
