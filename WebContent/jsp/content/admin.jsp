@@ -66,6 +66,7 @@ function submitForm(){
 	var features = "scrollbars=yes,resizable=yes,height="+screen.height+",width="+screen.width+",menubar=yes,toolbar=yes, status=yes";
 
 	var newWin = window.open(url, winName, features);
+	newWin.moveTo(0,0);
 	return false;
 }
 
