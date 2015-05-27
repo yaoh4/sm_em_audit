@@ -63,7 +63,7 @@ function submitReset(){
 function submitForm(){
 	var url = "<%=contextPath%>" + "/admin/openEmail";
 	var winName = "email";
-	var features = "scrollbars=yes,resizable=yes,fullscreen=yes,menubar=yes,toolbar=yes, status=yes";
+	var features = "scrollbars=yes,resizable=yes,height="+screen.height+",width="+screen.width+",fullscreen=yes,menubar=yes,toolbar=yes, status=yes";
 
 	var newWin = window.open(url, winName, features);
 	return false;
