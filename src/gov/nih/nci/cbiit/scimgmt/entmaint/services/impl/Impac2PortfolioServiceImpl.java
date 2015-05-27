@@ -11,15 +11,12 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2PortfolioDAO;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyAccountsVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
@@ -107,33 +104,6 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return portfolioAccountVO;
 	}
 	
-	/**
-	 * Convert to PortfolioAccountVO object
-	 * 
-	 * @param emDiscrepancyAccountsVw
-	 * @return
-	 */
-	private PortfolioAccountVO populatePortfolioAccountVO(EmDiscrepancyAccountsVw emDiscrepancyAccountsVw) {
-		final PortfolioAccountVO portfolioAccountVO = new PortfolioAccountVO();
-		try {
-			ConvertUtils.register(new BigDecimalConverter(null),
-									java.math.BigDecimal.class);
-			ConvertUtils.register(new LongConverter(null),
-									java.lang.Long.class);
-			ConvertUtils.register(new IntegerConverter(null),
-									java.lang.Integer.class);
-			ConvertUtils.register(new ShortConverter(null),
-									java.lang.Short.class);
-			ConvertUtils.register(new DateConverter(null),java.util.Date.class);
-			BeanUtils.copyProperties(portfolioAccountVO, emDiscrepancyAccountsVw);
-
-		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
-							e);
-		}
-		return portfolioAccountVO;
-	}
-
 	/**
 	 * Add account discrepancies if DB flag is set to the list of discrepancies
 	 * 
