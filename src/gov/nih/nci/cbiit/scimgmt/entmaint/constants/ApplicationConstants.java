@@ -148,4 +148,7 @@ public interface ApplicationConstants {
 	public static final String EMPTY_NOTE="error.empty.note";
 	public static final String MISSING_NOTE="error.missing.note";
 	public static final String ACTION_SELECTION="error.action.selection";
+	
+	public static final String ERAUA_NA = "NA";
+	public static final String ERAUA_INFO = "eraus.info.message";
 }

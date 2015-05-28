@@ -14,6 +14,20 @@ $(function() {
 		 }
 	});
 	
+	$("#eraua_na").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
 	$("#auditHistory").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -260,6 +274,10 @@ function openNote(){
 
 function openHistory(){
 	$('#auditHistory').dialog("open");
+}
+
+function openEraua(){
+	$('#eraua_na').dialog("open");
 }
 
 function moveToAnchor(){

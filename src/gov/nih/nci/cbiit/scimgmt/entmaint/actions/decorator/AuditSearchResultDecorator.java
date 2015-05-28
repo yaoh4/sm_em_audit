@@ -94,11 +94,16 @@ public class AuditSearchResultDecorator extends TableDecorator{
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+				era_ua_link = "<br/><a href='javascript:openEraua();'>eRA UA</a>";
+			}else{
+				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a>";
+			}
 			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 			String currentPage = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
 			//if the action is verfiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION) || (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(currentPage) && actId.equalsIgnoreCase(NONEED))){
-				actionStr = actionStr + "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a><br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
+				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
 			}
 			actionStr = actionStr + "</div>";
 		}else{
