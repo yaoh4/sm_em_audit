@@ -51,17 +51,18 @@ function clearFields(){
 <div class="panel panel-default">
   <div class="panel-heading">
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE}">
-  <h3  class="panel-title">Results - All Active Accounts</h3>
+  <label  class="panel-title"><b>Results - All Active Accounts</b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW}">
-  <h3  class="panel-title">Results - All New Accounts</h3>
+  <label  class="panel-title"><b>Results - All New Accounts</b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED}">
-  <h3  class="panel-title">Results - All Deleted Accounts</h3>
+  <label  class="panel-title"><b>Results - All Deleted Accounts</b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
-  <h3  class="panel-title">Results - All Inactive Accounts</h3>
+  <label  class="panel-title"><b>Results - All Inactive Accounts</b></label>
   </s:if>
+  <span style="float:right;">Audit Info</span>
   </div>
  <s:if test="%{auditAccounts.list.size > 0}">
 <div align="center" style="overflow:auto; width: 100%;">

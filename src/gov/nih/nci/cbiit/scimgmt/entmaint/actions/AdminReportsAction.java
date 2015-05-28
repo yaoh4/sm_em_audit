@@ -38,7 +38,7 @@ public class AdminReportsAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = new AuditSearchVO();
 		}
-		setUpEnvironment();
+		//setUpEnvironment();
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		//default Search
 		String forward = searchReports();
@@ -47,7 +47,7 @@ public class AdminReportsAction extends BaseAction {
     }
 	
 	public String clearAll(){
-		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		auditPeriodList = auditSearchActionHelper.createAuditPeriodDropDownList(adminService);
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
@@ -99,7 +99,7 @@ public class AdminReportsAction extends BaseAction {
 	}
 	
 	private void setUpEnvironment(){
-		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		auditPeriodList = auditSearchActionHelper.createAuditPeriodDropDownList(adminService);
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
 			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));

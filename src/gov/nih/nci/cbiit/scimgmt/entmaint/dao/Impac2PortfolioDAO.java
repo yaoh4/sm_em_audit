@@ -97,6 +97,25 @@ public class Impac2PortfolioDAO {
 						criteria.addOrder(Order.asc("createdDate"));
 					else
 						criteria.addOrder(Order.desc("createdDate"));
+				}else if(sortOrderCriterion.equalsIgnoreCase("deletedBy")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("deletedByUserId"));
+					}else{
+						criteria.addOrder(Order.desc("deletedByUserId"));
+					}
+				}else if (sortOrderCriterion.equalsIgnoreCase("discrepancy")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("sodFlag"));
+						criteria.addOrder(Order.asc("icDiffFlag"));
+						criteria.addOrder(Order.asc("nedInactiveFlag"));
+						criteria.addOrder(Order.asc("lastNameDiffFlag"));
+					}
+					else {
+						criteria.addOrder(Order.desc("sodFlag"));
+						criteria.addOrder(Order.desc("icDiffFlag"));
+						criteria.addOrder(Order.desc("nedInactiveFlag"));
+						criteria.addOrder(Order.desc("lastNameDiffFlag"));
+					}
 				} else {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc(sortOrderCriterion));

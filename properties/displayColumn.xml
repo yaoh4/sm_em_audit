@@ -755,7 +755,7 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>IMPAC II Discrepancy</columnName>
  		<property>discrepancy</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab> 		
  	<Tab>

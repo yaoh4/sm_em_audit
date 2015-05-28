@@ -38,6 +38,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	protected EntMaintProperties entMaintProperties;
 	
 	public static final String VERIFIEDACTION = "3";
+	public static final String NONEED = "13";
 	
 	
 	/**
@@ -94,9 +95,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
 			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
-			
+			String currentPage = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
 			//if the action is verfiedaction,show two links
-			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
+			if(actId.equalsIgnoreCase(VERIFIEDACTION) || (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(currentPage) && actId.equalsIgnoreCase(NONEED))){
 				actionStr = actionStr + "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a><br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
 			}
 			actionStr = actionStr + "</div>";
@@ -229,8 +230,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmAuditAccountRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
 			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td>" + roleName + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+			role = role + "<tr><td>" + "<span title='" + createdBy + "'>" + roleName + "</span>"  + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;

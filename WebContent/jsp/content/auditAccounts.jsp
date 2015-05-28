@@ -63,7 +63,7 @@
 				 				}else{
 				 					actStr = actionLabel;
 				 				}
-				 				if(aId == "3"){
+				 				if(aId == "3" || (category == 'INACTIVE' && aId == '13')){
 				 					actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
 				 				}
 				 				$('#'+cId).html(actStr);

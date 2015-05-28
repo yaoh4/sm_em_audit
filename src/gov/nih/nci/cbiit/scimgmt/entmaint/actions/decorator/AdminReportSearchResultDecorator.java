@@ -48,16 +48,24 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 	 */
 	public String getFullName(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String fullName = accountVO.getFullName();
+		String lastName = accountVO.getImpaciiLastName();
+		String firstName = accountVO.getImpaciiFirstName();
+		String fullName = "";
+		if(lastName != null && lastName.length() > 0){
+			fullName = fullName + lastName;
+		}
+		if(lastName != null && lastName.length() > 0 && firstName != null && firstName.length() > 0){
+			fullName = fullName + ", ";
+		}
+		if(firstName != null && firstName.length() > 0){
+			fullName = fullName + firstName;
+		}
 		//String email = accountVO.getNedEmailAddress();
 		if(StringUtils.isBlank(fullName)){
 			return "";
 		}else{
 			return fullName;
 		}
-//		else{
-//			return "<a href='mailto:" + email + "'>" + fullName + "</a>";
-//		}
 	}
 	
 	/**
@@ -109,9 +117,10 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmAuditAccountRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
 			String roleName = roleVw.getRoleName();
 			//role = role + "<tr><td>" + roleName + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
-			role = role + "<tr><td>" + roleName + "</td></tr>";
+			role = role + "<tr><td><span title='" + createdBy +"'>" + roleName + "</span>" + "</td></tr>";
 		}
 		role = role + "</table>";
 		return role;
