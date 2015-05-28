@@ -14,6 +14,21 @@ $(function() {
 		 }
 	});
 	
+	$("#auditHistory").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 900,
+		 height:500,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
 	$("#role").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -241,6 +256,10 @@ function fetchPortfolioNote(id){
 }
 function openNote(){
 	$('#note').dialog("open");
+}
+
+function openHistory(){
+	$('#auditHistory').dialog("open");
 }
 
 function moveToAnchor(){

@@ -62,7 +62,7 @@ function clearFields(){
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
   <label  class="panel-title"><b>Results - All Inactive Accounts</b></label>
   </s:if>
-  <span style="float:right;">Audit Info</span>
+  <span style="float:right;"><a href='javascript:openHistory();'>Audit Info</a></span>
   </div>
  <s:if test="%{auditAccounts.list.size > 0}">
 <div align="center" style="overflow:auto; width: 100%;">
@@ -75,3 +75,4 @@ function clearFields(){
 </div>
 </s:if>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
+<div id="auditHistory" align="center" style="display:none;" title="Audit History"><h4>Audit History</h4>	<s:include value="auditHistory.jsp"/></div>

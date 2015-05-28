@@ -20,6 +20,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 
 @SuppressWarnings("serial")
@@ -32,6 +33,7 @@ public class AdminReportsAction extends BaseAction {
 	private String searchType;
 	private PaginatedListImpl<AuditAccountVO> auditAccounts = null;
 	private List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
+	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	public String execute() throws Exception {
     	//prepare the report search
@@ -92,7 +94,9 @@ public class AdminReportsAction extends BaseAction {
 		}
 	    setResultColumn(searchType); 
 		showResult = true;
-
+		
+		emAuditsVO = adminService.retrieveSelectedAudit(searchVO.getAuditId());
+		
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
 		return forward;	
@@ -185,6 +189,20 @@ public class AdminReportsAction extends BaseAction {
 	 */
 	public void setAuditAccounts(PaginatedListImpl<AuditAccountVO> auditAccounts) {
 		this.auditAccounts = auditAccounts;
+	}
+
+	/**
+	 * @return the emAuditsVO
+	 */
+	public EmAuditsVO getEmAuditsVO() {
+		return emAuditsVO;
+	}
+
+	/**
+	 * @param emAuditsVO the emAuditsVO to set
+	 */
+	public void setEmAuditsVO(EmAuditsVO emAuditsVO) {
+		this.emAuditsVO = emAuditsVO;
 	}
 	
 }

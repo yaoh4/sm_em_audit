@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
 import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 /**
@@ -76,5 +77,10 @@ public interface AdminService {
 	 * @return true if an audit is present, false otherwise.
 	 */
 	public boolean isAuditPresent();
-	
+	/**
+	 * Retrieve Audit Info by selected audit ID 
+	 * @param auditId
+	 * @return
+	 */
+	public EmAuditsVO retrieveSelectedAudit(Long auditId);
 }
