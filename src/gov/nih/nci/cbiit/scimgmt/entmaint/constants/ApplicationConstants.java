@@ -117,6 +117,7 @@ public interface ApplicationConstants {
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
+    public static String REPORTCOLATTRIBUTE = "reportAttibute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
 

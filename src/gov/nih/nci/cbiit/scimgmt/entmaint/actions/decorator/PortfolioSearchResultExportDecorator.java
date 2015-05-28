@@ -115,7 +115,7 @@ public class PortfolioSearchResultExportDecorator extends
 		String lastUpdatedOn = "";
 		
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
 		
 		if(portfolioVO.getNotesSubmittedDate() != null) {
 			lastUpdatedOn = dateFormat.format(portfolioVO.getNotesSubmittedDate());
@@ -232,6 +232,25 @@ public class PortfolioSearchResultExportDecorator extends
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		
 		return portfolioVO.getNotes();
+	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return impaciiId + "/" + networkId ;
 	}
 
 }

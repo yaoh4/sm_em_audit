@@ -13,8 +13,8 @@ public class PortfolioAccountVO extends EmPortfolioVw{
 	 */
 	public String getFullName() {
 		final StringBuffer sb = new StringBuffer("");
-		String lastName = getNedLastName();
-		String firstName = getNedFirstName();
+		String lastName = getLastName();
+		String firstName = getFirstName();
 		
 		if(StringUtils.isBlank(lastName)){
 			lastName = this.getImpaciiLastName();

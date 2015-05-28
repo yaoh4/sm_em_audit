@@ -191,7 +191,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
 			String dateStr = "";
 			if(submittedDate != null){
-				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
 			} 
 			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
 				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";

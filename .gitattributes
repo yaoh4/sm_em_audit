@@ -177,6 +177,9 @@ WebContent/index.jsp -text
 WebContent/jsp/content/accountSearchResult.jsp -text
 WebContent/jsp/content/accountSearchResultExport.jsp -text
 WebContent/jsp/content/admin.jsp -text
+WebContent/jsp/content/adminReportSearchResult.jsp -text
+WebContent/jsp/content/adminReportSearchResultExport.jsp -text
+WebContent/jsp/content/adminReports.jsp -text
 WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/email.jsp -text
@@ -237,6 +240,7 @@ properties/messages.properties -text
 properties/production/entmaint.properties -text
 properties/production/ldap.properties -text
 properties/production/log4j.properties -text
+properties/reportColumn.xml -text
 properties/stage/entmaint.properties -text
 properties/stage/ldap.properties -text
 properties/stage/log4j.properties -text
@@ -245,6 +249,7 @@ properties/test/ldap.properties -text
 properties/test/log4j.properties -text
 src/admin.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminReportsAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/BaseAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ComposeEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ErrorMessageAction.java -text
@@ -258,6 +263,8 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/RoleDescriptionAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SaveEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SubmitAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SysAdminAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text
@@ -294,8 +301,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyAccountsVw.hbm.xml -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyAccountsVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml -text

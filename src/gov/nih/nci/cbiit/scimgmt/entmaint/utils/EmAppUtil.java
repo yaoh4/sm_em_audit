@@ -3,6 +3,8 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -185,5 +187,18 @@ public class EmAppUtil {
 		return result;
 	}
 	
+	public static String getOptionLabelByValue(Long id, List<DropDownOption> categoryList){
+		String label = "";
+		for(DropDownOption ddo : categoryList){
+			if(Long.parseLong(ddo.getOptionKey()) == id){
+				label = ddo.getOptionValue();
+				break;
+			}
+		}
+		if(label.indexOf("inactive") >= 0){
+			label = "inactive";
+		}
+		return label;
+	}
 
 }

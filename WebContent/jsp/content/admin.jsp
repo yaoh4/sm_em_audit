@@ -3,7 +3,7 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <%@ taglib uri="/WEB-INF/tld/displaytag.tld" prefix="display"%>
 
-
+<s:include value="/jsp/content/manageAccounts.jsp" />
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
@@ -63,10 +63,11 @@ function submitReset(){
 function submitForm(){
 	var url = "<%=contextPath%>" + "/admin/openEmail";
 	var winName = "email";
-	var features = "menubar=yes,scrollbars=yes,resizable=yes,fullscreen=yes";
+	var features = "scrollbars=yes,resizable=yes,height="+screen.height+",width="+screen.width+",menubar=yes,toolbar=yes, status=yes";
 
 	var newWin = window.open(url, winName, features);
-
+	newWin.moveTo(0,0);
+	return false;
 }
 
 </script>
@@ -86,11 +87,9 @@ function submitForm(){
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
- <br/>
- <p style="text-align:left;">
- <label style="font-size:2em;">Administer Audit</label>
+ <p style="text-align:left;"> 
 <span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
-<a href="#" onclick="submitForm();" target="_BLANK">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<a href="#" onclick="submitForm();">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 </p>
  
     <div class="form-group">

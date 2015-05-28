@@ -105,6 +105,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String prepareDeletedAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
+		//force to use nciUser organization when delete account is selected
+		searchVO.setOrganization(nciUser.getOrgPath());
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_DELETED);
 			forward = ApplicationConstants.PRIMARY;

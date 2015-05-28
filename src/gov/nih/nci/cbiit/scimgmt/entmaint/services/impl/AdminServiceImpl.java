@@ -157,14 +157,26 @@ public class AdminServiceImpl implements AdminService {
 		
 		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
 		boolean latest = true;
-		for(EmAuditsVw audit: emAuditsList) {	
-			emAuditVOList.add(setupAuditVO(audit,latest));
-			latest = false;
+		if(CollectionUtils.isNotEmpty(emAuditsList)) {
+			for(EmAuditsVw audit: emAuditsList) {	
+				emAuditVOList.add(setupAuditVO(audit,latest));
+				latest = false;
+			}
 		}
 		
 		return emAuditVOList;
 	}
 	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent() {
+		
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList()));
+		
+	}
 	
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest) {

@@ -65,7 +65,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		
 		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
 		processList(displayColumn);
 		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");
@@ -241,7 +241,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return
 	 */
 	public String decorateResponse(String notes){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a");
 		String lastUpdateDate = dateFormat.format(new Date());
 		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();
 		return "Updated on "+ lastUpdateDate + " by " +lastUpdateBy;
@@ -287,6 +287,15 @@ public class Impac2PortfolioAction extends BaseAction{
 		String category = "";
 		category = lookupService.getAppLookupById(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST, searchVO.getCategory()).getDescription();
 		return category;
+	}	
+	
+	/**
+	 * Get the Last Refresh date	
+	 * @return lastRefreshDate
+	 * 
+	 */
+	public String getLastRefreshDate(){
+		return new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a").format(impac2PortfolioService.getLastRefreshDate());		
 	}	
 	
 	/**

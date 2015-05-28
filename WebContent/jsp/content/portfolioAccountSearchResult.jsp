@@ -22,6 +22,7 @@
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
  -->
+ <body onload="moveToAnchor();"></body>
 <div class="table-responsive">
 <display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">

@@ -236,7 +236,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if(eaaVw != null){		
 			Date submittedDate = eaaVw.getSubmittedDate();
 			if(submittedDate != null){
-				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm a").format(submittedDate);		
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);		
 			}
 		}
 							

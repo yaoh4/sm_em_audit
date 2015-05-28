@@ -127,7 +127,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-3" for="dateRange">Date Range:</label>
+					<label class="control-label col-sm-3" for="dateRange"><img id="newDeletedHelpIcon" src="../images/q-icon.gif" title="" style="display:none; padding-bottom:5px;">&nbsp;&nbsp;Date Range:</label>
 					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
 							name="searchVO.dateRangeStartDate"							
@@ -156,11 +156,11 @@
 	<br />
 	<!--  For tab-content -->
 </div>
-
+<div id="anchor"></div>
 <div style="width: 100%; padding-right: 10px; padding-bottom: 40px; padding-left: 20px;">
-	<s:if test="showResult">
+	<s:if test="showResult && getLastRefreshDate() != null">
 		<span style="font-size: 0.9em; float:left;font-weight:bold;">
-			Last Refreshed Date: 05/21/2015 at 09:00 AM
+			Last Refreshed Date: <s:property value="%{getLastRefreshDate()}" />
 		</span>
 	</s:if>
 	<span style="font-size: 0.9em; float:right;">

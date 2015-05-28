@@ -60,7 +60,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList, false);
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
@@ -102,7 +102,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList, false);
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
@@ -141,7 +141,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList, true);
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
@@ -149,7 +149,7 @@ public class Impac2AuditDAO {
 			criteria.add(Restrictions.leProperty("deletedDate", "audit.impaciiToDate"));
 
 			// Add user specific search criteria
-			addSearchCriteria(criteria, searchVO);
+			addDeletedSearchCriteria(criteria, searchVO);
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
@@ -181,7 +181,7 @@ public class Impac2AuditDAO {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 
 			// Sort order
-			criteria = addSortOrder(criteria, paginatedList, false);
+			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to inactive accounts
 			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
@@ -359,6 +359,46 @@ public class Impac2AuditDAO {
 	}
 	
 	/**
+	 * Adding user specific search criteria for deleted accounts
+	 * 
+	 * @param criteria
+	 * @param searchVO
+	 * @return
+	 */
+	private Criteria addDeletedSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+		log.debug("adding search criteria for IMPAC II account query in audit view - deleted accounts: " + searchVO);
+
+		// audit id
+		criteria.add(Restrictions.eq("audit.id", searchVO.getAuditId()));
+		
+		// firstName partial search
+		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			criteria.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			criteria.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			}
+			else {
+				criteria.add(Restrictions.eq("deletedByParentOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("deletedByNciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}
+
+		return criteria;
+	}
+	
+	/**
 	 * Get account activity using id and category
 	 * 
 	 * @param eaaId
@@ -420,28 +460,18 @@ public class Impac2AuditDAO {
 	 * @param paginatedList
 	 * @return
 	 */
-	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList, boolean isDeletedAccount) {
+	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList) {
 		String sortOrderCriterion = paginatedList.getSortCriterion();
 		String sortOrder = paginatedList.getSqlSortDirection();
 		
 		if (!StringUtils.isBlank(sortOrderCriterion)) {
 			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
-				if(isDeletedAccount){
-					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("impaciiLastName"));
-						criteria.addOrder(Order.asc("impaciiFirstName"));
-					} else {
-						criteria.addOrder(Order.desc("impaciiLastName"));
-						criteria.addOrder(Order.desc("impaciiFirstName"));
-					}
-				}else{
-					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-						criteria.addOrder(Order.asc("nedLastName").nulls(NullPrecedence.LAST));
-						criteria.addOrder(Order.asc("nedFirstName").nulls(NullPrecedence.LAST));
-					} else {
-						criteria.addOrder(Order.desc("nedLastName").nulls(NullPrecedence.LAST));
-						criteria.addOrder(Order.desc("nedFirstName").nulls(NullPrecedence.LAST));
-					}
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
+				} else {
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
 				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
 				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
@@ -468,6 +498,19 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.asc("deletedDate"));
 				else
 					criteria.addOrder(Order.desc("deletedDate"));
+			} else if (sortOrderCriterion.equalsIgnoreCase("discrepancy")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("sodFlag"));
+					criteria.addOrder(Order.asc("icDiffFlag"));
+					criteria.addOrder(Order.asc("nedInactiveFlag"));
+					criteria.addOrder(Order.asc("lastNameDiffFlag"));
+				}
+				else {
+					criteria.addOrder(Order.desc("sodFlag"));
+					criteria.addOrder(Order.desc("icDiffFlag"));
+					criteria.addOrder(Order.desc("nedInactiveFlag"));
+					criteria.addOrder(Order.desc("lastNameDiffFlag"));
+				}
 			} else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 					criteria.addOrder(Order.asc(sortOrderCriterion));

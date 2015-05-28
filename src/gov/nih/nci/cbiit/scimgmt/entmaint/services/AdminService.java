@@ -69,4 +69,12 @@ public interface AdminService {
 	 */
 	public List<EmAuditsVO> retrieveAuditVOList();
 	
+	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent();
+	
 }
