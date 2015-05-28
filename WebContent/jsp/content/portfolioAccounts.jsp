@@ -127,7 +127,7 @@
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-3" for="dateRange"><img id="newDeletedHelpIcon" src="../images/q-icon.gif" title="" style="display:none; padding-bottom:5px;">&nbsp;&nbsp;Date Range:</label>
+					<label class="control-label col-sm-3" for="dateRange"><img id="dateRangeHelpIcon" src="../images/q-icon.gif" onclick="getDateRangeHelp()" style="display:inline; padding-bottom:5px;">&nbsp;&nbsp;Date Range:</label>
 					<div class="col-sm-9" id="dateRange">
 						<sj:datepicker size="15" id="dateRangeStartDate"
 							name="searchVO.dateRangeStartDate"							
@@ -197,7 +197,10 @@
 <div id="submitNotesAction" style="display: none;" title="Submit Notes">
 	<s:include value="/jsp/helper/submitNotesContent.jsp" />
 </div>
-
+<div id="dateRangeHelp" style="display: none; overflow:auto;" title="Date Range">
+	<br>
+	<div align="center"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@DATE_RANGE_HELP)}"/></div>
+</div>
 <script>
 	$( window ).ready(function() { 
 		onCategoryChage($('#portfolioCategory option:selected').val());

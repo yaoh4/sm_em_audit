@@ -29,6 +29,17 @@ $(function() {
 		 }
 	});
 	
+	$("#dateRangeHelp").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:200,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {}
+	});
+	
 	$("#note").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -245,4 +256,8 @@ function openNote(){
 
 function moveToAnchor(){
 	$(document).scrollTop( $("#anchor").offset().top );  
+}
+
+function getDateRangeHelp(){	
+	$('#dateRangeHelp').dialog("open");
 }
