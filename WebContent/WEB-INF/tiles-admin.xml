@@ -41,4 +41,12 @@
         <put-attribute name="content" value="/jsp/content/adminReports.jsp"/>       
     </definition>
 	
+	 <!-- User Login Error Pages -->
+    <definition name="tiles.error.user" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="content" value="/jsp/error/notAuthorized.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance: User Login Error"/>
+    </definition>
+    
 </tiles-definitions>

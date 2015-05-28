@@ -189,6 +189,7 @@ WebContent/jsp/content/portfolioAccounts.jsp -text
 WebContent/jsp/content/portfolioSearchResultExport.jsp -text
 WebContent/jsp/error/errorDetails.jsp -text
 WebContent/jsp/error/errorMessages.jsp -text
+WebContent/jsp/error/notAuthorized.jsp -text
 WebContent/jsp/footer/footer.jsp -text
 WebContent/jsp/header/header.jsp -text
 WebContent/jsp/helper/changePageSizeHelper.jsp -text

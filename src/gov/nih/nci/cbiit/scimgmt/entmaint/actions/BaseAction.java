@@ -20,6 +20,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -376,4 +377,27 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		return adminService.isAuditPresent();
 	}
 	
+	/**
+	 * Gets the contact us email
+	 * 
+	 * @return
+	 */
+	public String getContactEmail() {
+		String[] emails = null;
+		if(StringUtils.containsAny(entMaintProperties.getProperty("CONTACT_EMAIL"), ",")) {
+			emails=StringUtils.split(entMaintProperties.getProperty("CONTACT_EMAIL"), ",");
+		} else {
+			emails=StringUtils.split(entMaintProperties.getProperty("CONTACT_EMAIL"));
+		}
+		return StringUtils.join(emails, ";");
+	}
+	
+	/**
+	 * Gets the contact us text
+	 * 
+	 * @return
+	 */
+	public String getContactText() {
+		return entMaintProperties.getProperty("CONTACT_TEXT");
+	}
 }
