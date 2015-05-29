@@ -7,32 +7,32 @@
  		<type>active</type>
  		<columnName>IC</columnName>
  		<property>nedIc</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>IMPACII USER ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>NIH ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>NAME</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
  		<columnName>CREATED</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
@@ -56,31 +56,31 @@
  		<type>active</type>
  		<columnName>SECONDARY</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>IC</columnName>
  		<property>nedIc</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>CREATED</columnName>
  		<property>accountCreatedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>CREATOR</columnName>
  		<property>createdBy</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
  		<columnName>IMPACII USER ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
@@ -92,7 +92,7 @@
  		<type>new</type>
  		<columnName>NAME</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
@@ -104,55 +104,55 @@
  		<type>new</type>
  		<columnName>SECONDARY</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>deleted</type>
  		<columnName>IC</columnName>
  		<property>nedIc</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	
    	<Tab>
  		<type>deleted</type>
  		<columnName>DELETED</columnName>
  		<property>accountDeletedDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 		
   	<Tab>
  		<type>deleted</type>
  		<columnName>DELETED BY</columnName>
  		<property>deletedBy</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>deleted</type>
  		<columnName>NAME</columnName>
  		<property>fullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>deleted</type>
  		<columnName>IMPACII USER ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	
    	<Tab>
  		<type>deleted</type>
  		<columnName>SECONDARY</columnName>
  		<property>secondaryOrgText</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 		
   	<Tab>
  		<type>deleted</type>
  		<columnName>COMMENTS</columnName>
  		<property>deactivationComments</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>IMPACII USER ID</columnName>
  		<property>impaciiUserId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>inactive</type>
@@ -164,30 +164,30 @@
  		<type>inactive</type>
  		<columnName>EXT SYS USER ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>FIRST NAME</columnName>
- 		<property>nedFirstName</property>
- 		<sort>false</sort>
+ 		<property>impaciiFirstName</property>
+ 		<sort>true</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>LAST NAME</columnName>
- 		<property>nedLastName</property>
- 		<sort>false</sort>
+ 		<property>impaciiLastName</property>
+ 		<sort>true</sort>
  	</Tab> 	 	 	
   	<Tab>
  		<type>inactive</type>
  		<columnName>LAST LOG IN</columnName>
  		<property>MaxLastLoginDate</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 	 	
    	<Tab>
  		<type>inactive</type>
  		<columnName>RESULT</columnName>
  		<property>result</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab> 	 
  </Display>			

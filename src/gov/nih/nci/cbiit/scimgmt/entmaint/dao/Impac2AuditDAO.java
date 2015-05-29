@@ -479,6 +479,12 @@ public class Impac2AuditDAO {
 				}else{
 					criteria.addOrder(Order.desc("createdByUserId"));
 				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("deletedBy")){
+				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("deletedByUserId"));
+				}else{
+					criteria.addOrder(Order.desc("deletedByUserId"));
+				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
 				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
 					criteria.addOrder(Order.asc("impaciiUserId"));

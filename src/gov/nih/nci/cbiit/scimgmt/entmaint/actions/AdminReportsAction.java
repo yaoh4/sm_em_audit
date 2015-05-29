@@ -3,6 +3,7 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -117,6 +118,7 @@ public class AdminReportsAction extends BaseAction {
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
 			String nedIc = auditAccountVO.getNedIc();
+			
 			exportAccountVOList.add(auditAccountVO);
 			List<EmAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
 			
@@ -128,15 +130,18 @@ public class AdminReportsAction extends BaseAction {
 					//row in excel.
 					AuditAccountVO auditAccountVOItem = new AuditAccountVO();
 					
-					//Blank out the name field in additional role export rows
-					auditAccountVOItem.setNedLastName("");
-					auditAccountVOItem.setNedFirstName("");
-					
-					//Prevent false discrepancies
-					auditAccountVOItem.setImpaciiLastName("");
 					auditAccountVOItem.setNedIc(nedIc);
-					
+					auditAccountVOItem.setImpaciiUserId(auditAccountVO.getImpaciiUserId());
+					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
+					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
+					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
+					auditAccountVOItem.setImpaciiLastName(auditAccountVO.getImpaciiLastName());
+					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
+					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
+					auditAccountVOItem.setCreatedByUserId(auditAccountVO.getCreatedByUserId());
+					auditAccountVOItem.setCreatedByFullName(auditAccountVO.getCreatedByFullName());
+					
 					exportAccountVOList.add(auditAccountVOItem);				
 				}
 			}
