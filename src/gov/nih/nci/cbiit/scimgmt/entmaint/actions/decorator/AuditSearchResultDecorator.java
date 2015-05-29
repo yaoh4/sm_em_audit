@@ -53,9 +53,11 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		if(accountVO.getDeletedDate() != null){
-			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
-		}else{
-			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
+			if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
+				name = accountVO.getFullName();
+			}else{
+				name = "";
+			}
 		}
 		String id = ""+accountVO.getId();
 		String actionStr = "";
