@@ -199,7 +199,7 @@
 </div>
 <div id="dateRangeHelp" style="display: none; overflow:auto;" title="Date Range">
 	<br>
-	<div align="center"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@DATE_RANGE_HELP)}"/></div>
+	<div align="left"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@DATE_RANGE_HELP)}"/></div>
 </div>
 <script>
 	$( window ).ready(function() { 
