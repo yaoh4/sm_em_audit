@@ -40,10 +40,14 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		StringBuffer name = new StringBuffer("&nbsp;");
 		if(!StringUtils.isBlank(portfolioVO.getNedFirstName())){
 			name.append(portfolioVO.getNedFirstName());
+		}else{
+			name.append(portfolioVO.getImpaciiFirstName());
 		}
 		if(!StringUtils.isBlank(portfolioVO.getNedLastName())){
 			name.append(" "+portfolioVO.getNedLastName());
-		}		 
+		}else{
+			name.append(" "+portfolioVO.getImpaciiLastName());
+		}
 		String id = portfolioVO.getImpaciiUserId();
 		String note = portfolioVO.getNotes();
 		if(note != null && note.length() > 0){
