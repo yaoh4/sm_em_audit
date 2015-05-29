@@ -33,11 +33,14 @@ $(function() {
 		 autoOpen: false,
 		 resizable: false,
 		 width: 400,
-		 height:200,
+		 height:300,
 		 modal: true,
 		 show: { effect: "slide", duration: 250 },
 		 hide: { effect: "slide", duration: 250 },
-		 buttons: {}
+		 buttons: {
+			 OK: function() {
+	 			$( this ).dialog( "close" ); 
+	 		 }}
 	});
 	
 	$("#note").dialog({
