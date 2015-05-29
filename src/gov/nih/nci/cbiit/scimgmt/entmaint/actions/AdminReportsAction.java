@@ -66,6 +66,9 @@ public class AdminReportsAction extends BaseAction {
 		this.setDefaultPageSize();
 		setUpEnvironment();
 	    searchType = EmAppUtil.getOptionLabelByValue(searchVO.getCategory(), categoryList).toUpperCase();
+	    if(searchType.indexOf("INACTIVE") >=0){
+	    	searchType = ApplicationConstants.CATEGORY_INACTIVE;
+	    }
 		auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(searchType) == true){
@@ -88,7 +91,11 @@ public class AdminReportsAction extends BaseAction {
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
 			}
-			auditAccounts.setList(getExportAccountVOList(auditAccounts.getList()));
+			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
+				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
+			}else{
+				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
+			}
 			forward = ApplicationConstants.EXPORT;
 		}
 	    setResultColumn(searchType); 
@@ -113,7 +120,10 @@ public class AdminReportsAction extends BaseAction {
 		displayColumn = colMap.get(searchType);
 	}
 	
-	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts) {
+	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts, boolean loopRoles) {
+		if(!loopRoles){
+			return auditAccounts;
+		}
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {

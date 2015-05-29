@@ -181,7 +181,7 @@
   	<Tab>
  		<type>inactive</type>
  		<columnName>LAST LOG IN</columnName>
- 		<property>MaxLastLoginDate</property>
+ 		<property>maxLastLoginDate</property>
  		<sort>true</sort>
  	</Tab> 	 	 	
    	<Tab>

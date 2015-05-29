@@ -485,6 +485,12 @@ public class Impac2AuditDAO {
 				}else{
 					criteria.addOrder(Order.desc("deletedByUserId"));
 				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("maxLastLoginDate")){
+				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("lastLoginDate"));
+				}else{
+					criteria.addOrder(Order.desc("lastLoginDate"));
+				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
 				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
 					criteria.addOrder(Order.asc("impaciiUserId"));

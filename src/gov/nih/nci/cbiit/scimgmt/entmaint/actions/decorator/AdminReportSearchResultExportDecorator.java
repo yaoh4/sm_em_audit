@@ -42,6 +42,14 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
+	public String getMaxLastloginDate(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		Date loginDate = accountVO.getLastLoginDate();
+		if(loginDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(loginDate);
+	}
 	/**
 	 * This method is for displaying the user full. The name is hyper link for the email.
 	 * @return
