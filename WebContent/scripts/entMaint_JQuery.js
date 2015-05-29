@@ -14,6 +14,34 @@ $(function() {
 		 }
 	});
 	
+	$("#role").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
+	$("#dateRangeHelp").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+			 OK: function() {
+	 			$( this ).dialog( "close" ); 
+	 		 }}
+	});
 	$("#eraua_na").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -42,22 +70,6 @@ $(function() {
 		 		}
 		 }
 	});
-	
-	$("#role").dialog({
-		 autoOpen: false,
-		 resizable: false,
-		 width: 400,
-		 height:300,
-		 modal: true,
-		 show: { effect: "slide", duration: 250 },
-		 hide: { effect: "slide", duration: 250 },
-		 buttons: {
-		 		OK: function() {
-		 			$( this ).dialog( "close" ); 
-		 		}
-		 }
-	});
-	
 	$("#note").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -177,18 +189,9 @@ function onCategoryChage(category){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
 		$('#dateRangeStartDate').val(''); 
-		$('#dateRangeEndDate').val(''); 
-		document.getElementById("newDeletedHelpIcon").style.display="none";
+		$('#dateRangeEndDate').val(''); 		
 	}
-	else{
-		if(category == '23'){
-			document.getElementById("newDeletedHelpIcon").title= "Search for accounts that were created within the specified date range that you provide.";
-		}
-		else{
-			document.getElementById("newDeletedHelpIcon").title= "Search for accounts that were deleted within the specified date range that you provide.";
-		}
-		document.getElementById("newDeletedHelpIcon").style.display="inline";
-		
+	else{		
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
@@ -272,6 +275,10 @@ function openNote(){
 	$('#note').dialog("open");
 }
 
+function moveToAnchor(){
+	$(document).scrollTop( $("#anchor").offset().top );  
+}
+
 function openHistory(){
 	$('#auditHistory').dialog("open");
 }
@@ -279,7 +286,6 @@ function openHistory(){
 function openEraua(){
 	$('#eraua_na').dialog("open");
 }
-
-function moveToAnchor(){
-	$(document).scrollTop( $("#anchor").offset().top );  
+function getDateRangeHelp(){	
+	$('#dateRangeHelp').dialog("open");
 }
