@@ -159,18 +159,9 @@ function onCategoryChage(category){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
 		$('#dateRangeStartDate').val(''); 
-		$('#dateRangeEndDate').val(''); 
-		document.getElementById("newDeletedHelpIcon").style.display="none";
+		$('#dateRangeEndDate').val(''); 		
 	}
-	else{
-		if(category == '23'){
-			document.getElementById("newDeletedHelpIcon").title= "Search for accounts that were created within the specified date range that you provide.";
-		}
-		else{
-			document.getElementById("newDeletedHelpIcon").title= "Search for accounts that were deleted within the specified date range that you provide.";
-		}
-		document.getElementById("newDeletedHelpIcon").style.display="inline";
-		
+	else{		
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
