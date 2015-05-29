@@ -41,9 +41,6 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		if(!StringUtils.isBlank(portfolioVO.getFullName())){
 			name.append(portfolioVO.getFullName());
 		}
-		if(!StringUtils.isBlank(portfolioVO.getFullName())){
-			name.append(" "+portfolioVO.getFullName());
-		}
 		String id = portfolioVO.getImpaciiUserId();
 		String note = portfolioVO.getNotes();
 		if(note != null && note.length() > 0){
