@@ -38,15 +38,11 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String actionStr = "";
 		StringBuffer name = new StringBuffer("&nbsp;");
-		if(!StringUtils.isBlank(portfolioVO.getNedFirstName())){
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
 			name.append(portfolioVO.getNedFirstName());
-		}else{
-			name.append(portfolioVO.getImpaciiFirstName());
 		}
-		if(!StringUtils.isBlank(portfolioVO.getNedLastName())){
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
 			name.append(" "+portfolioVO.getNedLastName());
-		}else{
-			name.append(" "+portfolioVO.getImpaciiLastName());
 		}
 		String id = portfolioVO.getImpaciiUserId();
 		String note = portfolioVO.getNotes();
