@@ -48,7 +48,19 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 	 */
 	public String getFullName(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String fullName = accountVO.getFullName();
+		String lastName = accountVO.getImpaciiLastName();
+		String firstName = accountVO.getImpaciiFirstName();
+		String fullName = "";
+		if(lastName != null){
+			fullName = lastName;
+		}
+		if(lastName != null && lastName.length() > 0 && firstName != null && firstName.length() > 0){
+			fullName = fullName + ", ";
+		}
+		if(firstName != null){
+			fullName = fullName + firstName;
+		}
+		
 		//String email = accountVO.getNedEmailAddress();
 		if(StringUtils.isBlank(fullName)){
 			return "";
