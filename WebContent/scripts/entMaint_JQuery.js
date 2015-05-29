@@ -42,7 +42,34 @@ $(function() {
 	 			$( this ).dialog( "close" ); 
 	 		 }}
 	});
-	
+	$("#eraua_na").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	$("#auditHistory").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 900,
+		 height:500,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
 	$("#note").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -252,6 +279,13 @@ function moveToAnchor(){
 	$(document).scrollTop( $("#anchor").offset().top );  
 }
 
+function openHistory(){
+	$('#auditHistory').dialog("open");
+}
+
+function openEraua(){
+	$('#eraua_na').dialog("open");
+}
 function getDateRangeHelp(){	
 	$('#dateRangeHelp').dialog("open");
 }
