@@ -45,10 +45,12 @@
 		
        	<global-results>
 			<result name="error" type="tiles">tiles.error.details</result>
+			<result name="notauthorized" type="tiles">tiles.error.user</result>
 		</global-results>
    
 		<global-exception-mappings>
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="notauthorized" exception="gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException"></exception-mapping>
 		</global-exception-mappings>
 		
 		<action name="home" method="execute"

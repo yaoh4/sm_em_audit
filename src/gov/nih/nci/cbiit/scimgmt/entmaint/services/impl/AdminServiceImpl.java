@@ -144,7 +144,12 @@ public class AdminServiceImpl implements AdminService {
 		return setupAuditVO(emAuditsVw, true);
 	}
 		
-	
+	public EmAuditsVO retrieveSelectedAudit(Long auditId){
+		
+		EmAuditsVw emAuditsVw = adminDAO.retrieveSelectedAudit(auditId);
+		
+		return setupAuditVO(emAuditsVw, false);
+	}
 	
 	/**
 	 * Retrieves the attributes of all Audit.

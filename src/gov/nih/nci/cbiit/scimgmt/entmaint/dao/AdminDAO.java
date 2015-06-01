@@ -211,6 +211,25 @@ public class AdminDAO  {
 		return emAuditsVw;
 	}
 	
+	public EmAuditsVw retrieveSelectedAudit(Long auditId){
+		Session session = sessionFactory.getCurrentSession();
+		EmAuditsVw emAuditsVw = null;
+		
+		try {
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			criteria.add(Restrictions.eq("id", auditId));			
+			Object result =  criteria.uniqueResult();
+			if (result != null) {
+				emAuditsVw = (EmAuditsVw)result;
+				session.evict(emAuditsVw);
+			}
+		} catch (Throwable e) {		
+			logger.error("Error retrieving data from EM_AUDITS_VW ", e);			
+			throw e;	
+		}
+		
+		return emAuditsVw;
+	}
 	
 	/**
 	 * Retrieves the audit record associated with the given id from the EM_AUDITs_VW

@@ -46,7 +46,6 @@
 				 				error: function(){}		
 				 			});
 				 			var items = result.split(";");
-				 			
 				 			if(items[0] == 'validationError'){
 				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
 				 			}else if(items[0] == "fail"){
@@ -63,8 +62,12 @@
 				 				}else{
 				 					actStr = actionLabel;
 				 				}
-				 				if(aId == "3"){
-				 					actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
+				 				if(aId == "3" || (category == 'INACTIVE' && aId == '13')){
+				 					if($('#eraualinkId').val() == "NA"){
+				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
+				 					}else{
+				 						actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
+				 					}
 				 				}
 				 				$('#'+cId).html(actStr);
 				 				var elements = result.split(";");
@@ -271,4 +274,9 @@
 	<input type="hidden" id="unsubmitName"/>
 	<input type="hidden" id="unsubmitCellId"/>
 </div>  
-
+<div id="eraua_na" align="center" style="display:none;" title="Information">
+<br/>
+	<div align="center">
+	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
+	</div>
+</div>

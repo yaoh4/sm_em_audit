@@ -150,4 +150,7 @@ public interface ApplicationConstants {
 	public static final String ACTION_SELECTION="error.action.selection";
 	
 	public static final String DATE_RANGE_HELP="date.range.help";
+	
+	public static final String ERAUA_NA = "NA";
+	public static final String ERAUA_INFO = "eraus.info.message";
 }
