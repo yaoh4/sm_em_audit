@@ -140,7 +140,7 @@
   		<h4>Administer Audit <span style="font-weight: normal;"></span></h4>
   	</s:if>
   	<s:else>
-  		<h4>ERA Reports <span style="font-weight: normal;"></span></h4>
+  		<h4>eRA Audit Reports <span style="font-weight: normal;"></span></h4>
   	</s:else>
   
   </s:else>
