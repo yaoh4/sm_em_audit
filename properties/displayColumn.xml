@@ -260,17 +260,6 @@
  	</Tab>
  	<Tab>
  		<type>deleted</type>
- 		<columnName>Org ID</columnName>
- 		<property>orgId</property>
- 		<sort>false</sort>
- 	</Tab>	
- 	<Tab>
- 		<type>deleted</type>
- 		<columnName>NED Org Path</columnName>
- 		<property>nedOrgPath</property>
- 	</Tab>	
- 	<Tab>
- 		<type>deleted</type>
  		<columnName>Secondary Org</columnName>
  		<property>secondaryOrgText</property>
  	</Tab>	
