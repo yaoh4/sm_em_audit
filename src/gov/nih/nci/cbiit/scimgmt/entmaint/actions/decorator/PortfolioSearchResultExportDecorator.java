@@ -1,7 +1,9 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.text.SimpleDateFormat;
@@ -182,6 +184,17 @@ public class PortfolioSearchResultExportDecorator extends
 		}
 		
 		return role;
+	}
+	
+	public String getApplicationRoleCreatedBy(){
+		String createdBy = "";
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByUserId();
+		}
+		
+		return createdBy;
 	}
 	
 	/**

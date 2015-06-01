@@ -143,6 +143,16 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return role;
 	}
 	
+	public String getApplicationRoleCreatedBy(){
+		String createdBy = "";
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		List<EmAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByUserId();
+		}
+		
+		return createdBy;
+	}
 	
 	/**
 	 * Get the date on which the role being displayed in this row was created.
