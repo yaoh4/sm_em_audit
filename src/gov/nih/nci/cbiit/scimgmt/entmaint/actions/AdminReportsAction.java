@@ -147,6 +147,7 @@ public class AdminReportsAction extends BaseAction {
 					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
 					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
 					auditAccountVOItem.setImpaciiLastName(auditAccountVO.getImpaciiLastName());
+					auditAccountVOItem.setImpaciiFirstName(auditAccountVO.getImpaciiFirstName());
 					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
 					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
