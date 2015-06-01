@@ -69,12 +69,15 @@ public class AuditSearchActionHelper {
 		}
 	}
 	
-	public void createAuditPeriodDropDownList(List<DropDownOption> auditPeriodList, AdminService adminService){
+	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
 		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList();
 		for(EmAuditsVO emAuditVO : emAuditVOs){
 			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
 			auditPeriodList.add(ddp);
 		}
+		
+		return auditPeriodList;
 	}
 	
 	/**

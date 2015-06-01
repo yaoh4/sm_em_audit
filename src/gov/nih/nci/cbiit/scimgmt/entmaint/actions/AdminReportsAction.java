@@ -48,7 +48,7 @@ public class AdminReportsAction extends BaseAction {
     }
 	
 	public String clearAll(){
-		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
@@ -62,9 +62,10 @@ public class AdminReportsAction extends BaseAction {
 		//perform the report search
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
+			setUpEnvironment();
 		}
 		this.setDefaultPageSize();
-		setUpEnvironment();
+		
 	    searchType = EmAppUtil.getOptionLabelByValue(searchVO.getCategory(), categoryList).toUpperCase();
 	    if(searchType.indexOf("INACTIVE") >=0){
 	    	searchType = ApplicationConstants.CATEGORY_INACTIVE;
@@ -107,7 +108,7 @@ public class AdminReportsAction extends BaseAction {
 	}
 	
 	private void setUpEnvironment(){
-		auditSearchActionHelper.createAuditPeriodDropDownList(auditPeriodList, adminService);
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
 			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
