@@ -64,8 +64,8 @@ public class AdminReportsAction extends BaseAction {
 		//perform the report search
 		if(searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
-			setUpEnvironment();
 		}
+		setUpEnvironment();
 		this.setDefaultPageSize();
 		
 	    searchType = EmAppUtil.getOptionLabelByValue(searchVO.getCategory(), categoryList).toUpperCase();
