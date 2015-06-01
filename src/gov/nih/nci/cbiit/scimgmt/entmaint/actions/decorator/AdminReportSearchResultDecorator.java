@@ -68,11 +68,14 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		if(firstName != null && firstName.length() > 0){
 			fullName = fullName + firstName;
 		}
-		//String email = accountVO.getNedEmailAddress();
+		String email = accountVO.getNedEmailAddress();
 		if(StringUtils.isBlank(fullName)){
 			return "";
-		}else{
+		}else if(email == null || fullName.trim().length() < 1 || email.trim().length() < 1 ){
 			return fullName;
+		}
+		else{
+			return "<a href='mailto:" + email + "'>" + fullName + "</a>";
 		}
 	}
 	
