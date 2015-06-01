@@ -191,7 +191,10 @@ public class PortfolioSearchResultExportDecorator extends
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
 		if(!CollectionUtils.isEmpty(accountRoles)) {
-			createdBy = accountRoles.get(0).getCreatedByUserId();
+			createdBy = accountRoles.get(0).getCreatedByFullName();
+			if(StringUtils.isEmpty(createdBy)){
+				createdBy = accountRoles.get(0).getCreatedByUserId();
+			}
 		}
 		
 		return createdBy;
