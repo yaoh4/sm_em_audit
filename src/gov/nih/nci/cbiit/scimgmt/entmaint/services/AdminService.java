@@ -82,5 +82,4 @@ public interface AdminService {
 	 * @param auditId
 	 * @return
 	 */
-	public EmAuditsVO retrieveSelectedAudit(Long auditId);
 }

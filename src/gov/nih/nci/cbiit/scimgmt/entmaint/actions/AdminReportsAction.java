@@ -104,7 +104,7 @@ public class AdminReportsAction extends BaseAction {
 	    setResultColumn(searchType); 
 		showResult = true;
 
-		emAuditsVO = adminService.retrieveSelectedAudit(searchVO.getAuditId());
+		emAuditsVO = adminService.retrieveAuditVO(searchVO.getAuditId());
 		
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		
