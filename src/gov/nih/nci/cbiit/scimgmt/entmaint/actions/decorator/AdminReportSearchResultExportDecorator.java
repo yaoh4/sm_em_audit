@@ -74,9 +74,6 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 		}else{
 			return fullName;
 		}
-//		else{
-//			return "<a href='mailto:" + email + "'>" + fullName + "</a>";
-//		}
 	}
 	
 	/**
