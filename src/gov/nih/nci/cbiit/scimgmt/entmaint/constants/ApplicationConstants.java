@@ -65,7 +65,7 @@ public interface ApplicationConstants {
     public static final String HOST_URL = "hostUrl";
     
     /* Property */
-    public static final String IC_COORDINATOR_EMAIL = "IC_EMAIL";
+    public static final String IC_COORDINATOR_EMAIL = "NCI_IMPAC_II_IC_Coordinators";
     public static final String KEY_ROLES_DOC_LINK = "ROLES_DOC_LINK";
 
     /* Discrepancy type codes*/
