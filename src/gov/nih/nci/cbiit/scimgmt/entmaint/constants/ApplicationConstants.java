@@ -153,4 +153,5 @@ public interface ApplicationConstants {
 	
 	public static final String ERAUA_NA = "NA";
 	public static final String ERAUA_INFO = "eraus.info.message";
+	public static final String IC_CODE="CA";
 }

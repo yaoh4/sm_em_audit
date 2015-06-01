@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
@@ -117,7 +118,7 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 	}
 	
 	public String getIc(){
-		return "CA";
+		return ApplicationConstants.IC_CODE;
 	}
 	/**
 	 * This method is for display application roles. The roles can be multiple, each role will be displayed in seperated row.

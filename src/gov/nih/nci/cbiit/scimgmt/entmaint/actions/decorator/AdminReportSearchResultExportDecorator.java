@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
@@ -106,7 +107,7 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 	}
 	
 	public String getIc(){
-		return "CA";
+		return ApplicationConstants.IC_CODE;
 	}
 	
 	public String getMaxLastLoginDate(){
