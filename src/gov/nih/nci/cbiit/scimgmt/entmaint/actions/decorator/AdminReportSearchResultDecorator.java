@@ -115,6 +115,10 @@ public class AdminReportSearchResultDecorator extends TableDecorator{
 		}
 		return new SimpleDateFormat("MM/dd/yyyy").format(loginDate);
 	}
+	
+	public String getIc(){
+		return "CA";
+	}
 	/**
 	 * This method is for display application roles. The roles can be multiple, each role will be displayed in seperated row.
 	 * @return

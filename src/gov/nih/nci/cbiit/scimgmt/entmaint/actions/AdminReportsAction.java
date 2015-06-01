@@ -41,7 +41,7 @@ public class AdminReportsAction extends BaseAction {
 		if(searchVO == null){
 			searchVO = new AuditSearchVO();
 		}
-		setUpEnvironment();
+		//setUpEnvironment();
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		//default Search
 		String forward = searchReports();

@@ -109,7 +109,7 @@
   	<Tab>
  		<type>deleted</type>
  		<columnName>IC</columnName>
- 		<property>nedIc</property>
+ 		<property>ic</property>
  		<sort>true</sort>
  	</Tab> 	
    	<Tab>

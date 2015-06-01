@@ -105,6 +105,10 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 		return result;
 	}
 	
+	public String getIc(){
+		return "CA";
+	}
+	
 	public String getMaxLastLoginDate(){
 		Date loginDate = null;
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
