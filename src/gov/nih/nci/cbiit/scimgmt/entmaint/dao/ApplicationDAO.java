@@ -63,15 +63,6 @@ public class ApplicationDAO {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppPropertiesT.class);
 			crit.add(Restrictions.eq("appName", ApplicationConstants.APP_NAME));
 			final List<AppPropertiesT> result = crit.list();
-			//Add IC coordinator emails
-			List<String> emails = getIcEmails();
-			if(emails != null) {
-				String value = StringUtils.join(emails.toArray(), ";");
-				AppPropertiesT prop = new AppPropertiesT();
-				prop.setPropKey(ApplicationConstants.IC_COORDINATOR_EMAIL);
-				prop.setPropValue(value);
-				result.add(prop);
-			}
 			return result;
 		} catch (RuntimeException re) {
 			logger.error("get app properties failed", re);
@@ -79,26 +70,4 @@ public class ApplicationDAO {
 		}
 	}
 	
-	/**
-	 * Get the list of IC Coordinator email addresses
-	 * @return
-	 */
-	public List<String> getIcEmails() {
-
-		/* 
-		 * Only secondary IC coordinator emails.
-		 */
-		
-		String emailQuery="select email_address from nci_people_t people, nci_person_org_roles_t org_roles " + 
-				"where people.id=org_roles.epn_id and ere_code='EMREP'and org_roles.end_date is null " +
-				"and people.inactive_date is null";
-		final Session session = sessionFactory.getCurrentSession();
-		try {
-			final List<String> emails = session.createSQLQuery(emailQuery).list();
-			return emails;
-		} catch (RuntimeException re) {
-			logger.error("get app properties failed", re);
-			throw re;
-		}
-	}
 }
