@@ -192,7 +192,12 @@
 	 <div class="form-group" style="margin-top: -10px;">
 	 <label class="control-label col-sm-3" for="excludeNciCheck"> </label>
 	 <div class="col-sm-9">
+	    <s:if test="#session.currentPage == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
+      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck" disabled="true"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	</s:if>
+      	<s:else>
       	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	</s:else>
      </div>
      </div>
  </s:if>
