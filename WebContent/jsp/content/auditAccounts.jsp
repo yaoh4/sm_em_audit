@@ -232,16 +232,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <s:if test="%{#act == 'searchActiveAuditAccounts'}">
-  <h3  class="panel-title">Results - All Active Accounts</h3>
+  <h3  class="panel-title">Results - Active Accounts</h3>
   </s:if>
   <s:if test="%{#act == 'searchNewAuditAccounts'}">
-  <h3  class="panel-title">Results - All New Accounts</h3>
+  <h3  class="panel-title">Results - New Accounts</h3>
   </s:if>
   <s:if test="%{#act == 'searchDeletedAuditAccounts'}">
-  <h3  class="panel-title">Results - All Deleted Accounts</h3>
+  <h3  class="panel-title">Results - Deleted Accounts</h3>
   </s:if>
   <s:if test="%{#act == 'searchInactiveAuditAccounts'}">
-  <h3  class="panel-title">Results - All Inactive Accounts</h3>
+  <h3  class="panel-title">Results - Inactive > 130 Days Accounts</h3>
   </s:if>
   
   </div>
