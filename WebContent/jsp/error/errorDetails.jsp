@@ -1,6 +1,6 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<s:set name="env" value="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.CommonProperties@getInstance().getProperty(\'ENVIRONMENT\')}"/>
-
+<s:set name="env" value="%{getPropertyValue('ENVIRONMENT')}"/>
 
 <s:url id="goHome" action="home"/><s:a href="%{goHome}">Click here to go back to Home Page</s:a>
 <div id="box1">
