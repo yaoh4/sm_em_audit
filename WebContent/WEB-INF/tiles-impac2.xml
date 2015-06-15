@@ -20,7 +20,8 @@
     
     <!-- Error Details Pages -->
     <definition name="tiles.error.details" extends="base.definition">
-        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedTab" value="impac2"/>
+        <put-attribute name="selectedSubNav" value="audit"/>
         <put-attribute name="content" value="/jsp/error/errorDetails.jsp"/>
         <put-attribute name="Title" type="string" value="Enterprise Maintenance: Error Details"/>
     </definition>
