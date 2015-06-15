@@ -117,6 +117,7 @@ public interface ApplicationConstants {
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
+    public static String REPORTCOLATTRIBUTE = "reportAttibute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
 
@@ -127,7 +128,7 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
-	public static final String CURRENTPAGE ="cuurentPage";
+	public static final String CURRENTPAGE ="currentPage";
 	
 	public static final String FLAG_YES = "Y";
 	public static final String FLAG_NO = "N";
@@ -140,4 +141,17 @@ public interface ApplicationConstants {
 	
 	public static final String ERA_US_LINK = "ERA_UA_LINK";
 	public static final String I2E_EM_LINK = "I2E_EM_LINK";
+	
+	public static final String UNDO_COMFIRMATION="undo.confirmation.message";
+	public static final String ERROR_SAVE_TO_DATABASE="error.database.save";
+	public static final String NOTHING_DISPLAY="nothing.display";
+	public static final String EMPTY_NOTE="error.empty.note";
+	public static final String MISSING_NOTE="error.missing.note";
+	public static final String ACTION_SELECTION="error.action.selection";
+	
+	public static final String DATE_RANGE_HELP="date.range.help";
+	
+	public static final String ERAUA_NA = "NA";
+	public static final String ERAUA_INFO = "eraus.info.message";
+	public static final String IC_CODE="CA";
 }

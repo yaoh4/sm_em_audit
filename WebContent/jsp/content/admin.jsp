@@ -3,15 +3,17 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <%@ taglib uri="/WEB-INF/tld/displaytag.tld" prefix="display"%>
 
-
 <s:include value="/jsp/content/manageAccounts.jsp" />
-
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
+<link rel="stylesheet" type="text/css" href="../stylesheets/jquery.cleditor.css" />
+<script src="../scripts/jquery.cleditor.min.js" type="text/javascript"></script>
+<% String contextPath = request.getContextPath(); %>
 <script type="text/javascript">
+
 function sendNotice()
  {
 	var result = "";
@@ -29,7 +31,7 @@ function sendNotice()
 				error: function(){}		
 			});
 		 var elements = result.split("|");
-		 var sMailto = "mailto:"+email+"?subject=" + elements[0]; 
+		 var sMailto = "mailto:"+email+"?subject=" + elements[0] + "&cc=" + elements[1]; 
 		
 	     var iframeHack;
 	     iframeHack = document.createElement("IFRAME");
@@ -58,6 +60,16 @@ function submitReset(){
 	$('#adminActionId').attr("action", "resetAudit");
 	$('#adminActionId').submit();
 }
+function submitForm(){
+	var url = "<%=contextPath%>" + "/admin/openEmail";
+	var winName = "email";
+	var features = "scrollbars=yes,resizable=yes,height="+screen.height+",width="+screen.width+",menubar=yes,toolbar=yes, status=yes";
+
+	var newWin = window.open(url, winName, features);
+	newWin.moveTo(0,0);
+	return false;
+}
+
 function gotoDashboard(){
 	$('#adminActionId').attr("action", "gotoDashboard");
 	$('#adminActionId').submit();
@@ -80,7 +92,11 @@ function gotoDashboard(){
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
  <a href="#" onclick="javascript:gotoDashboard();">Dashboard</a>
- <h3>Administer Audit</h3>
+ <p style="text-align:left;"> 
+<span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
+<a href="#" onclick="submitForm();">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</p>
+ 
     <div class="form-group">
     	<label for="Audit" class="col-sm-3 control-label" style="padding-top:0px;">Audit:</label>
     	<div class="col-sm-4" style="padding-bottom:0px;">
@@ -151,7 +167,6 @@ function gotoDashboard(){
 <br/>
 You have attempted to reset the audit. Are you sure?
 </div>
-
 <!--  tab-content -->
 </div>
 <!-- panel -->

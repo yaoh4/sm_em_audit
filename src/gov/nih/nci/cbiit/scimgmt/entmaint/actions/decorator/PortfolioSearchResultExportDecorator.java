@@ -1,10 +1,11 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class PortfolioSearchResultExportDecorator extends
 		String lastUpdatedOn = "";
 		
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
 		
 		if(portfolioVO.getNotesSubmittedDate() != null) {
 			lastUpdatedOn = dateFormat.format(portfolioVO.getNotesSubmittedDate());
@@ -185,20 +186,56 @@ public class PortfolioSearchResultExportDecorator extends
 		return role;
 	}
 	
+	public String getApplicationRoleCreatedBy(){
+		String createdBy = "";
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByFullName();
+			if(StringUtils.isEmpty(createdBy)){
+				createdBy = accountRoles.get(0).getCreatedByUserId();
+			}
+		}
+		
+		return createdBy;
+	}
+	
 	/**
 	 * Get the date on which the role being displayed in this row was created.
 	 * 
 	 * @return String the date on which the role was created
 	 */
 	public String getRoleCreateOn() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy");
+		
 		String createdOn = "";
 		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
 		List<EmPortfolioRolesVw> accountRoles = accountVO.getAccountRoles();
 		if(!CollectionUtils.isEmpty(accountRoles)) {
-			createdOn =  DateFormat.getDateInstance().format(accountRoles.get(0).getCreatedDate());
+			createdOn =  dateFormat.format(accountRoles.get(0).getCreatedDate());
 		}
 		
 		return createdOn;
+	}
+	
+	
+	public String getCreatedBy(){
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		String createdBy =  accountVO.getCreatedByFullName();
+		if(StringUtils.isEmpty(createdBy)) {
+			createdBy = accountVO.getCreatedByUserId();
+		}
+		return createdBy;
+	}
+
+	
+	public String getDeletedBy(){
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		String deletedBy = accountVO.getDeletedByFullName();
+		if(StringUtils.isEmpty(deletedBy)) {
+			deletedBy = accountVO.getDeletedByUserId();
+		}
+		return deletedBy;
 	}
 	
 	
@@ -211,6 +248,25 @@ public class PortfolioSearchResultExportDecorator extends
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		
 		return portfolioVO.getNotes();
+	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return impaciiId + "/" + networkId ;
 	}
 
 }

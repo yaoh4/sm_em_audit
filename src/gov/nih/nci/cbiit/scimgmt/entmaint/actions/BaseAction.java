@@ -5,6 +5,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.action.AuditSearchActionHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
@@ -19,6 +20,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
@@ -52,12 +54,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected List<Tab> displayColumn;
 	protected AuditSearchActionHelper auditSearchActionHelper = new AuditSearchActionHelper();
 	protected List<DropDownOption> organizationList = new ArrayList<DropDownOption>();
-	
+	protected List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
 	protected InputStream inputStream;
 	protected int changePageSize;
 	
 	@Autowired
 	protected LookupService lookupService;	
+	@Autowired
+	protected AdminService adminService;
 	@Autowired
 	protected NciUser nciUser;
 	@Autowired
@@ -346,5 +350,54 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 			changePageSize = Integer.parseInt(getPropertyValue(ApplicationConstants.DEFAULT_PAGE_SIZE));
 		}
 	}
+
+
+	/**
+	 * @return the auditPeriodList
+	 */
+	public List<DropDownOption> getAuditPeriodList() {
+		return auditPeriodList;
+	}
+
+
+	/**
+	 * @param auditPeriodList the auditPeriodList to set
+	 */
+	public void setAuditPeriodList(List<DropDownOption> auditPeriodList) {
+		this.auditPeriodList = auditPeriodList;
+	}
 	
+	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent() {
+		return adminService.isAuditPresent();
+	}
+	
+	/**
+	 * Gets the contact us email
+	 * 
+	 * @return
+	 */
+	public String getContactEmail() {
+		String[] emails = null;
+		if(StringUtils.containsAny(entMaintProperties.getProperty("CONTACT_EMAIL"), ",")) {
+			emails=StringUtils.split(entMaintProperties.getProperty("CONTACT_EMAIL"), ",");
+		} else {
+			emails=StringUtils.split(entMaintProperties.getProperty("CONTACT_EMAIL"));
+		}
+		return StringUtils.join(emails, ";");
+	}
+	
+	/**
+	 * Gets the contact us text
+	 * 
+	 * @return
+	 */
+	public String getContactText() {
+		return entMaintProperties.getProperty("CONTACT_TEXT");
+	}
 }

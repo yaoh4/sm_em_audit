@@ -29,6 +29,62 @@ $(function() {
 		 }
 	});
 	
+	$("#dateRangeHelp").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+			 OK: function() {
+	 			$( this ).dialog( "close" ); 
+	 		 }}
+	});
+	$("#eraua_na").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	$("#auditHistory").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 900,
+		 height:500,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	$("#note").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 400,
+		 height:300,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
 	$("#confirmation").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -83,11 +139,12 @@ function openHelp(id){
 
 function getRoleDescription(id){
 	var result = "";
+	var category = $('#categoryId').val();
 	
 	$.ajax({
 			url: "roleDescriptionAction.action",
 			type: "post",
-			data: {rId: id},
+			data: {rId: id, cate:category},
 			async:   false,
 			success: function(msg){
 				result = $.trim(msg);
@@ -124,6 +181,7 @@ function onOrgChange(org){
 		$("#excludeNciCheck").removeAttr('checked');
 		$("#excludeNciCheck").attr("disabled","disabled");
 	}		
+	
 }
 
 function onCategoryChage(category){
@@ -131,13 +189,105 @@ function onCategoryChage(category){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
 		$('#dateRangeStartDate').val(''); 
-		$('#dateRangeEndDate').val(''); 
+		$('#dateRangeEndDate').val(''); 		
 	}
-	else{
+	else{		
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('setDate', new Date());
-	}		
+	}
+	$.ajax({
+		url: "orgOptionAction.action",
+		type: "post",
+		data: {cate: category},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			$('#orgListId').html(result);
+		}, 
+		error: function(){}		
+	});
+}
+
+function getNote(id, category){
+	var result = "";
+	$.ajax({
+		url: "getNoteAction.action",
+		type: "post",
+		data: {pId: id, cate:category},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
+function fetchAuditNote(id, category){
+	$.ajax({
+			url: "getNoteAction.action",
+			type: "post",
+			data: {pId: id, cate:category},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				$('#noteId').html(result);
+				openNote();
+			}, 
+			error: function(){}		
+		});
+}
+function getPortfolioNote(id){
+	var result = "";
+	$.ajax({
+		url: "getPortFolioNoteAction.action",
+		type: "post",
+		data: {pId: id},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
+function fetchPortfolioNote(id){
+	$.ajax({
+			url: "getPortFolioNoteAction.action",
+			type: "post",
+			data: {pId: id},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				//$('#noteId').html(result);
+				openPortfolioNote();
+			}, 
+			error: function(){}		
+		});
+}
+function openNote(){
+	$('#note').dialog("open");
+}
+
+function moveToAnchor(){
+	$(document).scrollTop( $("#anchor").offset().top );  
+}
+
+function openHistory(){
+	$('#auditHistory').dialog("open");
+}
+
+function openEraua(){
+	$('#eraua_na').dialog("open");
+}
+function getDateRangeHelp(){	
+	$('#dateRangeHelp').dialog("open");
 }
 
 function toggle(thisname) {

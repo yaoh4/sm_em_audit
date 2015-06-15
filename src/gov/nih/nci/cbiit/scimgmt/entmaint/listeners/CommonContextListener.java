@@ -39,5 +39,9 @@ public class CommonContextListener implements ServletContextListener {
         DisplayReader dread = new DisplayReader();
         Map<String, List<Tab>> tabMap = dread.getAllTabsAndColumns(iStream);
         context.setAttribute(ApplicationConstants.COLUMNSATTRIBUTE, tabMap);
+        iStream = this.getClass().getClassLoader().getResourceAsStream("/reportColumn.xml");
+        dread = new DisplayReader();
+        tabMap = dread.getAllTabsAndColumns(iStream);
+        context.setAttribute(ApplicationConstants.REPORTCOLATTRIBUTE, tabMap);
     }
 }

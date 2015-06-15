@@ -2,13 +2,14 @@
 <%@ taglib uri="/WEB-INF/tld/ncilink.tld" prefix="ncilink"%>
 
 
-
-	<div id="impac2">
-		<img src="<s:url value="/images/nci_i2e_logo.png" />" alt="National Cancer Institute" width="421" height="44" border="0" usemap="#ncibannermap" />
-		<map name="ncibannermap" id="ncibannermap">
-		 	<area shape="rect" coords="13,1,293,35" href="http://www.cancer.gov/" alt="National Cancer Institute" />	
-		</map>	
-	</div>
+<!-- IMPAC Wrapper -->
+<div id="impac" style="width: 100%;" >
+  <div>
+    <span>
+      <a href="NCI I2E - IMPAC II Extensions" target="_blank">NCI I2E - IMPAC II Extensions</a>
+    </span>
+  </div>
+</div>
 
 
 <div class="container">
@@ -49,6 +50,9 @@
             </ul>
              
             <ul>
+            	<li>                                                    
+                     <a href="#" onclick="window.open('<s:property value="%{getPropertyValue('HELP_DOCUMENT')}"/>')">Help</a>
+                </li>
                 <li class="last">                                                    
                      <a href="mailto:<s:property value="%{getPropertyValue('COMMENTS_EMAIL')}"/>?subject=Enterprise Maintenance">Send Comments</a>
                 </li>
@@ -56,11 +60,10 @@
         </div>
          
         
-        <br>
-        
 
 	<header class="row">
-		<h2>IMPAC II & I2E Accounts Tracking System</h2> 
+		<h2>Enterprise Maintenance</h2>
+		<h5><span style="font-weight:bold;">&nbsp;IMPAC II & I2E Accounts Tracking System</span></h5> 
 	</header>
 	<br>
 	

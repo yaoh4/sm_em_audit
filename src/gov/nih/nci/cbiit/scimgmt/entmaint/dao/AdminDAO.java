@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.ParameterMode;
 
@@ -11,10 +12,12 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.procedure.ProcedureCall;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,9 +85,8 @@ public class AdminDAO  {
 	 * 
 	 * @param id the audit id of the audit to close.
 	 */
-	public DBResult closeAudit(Long auditId, String comments) {
+	public void closeAudit(Long auditId, String comments) {
 		
-		DBResult result = new DBResult();
 		Session session = sessionFactory.getCurrentSession();
 		
 		try {
@@ -103,8 +105,6 @@ public class AdminDAO  {
 			throw e;			 
 		}
 		
-		result.setStatus(DBResult.SUCCESS);
-		return result;
 	}
 	
 	
@@ -127,6 +127,7 @@ public class AdminDAO  {
 			//Insert a new row into the EM_AUDIT_HISTORY_T table for the current state
 			EmAuditHistoryT history = setupHistory(auditId, actionCode, comments);     
 			id = (Long) session.save(history);
+			logger.info("Inserted Audit History with id " + id + " for audit " + auditId);
         
 		} catch (Throwable e) {		
 			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);						
@@ -209,7 +210,26 @@ public class AdminDAO  {
 		
 		return emAuditsVw;
 	}
-
+	
+	public EmAuditsVw retrieveSelectedAudit(Long auditId){
+		Session session = sessionFactory.getCurrentSession();
+		EmAuditsVw emAuditsVw = null;
+		
+		try {
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			criteria.add(Restrictions.eq("id", auditId));			
+			Object result =  criteria.uniqueResult();
+			if (result != null) {
+				emAuditsVw = (EmAuditsVw)result;
+				session.evict(emAuditsVw);
+			}
+		} catch (Throwable e) {		
+			logger.error("Error retrieving data from EM_AUDITS_VW ", e);			
+			throw e;	
+		}
+		
+		return emAuditsVw;
+	}
 	
 	/**
 	 * Retrieves the audit record associated with the given id from the EM_AUDITs_VW
@@ -231,5 +251,32 @@ public class AdminDAO  {
 		
 		return emAuditsVw;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EmAuditsVw> retrieveAuditList() {
+		Session session = sessionFactory.getCurrentSession();
+		List<EmAuditsVw> emAudits = null;
+		
+		try {
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			criteria.addOrder(Order.desc("id"));
+			Object result =  criteria.list();
+			if (result != null) {
+				emAudits = (List<EmAuditsVw>)result;
+				
+				if(!CollectionUtils.isEmpty(emAudits)) {
+					for(EmAuditsVw audit: emAudits) {
+						session.evict(audit);
+					}
+				}
+			}
+		} catch (Throwable e) {		
+			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
+			throw e;	
+		}
+		
+		return emAudits;
+	}
+	
 	
 }

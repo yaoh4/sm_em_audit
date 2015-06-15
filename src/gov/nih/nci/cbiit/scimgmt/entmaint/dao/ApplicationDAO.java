@@ -63,15 +63,6 @@ public class ApplicationDAO {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppPropertiesT.class);
 			crit.add(Restrictions.eq("appName", ApplicationConstants.APP_NAME));
 			final List<AppPropertiesT> result = crit.list();
-			//Add IC coordinator emails
-			List<String> emails = getIcEmails();
-			if(emails != null) {
-				String value = StringUtils.join(emails.toArray(), ";");
-				AppPropertiesT prop = new AppPropertiesT();
-				prop.setPropKey(ApplicationConstants.IC_COORDINATOR_EMAIL);
-				prop.setPropValue(value);
-				result.add(prop);
-			}
 			return result;
 		} catch (RuntimeException re) {
 			logger.error("get app properties failed", re);
@@ -79,33 +70,4 @@ public class ApplicationDAO {
 		}
 	}
 	
-	/**
-	 * Get the list of IC Coordinator email addresses
-	 * @return
-	 */
-	public List<String> getIcEmails() {
-
-		/* 
-		 * union all is to get primary IC coordinator in addition to the IC coordinator emails.
-		 */
-		
-		String emailQuery="select email_address from nci_people_t people, nci_person_org_roles_t org_roles " + 
-					"where people.id=org_roles.epn_id and ere_code='EMREP' and org_roles.end_date is null " +
-					"and people.inactive_date is null " +
-					"union all " +
-					"select email_address from nci_people_t people " +
-					"where userid in ( " +
-					"SELECT trim(regexp_substr(str, '[^,]+', 1, LEVEL)) str " +
-					"  FROM ( " +
-					"select prop_value str from app_properties_t where app_name='EM' and prop_key='EMADMIN') " +
-					"CONNECT BY instr(str, ',', 1, LEVEL - 1) > 0)";
-		final Session session = sessionFactory.getCurrentSession();
-		try {
-			final List<String> emails = session.createSQLQuery(emailQuery).list();
-			return emails;
-		} catch (RuntimeException re) {
-			logger.error("get app properties failed", re);
-			throw re;
-		}
-	}
 }

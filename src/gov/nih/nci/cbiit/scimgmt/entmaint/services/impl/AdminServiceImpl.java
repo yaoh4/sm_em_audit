@@ -1,6 +1,8 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
+import org.apache.commons.collections.CollectionUtils;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.AdminDAO;
@@ -67,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 	 * 
 	 * @return
 	 */
-	public void closeCurrentAudit(String comments) {
+	public Long closeCurrentAudit(String comments) {
 		
 		//Get current Audit from DB
     	EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
@@ -75,6 +78,8 @@ public class AdminServiceImpl implements AdminService {
     	   	
     	//Close the audit
 		adminDAO.closeAudit(auditId, comments);
+		
+		return auditId;
 	}
 	
 	
@@ -107,7 +112,22 @@ public class AdminServiceImpl implements AdminService {
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
 		
-		return setupAuditVO(emAuditsVw);
+		return setupAuditVO(emAuditsVw, false);
+	}
+	
+	
+	/**
+	 * Retrieve the attributes of the newest audit
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public EmAuditsVO retrieveCurrentOrLastAuditVO() {
+		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList();
+		if(!CollectionUtils.isEmpty(auditList)) {
+			return setupAuditVO(auditList.get(0), true);
+		}
+		
+		return null;
 	}
 	
 	
@@ -121,11 +141,44 @@ public class AdminServiceImpl implements AdminService {
 		
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
-		return setupAuditVO(emAuditsVw);
+		return setupAuditVO(emAuditsVw, true);
 	}
 		
 	
-	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw) {
+	/**
+	 * Retrieves the attributes of all Audit.
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList() {
+		
+		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
+		
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		boolean latest = true;
+		if(CollectionUtils.isNotEmpty(emAuditsList)) {
+			for(EmAuditsVw audit: emAuditsList) {	
+				emAuditVOList.add(setupAuditVO(audit,latest));
+				latest = false;
+			}
+		}
+		
+		return emAuditVOList;
+	}
+	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent() {
+		
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList()));
+		
+	}
+	
+	
+	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest) {
 		EmAuditsVO emAuditsVO = null;
 		
 		if(emAuditsVw != null) {
@@ -144,6 +197,19 @@ public class AdminServiceImpl implements AdminService {
 				String currentAuditState = statusHistories.get(0).getActionCode();
 				emAuditsVO.setAuditState(currentAuditState);
 			}
+			
+			//Set the description for impac II audit
+			if(emAuditsVO.getImpac2AuditFlag() != null && emAuditsVO.getImpac2AuditFlag().equalsIgnoreCase(ApplicationConstants.TRUE)){
+				final StringBuffer sb = new StringBuffer();
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
+				if(latest) {
+					// Add (Current) to description
+					sb.append(" (Current)");
+				}
+				emAuditsVO.setDescription(sb.toString());
+			}
+			
 		} else {
 			emAuditsVO = new EmAuditsVO();
 			emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);

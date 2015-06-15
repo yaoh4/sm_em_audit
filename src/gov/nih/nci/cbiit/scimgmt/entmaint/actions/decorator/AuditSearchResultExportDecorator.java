@@ -1,6 +1,5 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * Decorator to display data in Excel spreadsheet from Audit tab.
@@ -143,6 +143,19 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return role;
 	}
 	
+	public String getApplicationRoleCreatedBy(){
+		String createdBy = "";
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		List<EmAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByFullName();
+			if(StringUtils.isEmpty(createdBy)){
+				createdBy = accountRoles.get(0).getCreatedByUserId();
+			}
+		}
+		
+		return createdBy;
+	}
 	
 	/**
 	 * Get the date on which the role being displayed in this row was created.
@@ -150,15 +163,37 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 	 * @return String the date on which the role was created
 	 */
 	public String getRoleCreateOn() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy");
+		
 		String createdOn = "";
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<EmAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
 		if(!CollectionUtils.isEmpty(accountRoles)) {
-			createdOn =  DateFormat.getDateInstance().format(accountRoles.get(0).getCreatedDate());
+			createdOn =  dateFormat.format(accountRoles.get(0).getCreatedDate());
 		}
 		
 		return createdOn;
 	}
+	
+	
+	public String getCreatedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String createdBy =  accountVO.getCreatedByFullName();
+		if(StringUtils.isEmpty(createdBy)) {
+			createdBy = accountVO.getCreatedByUserId();
+		}
+		return createdBy;
+	}
+
+	public String getDeletedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String deletedBy = accountVO.getDeletedByFullName();
+		if(StringUtils.isEmpty(deletedBy)) {
+			deletedBy = accountVO.getDeletedByUserId();
+		}
+		return deletedBy;
+	}
+	
 	
 	/**
 	 * Get the action performed on this account
@@ -214,7 +249,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if(eaaVw != null){		
 			Date submittedDate = eaaVw.getSubmittedDate();
 			if(submittedDate != null){
-				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);		
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);		
 			}
 		}
 							

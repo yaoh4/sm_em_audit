@@ -3,6 +3,8 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -37,16 +39,20 @@ public class EmAppUtil {
 	 * @param session Session object from the ActionContext or jsp
 	 * @return
 	 */
-	public static boolean isAdminUser(Map<String, Object> session) {
+	public static boolean isAdminUser() {
 		
+		Map<String, Object> session = ActionContext.getContext().getSession();
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
 		
 		
 		if (nciUser != null) {
 			String currentUserRole = nciUser.getCurrentUserRole();
 			if(currentUserRole != null && currentUserRole.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)) {
+				logger.debug("User " + nciUser.getLdapId() + " is primary IC Cordinator");
 				return true;
-			} 
+			}  else {
+				logger.debug("User " + nciUser.getLdapId() + " is not primary IC Cordinator");
+			}
 		} else {
 			logger.warn("Could not retrieve nciUser from session");
 		}
@@ -71,11 +77,12 @@ public class EmAppUtil {
 	        //row is the state of the audit.
 			if(statusHistories != null && statusHistories.size() > 0) {
 				currentAuditState = statusHistories.get(0).getActionCode();
-				return currentAuditState;
 			}
-		} 
-		
-		return ApplicationConstants.AUDIT_STATE_CODE_RESET;
+		} else {
+			currentAuditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
+		}
+		logger.debug("Current state of Audit " + emAuditsVO.getId() + " is " + currentAuditState);
+		return currentAuditState;
 	}
 	
 	
@@ -88,17 +95,32 @@ public class EmAppUtil {
 	 * 
 	 * @return true if audit is enabled, else false.
 	 */
-	public static boolean isAuditEnabled(EmAuditsVO emAuditsVO) {		
+	public static boolean isAuditEnabled(Long auditId) {		
 		
-			String auditState = getCurrentAuditState(emAuditsVO);
+		Map<String, Object> session = ActionContext.getContext().getSession();
 		
-			if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
-				return true;
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null) {
+				if(emAuditsVO.getId().equals(auditId)) {
+					String auditState = getCurrentAuditState(emAuditsVO);
+					if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+						logger.debug("Audit with ID " + auditId + " is current and enabled");
+						return true;
+					} else {
+						logger.debug("Audit with ID " + auditId + " is not current or not enabled");
+					}
+				} else {
+					logger.debug("Audit with ID " + auditId + " is not current or last active");
+				}
+			} else {
+				logger.warn("No audit in session");
 			}
-		
-		
-		return false;
+		}
+				
+		return false;	
 	}
+		
 	
 	/**
 	 * Checks if the current Audit is enabled.
@@ -111,11 +133,72 @@ public class EmAppUtil {
 		
 		if(session != null) {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
-		
-				return isAuditEnabled(emAuditsVO);
+			if(emAuditsVO != null) {
+				String auditState = getCurrentAuditState(emAuditsVO);
+				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is current and enabled");
+					return true;
+				} else {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is not current or not enabled");
+				}
+			} else {
+				logger.warn("No audit in session");
 			}
+		}
+				
+		return false;	
+	}
+	
+	
+	/**
+	 * Checks if the given Audit ID represent the current or last active audit.
+	 * 
+	 * @return true if audit is current or last active, else false.
+	 */
+	public static boolean isAuditCurrentOrLastActive(Long auditId) {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null && emAuditsVO.getId().equals(auditId)) {
+				logger.debug("Audit with ID " + auditId + " is current or last active");
+				return true;
+			} else {
+				logger.debug("Audit with ID " + auditId + " is not current or last active");
+			}
+		}
 		
 		return false;	
+	}
+	
+	
+	public static boolean isAuditActionEditable(Long auditId) {
+		boolean result = false;
+		
+		// Results should be editable if any one of the following conditions is satisfied 
+		// - Selected audit is enabled,  or  
+		// - Selected Audit is current/last active, and user is admin.
+
+		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrentOrLastActive(auditId))) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	public static String getOptionLabelByValue(Long id, List<DropDownOption> categoryList){
+		String label = "";
+		for(DropDownOption ddo : categoryList){
+			if(Long.parseLong(ddo.getOptionKey()) == id){
+				label = ddo.getOptionValue();
+				break;
+			}
+		}
+		if(label.indexOf("inactive") >= 0){
+			label = "inactive";
+		}
+		return label;
 	}
 
 }

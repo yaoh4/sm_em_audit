@@ -14,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
@@ -37,14 +38,29 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	protected EntMaintProperties entMaintProperties;
 	
 	public static final String VERIFIEDACTION = "3";
+	public static final String NONEED = "13";
+	
+	
 	/**
 	 * This method is for creating action contents. 
 	 * @return String
 	 */
 	public String getAction(){
+		String name = "";
+	
+		startAutowired();
 		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
+		AuditSearchVO searchVO = (AuditSearchVO)this.getPageContext().getSession().getAttribute(ApplicationConstants.SEARCHVO);
+		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String name = accountVO.getNedFirstName() + " " + accountVO.getNedLastName();
+//		if(accountVO.getDeletedDate() != null){
+//			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
+//		}else{
+//			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
+//		}
+		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
+			name=accountVO.getFullName();
+		}
 		String id = ""+accountVO.getId();
 		String actionStr = "";
 		String actionId ="";
@@ -65,29 +81,43 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		
 		String actId = getActionId(actionStr);
+		String cate = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
+		String noteImg = "<a href=\"javascript:fetchAuditNote(" + id + ", '" + cate + "');\"><img src='../images/commentchecked.gif' alt=\"NOTE\"/></a>&nbsp;&nbsp;";
+		if(note != null && note.trim().length() > 0 && (eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")))){
+			actionStr = actionStr + "</br>" + noteImg;
+		}else{
+			actionStr = actionStr + "</br>";
+		}
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
-			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)){
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
-						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' /> <input type='hidden' id='hiddennote" + id +"' value='" + note +"'/>";
+						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+				era_ua_link = "<br/><a href='javascript:openEraua();'>eRA UA</a>";
+			}else{
+				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a>";
+			}
 			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
-			
+			String currentPage = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
 			//if the action is verfiedaction,show two links
-			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
-				actionStr = actionStr + "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a><br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
+			if(actId.equalsIgnoreCase(VERIFIEDACTION) || (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(currentPage) && actId.equalsIgnoreCase(NONEED))){
+				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
 			}
 			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			actionStr = "<div id='"+ id +"'>" + actionStr;
-			if(EmAppUtil.isAuditEnabled()){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>" + "</div>";
+			//Calling Aunita's service call to determine if we need to show button or not.
+			if(EmAppUtil.isAuditActionEditable(auditId)){
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
 			}
+			actionStr = actionStr + "</div>";
 		}
 		return actionStr;
 	}
@@ -96,25 +126,22 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 * @return
 	 */
 	public String getDiscrepancy(){
-		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
-				.getServletContext());
-		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
-		acbf.autowireBean(this);
+		startAutowired();
 		String path = this.getPageContext().getRequest().getServletContext().getContextPath();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		String id = ""+accountVO.getId();
 		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
 					dis);
+			String code ="" + disVw.getCode();
 			if(disVw.getShortDescrip() != null){
 				//replace all single quote to HTML code
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
-						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
+				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + code + "');\"/>" + 
+						"<input type='hidden' id='help" + code + "' value='" + longDesc + resolution + "'/>" +
 						"<br/><br/>");
 			}
 		}
@@ -173,7 +200,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
 			String dateStr = "";
 			if(submittedDate != null){
-				dateStr = new SimpleDateFormat("MM/dd/yyyy HH:mm a").format(submittedDate);
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
 			} 
 			if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
 				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
@@ -211,8 +238,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmAuditAccountRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
 			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td>" + roleName + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+			role = role + "<tr><td>" + "<span title='" + createdBy + "'>" + roleName + "</span>"  + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;
@@ -256,7 +284,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 * This method is for displaying the action note. If it is unsubmitted, the action note must be hidden.
 	 * @return
 	 */
-	public String getActionNote(){
+	private String getActionNote(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String id = "note"+accountVO.getId();
 		String note = "";
@@ -266,15 +294,37 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		if(note == null){
 			note = "";
 		}
-		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
-		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
-			note = "<input type='hidden' id='hidden" + id +"' value='" + note+ "'/>";
-		}
-	
-		String completedNote = "<div id='" + id +"'>" + note + "</div>";
-		
-		return completedNote;
+		return note;
 	}
+
+	public String getImpaciiUserIdNetworkId(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String impaciiId = accountVO.getImpaciiUserId();
+		String networkId = accountVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
+	}
+	
+	public String getCreatedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + accountVO.getCreatedByFullName() + "'>" + accountVO.getCreatedByUserId() + "</span>";
+		return displayStr;
+	}
+
+	public String getDeletedBy(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + accountVO.getDeletedByFullName() + "'>" + accountVO.getDeletedByUserId() + "</span>";
+		return displayStr;
+	}
+	
+	
 	/**
 	 * This is help method to convert action label to action ID
 	 * @param label
@@ -293,4 +343,13 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		return id;
 	}
 
+	/**
+	 * start autowired
+	 */
+	private void startAutowired(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+	}
 }

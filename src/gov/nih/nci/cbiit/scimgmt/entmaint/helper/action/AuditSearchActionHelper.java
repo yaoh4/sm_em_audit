@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.opensymphony.xwork2.ActionContext;
+
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
@@ -33,8 +38,12 @@ public class AuditSearchActionHelper {
 	
 	public void createDeletedDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService){
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_DELETED_ACTION_LIST);
-		List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
-		createOrgList(orglist, organizationList);
+		//List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
+		//createOrgList(orglist, organizationList);
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
+		String orgPath = nciUser.getOrgPath();
+		organizationList.add(new DropDownOption(orgPath, orgPath));
 		createActionList(actList, actionList); 
 	}
 	
@@ -58,6 +67,17 @@ public class AuditSearchActionHelper {
 			DropDownOption ddp = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());
 			organizationList.add(ddp);
 		}
+	}
+	
+	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
+		}
+		
+		return auditPeriodList;
 	}
 	
 	/**
@@ -119,5 +139,20 @@ public class AuditSearchActionHelper {
 			pageSizeList.add(pageSizeListOption);
 		}		
 		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
+	}
+	
+	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
+		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
+		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		
+		if(cateList != null){
+			for(AppLookupT obj : cateList){
+				DropDownOption ddo = new DropDownOption();
+				ddo.setOptionKey(""+obj.getId());
+				ddo.setOptionValue(obj.getDescription());
+				categoryList.add(ddo);
+			}
+		}
+		return categoryList;
 	}
 }

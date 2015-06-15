@@ -9,20 +9,20 @@ public class AuditAccountVO extends EmAuditAccountsVw{
 	
 	public String getFullName() {
 		final StringBuffer sb = new StringBuffer("");
-		String lastName = getNedLastName();
-		String firstName = getNedFirstName();
 		
-		if(!StringUtils.isBlank(lastName)){
-			sb.append(lastName);
+		if(!StringUtils.isBlank(this.getLastName())){
+			sb.append(this.getLastName());
 		}
-		if(!StringUtils.isBlank(lastName) && !StringUtils.isBlank(firstName)){
+		if(!StringUtils.isBlank(this.getLastName()) && !StringUtils.isBlank(this.getFirstName())){
 			sb.append(", ");
 		}
-		if(!StringUtils.isBlank(firstName)){
-			sb.append(firstName);
+		if(!StringUtils.isBlank(this.getFirstName())){
+			sb.append(this.getFirstName());
 		}
 		
 		return sb.toString();
 	}
+	
+	
 
 }

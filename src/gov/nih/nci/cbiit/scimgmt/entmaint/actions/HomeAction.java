@@ -35,7 +35,7 @@ public class HomeAction extends BaseAction {
         
         //Retrieve current audit info
         
-        EmAuditsVO emAuditsVO = adminService.retrieveCurrentAuditVO();
+        EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
         if(emAuditsVO != null) {
         	logger.debug("Retrieved auditInfo for audit " + emAuditsVO.getId());
         } else {

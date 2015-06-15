@@ -1,5 +1,8 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,10 +16,12 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +52,8 @@ public class AdminAction extends BaseAction {
 	@Autowired
 	protected AdminService adminService;
 	@Autowired
+	private EntMaintProperties properties;
+	@Autowired
 	protected Impac2AuditService impac2AuditService;	
 	
 	//------------------------------
@@ -75,6 +82,34 @@ public class AdminAction extends BaseAction {
     	setupAuditDisplay(emAuditsVO);
         
         return ApplicationConstants.SUCCESS;
+    }
+    
+    
+    private void validateComments() {
+    	//Comments cannot be longer than 1000 characters.
+    	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
+    		if(emAuditsVO.getComments().length() > COMMENTS_FIELD_SIZE) {
+    			this.addActionError(getText("error.comments.size.exceeded"));  			
+    		}
+    	}
+    }
+    
+    
+    private void restoreStateOnError(boolean disableInput) {
+    	if(this.hasErrors()) {
+    		setDisableInput(disableInput);
+    		setSendAuditNotice(false);
+    		//Temporarily save the comments
+    		String comments = emAuditsVO.getComments();
+    		emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    		emAuditsVO.setComments(comments);
+    	}
+    }
+    
+    
+    public void validate() {
+    	validateComments();
+    	restoreStateOnError(true);
     }
     
     
@@ -116,12 +151,7 @@ public class AdminAction extends BaseAction {
     	}
     	}
     	
-    	//Comments cannot be longer than 1000 characters.
-    	if(!StringUtils.isEmpty(emAuditsVO.getComments())) {
-    		if(emAuditsVO.getComments().length() > COMMENTS_FIELD_SIZE) {
-    			this.addActionError(getText("error.comments.size.exceeded"));
-    		}
-    	}
+    	validateComments();
     	
     	if(this.hasErrors()) {
     		setDisableInput(false);
@@ -184,6 +214,18 @@ public class AdminAction extends BaseAction {
     	return updateAudit(ApplicationConstants.AUDIT_STATE_CODE_ENABLED);
     }
     
+    public String openEmail() {
+    	String content = "";
+    	try{
+    		content = readEmailContent();
+    	}catch(Exception e){
+    		logger.error("Failed to read email from email file.", e);
+    	}
+    	//content = StringEscapeUtils.escapeHtml(content);
+    	request.setAttribute("emailContent", content);
+    
+    	return SUCCESS;
+    }
     
     /**
      * Invoked when the the Reset button is clicked. Closes the Audit.
@@ -192,19 +234,19 @@ public class AdminAction extends BaseAction {
      */
     public String resetAudit() {
     	
-    	logger.info("Closing current audit");
     	//Close the current Audit
-    	adminService.closeCurrentAudit(emAuditsVO.getComments());
+    	logger.info("Closing current audit");
+    	
+    	Long auditId = adminService.closeCurrentAudit(emAuditsVO.getComments());
     	logger.info("Closed audit with auditId " + emAuditsVO.getId());
     	
+    	//Retrieve the updated emAuditsVO from the DB
+    	emAuditsVO = adminService.retrieveAuditVO(auditId);
     	
-    	emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
-    	emAuditsVO.setImpaciiToDate(new Date());
+    	//Store it into the session
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
     	
     	setDisableInput(false);
-    	
-    	//Remove attribute from session
-    	removeAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	
     	return ApplicationConstants.SUCCESS;
     }
@@ -566,6 +608,17 @@ public class AdminAction extends BaseAction {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
 	}
 
+	private String readEmailContent() throws Exception{
+		String fileName = properties.getPropertyValue("EMAIL_FILE") + File.separator + "email.txt";
+		File f = new File(fileName);
+		if(!f.exists()){
+			return "";
+		}else{
+			BufferedReader bread = new BufferedReader(new FileReader(new File(fileName)));
+			String content = bread.readLine();
+			if(content == null){
+				content = "";
+			}
 
 	/**
 	 * @return the orgKeys
@@ -573,6 +626,12 @@ public class AdminAction extends BaseAction {
 	public List<Object> getOrgKeys() {
 		return orgKeys;
 	}
+			bread.close();
+			return content;
+		}
+	}
+
+}
 
 
 	/**

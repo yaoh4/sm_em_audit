@@ -29,9 +29,9 @@ public class ComposeEmailAction extends BaseAction {
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public String composeEmailSubjectAndBody(){
 		String subject = entMaintProperties.getPropertyValue("email.subject");
-		
+		String cc = entMaintProperties.getPropertyValue("email.cc");
 		try{
-				inputStream = new StringBufferInputStream(subject + "|" + getEmailBodyFromVelocityTemplate());
+				inputStream = new StringBufferInputStream(subject + "|" + cc + "|" + getEmailBodyFromVelocityTemplate());
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");

@@ -65,8 +65,8 @@ public class Impac2PortfolioAction extends BaseAction{
 		
 		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
-		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,(int)searchVO.getCategory());	
-		
+		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
+		processList(displayColumn);
 		//Set form action.
 		this.setFormAction("searchPortfolioAccounts");
 		showResult = true;
@@ -153,6 +153,43 @@ public class Impac2PortfolioAction extends BaseAction{
 		return forward;
 	}
 	
+	public void getOptionAction(){
+		PrintWriter pw = null;
+		String defaultOrg = nciUser.getOrgPath();
+		String category = request.getParameter("cate");
+		String scriptCall = "";
+		if(isSuperUser()){
+			scriptCall  = "onchange=\"onOrgChange(this.value);\"";
+		}
+		try{
+			pw = response.getWriter();
+			if(Long.parseLong(category) == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED){
+				pw.print("<select name=\"searchVO.organization\" id=\"portfolioOrg\" class=\"form-control\" style=\"width:590px;\">");
+				pw.println("<option value=\"all\">All</option>");
+				pw.println("</select>");
+			}else{
+				//
+				auditSearchActionHelper.createPortFolioDropDownLists(organizationList, categoriesList, lookupService, session); 
+				pw.print("<select name=\"searchVO.organization\" id=\"portfolioOrg\" " + scriptCall + "class=\"form-control\" style=\"width:590px;\">");
+				pw.print("<option value=\"all\">All</option>");
+				
+				for(DropDownOption ddo : organizationList){
+					if(session.get(ApplicationConstants.PORTFOLIO_SEARCHVO) != null && 
+							ddo.getOptionKey().equalsIgnoreCase(((AuditSearchVO)session.get(ApplicationConstants.PORTFOLIO_SEARCHVO)).getOrganization())){
+						pw.print("<option value='" + ddo.getOptionKey() +"' selected=\"selected\">" + ddo.getOptionValue() +"</option>");
+					}else{
+						pw.print("<option value='" + ddo.getOptionKey() +"' >" + ddo.getOptionValue() +"</option>");
+					}
+				}
+				pw.println("</select>");
+			}
+		}catch(Exception e){
+			log.error(e.getMessage(), e);
+		}finally{
+			pw.close();
+		}
+	}
+	
 	/**
 	 * This method sets up default values of searchVO for default search. 
 	 * @return String
@@ -202,10 +239,7 @@ public class Impac2PortfolioAction extends BaseAction{
 	 * @return
 	 */
 	public String decorateResponse(String notes){
-		if(notes.length() == 0){
-			return "";
-		}
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a");
 		String lastUpdateDate = dateFormat.format(new Date());
 		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();
 		return "Updated on "+ lastUpdateDate + " by " +lastUpdateBy;
@@ -254,6 +288,15 @@ public class Impac2PortfolioAction extends BaseAction{
 	}	
 	
 	/**
+	 * Get the Last Refresh date	
+	 * @return lastRefreshDate
+	 * 
+	 */
+	public String getLastRefreshDate(){
+		return new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a").format(impac2PortfolioService.getLastRefreshDate());		
+	}	
+	
+	/**
 	 * @return the portfolioAccounts
 	 */
 	public PaginatedListImpl<PortfolioAccountVO> getPortfolioAccounts() {
@@ -279,6 +322,16 @@ public class Impac2PortfolioAction extends BaseAction{
 	 */
 	public void setCategoriesList(List<DropDownOption> categoriesList) {
 		this.categoriesList = categoriesList;
+	}
+	/**
+	 * Process display tag table header to remove #R to <br/>
+	 * @param disColumn
+	 */
+	private void processList(List<Tab> disColumn){
+		for(Tab tab : disColumn){
+			String colName = tab.getColumnName().replace("#R", "<br/>");
+			tab.setColumnName(colName);
+		}
 	}
 
 }

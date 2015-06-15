@@ -85,7 +85,7 @@ public class ErrorMessageAction extends BaseAction {
             msg.setFrom(new InternetAddress(from));
             InternetAddress[] address = null;
             if ( to != null){
-                String[] addresses  =  to.split(",");
+                String[] addresses  =  to.split(";");
                 address =  new InternetAddress[addresses.length];
                 for (int i=0; i < addresses.length;i++){
                     address[i] =  new InternetAddress(addresses[i]) ;

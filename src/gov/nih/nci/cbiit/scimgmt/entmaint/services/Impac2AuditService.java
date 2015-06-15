@@ -75,7 +75,13 @@ public interface Impac2AuditService {
      * @return
      */
     public EmAuditAccountsVw getAuditAccountById(Long id);
-    
+    /**
+     * Get Audit Note using ID (EAA_ID)
+     * @param id
+     * @return String (Note)
+     */
+    public String getAuditNoteById(Long id, String category);
+
     /**
      * Retrieve all accounts for a specific audit id
      * @param auditId

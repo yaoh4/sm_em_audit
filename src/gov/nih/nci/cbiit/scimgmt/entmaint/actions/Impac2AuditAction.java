@@ -6,10 +6,12 @@ import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -40,6 +42,8 @@ public class Impac2AuditAction extends BaseAction {
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
+	@Autowired
+	protected AdminService adminService;
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
@@ -67,7 +71,7 @@ public class Impac2AuditAction extends BaseAction {
 		searchVO.setUserLastname("");
 		searchVO.setOrganization("");
 		setUpDefaultSearch();
-		
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
 		
@@ -101,6 +105,8 @@ public class Impac2AuditAction extends BaseAction {
 	public String prepareDeletedAccounts() {
 		String forward = SUCCESS;
 		setUpDefaultSearch(); //check if default search is needed
+		//force to use nciUser organization when delete account is selected
+		searchVO.setOrganization(nciUser.getOrgPath());
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_DELETED);
 			forward = ApplicationConstants.PRIMARY;
@@ -243,6 +249,7 @@ public class Impac2AuditAction extends BaseAction {
 	
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
 		displayColumn = colMap.get(pageName);
+		this.processList(displayColumn);
 		
 		if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
@@ -265,6 +272,8 @@ public class Impac2AuditAction extends BaseAction {
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
@@ -274,11 +283,19 @@ public class Impac2AuditAction extends BaseAction {
 		i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 	}
 	
+	private void processList(List<Tab> disColumn){
+		for(Tab tab : disColumn){
+			String colName = tab.getColumnName().replace("#R", "<br/>");
+			tab.setColumnName(colName);
+		}
+	}
 	/**
 	 * This method is shared method for initial components of loading search page for all tabs
 	 * @param pageName
 	 */
 	private void initialComponent(String pageName){		
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, pageName);
 		sortByCategory(pageName);
@@ -488,5 +505,8 @@ public class Impac2AuditAction extends BaseAction {
     			searchVO.setOrganization(nciUser.getOrgPath());
     		}
     	}
+    	
+    	EmAuditsVO emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	searchVO.setAuditId(emAuditsVO.getId());
    }
 }

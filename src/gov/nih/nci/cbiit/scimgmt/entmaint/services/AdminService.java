@@ -1,7 +1,8 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
-import java.util.Date;
+import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 /**
@@ -25,7 +26,7 @@ public interface AdminService {
 	 * 
 	 * @return
 	 */
-	public void closeCurrentAudit(String comments);
+	public Long closeCurrentAudit(String comments);
 	
 	
 	/**
@@ -39,6 +40,12 @@ public interface AdminService {
 	public Long updateCurrentAudit(String actionCode, String comments);
 	
 	
+	/**
+	 * Retrieve the attributes of the newest audit
+	 * @return
+	 */
+	public EmAuditsVO retrieveCurrentOrLastAuditVO();
+	
 	
 	/**
 	 * Retrieves the audit info for the current Audit 
@@ -48,7 +55,6 @@ public interface AdminService {
 	public EmAuditsVO retrieveCurrentAuditVO();
 		
 	
-	
 	/**
 	 * Retrieves the audit info for the Audit with the given auditId 
 	 * 
@@ -56,4 +62,24 @@ public interface AdminService {
 	 */
 	public EmAuditsVO retrieveAuditVO(Long auditId);
 	
+	
+	/**
+	 * Retrieves the audit info for all Audits 
+	 * 
+	 * @return List<EmAuditsVO> t
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList();
+	
+	
+	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isAuditPresent();
+	/**
+	 * Retrieve Audit Info by selected audit ID 
+	 * @param auditId
+	 * @return
+	 */
 }

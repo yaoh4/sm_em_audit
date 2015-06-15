@@ -37,9 +37,17 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	public String getAction(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String actionStr = "";
-		String name = portfolioVO.getNedFirstName() + " " + portfolioVO.getNedLastName();
+		StringBuffer name = new StringBuffer("&nbsp;");
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
+			name.append(portfolioVO.getFullName());
+		}
 		String id = portfolioVO.getImpaciiUserId();
-		actionStr = "<div>" + "<input class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"submitNotes('" + name +"','" + id + "')\" value=\"Add Notes\"/>" + "</div>";
+		String note = portfolioVO.getNotes();
+		if(note != null && note.length() > 0){
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
+		}else{
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentunchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
+		}
 		return actionStr;
 	}
 	
@@ -69,8 +77,9 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(EmPortfolioRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
 			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td>" + roleName + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
 		role = role + "</table>";
 		return role;
@@ -136,33 +145,16 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	 */
 	public String getLastUpdated(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' hh:mm a");
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
 		String lastUpdated = "";
 		String id = portfolioVO.getImpaciiUserId();
-		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null && !StringUtils.isBlank(portfolioVO.getNotes())){
+		if(!StringUtils.isBlank(portfolioVO.getNotesSubmittedByFullName()) && portfolioVO.getNotesSubmittedDate() !=null){
 			lastUpdated =  "<div id=\"lastUpdateDiv_"+id+ "\"> Updated on " +dateFormat.format(portfolioVO.getNotesSubmittedDate()) + " by "  +portfolioVO.getNotesSubmittedByFullName() + "</div>";
 		}
 		else{
 			lastUpdated = "<div id=\"lastUpdateDiv_"+id+ "\"> </div>";
 		}
 		return lastUpdated;
-	}
-	
-	/**
-	 * Get notes submitted for this account.
-	 * @return notes
-	 */
-	public String getNotes(){
-		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		String notes = "";
-		String id = portfolioVO.getImpaciiUserId();
-		if(!StringUtils.isBlank(portfolioVO.getNotes())){
-			notes = "<div id=\"notesDiv_"+id+ "\">" + portfolioVO.getNotes() + "</div>";
-		}
-		else{
-			notes = "<div id=\"notesDiv_"+id+ "\"> </div>";
-		}
-		return notes;
 	}
 	
 	/**
@@ -207,4 +199,34 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		return dateString;
 	}
 	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
+	}
+	
+	public String getCreatedBy(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + portfolioVO.getCreatedByFullName() + "'>" + portfolioVO.getCreatedByUserId() + "</span>";
+		return displayStr;
+	}
+	
+	public String getDeletedBy(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String displayStr = "<span title='" + portfolioVO.getDeletedByFullName() + "'>" + portfolioVO.getDeletedByUserId() + "</span>";
+		return displayStr;
+	}
 }
