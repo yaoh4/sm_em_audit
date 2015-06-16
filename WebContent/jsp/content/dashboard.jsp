@@ -3,6 +3,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData" %>
 
+<s:include value="/jsp/content/manageAccounts.jsp" />
 <script language="JavaScript" src="../scripts/bootstrap.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>

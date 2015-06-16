@@ -70,10 +70,6 @@ function submitForm(){
 	return false;
 }
 
-function gotoDashboard(){
-	$('#adminActionId').attr("action", "gotoDashboard");
-	$('#adminActionId').submit();
-}
 </script>
    
 
@@ -91,7 +87,7 @@ function gotoDashboard(){
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
- <a href="#" onclick="javascript:gotoDashboard();">Dashboard</a>
+ 
  <p style="text-align:left;"> 
 <span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
 <a href="#" onclick="submitForm();">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

@@ -37,13 +37,13 @@
 		<li><a href="adminHome.action">Administer Audit</a></li>
 	</s:else> 
 	
-<!--	<s:if
+	<s:if
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_DASHBOARD eq #request.selectedSubNav}">
 		<li class="active">Dashboard</li>
 	</s:if>
 	<s:else>
-		<li><a href="adminHome.action">Dashboard</a></li>
-	</s:else> -->
+		<li><a href="gotoDashboard.action">Dashboard</a></li>
+	</s:else> 
 	
 	<s:if
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_REPORTS eq #request.selectedSubNav}">

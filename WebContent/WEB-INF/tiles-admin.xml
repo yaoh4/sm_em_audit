@@ -49,9 +49,10 @@
         <put-attribute name="Title" type="string" value="Enterprise Maintenance: User Login Error"/>
     </definition>
     
+    <!--  Dashboard page -->
 	<definition name="entmaint.admin.dashboard" extends="base.definition">
         <put-attribute name="selectedTab" value="admin"/>
-        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="selectedSubNav" value="dashboard"/>
         <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
         <put-attribute name="content" value="/jsp/content/dashboard.jsp"/>       
     </definition>
