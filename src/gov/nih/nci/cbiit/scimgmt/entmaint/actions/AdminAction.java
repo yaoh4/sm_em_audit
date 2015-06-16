@@ -619,6 +619,11 @@ public class AdminAction extends BaseAction {
 			if(content == null){
 				content = "";
 			}
+			bread.close();
+			return content;	
+		}
+	}
+		
 
 	/**
 	 * @return the orgKeys
@@ -626,12 +631,7 @@ public class AdminAction extends BaseAction {
 	public List<Object> getOrgKeys() {
 		return orgKeys;
 	}
-			bread.close();
-			return content;
-		}
-	}
-
-}
+			
 
 
 	/**
