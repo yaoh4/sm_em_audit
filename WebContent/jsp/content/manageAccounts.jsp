@@ -139,6 +139,10 @@
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_ADMINISTER eq #request.selectedSubNav}">
   		<h4>Administer Audit <span style="font-weight: normal;"></span></h4>
   	</s:if>
+  	<s:elseif
+  		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_DASHBOARD eq #request.selectedSubNav}">
+  		<h4>Audit Dashboard <span style="font-weight: normal;"></span></h4>
+  	</s:elseif>
   	<s:else>
   		<h4>eRA Audit Reports <span style="font-weight: normal;"></span></h4>
   	</s:else>
