@@ -110,6 +110,10 @@ public interface ApplicationConstants {
 	public static final int VERIFIEDLEAVEINT = 2;
 	public static final String NOTNEED = "13";
 	public static final int NOTNEEDINT = 13;
+	public static final String ACTIVE_ACTION_NOACTION = "33";
+	public static final String NEW_ACTION_NOACTION = "34";
+	public static final String DELETED_ACTION_NOACTION = "35";
+	public static final String INACTIVE_ACTION_NOACTION = "36";
 	
     public static String PORTFOLIO_ACTIVE = "portfolioActive";
     public static String PORTFOLIO_NEW = "portfolioNew";
