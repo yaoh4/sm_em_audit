@@ -20,23 +20,23 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 public class AuditSearchActionHelper {
 	
 
-	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService){
+	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_ACTIVE_ACTION_LIST);
 		List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		createOrgList(orglist, organizationList);
-		createActionList(actList, actionList);
+		createActionList(actList, actionList, isSuperUser);
 	}
 	
-	public void createNewDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService){
+	public void createNewDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 	
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_NEW_ACTION_LIST);
 		List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		createOrgList(orglist, organizationList);
-		createActionList(actList, actionList);
+		createActionList(actList, actionList, isSuperUser);
 	}
 	
-	public void createDeletedDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService){
+	public void createDeletedDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_DELETED_ACTION_LIST);
 		//List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		//createOrgList(orglist, organizationList);
@@ -44,21 +44,25 @@ public class AuditSearchActionHelper {
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
 		String orgPath = nciUser.getOrgPath();
 		organizationList.add(new DropDownOption(orgPath, orgPath));
-		createActionList(actList, actionList); 
+		createActionList(actList, actionList, isSuperUser); 
 	}
 	
-	public void createInactiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService){
+	public void createInactiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_INACTIVE_ACTION_LIST);
 		List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		createOrgList(orglist, organizationList);
-		createActionList(actList, actionList);
+		createActionList(actList, actionList, isSuperUser);
 	}
 	
-	public void createActionList(List<AppLookupT> actList, List<DropDownOption> actionList){
+	public void createActionList(List<AppLookupT> actList, List<DropDownOption> actionList, boolean isSuperUser){
 		
 		for(AppLookupT act : actList){
-			DropDownOption ddp1 = new DropDownOption(""+act.getId(), act.getDescription());	
-			actionList.add(ddp1);
+			if(!isSuperUser && act.getId() == ApplicationConstants.ACTION_EXCLUDE_FROM_AUDIT){
+					continue;
+			}else{
+				DropDownOption ddp1 = new DropDownOption(""+act.getId(), act.getDescription());	
+				actionList.add(ddp1);
+			}
 		}
 	}
 	

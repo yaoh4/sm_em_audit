@@ -114,6 +114,7 @@ public interface ApplicationConstants {
 	public static final String NEW_ACTION_NOACTION = "34";
 	public static final String DELETED_ACTION_NOACTION = "35";
 	public static final String INACTIVE_ACTION_NOACTION = "36";
+	public static final Long ACTION_EXCLUDE_FROM_AUDIT = 29L;
 	
     public static String PORTFOLIO_ACTIVE = "portfolioActive";
     public static String PORTFOLIO_NEW = "portfolioNew";
