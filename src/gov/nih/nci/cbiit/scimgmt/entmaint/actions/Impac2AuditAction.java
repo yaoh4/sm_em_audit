@@ -426,7 +426,10 @@ public class Impac2AuditAction extends BaseAction {
 					ApplicationConstants.DELETED_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.INACTIVE_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.NEW_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
-					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
+					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
 				continue;
 			}else{
 				tempList.add(opt);

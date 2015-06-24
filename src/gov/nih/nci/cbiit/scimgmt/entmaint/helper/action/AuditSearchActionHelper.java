@@ -57,7 +57,10 @@ public class AuditSearchActionHelper {
 	public void createActionList(List<AppLookupT> actList, List<DropDownOption> actionList, boolean isSuperUser){
 		
 		for(AppLookupT act : actList){
-			if(!isSuperUser && act.getId() == ApplicationConstants.ACTION_EXCLUDE_FROM_AUDIT){
+			if(!isSuperUser && (act.getId() == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
+							    act.getId() == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
+							    act.getId() == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
+							    act.getId() == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT )){
 					continue;
 			}else{
 				DropDownOption ddp1 = new DropDownOption(""+act.getId(), act.getDescription());	
