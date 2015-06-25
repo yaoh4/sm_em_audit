@@ -124,12 +124,23 @@ public class AdminReportsAction extends BaseAction {
 	}
 	
 	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts, boolean loopRoles) {
+		
 		if(!loopRoles){
 			return auditAccounts;
 		}
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			Long actionId = null;
+			if(auditAccountVO != null && auditAccountVO.getAccountActivity() != null && auditAccountVO.getAccountActivity().getAction() != null && auditAccountVO.getAccountActivity().getAction().getId() != null){
+				actionId = auditAccountVO.getAccountActivity().getAction().getId();
+			}
+			if(actionId != null && (actionId == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
+			   actionId == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
+				continue;
+			}
 			String nedIc = auditAccountVO.getNedIc();
 			
 			exportAccountVOList.add(auditAccountVO);
