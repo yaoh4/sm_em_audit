@@ -139,7 +139,7 @@ function submitForm(){
           	</s:if>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_ENABLED)}">
-            	<s:submit value="End Audit" cssClass="btn btn-primary" action="endAudit" onClick="return validateForm()"/>      
+            	<s:submit value="Disable Audit" cssClass="btn btn-primary" action="endAudit" onClick="return validateForm()"/>      
             </s:elseif>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_DISABLED)}">

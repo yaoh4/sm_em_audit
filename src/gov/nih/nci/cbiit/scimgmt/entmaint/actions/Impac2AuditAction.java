@@ -253,22 +253,22 @@ public class Impac2AuditAction extends BaseAction {
 		
 		if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_INACTIVE);
-			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
+			auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 			this.setFormAction("searchInactiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_INACTIVE);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_ACTIVE);
-			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
+			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 			this.setFormAction("searchActiveAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
-			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
+			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 			this.setFormAction("searchDeletedAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_NEW);
-			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
+			auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
@@ -307,22 +307,22 @@ public class Impac2AuditAction extends BaseAction {
 	private String sortByCategory(String pageName){
 		String forward = "";
 		if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(pageName)){
-			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService);
+			auditSearchActionHelper.createActiveDropDownList(organizationList, actionList, lookupService,this.isSuperUser());
 			this.setFormAction("searchActiveAuditAccounts");
 			this.setCategory(pageName);
 			forward = FORWARD_ACTIVE;
 		}else if(ApplicationConstants.CATEGORY_NEW.equalsIgnoreCase(pageName)){
-				auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService);
+				auditSearchActionHelper.createNewDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 				this.setFormAction("searchNewAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_NEW;
 		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(pageName)){
-				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService);
+				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 				this.setFormAction("searchDeletedAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_DELETE;
 		}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(pageName)){
-				auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService);
+				auditSearchActionHelper.createInactiveDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
 				this.setFormAction("searchInactiveAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_INACTIVE;
@@ -425,7 +425,11 @@ public class Impac2AuditAction extends BaseAction {
 			if(ApplicationConstants.ACTIVE_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.DELETED_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.INACTIVE_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
-					ApplicationConstants.NEW_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey())){
+					ApplicationConstants.NEW_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
 				continue;
 			}else{
 				tempList.add(opt);

@@ -75,7 +75,10 @@ public class Impac2AuditDAO {
 			addSearchCriteria(criteria, searchVO);
 			
 			// action
-			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
+			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_NOACTION) ) {
+				criteria.add(Restrictions.isNull("activeAction.id"));
+			}
+			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 			}
 
@@ -114,9 +117,11 @@ public class Impac2AuditDAO {
 			addSearchCriteria(criteria, searchVO);
 			
 			// action
-			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
-				criteria.createAlias("newAction", "action");
-				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
+			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_NOACTION) ) {
+				criteria.add(Restrictions.isNull("newAction.id"));
+			}
+			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
+				criteria.add(Restrictions.eq("newAction.id", new Long(searchVO.getAct())));
 			}
 
 			return getPaginatedListResult(paginatedList, criteria, all);
@@ -153,9 +158,11 @@ public class Impac2AuditDAO {
 			addDeletedSearchCriteria(criteria, searchVO);
 			
 			// action
-			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
-				criteria.createAlias("deletedAction", "action");
-				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
+			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_NOACTION) ) {
+				criteria.add(Restrictions.isNull("deletedAction.id"));
+			}
+			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
+				criteria.add(Restrictions.eq("deletedAction.id", new Long(searchVO.getAct())));
 			}
 
 			return getPaginatedListResult(paginatedList, criteria, all);
@@ -192,9 +199,11 @@ public class Impac2AuditDAO {
 			addSearchCriteria(criteria, searchVO);
 			
 			// action
-			if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
-				criteria.createAlias("inactiveAction", "action");
-				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
+			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_NOACTION) ) {
+				criteria.add(Restrictions.isNull("inactiveAction.id"));
+			}
+			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
+				criteria.add(Restrictions.eq("inactiveAction.id", new Long(searchVO.getAct())));
 			}				
 
 			return getPaginatedListResult(paginatedList, criteria, all);
