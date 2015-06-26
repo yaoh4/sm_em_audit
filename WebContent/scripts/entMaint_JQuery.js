@@ -194,7 +194,9 @@ function onCategoryChage(category){
 	else{		
 		$('#dateRangeStartDate').datepicker('enable'); 
 		$('#dateRangeEndDate').datepicker('enable'); 
-		$('#dateRangeEndDate').datepicker('setDate', new Date());
+		if($('#dateRangeEndDate').val == null) {
+			$('#dateRangeEndDate').datepicker('setDate', new Date());
+		}
 	}
 	$.ajax({
 		url: "orgOptionAction.action",
