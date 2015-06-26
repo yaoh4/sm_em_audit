@@ -92,11 +92,8 @@ public class AdminReportsAction extends BaseAction {
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
 			}
-			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
-				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
-			}else{
-				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
-			}
+	
+			auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
 			forward = ApplicationConstants.EXPORT;
 		}
 	    setResultColumn(searchType); 
