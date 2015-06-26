@@ -539,6 +539,11 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.desc(sortOrderCriterion));
 			}
 		}
+		else {
+			// Default sort, add lastname, firstname asc
+			criteria.addOrder(Order.asc("lastName"));
+			criteria.addOrder(Order.asc("firstName"));
+		}
 		return criteria;
 	}
 

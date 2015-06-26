@@ -123,6 +123,11 @@ public class Impac2PortfolioDAO {
 						criteria.addOrder(Order.desc(sortOrderCriterion));
 				}
 			}
+			else {
+				// Default sort, add lastname, firstname asc
+				criteria.addOrder(Order.asc("lastName"));
+				criteria.addOrder(Order.asc("firstName"));
+			}
 						
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
