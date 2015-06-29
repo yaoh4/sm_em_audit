@@ -86,14 +86,15 @@ public class Impac2PortfolioAction extends BaseAction{
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.PORTFOLIO_SEARCHVO);
 		}
 		//If user doesn't enter Start date or End date, populate it.
-		if(searchVO.getDateRangeStartDate() == null && 
-				!isDefaultSearch && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED ||
-				searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW)){
-			searchVO.setDateRangeStartDate(new Date());
-		}	
 		if(searchVO.getDateRangeEndDate() == null){
 			searchVO.setDateRangeEndDate(new Date());
 		}
+		if(searchVO.getDateRangeStartDate() == null && 
+				!isDefaultSearch && (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_DELETED ||
+				searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_NEW)){
+			searchVO.setDateRangeStartDate(searchVO.getDateRangeEndDate());
+		}	
+
 	}
 	
 	/**
