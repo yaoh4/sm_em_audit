@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 5, 2015 1:58:31 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT" table="EM_PORTFOLIO_NOTES_T">
-        <id name="impaciiUserId" type="string">
-            <column name="IMPACII_USER_ID" length="30" />
-            <generator class="assigned" />
-        </id>
+        <composite-id>
+        	<key-property name="impaciiUserId" type="string">
+            	<column name="IMPACII_USER_ID" length="30" />
+            </key-property>
+            <key-property name="npnId" type="long">
+            	<column name="NPN_ID" precision="10" scale="0" />
+        	</key-property>
+        </composite-id>
         <property name="notes" type="string">
-            <column name="NOTES" length="200" />
+            <column name="NOTES" length="600" />
         </property>
         <property name="createUserId" type="string">
             <column name="CREATE_USER_ID" length="30" not-null="true" />

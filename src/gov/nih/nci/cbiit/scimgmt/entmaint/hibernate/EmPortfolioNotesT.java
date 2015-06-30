@@ -1,6 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 
-// Generated Mar 5, 2015 1:58:31 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -15,6 +15,7 @@ public class EmPortfolioNotesT implements java.io.Serializable {
 	private Date createDate;
 	private String lastChangeUserId;
 	private Date lastChangeDate;
+	private Long npnId;
 
 	public EmPortfolioNotesT() {
 	}
@@ -26,13 +27,14 @@ public class EmPortfolioNotesT implements java.io.Serializable {
 	}
 
 	public EmPortfolioNotesT(String impaciiUserId, String notes, String createUserId, Date createDate,
-			String lastChangeUserId, Date lastChangeDate) {
+			String lastChangeUserId, Date lastChangeDate, Long npnId) {
 		this.impaciiUserId = impaciiUserId;
 		this.notes = notes;
 		this.createUserId = createUserId;
 		this.createDate = createDate;
 		this.lastChangeUserId = lastChangeUserId;
 		this.lastChangeDate = lastChangeDate;
+		this.npnId = npnId;
 	}
 
 	public String getImpaciiUserId() {
@@ -81,6 +83,14 @@ public class EmPortfolioNotesT implements java.io.Serializable {
 
 	public void setLastChangeDate(Date lastChangeDate) {
 		this.lastChangeDate = lastChangeDate;
+	}
+
+	public Long getNpnId() {
+		return this.npnId;
+	}
+
+	public void setNpnId(Long npnId) {
+		this.npnId = npnId;
 	}
 
 }
