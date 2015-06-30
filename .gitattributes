@@ -186,6 +186,7 @@ WebContent/jsp/content/dashboard.jsp -text
 WebContent/jsp/content/email.jsp -text
 WebContent/jsp/content/i2eAuditAccounts.jsp -text
 WebContent/jsp/content/i2ePortfolioAccounts.jsp -text
+WebContent/jsp/content/manageAccountSubtypes.jsp -text
 WebContent/jsp/content/manageAccounts.jsp -text
 WebContent/jsp/content/portfolioAccountSearchResult.jsp -text
 WebContent/jsp/content/portfolioAccounts.jsp -text
