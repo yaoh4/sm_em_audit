@@ -45,11 +45,9 @@ public class EntMaintProperties extends Properties {
 					
 			String confDirLocation = System.getProperty("conf.dir");
 			logger.debug("=====> conf.dir=" + confDirLocation);
-			if(confDirLocation != null){
-				FileInputStream file =
+			FileInputStream file =
 						new FileInputStream(confDirLocation + "/entmaint/entmaint.properties");
-				this.load(file);
-			}
+			this.load(file);
 			logger.info("Completed init of EntMaintProperties");
 
 		} catch (IOException ie) {
