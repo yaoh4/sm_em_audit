@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 public class I2ePortfolioAction extends BaseAction {
 
 	
-	public String searchPortfolioAccounts() {
+	public String execute() {
 		String forward = SUCCESS;
 
         return forward;

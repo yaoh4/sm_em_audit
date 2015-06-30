@@ -23,32 +23,16 @@
         <put-attribute name="selectedSubNav" value="portfolio"/>
         <put-attribute name="selectedSubTab" value="activeAccounts"/>
         <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
-        <put-attribute name="content" value="/jsp/content/portfolioAccounts.jsp"/>              
+        <put-attribute name="content" value="/jsp/content/i2ePortfolioAccounts.jsp"/>              
     </definition>
     
-     <definition name="i2e.audit.active.accts.page" extends="base.definition">
+     <definition name="i2e.audit.accts.page" extends="base.definition">
         <put-attribute name="selectedTab" value="i2e"/>
         <put-attribute name="selectedSubNav" value="audit"/>
         <put-attribute name="selectedSubTab" value="activeAccounts"/>
         <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
-        <put-attribute name="content" value="/jsp/content/auditAccounts.jsp"/>              
+        <put-attribute name="content" value="/jsp/content/i2eAuditAccounts.jsp"/>              
     </definition>
     
-     <definition name="i2e.audit.del.accts.page" extends="base.definition">
-        <put-attribute name="selectedTab" value="i2e"/>
-        <put-attribute name="selectedSubNav" value="audit"/>
-        <put-attribute name="selectedSubTab" value="deletedAccounts"/>
-        <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
-        <put-attribute name="content" value="/jsp/content/auditAccounts.jsp"/>       
-    </definition>
-   
-    
-    <definition name="i2e.audit.new.accts.page" extends="base.definition">
-        <put-attribute name="selectedTab" value="i2e"/>
-        <put-attribute name="selectedSubNav" value="audit"/>
-        <put-attribute name="selectedSubTab" value="newAccounts"/>
-        <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
-        <put-attribute name="content" value="/jsp/content/auditAccounts.jsp"/>              
-    </definition>
-	
+     	
 </tiles-definitions>

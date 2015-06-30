@@ -12,38 +12,33 @@
 			<result-type name="redirect-action"
 				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
 		</result-types>
+		
+		<global-results>
+			<result name="error" type="tiles">tiles.error.details</result>
+		</global-results>
    
 		<global-exception-mappings>
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings>
 		
-		<action name="i2eHome" method="execute"
+		
+		<action name="i2eHome" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
-			<result name="success" type="redirect-action">portfolioAccounts</result>
+			<result name="audit_enabled" type="redirect-action">prepareActiveAuditAccounts</result>
+			<result name="audit_disabled" type="redirect-action">execute</result>
+			<result name="input" type="tiles">tiles.error.details</result>
 		</action>
 		
-		<action name="portfolioAccounts" method="searchPortfolioAccounts"
+		<action name="prepareActiveAuditAccounts" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
+			<result name="success" type="tiles">i2e.audit.accts.page</result>
+			<result name="input" type="tiles">i2e.audit.accts.page</result>
+		</action>
+				
+		<action name="execute" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
 			<result name="success" type="tiles">i2e.portfolio.accts.page</result>
 			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
-		</action>
-		
-		<action name="activeAuditAccounts" method="searchActiveAccounts"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
-			<result name="success" type="tiles">i2e.audit.active.accts.page</result>
-			<result name="input" type="tiles">i2e.audit.active.accts.page</result>
-		</action>
-		
-		<action name="deletedAuditAccounts" method="searchDeletedAccounts"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
-			<result name="success" type="tiles">i2e.audit.del.accts.page</result>
-			<result name="input" type="tiles">i2e.audit.del.accts.page</result>
-		</action>
-		
-		<action name="newAuditAccounts" method="searchNewAccounts"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
-			<result name="success" type="tiles">i2e.audit.new.accts.page</result>
-			<result name="input" type="tiles">i2e.audit.new.accts.page</result>
 		</action>
 		
 	</package>

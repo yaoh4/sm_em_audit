@@ -6,23 +6,12 @@ import org.apache.log4j.Logger;
 public class I2eAuditAction extends BaseAction {
 	
 	
-	public String searchDeletedAccounts() {
+	
+	public String execute() {
 		String forward = SUCCESS;
 
         return forward;
 	}
 	
 	
-	public String searchActiveAccounts() {
-		String forward = SUCCESS;
-
-        return forward;
-	}
-	
-	
-	public String searchNewAccounts() {
-		String forward = SUCCESS;
-
-        return forward;
-	}
 }
