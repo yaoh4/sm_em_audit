@@ -24,18 +24,18 @@
 		
 		<action name="i2eHome" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
-			<result name="audit_enabled" type="redirect-action">prepareActiveAuditAccounts</result>
-			<result name="audit_disabled" type="redirect-action">execute</result>
+			<result name="audit_enabled" type="redirect-action">prepareAuditAccounts</result>
+			<result name="audit_disabled" type="redirect-action">preparePortfolioAccounts</result>
 			<result name="input" type="tiles">tiles.error.details</result>
 		</action>
 		
-		<action name="prepareActiveAuditAccounts" method="execute"
+		<action name="prepareAuditAccounts" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
 			<result name="success" type="tiles">i2e.audit.accts.page</result>
 			<result name="input" type="tiles">i2e.audit.accts.page</result>
 		</action>
 				
-		<action name="execute" method="execute"
+		<action name="preparePortfolioAccounts" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
 			<result name="success" type="tiles">i2e.portfolio.accts.page</result>
 			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
