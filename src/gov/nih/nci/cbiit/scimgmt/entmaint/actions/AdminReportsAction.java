@@ -92,6 +92,7 @@ public class AdminReportsAction extends BaseAction {
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
 			}
+	
 			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
 			}else{
@@ -124,12 +125,23 @@ public class AdminReportsAction extends BaseAction {
 	}
 	
 	private List<AuditAccountVO> getExportAccountVOList(List<AuditAccountVO> auditAccounts, boolean loopRoles) {
+		
 		if(!loopRoles){
-			return auditAccounts;
+			return getInactiveExportAccountVOList(auditAccounts);
 		}
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			Long actionId = null;
+			if(auditAccountVO != null && auditAccountVO.getAccountActivity() != null && auditAccountVO.getAccountActivity().getAction() != null && auditAccountVO.getAccountActivity().getAction().getId() != null){
+				actionId = auditAccountVO.getAccountActivity().getAction().getId();
+			}
+			if(actionId != null && (actionId == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
+			   actionId == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
+				continue;
+			}
 			String nedIc = auditAccountVO.getNedIc();
 			
 			exportAccountVOList.add(auditAccountVO);
@@ -161,6 +173,24 @@ public class AdminReportsAction extends BaseAction {
 			}
 		}
 		
+		return exportAccountVOList;
+	}
+	
+	private List<AuditAccountVO> getInactiveExportAccountVOList(List<AuditAccountVO> auditAccounts){
+		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
+		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			Long actionId = null;
+			if(auditAccountVO != null && auditAccountVO.getAccountActivity() != null && auditAccountVO.getAccountActivity().getAction() != null && auditAccountVO.getAccountActivity().getAction().getId() != null){
+				actionId = auditAccountVO.getAccountActivity().getAction().getId();
+			}
+			if(actionId != null && (actionId == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
+			   actionId == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
+				continue;
+			}
+			exportAccountVOList.add(auditAccountVO);
+		}
 		return exportAccountVOList;
 	}
 	

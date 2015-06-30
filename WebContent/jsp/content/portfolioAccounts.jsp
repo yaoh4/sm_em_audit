@@ -68,7 +68,7 @@
 					<label class="control-label col-sm-3" for="f-name">IMPAC II
 						User First Name:</label>
 					<div class="col-sm-9">
-						<s:textfield name="searchVO.userFirstname" cssClass="form-control" maxlength="192"
+						<s:textfield name="searchVO.userFirstname" cssClass="form-control" maxlength="192" style="width:590px;"
 							placeholder="Enter First Name" value="%{#session.portfolioSearchVO.userFirstname}" id="f-name" />
 					</div>
 				</div>
@@ -77,7 +77,7 @@
 					<label class="control-label col-sm-3" for="l-name">IMPAC II
 						User Last Name:</label>
 					<div class="col-sm-9">
-						<s:textfield name="searchVO.userLastname" cssClass="form-control" maxlength="192"
+						<s:textfield name="searchVO.userLastname" cssClass="form-control" maxlength="192" style="width:590px;"
 							placeholder="Enter Last Name" value="%{#session.portfolioSearchVO.userLastname}" id="l-name" />
 					</div>
 				</div>	

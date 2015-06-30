@@ -123,6 +123,11 @@ public class Impac2PortfolioDAO {
 						criteria.addOrder(Order.desc(sortOrderCriterion));
 				}
 			}
+			else {
+				// Default sort, add lastname, firstname asc
+				criteria.addOrder(Order.asc("lastName"));
+				criteria.addOrder(Order.asc("firstName"));
+			}
 						
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -274,7 +279,7 @@ public class Impac2PortfolioDAO {
 			criteria.add(Restrictions.ge("createdDate", new java.sql.Date(searchVO.getDateRangeStartDate().getTime())));
 		}
 		if(searchVO.getDateRangeEndDate() != null) {
-			criteria.add(Restrictions.le("createdDate", new java.sql.Date(searchVO.getDateRangeEndDate().getTime())));
+			criteria.add(Restrictions.sqlRestriction("trunc(created_date) <= ?", new java.sql.Date(searchVO.getDateRangeEndDate().getTime()), org.hibernate.type.StandardBasicTypes.DATE));
 		}
 
 		return criteria;
@@ -294,7 +299,7 @@ public class Impac2PortfolioDAO {
 			criteria.add(Restrictions.ge("deletedDate", new java.sql.Date(searchVO.getDateRangeStartDate().getTime())));
 		}
 		if(searchVO.getDateRangeEndDate() != null) {
-			criteria.add(Restrictions.le("deletedDate", new java.sql.Date(searchVO.getDateRangeEndDate().getTime())));
+			criteria.add(Restrictions.sqlRestriction("trunc(deleted_date) <= ?", new java.sql.Date(searchVO.getDateRangeEndDate().getTime()), org.hibernate.type.StandardBasicTypes.DATE));
 		}
 
 		return criteria;

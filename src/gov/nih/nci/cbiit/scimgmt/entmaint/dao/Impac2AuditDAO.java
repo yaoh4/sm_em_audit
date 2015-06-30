@@ -69,7 +69,7 @@ public class Impac2AuditDAO {
             disc.add(Restrictions.isNull("deletedDate"));
             disc.add(Restrictions.gtProperty("deletedDate", "audit.impaciiToDate"));
             criteria.add(disc);
-			criteria.add(Restrictions.leProperty("createdDate", "audit.impaciiToDate"));
+			criteria.add(Restrictions.sqlRestriction("trunc(created_date) <= impacii_to_date"));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -111,7 +111,7 @@ public class Impac2AuditDAO {
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("createdDate", "audit.impaciiFromDate"));
-			criteria.add(Restrictions.leProperty("createdDate", "audit.impaciiToDate"));
+			criteria.add(Restrictions.sqlRestriction("trunc(created_date) <= impacii_to_date"));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -152,7 +152,7 @@ public class Impac2AuditDAO {
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
 			criteria.add(Restrictions.geProperty("deletedDate", "audit.impaciiFromDate"));
-			criteria.add(Restrictions.leProperty("deletedDate", "audit.impaciiToDate"));
+			criteria.add(Restrictions.sqlRestriction("trunc(deleted_date) <= impacii_to_date"));
 
 			// Add user specific search criteria
 			addDeletedSearchCriteria(criteria, searchVO);
@@ -578,6 +578,11 @@ public class Impac2AuditDAO {
 				else
 					criteria.addOrder(Order.desc(sortOrderCriterion));
 			}
+		}
+		else {
+			// Default sort, add lastname, firstname asc
+			criteria.addOrder(Order.asc("lastName"));
+			criteria.addOrder(Order.asc("firstName"));
 		}
 		return criteria;
 	}

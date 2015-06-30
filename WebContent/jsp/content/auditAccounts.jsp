@@ -153,13 +153,13 @@
     <div class="form-group">
       <label class="control-label col-sm-3" for="f-name">IMPAC II User First Name:</label>
       <div class="col-sm-9">
-        <s:textfield name="searchVO.userFirstname" placeholder="Enter First Name" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userFirstname}" id="f-name"/>
+        <s:textfield name="searchVO.userFirstname" placeholder="Enter First Name" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userFirstname}" id="f-name" style="width:590px;"/>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3" for="l-name">IMPAC II User Last Name:</label>
       <div class="col-sm-9">          
-        <s:textfield name="searchVO.userLastname" placeholder="Enter Last Name" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userLastname}" id="l-name"/>
+        <s:textfield name="searchVO.userLastname" placeholder="Enter Last Name" maxlength="192" cssClass="form-control" value="%{#session.searchVO.userLastname}" id="l-name" style="width:590px;"/>
       </div>
 </div>
 <s:if test="category == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
