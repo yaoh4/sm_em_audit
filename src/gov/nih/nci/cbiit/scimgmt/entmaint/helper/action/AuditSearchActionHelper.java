@@ -113,6 +113,30 @@ public class AuditSearchActionHelper {
 	}
 	
 	/**
+	 * This method is responsible for preparing drop down lists for organizationList and categoriesList for portfolio accounts search.
+	 * @return 
+	 */
+	public void  createI2EPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService, Map<String, Object> session){
+
+		List<EmOrganizationVw> orgs = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
+		if(orgs != null && orgs.size() >0){
+			for(EmOrganizationVw org : orgs){
+				DropDownOption orgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());	
+				organizationList.add(orgOption);	
+			}
+			session.put(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST, organizationList);	
+		}
+
+		List<AppLookupT> categories = (List<AppLookupT>)lookupService.getList(ApplicationConstants.APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST);		
+		if(categories != null && categories.size() >0){
+			for(AppLookupT category : categories){
+				DropDownOption categoryOption = new DropDownOption(""+category.getId(), category.getDescription());	
+				categoriesList.add(categoryOption);
+			}
+			session.put(ApplicationConstants.CATEGORY_DROPDOWN_LIST, categoriesList);	
+		}		
+	}
+	/**
 	 * This method is responsible for fetching displayColumns for different categories.
 	 * @return List<Tab>
 	 */

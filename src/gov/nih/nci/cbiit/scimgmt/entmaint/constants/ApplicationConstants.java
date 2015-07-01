@@ -57,6 +57,7 @@ public interface ApplicationConstants {
     public static final String APP_LOOKUP_INACTIVE_ACTION_LIST = "appLookupInactiveAction";
     public static final String YOUR_GRANT_DETAILS_APP_LINK_LIST = "yourGrantDetailsapplinklist";
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
+    public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
@@ -128,7 +129,8 @@ public interface ApplicationConstants {
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
-
+    public static String I2E_PORTFOLIO_SEARCHVO = "i2ePortfolioSearchVO";
+    
     public static String ACTIONLIST = "actionList";
     
     public static String PAGE_SIZE = "pageSize";
