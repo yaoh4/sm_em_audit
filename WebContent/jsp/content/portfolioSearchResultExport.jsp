@@ -6,6 +6,7 @@
 %>
 <display:table name="portfolioAccounts" id="portfolioAccountsId" export="true" requestURI="<%=sortAction%>">
 <display:setProperty name="export.excel.decorator" value="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultExportDecorator"/>
+<display:setProperty name="export.excel.filename" value="Portfolio.xls"/>
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.export == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
