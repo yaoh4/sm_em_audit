@@ -31,7 +31,8 @@
 	<property name="distribution.dir"       value="./distribution" />
 	<property name="webcontent.dir"		    value="./WebContent" />
 	<property name="properties.dir"		    value="./properties" />
-	
+	<property name="class_path_test1"       value="./WebContent/WEB-INF/classes"/>
+	<property name="class_path_test2"       value="./bin"/>
 	<property name="doc.dir"				value="./docs" />
 	<property name="javadoc.dir"            value="./docs/javadoc" />
 	<property name="web.inf.dir"            value="${webcontent.dir}/WEB-INF" />
@@ -50,9 +51,9 @@
 	
     <property name="app.distribution.dir"   value="${distribution.dir}/${app.name}"/>
     <property name="app.name.war"           value="${app.name}.war"/>
-   
+   	
     <property name="common.properties.dir"  value="${properties.dir}/${common.env}"/>
-	
+   
 	
 	<echo message="************************************************************"></echo>
     <echo message="Build started: ${start.timestamp}"></echo>
@@ -190,8 +191,7 @@
             </lib>
         </war>
     </target>
- 
-    
+  
    <target name="tomcat.undeploy">
       <undeploy url="${tomcat.url}" failonerror="false"
                     username="${tomcat.user}" password="${tomcat.password}"
@@ -204,6 +204,17 @@
               war="${basedir}/${app.distribution.dir}/${app.name.war}"/>
    </target>  
    <!-- run ALL targets -->
-   <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.undeploy, tomcat.deploy"/>
-
+   <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.deploy"/>
+	<target name="junit-local" depends="compile, copy_properties_files">
+	    <junit printsummary="yes" haltonfailure="no">
+		<classpath refid="project.classpath" />
+		<classpath location="${class_path_test1}" />
+		 <classpath location="${class_path_test2}" />
+		<test name="gov.nih.nci.cbiit.scimgmt.entmaint.junit.AuditAccountTest" haltonfailure="no" outfile="${distribution.dir}/result">
+			<formatter type="plain" />
+			<formatter type="xml" />
+		</test>
+	 
+	  </junit>
+	</target>
 </project>
