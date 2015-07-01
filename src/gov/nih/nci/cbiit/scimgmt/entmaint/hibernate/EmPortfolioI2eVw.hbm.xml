@@ -67,8 +67,10 @@
             <property name="notesSubmittedDate" type="timestamp">
                 <column name="NOTES_SUBMITTED_DATE" length="7" />
             </property>
-            <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="true" lazy="false" fetch="select">
-            	<key column="NPN_ID" not-null="true"/>
+            <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="false" lazy="false" fetch="select">
+            	<key>
+                	<column name="NPN_ID" not-null="true"/>
+            	</key>
             	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw" />
         	</bag>
     </class>

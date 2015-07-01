@@ -69,7 +69,7 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	 * @param category
 	 * @return
 	 */
-	public String getPortfolioNoteById(Integer id){
+	public String getPortfolioNoteById(Long id){
 		
 		return i2ePortfolioDAO.getPortfolioNoteById(id);
 	}

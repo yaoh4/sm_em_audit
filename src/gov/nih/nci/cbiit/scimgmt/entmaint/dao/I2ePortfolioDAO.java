@@ -163,7 +163,7 @@ public class I2ePortfolioDAO {
 	/**
 	 * get Audit Note by id
 	 */
-	public String getPortfolioNoteById(Integer id){
+	public String getPortfolioNoteById(Long id){
 		String note = "";
 		Criteria crit;
 		try {
