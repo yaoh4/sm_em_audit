@@ -49,6 +49,8 @@ WebContent/WEB-INF/lib/json-20080701.jar -text
 WebContent/WEB-INF/lib/json-lib-2.3-jdk15.jar -text
 WebContent/WEB-INF/lib/jta-1.1.jar -text
 WebContent/WEB-INF/lib/juh-3.1.0.jar -text
+WebContent/WEB-INF/lib/junit-4.10.jar -text
+WebContent/WEB-INF/lib/junit-4.12.jar -text
 WebContent/WEB-INF/lib/jurt-3.1.0.jar -text
 WebContent/WEB-INF/lib/log4j-1.2.15.jar -text
 WebContent/WEB-INF/lib/mail.jar -text
@@ -79,6 +81,7 @@ WebContent/WEB-INF/lib/spring-core-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/spring-expression-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/spring-jdbc-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/spring-orm-4.1.4.RELEASE.jar -text
+WebContent/WEB-INF/lib/spring-test-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/spring-tx-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/spring-web-4.1.4.RELEASE.jar -text
 WebContent/WEB-INF/lib/sslext-1.2-0.jar -text
