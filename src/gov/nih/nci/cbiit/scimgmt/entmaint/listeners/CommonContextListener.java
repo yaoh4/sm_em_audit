@@ -43,5 +43,9 @@ public class CommonContextListener implements ServletContextListener {
         dread = new DisplayReader();
         tabMap = dread.getAllTabsAndColumns(iStream);
         context.setAttribute(ApplicationConstants.REPORTCOLATTRIBUTE, tabMap);
+        iStream = this.getClass().getClassLoader().getResourceAsStream("/i2eColumn.xml");
+        dread = new DisplayReader();
+        tabMap = dread.getAllTabsAndColumns(iStream);
+        context.setAttribute(ApplicationConstants.I2ECOLATTRIBUTE, tabMap);
     }
 }

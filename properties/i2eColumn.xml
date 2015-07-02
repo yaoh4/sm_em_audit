@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ <Display>
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Discrepancy</columnName>
+ 		<property>lastName</property>
+		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>parentNedOrgPath</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Account Created Date</columnName>
+ 		<property>createdDate</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Created/Last Updated By</columnName>
+ 		<property>lastUpdByFullName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Role</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Role Created On</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Action</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>notesSubmittedByFullName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>parentNedOrgPath</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Account Created Date</columnName>
+ 		<property>createdDate</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Created/Last Updated By</columnName>
+ 		<property>lastUpdByFullName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Active I2E Role(s)</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Role(s) Created On</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Action</columnName>
+ 		<property>lastName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>notesSubmittedByFullName</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ </Display>   

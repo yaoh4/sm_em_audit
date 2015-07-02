@@ -42,6 +42,12 @@
 			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
 		</action>
 		
+		<action name="searchI2ePortfolioAccounts" method="searchI2ePortfolioAccounts"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
+			<result name="success" type="tiles">i2e.portfolio.accts.page</result>
+			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
+		</action>
+		
 		<action name="clearSearchPortfolioAccounts" method="clearSearchPortfolioAccounts"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
 			<result name="success" type="tiles">i2e.portfolio.accts.page</result>

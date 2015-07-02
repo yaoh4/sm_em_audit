@@ -48,6 +48,9 @@ public class DisplayReader {
 		List<Tab> portfolioNew = new ArrayList<Tab>();
 		List<Tab> portfolioDeleted = new ArrayList<Tab>();
 		List<Tab> portfolioDiscrepancy = new ArrayList<Tab>();
+		List<Tab> i2ePorfolioAccount = new ArrayList<Tab>();
+		List<Tab> i2ePorfolioDiscrepancy = new ArrayList<Tab>();
+		
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(t.getType())){
@@ -74,6 +77,12 @@ public class DisplayReader {
 			if(ApplicationConstants.PORTFOLIO_DISCREPANCY.equalsIgnoreCase(t.getType())){
 				portfolioDiscrepancy.add(t);
 			}
+			if(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT.equalsIgnoreCase(t.getType())){
+				i2ePorfolioAccount.add(t);
+			}
+			if(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY.equalsIgnoreCase(t.getType())){
+				i2ePorfolioDiscrepancy.add(t);
+			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
@@ -83,7 +92,8 @@ public class DisplayReader {
 		colMap.put(ApplicationConstants.PORTFOLIO_NEW, portfolioNew);
 		colMap.put(ApplicationConstants.PORTFOLIO_DELETED, portfolioDeleted);
 		colMap.put(ApplicationConstants.PORTFOLIO_DISCREPANCY, portfolioDiscrepancy);
-		
+		colMap.put(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT, i2ePorfolioAccount);
+		colMap.put(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY, i2ePorfolioDiscrepancy);
 		return colMap;
 	}
 	

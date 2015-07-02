@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib uri="/WEB-INF/tld/displaytag.tld" prefix="display"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants" %>
 
 <s:include value="/jsp/content/manageAccounts.jsp" />
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js"	type="text/javascript"></script>
@@ -66,15 +67,14 @@
 				<div class="form-group">
 					<label class="control-label col-sm-3" for="portfolioCategory">Category:</label>
 					<div class="col-sm-9">
-						<s:select name="searchVO.category" id="portfolioCategory"
-							onchange="onCategoryChage(this.value);" cssClass="form-control"
-							value="%{#session.portfolioSearchVO.category}" list="session.categoryList"
+						<s:select name="searchVO.category" id="portfolioCategory" cssClass="form-control"
+							value="%{#session.i2ePortfolioSearchVO.category}" list="session.categoryList"
 							listKey="optionKey" listValue="optionValue" style="width:590px;" />
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
-						<s:submit value="Search" cssClass="btn btn-primary" onclick="#"  />
+						<s:submit value="Search" cssClass="btn btn-primary" onclick="openLoading();"  />
 						<s:submit value="Clear"	action="i2e/clearSearchPortfolioAccounts" cssClass="btn btn-default" />
 					</div>
 				</div>
@@ -84,3 +84,24 @@
 	<br />
 	<!--  For tab-content -->
 </div>
+
+<div id="anchor"></div>
+
+<s:if test="showResult">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Results - <s:property value="%{getTitle()}"/></h3>
+		</div>
+		<s:if test="%{i2ePortfolioAccounts.list.size > 0}">
+			<div class="panel-body">
+				<s:include value="/jsp/content/i2ePortfolioAccountSearchResult.jsp?sortAction=%{formAction}" />
+			</div>
+		</s:if>
+		<s:else>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
+			<body onload="moveToAnchor();"></body>
+		</s:else>
+	</div>
+</s:if>
+
+<div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>

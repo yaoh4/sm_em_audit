@@ -125,8 +125,12 @@ public interface ApplicationConstants {
     public static String PORTFOLIO_DELETED = "portfolioDeleted";
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
     
+    public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
+    public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
+    
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
+    public static String I2ECOLATTRIBUTE="i2eColAttribute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
     public static String I2E_PORTFOLIO_SEARCHVO = "i2ePortfolioSearchVO";
@@ -139,6 +143,9 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
 	public static final String CURRENTPAGE ="currentPage";
+	
+	public static final long I2E_PORTFOLIO_CATEGORY_ACCOUNT= 37;
+	public static final long I2E_PORTFOLIO_CATEGORY_DISCREPANCY= 38;
 	
 	public static final String FLAG_YES = "Y";
 	public static final String FLAG_NO = "N";

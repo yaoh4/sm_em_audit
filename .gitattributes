@@ -188,6 +188,7 @@ WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/dashboard.jsp -text
 WebContent/jsp/content/email.jsp -text
 WebContent/jsp/content/i2eAuditAccounts.jsp -text
+WebContent/jsp/content/i2ePortfolioAccountSearchResult.jsp -text
 WebContent/jsp/content/i2ePortfolioAccounts.jsp -text
 WebContent/jsp/content/manageAccountSubtypes.jsp -text
 WebContent/jsp/content/manageAccounts.jsp -text
@@ -241,6 +242,7 @@ properties/dev/ldap.properties -text
 properties/dev/log4j.properties -text
 properties/displayColumn.xml -text
 properties/displaytag.properties -text
+properties/i2eColumn.xml -text
 properties/local/entmaint.properties -text
 properties/local/ldap.properties -text
 properties/local/log4j.properties -text
@@ -276,6 +278,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResult
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/constants/ApplicationConstants.java -text

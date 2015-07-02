@@ -160,6 +160,23 @@ public class AuditSearchActionHelper {
 	}
 	
 	/**
+	 * This method is responsible for fetching displayColumns for different categories.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getI2ePortfolioDisplayColumn(Map<String, List<Tab>> colMap, int category){
+		List<Tab> displayColumn = null;
+		switch(category){
+		case (int)ApplicationConstants.I2E_PORTFOLIO_CATEGORY_ACCOUNT:
+			 displayColumn = colMap.get(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT);
+			 break;
+		case (int)ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY:
+			 displayColumn = colMap.get(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY);
+			 break;
+		}
+		return displayColumn;
+	}
+	
+	/**
 	 * This method is setting Up ChangePageSize DropDown List.
 	 * @return 
 	 */
