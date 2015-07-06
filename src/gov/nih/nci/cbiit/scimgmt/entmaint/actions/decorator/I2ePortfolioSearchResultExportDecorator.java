@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Configurable;
  *
  */
 @Configurable
-public class I2ePortfolioSearchResultDecorator extends TableDecorator{
+public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 	
 	/**
 	 * Get the full name.
@@ -23,16 +23,7 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 	 */
 	public String getFullName() {
 		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		String fullName = "";
-		if(!StringUtils.isBlank(portfolioVO.getFullName())){
-			if(!StringUtils.isBlank(portfolioVO.getNedEmailAddress())){
-				fullName =  "<a href=\"mailto:" + portfolioVO.getNedEmailAddress() +  "\">" + portfolioVO.getFullName() + "</a>";
-			}
-			else{
-				fullName = portfolioVO.getFullName();
-			}
-		}
-		return fullName;
+		return portfolioVO.getFullName();
 	}
 	
 	public String getI2eCreatedDate(){

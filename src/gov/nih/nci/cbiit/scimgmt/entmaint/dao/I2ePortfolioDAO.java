@@ -84,7 +84,7 @@ public class I2ePortfolioDAO {
 					}else{
 						criteria.addOrder(Order.desc("createdByUserId"));
 					}
-				}else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
+				}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc("createdDate"));
 					else

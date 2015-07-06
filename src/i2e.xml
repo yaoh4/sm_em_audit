@@ -46,6 +46,7 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2ePortfolioAction">
 			<result name="success" type="tiles">i2e.portfolio.accts.page</result>
 			<result name="input" type="tiles">i2e.portfolio.accts.page</result>
+			<result name="export" type="dispatcher">/jsp/content/i2ePortfolioSearchResultExport.jsp</result>
 		</action>
 		
 		<action name="clearSearchPortfolioAccounts" method="clearSearchPortfolioAccounts"

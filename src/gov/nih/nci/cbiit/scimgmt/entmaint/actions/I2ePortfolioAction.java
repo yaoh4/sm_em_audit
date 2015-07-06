@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +51,18 @@ public class I2ePortfolioAction extends BaseAction {
 		}
 		setDefaultPageSize();
 		i2ePortfolioAccounts = new PaginatedListImpl<PortfolioI2eAccountVO>(request,changePageSize);
-		i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, false);
+		
+		
+		//If export is requested then retrieve all accounts else retrieve only limited accounts as per pagination.
+		if(DisplayTagHelper.isExportRequest(request, "i2ePortfolioAccountsId")) {
+			i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, true);
+			i2ePortfolioAccounts.setList(getExportAccountVOList(i2ePortfolioAccounts.getList()));
+			forward =  ApplicationConstants.EXPORT;
+		}
+		else {
+			i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, false);	
+		}
+		
 		//Put searchVO in session.
 		session.put(ApplicationConstants.I2E_PORTFOLIO_SEARCHVO, searchVO);	
 				
@@ -152,5 +166,37 @@ public class I2ePortfolioAction extends BaseAction {
 		this.title = title;
 	}
 
-
+	/**
+	 * This method returns Export List for portfolio accounts. 
+	 * @return List
+	 */  
+	private List<PortfolioI2eAccountVO> getExportAccountVOList(List<PortfolioI2eAccountVO> auditAccounts) {
+		List<PortfolioI2eAccountVO> exportAccountVOList = new ArrayList<PortfolioI2eAccountVO>();
+		
+		for(PortfolioI2eAccountVO portfolioI2eAccountVO: auditAccounts) {
+			exportAccountVOList.add(portfolioI2eAccountVO);
+//			List<EmPortfolioRolesVw> accountRoles = portfolioAccountVO.getAccountRoles();
+//			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+//				//Exclude the first role, because it is already present in auditAccountVO
+//				for(int index = 1; index < accountRoles.size(); index++) {
+//					//For the remaining ones, create a new AuditAccountVO, and 
+//					//add the role to it, so that each role shows up in a separate
+//					//row in excel.
+//					PortfolioAccountVO portfolioAccountVOItem = new PortfolioAccountVO();
+//					
+//					//Blank out the name field in additional role export rows
+//					portfolioAccountVOItem.setNedLastName("");
+//					portfolioAccountVOItem.setNedFirstName("");
+//					
+//					//Prevent false discrepancies
+//					portfolioAccountVOItem.setImpaciiLastName("");
+//					portfolioAccountVOItem.setNedIc("NCI");
+//					
+//					portfolioAccountVOItem.addAccountRole(accountRoles.get(index));
+//					exportAccountVOList.add(portfolioAccountVOItem);				
+//				}
+//			}
+		}		
+		return exportAccountVOList;
+	}
 }

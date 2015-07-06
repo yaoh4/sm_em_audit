@@ -19,19 +19,19 @@
  		<type>i2e</type>
  		<columnName>I2E (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>NED Org Path</columnName>
  		<property>parentNedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>I2E Account Created Date</columnName>
- 		<property>createdDate</property>
- 		<sort>false</sort>
+ 		<property>i2eCreatedDate</property>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>i2e</type>
@@ -78,19 +78,19 @@
  		<type>i2eDiscrepancy</type>
  		<columnName>I2E (Network) ID</columnName>
  		<property>nihNetworkId</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>NED Org Path</columnName>
  		<property>parentNedOrgPath</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>I2E Account Created Date</columnName>
- 		<property>createdDate</property>
- 		<sort>false</sort>
+ 		<property>i2eCreatedDate</property>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>i2eDiscrepancy</type>

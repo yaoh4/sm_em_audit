@@ -190,6 +190,7 @@ WebContent/jsp/content/email.jsp -text
 WebContent/jsp/content/i2eAuditAccounts.jsp -text
 WebContent/jsp/content/i2ePortfolioAccountSearchResult.jsp -text
 WebContent/jsp/content/i2ePortfolioAccounts.jsp -text
+WebContent/jsp/content/i2ePortfolioSearchResultExport.jsp -text
 WebContent/jsp/content/manageAccountSubtypes.jsp -text
 WebContent/jsp/content/manageAccounts.jsp -text
 WebContent/jsp/content/portfolioAccountSearchResult.jsp -text
@@ -279,6 +280,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecora
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/constants/ApplicationConstants.java -text
