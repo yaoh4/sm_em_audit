@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Jul 6, 2015 12:14:15 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT" table="EM_PORTFOLIO_NOTES_T">
-        <composite-id>
-        	<key-property name="impaciiUserId" type="string">
-            	<column name="IMPACII_USER_ID" length="30" />
-            </key-property>
-            <key-property name="npnId" type="long">
-            	<column name="NPN_ID" precision="10" scale="0" />
-        	</key-property>
-        </composite-id>
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0" />
+            <generator class="sequence">
+				<param name="sequence">EMP_SEQ</param>
+			</generator>
+        </id>
+        <property name="impaciiUserId" type="string">
+            <column name="IMPACII_USER_ID" length="30" />
+        </property>
+        <property name="npnId" type="long">
+            <column name="NPN_ID" precision="10" scale="0" />
+        </property>
         <property name="notes" type="string">
             <column name="NOTES" length="600" />
         </property>

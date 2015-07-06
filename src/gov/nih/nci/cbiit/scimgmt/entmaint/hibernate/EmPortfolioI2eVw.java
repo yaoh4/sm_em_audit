@@ -1,6 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 
-// Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jul 6, 2015 12:14:14 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +32,12 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 	private String notes;
 	private String notesSubmittedByFullName;
 	private Date notesSubmittedDate;
+	private String sodFlag;
+	private Boolean nedInactiveFlag;
+	private Boolean noActiveRoleFlag;
+	private String activeRoleRemainderFlag;
 	private List<I2eActiveUserRolesVw> accountRoles = new ArrayList<I2eActiveUserRolesVw>(0);
+	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
 	public EmPortfolioI2eVw() {
 	}
@@ -48,7 +53,8 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 			String i2eLastName, String i2eFirstName, String nedLastName, String nedFirstName, String nedEmailAddress,
 			String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag, String nciDoc,
 			Date createdDate, String lastUpdByFullName, String i2eOnlyFlag, String notes,
-			String notesSubmittedByFullName, Date notesSubmittedDate, List accountRoles) {
+			String notesSubmittedByFullName, Date notesSubmittedDate, String sodFlag, Boolean nedInactiveFlag,
+			Boolean noActiveRoleFlag, String activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
 		this.npnId = npnId;
 		this.oracleId = oracleId;
 		this.nihNetworkId = nihNetworkId;
@@ -70,7 +76,12 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.notes = notes;
 		this.notesSubmittedByFullName = notesSubmittedByFullName;
 		this.notesSubmittedDate = notesSubmittedDate;
+		this.sodFlag = sodFlag;
+		this.nedInactiveFlag = nedInactiveFlag;
+		this.noActiveRoleFlag = noActiveRoleFlag;
+		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
 		this.accountRoles = accountRoles;
+		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
 	public Long getNpnId() {
@@ -241,6 +252,38 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.notesSubmittedDate = notesSubmittedDate;
 	}
 
+	public String getSodFlag() {
+		return this.sodFlag;
+	}
+
+	public void setSodFlag(String sodFlag) {
+		this.sodFlag = sodFlag;
+	}
+
+	public Boolean getNedInactiveFlag() {
+		return this.nedInactiveFlag;
+	}
+
+	public void setNedInactiveFlag(Boolean nedInactiveFlag) {
+		this.nedInactiveFlag = nedInactiveFlag;
+	}
+
+	public Boolean getNoActiveRoleFlag() {
+		return this.noActiveRoleFlag;
+	}
+
+	public void setNoActiveRoleFlag(Boolean noActiveRoleFlag) {
+		this.noActiveRoleFlag = noActiveRoleFlag;
+	}
+
+	public String getActiveRoleRemainderFlag() {
+		return this.activeRoleRemainderFlag;
+	}
+
+	public void setActiveRoleRemainderFlag(String activeRoleRemainderFlag) {
+		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
+	}
+
 	public List<I2eActiveUserRolesVw> getAccountRoles() {
 		return accountRoles;
 	}
@@ -249,6 +292,14 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.accountRoles = accountRoles;
 	}
 	
+	public List<String> getAccountDiscrepancies() {
+		return accountDiscrepancies;
+	}
+
+	public void setAccountDiscrepancies(List<String> accountDiscrepancies) {
+		this.accountDiscrepancies = accountDiscrepancies;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -312,7 +363,18 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 						.getNotesSubmittedByFullName().equals(castOther.getNotesSubmittedByFullName())))
 				&& ((this.getNotesSubmittedDate() == castOther.getNotesSubmittedDate()) || (this
 						.getNotesSubmittedDate() != null && castOther.getNotesSubmittedDate() != null && this
-						.getNotesSubmittedDate().equals(castOther.getNotesSubmittedDate())));
+						.getNotesSubmittedDate().equals(castOther.getNotesSubmittedDate())))
+				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
+						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
+				&& ((this.getNedInactiveFlag() == castOther.getNedInactiveFlag()) || (this.getNedInactiveFlag() != null
+						&& castOther.getNedInactiveFlag() != null && this.getNedInactiveFlag().equals(
+						castOther.getNedInactiveFlag())))
+				&& ((this.getNoActiveRoleFlag() == castOther.getNoActiveRoleFlag()) || (this.getNoActiveRoleFlag() != null
+						&& castOther.getNoActiveRoleFlag() != null && this.getNoActiveRoleFlag().equals(
+						castOther.getNoActiveRoleFlag())))
+				&& ((this.getActiveRoleRemainderFlag() == castOther.getActiveRoleRemainderFlag()) || (this
+						.getActiveRoleRemainderFlag() != null && castOther.getActiveRoleRemainderFlag() != null && this
+						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())));
 	}
 
 	public int hashCode() {
@@ -340,6 +402,11 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		result = 37 * result
 				+ (getNotesSubmittedByFullName() == null ? 0 : this.getNotesSubmittedByFullName().hashCode());
 		result = 37 * result + (getNotesSubmittedDate() == null ? 0 : this.getNotesSubmittedDate().hashCode());
+		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
+		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
+		result = 37 * result + (getNoActiveRoleFlag() == null ? 0 : this.getNoActiveRoleFlag().hashCode());
+		result = 37 * result
+				+ (getActiveRoleRemainderFlag() == null ? 0 : this.getActiveRoleRemainderFlag().hashCode());
 		return result;
 	}
 

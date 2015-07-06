@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.I2ePortfolioDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
@@ -49,6 +50,7 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 
 		List<PortfolioI2eAccountVO> list = new ArrayList<PortfolioI2eAccountVO>();
 		for (final EmPortfolioI2eVw account : portfolioList) {
+			account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
 			list.add(populatePortfolioAccountVO(account));
 		}
 		paginatedList.setList(list);
@@ -99,6 +101,43 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 							e);
 		}
 		return portfolioAccountVO;
+	}
+	
+	/**
+	 * Add account discrepancies if DB flag is set to the list of discrepancies
+	 * 
+	 * @param account
+	 * @param category
+	 * @return
+	 */
+	private List<String> populateAccountDiscrepancy(EmPortfolioI2eVw account) {
+		List<String> discrepancyList = new ArrayList<String>();
+		// Check if there is a violation in roles given to the user
+		if(account.getSodFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_SOD);
+		}
+
+		// Check if NED_ACTIVE_FLAG is N
+		if (account.getNedInactiveFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NED_INACTIVE);
+		}
+		
+		// Check for Active I2E Account/Inactive I2E Role(s)
+		if (account.getNoActiveRoleFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE);
+		}
+
+		// Check for Active I2E Account/Inactive IMPAC II Account
+		if (account.getI2eOnlyFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ONLY);
+		}
+		
+		// Check for Inactive I2E Account/Active I2E Role(s)
+		if (account.getActiveRoleRemainderFlag() != null) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
+		}
+				
+		return discrepancyList;
 	}
 	
 }

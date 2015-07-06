@@ -67,6 +67,18 @@
             <property name="notesSubmittedDate" type="timestamp">
                 <column name="NOTES_SUBMITTED_DATE" length="7" />
             </property>
+            <property name="sodFlag" type="string">
+                <column name="SOD_FLAG" length="1" />
+            </property>
+            <property name="nedInactiveFlag" type="yes_no">
+                <column name="NED_INACTIVE_FLAG" length="1" />
+            </property>
+            <property name="noActiveRoleFlag" type="yes_no">
+                <column name="NO_ACTIVE_ROLE_FLAG" length="1" />
+            </property>
+            <property name="activeRoleRemainderFlag" type="string">
+                <column name="ACTIVE_ROLE_REMAINDER_FLAG" length="1" />
+            </property>
             <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="false" lazy="false" fetch="select">
             	<key>
                 	<column name="NPN_ID" not-null="true"/>

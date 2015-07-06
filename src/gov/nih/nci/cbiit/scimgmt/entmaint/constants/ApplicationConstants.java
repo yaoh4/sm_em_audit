@@ -75,6 +75,13 @@ public interface ApplicationConstants {
     public static final String DISCREPANCY_CODE_NED_INACTIVE = "NEDINACTIVE";
     public static final String DISCREPANCY_CODE_LAST_NAME = "LNAMEDIFF";
     
+    /* I2e Discrepancy type codes */
+    public static final String DISCREPANCY_CODE_I2E_SOD = "I2ESOD";
+    public static final String DISCREPANCY_CODE_I2E_NED_INACTIVE = "I2ENEDINACTIVE";
+    public static final String DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE = "I2ENOACTIVEROLE";
+    public static final String DISCREPANCY_CODE_I2E_ONLY = "I2EONLY";
+    public static final String DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER = "I2EACTIVEROLEREM";
+    
     /* Organization Drop down */
     public static final String ORG_PATH_NON_NCI = "Non-NCI";
     public static final String NED_IC_NCI = "NCI";

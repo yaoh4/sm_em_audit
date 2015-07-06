@@ -20,6 +20,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -211,6 +212,10 @@ public class I2ePortfolioDAO {
 			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
 		}
 
+		if (searchVO.getCategory().longValue() == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY) {
+			addDiscrepancyCriteria(criteria);
+		}
+		
 		return criteria;
 	}
 	
@@ -269,6 +274,24 @@ public class I2ePortfolioDAO {
 		Long rowCount = (Long) criteria.uniqueResult();
 		return rowCount.intValue();
 
+	}
+	
+	/**
+	 * Add criteria specific to accounts with discrepancy
+	 * 
+	 * @param criteria
+	 * @param searchVO
+	 * @return
+	 */
+	private Criteria addDiscrepancyCriteria(final Criteria criteria) {
+		Disjunction disc = Restrictions.disjunction();
+        disc.add(Restrictions.eq("sodFlag", true));
+        disc.add(Restrictions.eq("nedInactiveFlag", true));
+        disc.add(Restrictions.eq("noActiveRoleFlag", true));
+        disc.add(Restrictions.eq("i2eOnlyFlag", true));
+        disc.add(Restrictions.eq("activeRoleRemainderFlag", true));
+        criteria.add(disc);
+		return criteria;
 	}
 	
 }
