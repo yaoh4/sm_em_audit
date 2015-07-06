@@ -154,6 +154,23 @@ function getRoleDescription(id){
 	openRole(result);
 }	
 
+function getI2eRoleDescription(id){
+	var result = "";
+	var category = $('#categoryId').val();
+	
+	$.ajax({
+			url: "i2eRoleDescriptionAction.action",
+			type: "post",
+			data: {rId: id, cate:category},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+			}, 
+			error: function(){}		
+		});
+	openRole(result);
+}	
+
 function openErrorDialog(){
 	$('#errorDialog').dialog("open");
 }

@@ -26,3 +26,11 @@
 </s:iterator>
 </display:table>
 </div>
+<div id="help" style="display: none; overflow:auto;" title="I2E Discrepancy Report">
+	<br/>
+	<div align="left" id="helpDiv"></div>
+</div>
+<div id="role" style="display: none; overflow:auto;" title="Role Description">
+	<br>
+	<div align="left" id="roleHelpId"></div>
+</div>

@@ -29,7 +29,7 @@ public class RoleDescriptionAction extends BaseAction {
 		String roleName = (String)request.getParameter("rId");
 		String roleDesc = lookupService.getRoleDescription(roleName);
 		if(roleDesc == null){
-			roleDesc = "Unable to find the IMPAC II Role Description.";
+			roleDesc = "Unable to find the Role Description.";
 		}
 		inputStream = new StringBufferInputStream(roleDesc);
 		return SUCCESS;  

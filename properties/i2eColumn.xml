@@ -6,14 +6,14 @@
   	<Tab>
  		<type>i2e</type>
  		<columnName>I2E Discrepancy</columnName>
- 		<property>lastName</property>
+ 		<property>discrepancy</property>
 		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
-		<sort>false</sort>
+		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
@@ -37,18 +37,18 @@
  		<type>i2e</type>
  		<columnName>Created/Last Updated By</columnName>
  		<property>lastUpdByFullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>i2e</type>
  		<columnName>Active I2E Role</columnName>
- 		<property>lastName</property>
+ 		<property>activeI2eRole</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>I2E Role Created On</columnName>
- 		<property>lastName</property>
+ 		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
@@ -73,6 +73,7 @@
  		<type>i2eDiscrepancy</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
@@ -96,18 +97,18 @@
  		<type>i2eDiscrepancy</type>
  		<columnName>Created/Last Updated By</columnName>
  		<property>lastUpdByFullName</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>Active I2E Role(s)</columnName>
- 		<property>lastName</property>
+ 		<property>activeI2eRole</property>
  		<sort>false</sort>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>I2E Role(s) Created On</columnName>
- 		<property>lastName</property>
+ 		<property>roleCreateOn</property>
  		<sort>false</sort>
  	</Tab>
   	<Tab>
