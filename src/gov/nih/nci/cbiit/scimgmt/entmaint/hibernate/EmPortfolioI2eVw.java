@@ -28,14 +28,14 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 	private String nciDoc;
 	private Date createdDate;
 	private String lastUpdByFullName;
-	private String i2eOnlyFlag;
+	private Boolean i2eOnlyFlag;
 	private String notes;
 	private String notesSubmittedByFullName;
 	private Date notesSubmittedDate;
-	private String sodFlag;
+	private Boolean sodFlag;
 	private Boolean nedInactiveFlag;
 	private Boolean noActiveRoleFlag;
-	private String activeRoleRemainderFlag;
+	private Boolean activeRoleRemainderFlag;
 	private List<I2eActiveUserRolesVw> accountRoles = new ArrayList<I2eActiveUserRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
@@ -52,9 +52,9 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 	public EmPortfolioI2eVw(Long npnId, String oracleId, String nihNetworkId, String lastName, String firstName,
 			String i2eLastName, String i2eFirstName, String nedLastName, String nedFirstName, String nedEmailAddress,
 			String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag, String nciDoc,
-			Date createdDate, String lastUpdByFullName, String i2eOnlyFlag, String notes,
-			String notesSubmittedByFullName, Date notesSubmittedDate, String sodFlag, Boolean nedInactiveFlag,
-			Boolean noActiveRoleFlag, String activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
+			Date createdDate, String lastUpdByFullName, Boolean i2eOnlyFlag, String notes,
+			String notesSubmittedByFullName, Date notesSubmittedDate, Boolean sodFlag, Boolean nedInactiveFlag,
+			Boolean noActiveRoleFlag, Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
 		this.npnId = npnId;
 		this.oracleId = oracleId;
 		this.nihNetworkId = nihNetworkId;
@@ -220,11 +220,11 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.lastUpdByFullName = lastUpdByFullName;
 	}
 
-	public String getI2eOnlyFlag() {
+	public Boolean getI2eOnlyFlag() {
 		return this.i2eOnlyFlag;
 	}
 
-	public void setI2eOnlyFlag(String i2eOnlyFlag) {
+	public void setI2eOnlyFlag(Boolean i2eOnlyFlag) {
 		this.i2eOnlyFlag = i2eOnlyFlag;
 	}
 
@@ -252,11 +252,11 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.notesSubmittedDate = notesSubmittedDate;
 	}
 
-	public String getSodFlag() {
+	public Boolean getSodFlag() {
 		return this.sodFlag;
 	}
 
-	public void setSodFlag(String sodFlag) {
+	public void setSodFlag(Boolean sodFlag) {
 		this.sodFlag = sodFlag;
 	}
 
@@ -276,11 +276,11 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 		this.noActiveRoleFlag = noActiveRoleFlag;
 	}
 
-	public String getActiveRoleRemainderFlag() {
+	public Boolean getActiveRoleRemainderFlag() {
 		return this.activeRoleRemainderFlag;
 	}
 
-	public void setActiveRoleRemainderFlag(String activeRoleRemainderFlag) {
+	public void setActiveRoleRemainderFlag(Boolean activeRoleRemainderFlag) {
 		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
 	}
 
