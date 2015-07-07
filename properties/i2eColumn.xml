@@ -59,14 +59,8 @@
  	</Tab>	
   	<Tab>
  		<type>i2e</type>
- 		<columnName>Notes</columnName>
- 		<property>notes</property>
- 		<sort>false</sort>
- 	</Tab>	
-  	<Tab>
- 		<type>i2e</type>
  		<columnName>Last Updated</columnName>
- 		<property>notesSubmittedByFullName</property>
+ 		<property>lastUpdated</property>
  		<sort>false</sort>
  	</Tab>	
  	<Tab>
@@ -119,14 +113,8 @@
  	</Tab>	
   	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>Notes</columnName>
- 		<property>notes</property>
- 		<sort>false</sort>
- 	</Tab>	
-  	<Tab>
- 		<type>i2eDiscrepancy</type>
  		<columnName>Last Updated</columnName>
- 		<property>notesSubmittedByFullName</property>
+ 		<property>lastUpdated</property>
  		<sort>false</sort>
  	</Tab>	
  </Display>   

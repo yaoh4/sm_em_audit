@@ -39,7 +39,6 @@
 							}else{
 								$('#action_'+i2eId).html("<a href=\"javascript:submitNotes('" + name +"','" + i2eId + "')\"><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>");
 							}
-							
 							$("#lastUpdateDiv_" + i2eId).html(result);
 							$(this).dialog("close");
 						}

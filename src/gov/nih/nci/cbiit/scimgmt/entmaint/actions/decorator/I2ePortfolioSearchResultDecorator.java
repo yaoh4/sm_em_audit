@@ -9,6 +9,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 
@@ -139,4 +140,21 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		return actionStr;
 	}
 	
+	/**
+	 * Get Submitted by user and Submitted on date.
+	 * @return string representing submitted by + submitted on date.
+	 */
+	public String getLastUpdated(){
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
+		String lastUpdated = "";
+		String id = ""+portfolioVO.getNpnId();
+		if( portfolioVO.getNpnId() != null && portfolioVO.getNotesSubmittedDate() !=null){
+			lastUpdated =  "<div id=\"lastUpdateDiv_"+id+ "\"> Updated on " +dateFormat.format(portfolioVO.getNotesSubmittedDate()) + " by "  +portfolioVO.getNotesSubmittedByFullName() + "</div>";
+		}
+		else{
+			lastUpdated = "<div id=\"lastUpdateDiv_"+id+ "\"> </div>";
+		}
+		return lastUpdated;
+	}
 }
