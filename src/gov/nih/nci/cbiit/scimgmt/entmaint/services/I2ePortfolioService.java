@@ -29,4 +29,5 @@ public interface I2ePortfolioService {
      */
     public PaginatedListImpl<PortfolioI2eAccountVO> searchI2eAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
+    public String getPortfolioNoteById(Long id);
 }

@@ -291,7 +291,11 @@ public class EmPortfolioI2eVw implements java.io.Serializable {
 	public void setAccountRoles(List<I2eActiveUserRolesVw> accountRoles) {
 		this.accountRoles = accountRoles;
 	}
-	
+
+	public void addAccountRole(I2eActiveUserRolesVw role){
+		this.accountRoles.add(role);
+	}
+
 	public List<String> getAccountDiscrepancies() {
 		return accountDiscrepancies;
 	}

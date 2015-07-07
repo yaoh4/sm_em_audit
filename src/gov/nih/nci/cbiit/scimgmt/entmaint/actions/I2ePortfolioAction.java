@@ -1,12 +1,16 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -175,28 +179,55 @@ public class I2ePortfolioAction extends BaseAction {
 		
 		for(PortfolioI2eAccountVO portfolioI2eAccountVO: auditAccounts) {
 			exportAccountVOList.add(portfolioI2eAccountVO);
-//			List<EmPortfolioRolesVw> accountRoles = portfolioAccountVO.getAccountRoles();
-//			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
-//				//Exclude the first role, because it is already present in auditAccountVO
-//				for(int index = 1; index < accountRoles.size(); index++) {
-//					//For the remaining ones, create a new AuditAccountVO, and 
-//					//add the role to it, so that each role shows up in a separate
-//					//row in excel.
-//					PortfolioAccountVO portfolioAccountVOItem = new PortfolioAccountVO();
-//					
-//					//Blank out the name field in additional role export rows
-//					portfolioAccountVOItem.setNedLastName("");
-//					portfolioAccountVOItem.setNedFirstName("");
-//					
-//					//Prevent false discrepancies
-//					portfolioAccountVOItem.setImpaciiLastName("");
-//					portfolioAccountVOItem.setNedIc("NCI");
-//					
-//					portfolioAccountVOItem.addAccountRole(accountRoles.get(index));
-//					exportAccountVOList.add(portfolioAccountVOItem);				
-//				}
-//			}
+			List<I2eActiveUserRolesVw> accountRoles = portfolioI2eAccountVO.getAccountRoles();
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					PortfolioI2eAccountVO portfolioAccountVOItem = new PortfolioI2eAccountVO();
+					
+					portfolioAccountVOItem.addAccountRole(accountRoles.get(index));
+					exportAccountVOList.add(portfolioAccountVOItem);				
+				}
+			}
 		}		
 		return exportAccountVOList;
+	}
+	
+	/**
+	 * This method is used for AJAX call when the user wants to save notes.
+	 * @return String
+	 */
+	public String saveNotes(){
+		log.debug("Begin : saveNotes");
+		String i2eIdStr = (String)request.getParameter("i2eId");
+		Long i2eId = Long.parseLong(i2eIdStr);
+		String notes = (String)request.getParameter("notes");
+		PrintWriter pw = null;
+		try{
+			i2ePortfolioService.saveNotes(i2eId,notes,new Date());
+			pw = response.getWriter();
+			pw.print(decorateResponse(notes));
+		}catch(Exception e){
+			log.error("Exception occurred while saving I2E portfolio notes.",e);
+			pw.print(ApplicationConstants.STATUS_FAIL);
+		}finally{
+			pw.close();
+		}
+		log.debug("End : saveNotes");
+		return null;
+	}
+	
+	/**
+	 * This method generates the repsonse to be returned to the ajax call.
+	 * @return
+	 */
+	public String decorateResponse(String notes){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a");
+		String lastUpdateDate = dateFormat.format(new Date());
+		String lastUpdateBy = nciUser.getLastName() +", " + nciUser.getFirstName();
+		return "Updated on "+ lastUpdateDate + " by " +lastUpdateBy;
 	}
 }
