@@ -8,6 +8,57 @@
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js"	type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css"	href="../stylesheets/jquery-ui-1.11.3.css" />
+<script>
+	$(function() {
+		$("#submitNotesAction").dialog({
+			autoOpen : false,resizable : false,	width : 600, height : 400, modal : true,
+			show : {effect : "slide",duration : 250},
+			hide : {effect : "slide",duration : 250},
+			buttons : {
+				Done : function() {
+					var result = "";
+					var i2eId = $('#cellId').val();
+					var name = $('#nameId').val();
+					var notes = $('#noteText').val();
+					if($.trim(notes).length > 200){
+						$('#missingNotesMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/></font>");
+					}					
+					else{
+						$.ajax({
+							url : "saveNotes.action", type : "post",	data : {i2eId : i2eId,name : name,notes : notes},async : false,
+							success : function(msg) {result = $.trim(msg);},
+							error : function() {}
+						});	
+						if (result == 'fail') {
+							$(this).dialog("close");
+							openErrorDialog();
+						} else {
+							var note = $.trim(getPortfolioNote(i2eId));
+							if(note.length < 1){
+								$('#action_'+i2eId).html("<a href=\"javascript:submitNotes('" + name +"','" + i2eId + "')\"><img src='../images/commentunchecked.gif' alt=\"Add Notes\"/></a>");
+							}else{
+								$('#action_'+i2eId).html("<a href=\"javascript:submitNotes('" + name +"','" + i2eId + "')\"><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>");
+							}
+							
+							$("#lastUpdateDiv_" + i2eId).html(result);
+							$(this).dialog("close");
+						}
+					}					
+				},
+				Cancel : function() {$(this).dialog("close");}
+			}
+		});		
+	});
+	function submitNotes(name, cellId) { 
+		$('#missingNotesMessage').html("");
+		$('#nameId').val(name);
+		$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
+		$('#cellId').val(cellId);
+		var note = getPortfolioNote(cellId);
+		$('#noteText').val(note);
+		$("#submitNotesAction").dialog("open");
+	}	
+</script>
 
 <div class="tab-content">
 	<div class="tab-pane fade active in" id="portfolioSearchCriteria">
@@ -105,3 +156,6 @@
 </s:if>
 
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
+<div id="submitNotesAction" style="display: none;" title="Submit Notes">
+	<s:include value="/jsp/helper/submitNotesContent.jsp" />
+</div>

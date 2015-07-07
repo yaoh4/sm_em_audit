@@ -54,7 +54,7 @@
   	<Tab>
  		<type>i2e</type>
  		<columnName>Action</columnName>
- 		<property>lastName</property>
+ 		<property>action</property>
  		<sort>false</sort>
  	</Tab>	
   	<Tab>
@@ -114,7 +114,7 @@
   	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>Action</columnName>
- 		<property>lastName</property>
+ 		<property>action</property>
  		<sort>false</sort>
  	</Tab>	
   	<Tab>
