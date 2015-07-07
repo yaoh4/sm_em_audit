@@ -96,10 +96,9 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		}
 		String role = "<table width='100%' border='0'>";
 		for(I2eActiveUserRolesVw roleVw : roles){
-			//String createdBy = roleVw.getCreatedByFullName();
-			String createdBy = "Jim Zhou";
+			String createdBy = roleVw.getRoleCreatedByFullName();
 			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getI2eRoleDescription('" + roleName + "');\"/></td></tr>";
+			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;</td></tr>";
 		}
 		role = role + "</table>";
 		return role;
@@ -121,6 +120,23 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		}
 		createDate = createDate + "</table>";
 		return createDate;
+	}
+	
+	public String getAction(){
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		String actionStr = "";
+		StringBuffer name = new StringBuffer("&nbsp;");
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
+			name.append(portfolioVO.getFullName());
+		}
+		String id = ""+portfolioVO.getNpnId();
+		String note = portfolioVO.getNotes();
+		if(note != null && note.length() > 0){
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
+		}else{
+			actionStr = "<div id='action_" + id + "'>" + "<a href=\"javascript:submitNotes('" + name.toString() +"','" + id + "')\" ><img src='../images/commentunchecked.gif' alt=\"Add Notes\"/></a>" + "</div>";
+		}
+		return actionStr;
 	}
 	
 }
