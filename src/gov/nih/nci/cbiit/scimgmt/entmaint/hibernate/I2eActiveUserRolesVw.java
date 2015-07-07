@@ -1,6 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 
-// Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jul 7, 2015 8:45:29 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -16,6 +16,7 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 	private String roleCode;
 	private String roleName;
 	private Date roleCreatedDate;
+	private String roleCreatedByFullName;
 	private Long orgId;
 	private String orgAbbrev;
 	private String docAbbrev;
@@ -36,8 +37,8 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 	}
 
 	public I2eActiveUserRolesVw(String oracleId, String nciLdapCn, Long npnId, Long npeId, String roleCode,
-			String roleName, Date roleCreatedDate, Long orgId, String orgAbbrev, String docAbbrev,
-			String ldapRoleName, Long ogaBranchId) {
+			String roleName, Date roleCreatedDate, String roleCreatedByFullName, Long orgId, String orgAbbrev,
+			String docAbbrev, String ldapRoleName, Long ogaBranchId) {
 		this.oracleId = oracleId;
 		this.nciLdapCn = nciLdapCn;
 		this.npnId = npnId;
@@ -45,6 +46,7 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 		this.roleCode = roleCode;
 		this.roleName = roleName;
 		this.roleCreatedDate = roleCreatedDate;
+		this.roleCreatedByFullName = roleCreatedByFullName;
 		this.orgId = orgId;
 		this.orgAbbrev = orgAbbrev;
 		this.docAbbrev = docAbbrev;
@@ -106,6 +108,14 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 
 	public void setRoleCreatedDate(Date roleCreatedDate) {
 		this.roleCreatedDate = roleCreatedDate;
+	}
+
+	public String getRoleCreatedByFullName() {
+		return this.roleCreatedByFullName;
+	}
+
+	public void setRoleCreatedByFullName(String roleCreatedByFullName) {
+		this.roleCreatedByFullName = roleCreatedByFullName;
 	}
 
 	public Long getOrgId() {
@@ -172,6 +182,9 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 				&& ((this.getRoleCreatedDate() == castOther.getRoleCreatedDate()) || (this.getRoleCreatedDate() != null
 						&& castOther.getRoleCreatedDate() != null && this.getRoleCreatedDate().equals(
 						castOther.getRoleCreatedDate())))
+				&& ((this.getRoleCreatedByFullName() == castOther.getRoleCreatedByFullName()) || (this
+						.getRoleCreatedByFullName() != null && castOther.getRoleCreatedByFullName() != null && this
+						.getRoleCreatedByFullName().equals(castOther.getRoleCreatedByFullName())))
 				&& ((this.getOrgId() == castOther.getOrgId()) || (this.getOrgId() != null
 						&& castOther.getOrgId() != null && this.getOrgId().equals(castOther.getOrgId())))
 				&& ((this.getOrgAbbrev() == castOther.getOrgAbbrev()) || (this.getOrgAbbrev() != null
@@ -196,6 +209,7 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 		result = 37 * result + (getRoleCode() == null ? 0 : this.getRoleCode().hashCode());
 		result = 37 * result + (getRoleName() == null ? 0 : this.getRoleName().hashCode());
 		result = 37 * result + (getRoleCreatedDate() == null ? 0 : this.getRoleCreatedDate().hashCode());
+		result = 37 * result + (getRoleCreatedByFullName() == null ? 0 : this.getRoleCreatedByFullName().hashCode());
 		result = 37 * result + (getOrgId() == null ? 0 : this.getOrgId().hashCode());
 		result = 37 * result + (getOrgAbbrev() == null ? 0 : this.getOrgAbbrev().hashCode());
 		result = 37 * result + (getDocAbbrev() == null ? 0 : this.getDocAbbrev().hashCode());

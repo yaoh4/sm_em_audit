@@ -43,5 +43,8 @@
             <property name="ogaBranchId" type="long">
                 <column name="OGA_BRANCH_ID" precision="22" scale="0" />
             </property>
+            <property name="roleCreatedByFullName" type="string">
+                <column name="ROLE_CREATED_BY_FULL_NAME" length="62" />
+            </property>
     </class>
 </hibernate-mapping>
