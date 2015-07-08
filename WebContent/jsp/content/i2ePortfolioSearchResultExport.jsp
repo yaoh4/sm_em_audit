@@ -24,7 +24,9 @@
 <display:setProperty name="export.excel.decorator" value="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultExportDecorator"/>
 <display:setProperty name="export.excel.filename" value="i2ePortfolio.xls"/>
 <s:iterator var="t" value="displayColumn">
+<s:if test="#t.export == 'true'">
  <display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+ </s:if>
 </s:iterator>
 </display:table>
 </div>

@@ -8,6 +8,7 @@
  		<columnName>I2E Discrepancy</columnName>
  		<property>discrepancy</property>
 		<sort>false</sort>
+		<export>false</export>
  	</Tab>
  	<Tab>
  		<type>i2e</type>
@@ -53,7 +54,7 @@
  	</Tab>
   	<Tab>
  		<type>i2e</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  	</Tab>	
@@ -107,7 +108,7 @@
  	</Tab>
   	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>Action</columnName>
+ 		<columnName>Notes</columnName>
  		<property>action</property>
  		<sort>false</sort>
  	</Tab>	
