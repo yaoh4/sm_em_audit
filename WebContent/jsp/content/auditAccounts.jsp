@@ -30,12 +30,13 @@
 			 			var actionLabel = jQuery('#selectActId option:selected').text();
 			 			var comments = $('#noteText').val();
 			 			var category = $('#categoryId').val();
+			 			var extraChars = $.trim(comments).length - 200;
 			 			if(aId == null || $.trim(aId).length < 1){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ACTION_SELECTION)}'/></font>");
 			 			}else if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@EMPTY_NOTE)}'/></font>");
 			 			}else if($.trim(comments).length > 200){
-			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/></font>");
+			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/>" + " by " + extraChars + " characters.</font>");
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",

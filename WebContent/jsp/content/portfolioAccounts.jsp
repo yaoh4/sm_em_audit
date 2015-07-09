@@ -19,8 +19,9 @@
 					var impac2Id = $('#cellId').val();
 					var name = $('#nameId').val();
 					var notes = $('#noteText').val();
+					var extraChars = $.trim(notes).length - 200;
 					if($.trim(notes).length > 200){
-						$('#missingNotesMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/></font>");
+						$('#missingNotesMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/>" + " by " + extraChars + " characters.</font>");
 					}					
 					else{
 						$.ajax({
