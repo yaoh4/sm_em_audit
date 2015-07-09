@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.criterion.Restrictions;
+
 public class DatabaseManager {
 	String url = PropertiesManager.getUrl();
 	String userId = PropertiesManager.getUserId();
@@ -121,6 +123,34 @@ public class DatabaseManager {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		return count;
+	}
+	
+	public int getPortfolioI2eCount(Connection conn, String orgName, Long cateId){
+		int count = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = null;
+		String name = orgName.toUpperCase();
+		
+		String sqlI2eAccount = "select count(*) as i2eCount from em_portfolio_i2e_vw where parent_ned_org_path = ?";
+		String sqlI2eDiscrepancy = "select count(*) as i2eCount from em_portfolio_i2e_vw where parent_ned_org_path = ? and " + 
+							"(SOD_FLAG = 'Y' or NED_INACTIVE_FLAG = 'Y' or NO_ACTIVE_ROLE_FLAG = 'Y' or I2E_ONLY_FLAG = 'Y' or Active_ROLE_REMAINDER_FLAG = 'Y')";
+		if(cateId == 37){
+			sql = sqlI2eAccount;
+		}else{
+			sql = sqlI2eDiscrepancy;
+		}
+		try{
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt("i2eCount");
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		return count;

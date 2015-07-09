@@ -33,4 +33,17 @@ public class PropertiesManager {
 	public static String getConfDir(){
 		return prop.getProperty("conf.dir");
 	}
+	
+	public static String getOrgName(){
+		return prop.getProperty("orgName");
+	}
+	
+	public static String getI2eAccountId(){
+		return prop.getProperty("i2eAccountID");
+	}
+	
+	public static String getI2eDiscrepancyId(){
+		return prop.getProperty("i2eDiscrepancyID");
+	}
+
 }
