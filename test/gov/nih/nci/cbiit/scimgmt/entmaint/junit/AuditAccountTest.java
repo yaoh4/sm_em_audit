@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.junit;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.common.ApplicationConstants;
@@ -10,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.dao.I2ePortfolioDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2AuditDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -19,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,101 +47,101 @@ public class AuditAccountTest {
 		allOrgs = null; //Garbage collection
 	}
 	
-//	@Test
-//	@Transactional
-//	public void testActiveAccount(){
-//		boolean isOk = true;
-//		DatabaseManager dm = new  DatabaseManager();
-//		Connection conn = dm.getConnection();
-//		for(String s : allOrgs){
-//			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.ACTIVE_TYPE);
-//			int count_from_dao = getCount(ApplicationConstants.ACTIVE_TYPE, s, auditId);
-//			if(count_from_jdbc != count_from_dao){
-//				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
-//				isOk = false;
-//			}
-//			
-//		}
-//		dm.closeConnection(conn);
-//		if(!isOk){
-//			Assert.assertTrue(isOk);
-//			System.out.println("----Failed to test active accounts---");
-//		}else{
-//			System.out.println("----Test active accounts successfully---");
-//		}
-//	}
+	@Test
+	@Transactional
+	public void testActiveAccount(){
+		boolean isOk = true;
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		for(String s : allOrgs){
+			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.ACTIVE_TYPE);
+			int count_from_dao = getCount(ApplicationConstants.ACTIVE_TYPE, s, auditId);
+			if(count_from_jdbc != count_from_dao){
+				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
+				isOk = false;
+			}
+			
+		}
+		dm.closeConnection(conn);
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test active accounts---");
+		}else{
+			System.out.println("----Test active accounts successfully---");
+		}
+	}
 	
-//	@Test
-//	@Transactional
-//	public void testNewAccount(){
-//		boolean isOk = true;
-//		DatabaseManager dm = new  DatabaseManager();
-//		Connection conn = dm.getConnection();
-//		for(String s : allOrgs){
-//			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.NEW_TYPE);
-//			int count_from_dao = getCount(ApplicationConstants.NEW_TYPE, s, auditId);
-//			if(count_from_jdbc != count_from_dao){
-//				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
-//				isOk = false;
-//			}
-//			
-//		}
-//		dm.closeConnection(conn);
-//		
-//		if(!isOk){
-//			Assert.assertTrue(isOk);
-//			System.out.println("----Failed to test new accounts---");
-//		}else{
-//			System.out.println("----Test new accounts successfully---");
-//		}
-//	}
-//
-//	@Test
-//	@Transactional
-//	public void testDeletedAccount(){
-//		boolean isOk = true;
-//		DatabaseManager dm = new  DatabaseManager();
-//		Connection conn = dm.getConnection();
-//		for(String s : allOrgs){
-//			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.DELETED_TYPE);
-//			int count_from_dao = getCount(ApplicationConstants.DELETED_TYPE, s, auditId);
-//			if(count_from_jdbc != count_from_dao){
-//				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
-//				isOk = false;
-//			}
-//		}
-//		dm.closeConnection(conn);
-//		
-//		if(!isOk){
-//			Assert.assertTrue(isOk);
-//			System.out.println("----Failed to test deleted accounts---");
-//		}else{
-//			System.out.println("----Test deleted accounts successfully---");
-//		}
-//	}
-//	
-//	@Test
-//	@Transactional
-//	public void testInactiveAccount(){
-//		boolean isOk = true;
-//		DatabaseManager dm = new  DatabaseManager();
-//		Connection conn = dm.getConnection();
-//		for(String s : allOrgs){
-//			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.INACTIVE_TYPE);
-//			int count_from_dao = getCount(ApplicationConstants.INACTIVE_TYPE, s, auditId);
-//			if(count_from_jdbc != count_from_dao){
-//				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
-//				isOk = false;
-//			}
-//		}
-//		dm.closeConnection(conn);
-//		if(!isOk){
-//			Assert.assertTrue(isOk);
-//			System.out.println("----Failed to test inactive accounts---");
-//		}else{
-//			System.out.println("----Test inactive accounts successfully---");
-//		}
-//	}
+	@Test
+	@Transactional
+	public void testNewAccount(){
+		boolean isOk = true;
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		for(String s : allOrgs){
+			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.NEW_TYPE);
+			int count_from_dao = getCount(ApplicationConstants.NEW_TYPE, s, auditId);
+			if(count_from_jdbc != count_from_dao){
+				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
+				isOk = false;
+			}
+			
+		}
+		dm.closeConnection(conn);
+		
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test new accounts---");
+		}else{
+			System.out.println("----Test new accounts successfully---");
+		}
+	}
+
+	@Test
+	@Transactional
+	public void testDeletedAccount(){
+		boolean isOk = true;
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		for(String s : allOrgs){
+			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.DELETED_TYPE);
+			int count_from_dao = getCount(ApplicationConstants.DELETED_TYPE, s, auditId);
+			if(count_from_jdbc != count_from_dao){
+				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
+				isOk = false;
+			}
+		}
+		dm.closeConnection(conn);
+		
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test deleted accounts---");
+		}else{
+			System.out.println("----Test deleted accounts successfully---");
+		}
+	}
+	
+	@Test
+	@Transactional
+	public void testInactiveAccount(){
+		boolean isOk = true;
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		for(String s : allOrgs){
+			int count_from_jdbc = dm.getOrgCount(conn, s, auditId, ApplicationConstants.INACTIVE_TYPE);
+			int count_from_dao = getCount(ApplicationConstants.INACTIVE_TYPE, s, auditId);
+			if(count_from_jdbc != count_from_dao){
+				System.out.println("organization: " + s +"-----" + " jdbc:" + count_from_jdbc + " --- " + "dao:" + count_from_dao);
+				isOk = false;
+			}
+		}
+		dm.closeConnection(conn);
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test inactive accounts---");
+		}else{
+			System.out.println("----Test inactive accounts successfully---");
+		}
+	}
 	
 	@Test
 	@Transactional
@@ -184,6 +187,58 @@ public class AuditAccountTest {
 		}else{
 			System.out.println("----Test portfolio i2e discrepancy successfully---");
 		}	
+	}
+	
+	@Test
+	@Transactional
+	public void testI2ePortfolioFetchNotes(){
+		boolean isOk = true;
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		Long npnId = dm.getNpnId(conn);
+		String note_from_jdbc = dm.getNoteById(conn, npnId);
+		dm.closeConnection(conn);
+		String note_from_dao = i2ePortfolioDAO.getPortfolioNoteById(npnId);
+		
+		if(note_from_jdbc != null && !note_from_jdbc.equalsIgnoreCase(note_from_dao)){
+			isOk = false;
+		}
+		
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test portfolio i2e note retrieving---");
+		}else{
+			System.out.println("----Test portfolio i2e note retrieving successfully---");
+		}
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testI2ePortfolioSaveNotes(){
+		boolean isOk = true;
+		String note_for_input = "This message is from JUnit test code 1323";
+		DatabaseManager dm = new  DatabaseManager();
+		Connection conn = dm.getConnection();
+		Long npnId = dm.getNpnId(conn);
+		dm.closeConnection(conn);
+		i2ePortfolioDAO.saveNotes(npnId, note_for_input, new Date());
+		try {
+			//Wait for data are inserted into database
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String result = i2ePortfolioDAO.getPortfolioNoteById(npnId);
+		if(!note_for_input.equalsIgnoreCase(result)){
+			isOk = false;
+		}
+		if(!isOk){
+			Assert.assertTrue(isOk);
+			System.out.println("----Failed to test portfolio i2e note saving---");
+		}else{
+			System.out.println("----Test portfolio i2e note saving successfully---");
+		}
 	}
 	
 	private int getI2ePortfolioAccount(String orgName, Long cateId){

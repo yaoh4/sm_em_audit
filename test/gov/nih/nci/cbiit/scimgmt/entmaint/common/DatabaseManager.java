@@ -156,6 +156,67 @@ public class DatabaseManager {
 		return count;
 	}
 	
+	public Long getNpnId(Connection conn){
+		Long id = null;
+		Statement st = null;
+		ResultSet rs = null;
+		List<Long> ids = new ArrayList<Long>();
+		
+		String sql = "select npn_id as npnId from em_portfolio_notes_t where npn_id is not null";
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()){
+				Long npnId = rs.getLong("npnId");
+				if(npnId != null){
+					ids.add(npnId);
+				}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		if(ids != null && ids.size() > 0){
+			id = ids.get(0);
+		}else{
+			id = null;
+		}
+		
+		return id;
+	}
+	
+	public String getNoteById(Connection conn, Long id){
+		String note = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from em_portfolio_notes_t where npn_id = ?";
+		try{
+			ps = conn.prepareStatement(sql);
+			ps.setLong(1, id);
+			rs = ps.executeQuery();
+			rs.next();
+			note = rs.getString("notes");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				ps.close();
+				rs.close();
+			} catch (SQLException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		return note;
+	}
+	
 	public static void main(String[] args) throws Exception{
 		DatabaseManager dm = new DatabaseManager();
 		List<String> myOrgs = dm.getAllOrganization(116L);

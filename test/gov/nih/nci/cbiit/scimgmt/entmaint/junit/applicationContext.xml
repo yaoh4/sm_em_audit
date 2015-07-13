@@ -121,9 +121,9 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="allServices" />
 	</aop:config>  
 	
-	<bean id="nciUser" class="gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser"
-		scope="session">
-		<aop:scoped-proxy />
+	<bean id="nciUser" class="gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser">
+		<property name="userId" value="zhoujim"/>
+		
 	</bean>
 
 	<bean id="cacheAdministrator"
