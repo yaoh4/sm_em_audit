@@ -22,7 +22,11 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
+/**
+ * This class handles actions events that I2E portfolio GUI invokes. 
+ * @author zhoujim
+ *
+ */
 @SuppressWarnings("serial")
 public class I2ePortfolioAction extends BaseAction {
 	private static final Logger log = Logger.getLogger(I2ePortfolioAction.class);	
@@ -47,6 +51,11 @@ public class I2ePortfolioAction extends BaseAction {
         return forward;
 	}
 	
+	/**
+	 * This method performs the search based on the search criteria that the user provides. 
+	 * Also it handles the DISPLAY tag export function. 
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public String searchI2ePortfolioAccounts() {
 		String forward = SUCCESS;
@@ -83,7 +92,11 @@ public class I2ePortfolioAction extends BaseAction {
         return forward;
 	}
 	
-	
+	/**
+	 * This method clear up all search criteria and set criteria back to the default.
+	 * 
+	 * @return
+	 */
 	public String clearSearchPortfolioAccounts() {
 		log.info("clearSearchPortfolioAccounts()");
 		session.remove(ApplicationConstants.I2E_PORTFOLIO_SEARCHVO);
@@ -92,6 +105,10 @@ public class I2ePortfolioAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	/**
+	 * After the action process the request, the GUI components need to be reset. For instance, the all drop down list
+	 * need to re-populate again.
+	 */
 	@SuppressWarnings("unchecked")
 	private void setUpEnvironmentAfterSearch(){
 		organizationList = (List<DropDownOption>)session.get(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
