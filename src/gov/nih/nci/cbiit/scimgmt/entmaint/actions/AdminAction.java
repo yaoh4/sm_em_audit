@@ -278,6 +278,10 @@ public class AdminAction extends BaseAction {
      * @return
      */
     public String gotoDashboard(){
+    	/**
+    	 * Define two hashMaps to hold data and user maps to sort all Organizations with total counts for active, 
+    	 * new, deleted and inactive accounts in one loop.
+    	 */
     	orgsData = new HashMap<String, HashMap<String,DashboardData>>();
     	otherOrgsData = new HashMap<String, HashMap<String, DashboardData>>();
     	
