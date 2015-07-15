@@ -180,4 +180,5 @@ public interface ApplicationConstants {
 	public static final String IC_CODE="CA";
 	
 	public static final String DASHBOARD = "Y";
+	public static final String USEDASHBOARD="dashboard";
 }

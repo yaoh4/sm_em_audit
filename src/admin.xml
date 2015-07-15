@@ -62,10 +62,10 @@
 		
 		<action name="searchAudit" method="searchAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminDashboardAction">
-			<result name="ACTIVE" type="redirectAction">../impac2/searchActiveAuditAccounts</result>
-			<result name="NEW" type="redirectAction">../impac2/searchNewAuditAccounts</result>
-			<result name="DELETED" type="redirectAction">../impac2/searchDeletedAuditAccounts</result>
-			<result name="INACTIVE" type="redirectAction">../impac2/searchInactiveAuditAccounts</result>
+			<result name="ACTIVE" type="redirectAction">../impac2/searchActiveAuditAccounts?dashboard=Y</result>
+			<result name="NEW" type="redirectAction">../impac2/searchNewAuditAccounts?dashboard=Y</result>
+			<result name="DELETED" type="redirectAction">../impac2/searchDeletedAuditAccounts?dashboard=Y</result>
+			<result name="INACTIVE" type="redirectAction">../impac2/searchInactiveAuditAccounts?dashboard=Y</result>
 		</action>	
 		
 		<action name="enableAudit" method="enableAudit"

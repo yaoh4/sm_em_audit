@@ -149,7 +149,6 @@
 
 <div class="tab-content">
 <s:set name="act" value="formAction"/>
-<s:set name="dashboard" value="dashboard"/>
 <div class="tab-pane fade active in" id="par1">
   <s:form id="auditForm" action="%{formAction}" cssClass="form-horizontal">
   <fieldset style="padding: 15px 0;">
@@ -199,6 +198,9 @@
 	    <s:if test="#session.currentPage == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
       	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck" disabled="true"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       	</s:if>
+      	<s:elseif test="#session.dashboard == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@DASHBOARD">
+	      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck" disabled="true"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	</s:elseif>
       	<s:else>
       	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       	</s:else>
