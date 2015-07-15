@@ -1,7 +1,9 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -26,10 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminDashboardAction extends BaseAction {
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
-	public static final String ACTIVE = "active";
-	public static final String NEW = "new";
-	public static final String DELETED = "deleted";
-	public static final String INACTIVE = "inactive";
+	private static final String ACTIVE = "active";
+	private static final String NEW = "new";
+	private static final String DELETED = "deleted";
+	private static final String INACTIVE = "inactive";
 	
 	//------------------------------
 	//Attributes for Dashboard
@@ -75,24 +77,24 @@ public class AdminDashboardAction extends BaseAction {
     					if(containsKey(otherOrgsData, org)){
     						HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
 	    					//calculate Count
-	    					setTotalCountForEachCategory(audit, dashData);
+	    					setCountForEachCategory(audit, dashData);
 	    					otherOrgsData.put(org, dashData);
 	    				}else{
 	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
 	    					//calculate count
-	    					setFirstElementTotalCountForEachCategory(audit, dashData);
+	    					setFirstElementCountForEachCategory(audit, dashData);
 	    					otherOrgsData.put(org, dashData);
 	    				}
 	    			}else{
 	    				if(containsKey(orgsData, org)){
 	    					HashMap<String,DashboardData> dashData = orgsData.get(org);
 	    					//calculate Count
-	    					setTotalCountForEachCategory(audit, dashData);
+	    					setCountForEachCategory(audit, dashData);
 	    					orgsData.put(org, dashData);
 	    				}else{
 	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
 	    					//calculate count
-	    					setFirstElementTotalCountForEachCategory(audit, dashData);
+	    					setFirstElementCountForEachCategory(audit, dashData);
 	    					orgsData.put(org, dashData);
 	    				}
     				}
@@ -176,27 +178,42 @@ public class AdminDashboardAction extends BaseAction {
      * @param audit
      * @param dashData
      */
-    private void setTotalCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
-		
-    	Long impaciiToDate = emAuditsVO.getImpaciiToDate().getTime();
-    	Long impaciiFromDate = emAuditsVO.getImpaciiFromDate().getTime();
+    private void setCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	
+	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
+    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
+    	Date deletedDate = audit.getDeletedDate();
+    	Date createdDate = audit.getCreatedDate();
+    	
+    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
+    	String createdDateStr = (createdDate == null ? null : dateFormat.format(createdDate));
+    	deletedDate = (deletedDateStr == null ? null : new Date(deletedDateStr));
+    	createdDate = (createdDateStr == null ? null :new Date(createdDateStr));
     	
     	//determine active account
-    	if(audit.getCreatedDate() != null && (audit.getDeletedDate() == null || audit.getDeletedDate().getTime() > impaciiToDate) && audit.getCreatedDate().getTime() <= impaciiToDate){
+    	if(createdDate != null && 
+    		(deletedDate == null || deletedDate.after(impaciiToDate) || deletedDate.equals(impaciiToDate)) &&  
+    		(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
+    		
     		calculateCountByCategory(audit, dashData, ACTIVE);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
     			calculateCompletedCountByCategory(audit, dashData, ACTIVE);
     		}
     	}
     	//determine new account
-    	if(audit.getCreatedDate() != null && audit.getCreatedDate().getTime() >= impaciiFromDate && audit.getCreatedDate().getTime() <=impaciiToDate){
+    	if(createdDate != null && 
+    			(createdDate.after(impaciiFromDate) || createdDate.equals(impaciiFromDate)) && 
+    			(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
     		calculateCountByCategory(audit, dashData, NEW);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
     			calculateCompletedCountByCategory(audit, dashData, NEW);
     		}
     	}
     	//determine deleted account
-    	if(audit.getDeletedDate() != null && audit.getDeletedDate().getTime() >= impaciiFromDate && audit.getDeletedDate().getTime() <= impaciiToDate){
+    	if(deletedDate != null && 
+    			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
+    			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
     		calculateCountByCategory(audit, dashData, DELETED);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
     			calculateCompletedCountByCategory(audit, dashData, DELETED);
@@ -265,7 +282,7 @@ public class AdminDashboardAction extends BaseAction {
      * @param audit
      * @param dashData
      */
-    private void setFirstElementTotalCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
+    private void setFirstElementCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
     	DashboardData dash = new DashboardData();
     	dashData.put(ACTIVE, dash);
     	dash = new DashboardData();
@@ -274,7 +291,7 @@ public class AdminDashboardAction extends BaseAction {
     	dashData.put(DELETED, dash);
     	dash = new DashboardData();
     	dashData.put(INACTIVE, dash);
-    	setTotalCountForEachCategory(audit, dashData);
+    	setCountForEachCategory(audit, dashData);
     }
     
     
