@@ -56,12 +56,12 @@
 		</action>	
 		
 		<action name="gotoDashboard" method="gotoDashboard"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminDashboardAction">
 			<result name="success" type="tiles">entmaint.admin.dashboard</result>
 		</action>	
 		
 		<action name="searchAudit" method="searchAudit"
-			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminDashboardAction">
 			<result name="ACTIVE" type="redirectAction">../impac2/searchActiveAuditAccounts</result>
 			<result name="NEW" type="redirectAction">../impac2/searchNewAuditAccounts</result>
 			<result name="DELETED" type="redirectAction">../impac2/searchDeletedAuditAccounts</result>

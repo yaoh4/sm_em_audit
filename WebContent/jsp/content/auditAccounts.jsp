@@ -149,6 +149,7 @@
 
 <div class="tab-content">
 <s:set name="act" value="formAction"/>
+<s:set name="dashboard" value="dashboard"/>
 <div class="tab-pane fade active in" id="par1">
   <s:form id="auditForm" action="%{formAction}" cssClass="form-horizontal">
   <fieldset style="padding: 15px 0;">

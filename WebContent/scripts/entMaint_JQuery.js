@@ -338,7 +338,7 @@ function toggleOther(thisname){
 }
 
 function searchAuditByCategory(cate, org){
-	var url = "searchAudit?cate="+cate+"&orgName=" + org;
+	var url = "searchAudit?cate="+cate+"&orgName=" + org + "&dashboard=Y";
 	var winName = "searchAudit";
 	var features = "menubar=yes,scrollbars=yes,resizable=yes,fullscreen=yes";
 
