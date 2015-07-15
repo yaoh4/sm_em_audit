@@ -340,7 +340,7 @@ function toggleOther(thisname){
 function searchAuditByCategory(cate, org){
 	var url = "searchAudit?cate="+cate+"&orgName=" + org;
 	var winName = "searchAudit";
-	var features = "menubar=yes,scrollbars=yes,resizable=yes,fullscreen=yes";
+	var features = "scrollbars=yes,resizable=yes,height="+screen.height+",width="+screen.width+",menubar=yes,toolbar=yes, status=yes";
 
 	var newWin = window.open(url, winName, features);
 }
