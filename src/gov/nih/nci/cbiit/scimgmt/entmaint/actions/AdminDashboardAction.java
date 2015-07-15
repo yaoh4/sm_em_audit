@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,7 +103,7 @@ public class AdminDashboardAction extends BaseAction {
     		}
     	}
     	//calculate the total other orgs
-    	others = calculateOther(otherOrgsData);
+    	others = incrementCountOther(otherOrgsData);
     	
     	Set<String> keySet = orgsData.keySet();
     	Object[] keys = keySet.toArray();
@@ -188,47 +189,51 @@ public class AdminDashboardAction extends BaseAction {
     	
     	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
     	String createdDateStr = (createdDate == null ? null : dateFormat.format(createdDate));
-    	deletedDate = (deletedDateStr == null ? null : new Date(deletedDateStr));
-    	createdDate = (createdDateStr == null ? null :new Date(createdDateStr));
+    	
+    	try {
+			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
+			createdDate = (createdDateStr == null ? null : dateFormat.parse(createdDateStr));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     	
     	//determine active account
     	if(createdDate != null && 
     		(deletedDate == null || deletedDate.after(impaciiToDate) || deletedDate.equals(impaciiToDate)) &&  
     		(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
-    		
-    		calculateCountByCategory(audit, dashData, ACTIVE);
+    		incrementCountByCategory(audit, dashData, ACTIVE);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
-    			calculateCompletedCountByCategory(audit, dashData, ACTIVE);
+    			incrementCompletedCountByCategory(audit, dashData, ACTIVE);
     		}
     	}
     	//determine new account
     	if(createdDate != null && 
     			(createdDate.after(impaciiFromDate) || createdDate.equals(impaciiFromDate)) && 
     			(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
-    		calculateCountByCategory(audit, dashData, NEW);
+    		incrementCountByCategory(audit, dashData, NEW);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
-    			calculateCompletedCountByCategory(audit, dashData, NEW);
+    			incrementCompletedCountByCategory(audit, dashData, NEW);
     		}
     	}
     	//determine deleted account
     	if(deletedDate != null && 
     			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
     			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
-    		calculateCountByCategory(audit, dashData, DELETED);
+    		incrementCountByCategory(audit, dashData, DELETED);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
-    			calculateCompletedCountByCategory(audit, dashData, DELETED);
+    			incrementCompletedCountByCategory(audit, dashData, DELETED);
     		}
     	}
     	//determine inactive account
     	if(audit.getInactiveUnsubmittedFlag() != null && audit.getInactiveUnsubmittedFlag().equalsIgnoreCase("Y")){
-    		calculateCountByCategory(audit, dashData, INACTIVE);
+    		incrementCountByCategory(audit, dashData, INACTIVE);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
-    			calculateCompletedCountByCategory(audit, dashData, INACTIVE);
+    			incrementCompletedCountByCategory(audit, dashData, INACTIVE);
     		}
     	}
     }
     
-    private void calculateCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    private void incrementCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
     	if(category.equalsIgnoreCase(ACTIVE)){
     		DashboardData ddata = dashData.get(ACTIVE);
     		int count = ddata.getActiveAccountCount();
@@ -252,7 +257,7 @@ public class AdminDashboardAction extends BaseAction {
     	}
     }
     
-    private void calculateCompletedCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    private void incrementCompletedCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
     	if(category.equalsIgnoreCase(ACTIVE)){
     		DashboardData ddata = dashData.get(ACTIVE);
     		int count = ddata.getActiveCompleteCount();
@@ -298,7 +303,7 @@ public class AdminDashboardAction extends BaseAction {
 	/** 
 	 * Calculate the other orgs total
 	 */
-	private DashboardData calculateOther(HashMap<String, HashMap<String, DashboardData>> otherOrgsMap){
+	private DashboardData incrementCountOther(HashMap<String, HashMap<String, DashboardData>> otherOrgsMap){
 		DashboardData otherTotalData = new DashboardData();
 		Set<String> keys = otherOrgsMap.keySet();
 		Object[] keyArr = keys.toArray();
