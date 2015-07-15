@@ -310,7 +310,7 @@ function getDateRangeHelp(){
 }
 
 function toggle(thisname) {
-   tr=document.getElementsByTagName('tr');
+   var tr=document.getElementsByTagName('tr');
    for (var i=0;i<tr.length;i++){
 	    if (tr[i].getAttribute(thisname)){
 	    if ( tr[i].style.display=='none' ){
@@ -323,7 +323,7 @@ function toggle(thisname) {
 }
 
 function toggleOther(thisname){
-		tr=document.getElementsByTagName('tr')
+		var tr=document.getElementsByTagName('tr')
 		for (var i=0;i<tr.length;i++){
 		  if (tr[i].getAttribute(thisname)){
 		   if ( tr[i].style.display=='none' ){
