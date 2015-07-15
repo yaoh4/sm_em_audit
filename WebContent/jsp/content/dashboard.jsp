@@ -12,7 +12,7 @@
   <div class="table-responsive">
   <form id="dashboardFormId" action="gotoDashboard" method="post">
   <table class="table table-condensed table-striped">
-      <caption>2015 IMPAC II and I2E Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">REFRESH PAGE</a></span>
+      <caption>2015 IMPAC II and I2E Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
     <tr>
       <th>NCI Organizations</th>
       <th>Active Accounts</th>
