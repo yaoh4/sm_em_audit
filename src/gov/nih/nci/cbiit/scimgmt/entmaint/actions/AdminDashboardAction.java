@@ -42,6 +42,7 @@ public class AdminDashboardAction extends BaseAction {
 	private HashMap<String, HashMap<String, DashboardData>> orgsData;
 	private HashMap<String, HashMap<String, DashboardData>> otherOrgsData;
 	private DashboardData others;
+	private String auditYear;
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
@@ -402,6 +403,27 @@ public class AdminDashboardAction extends BaseAction {
 	 */
 	public void setOtherOrgKeys(List<Object> otherOrgKeys) {
 		this.otherOrgKeys = otherOrgKeys;
+	}
+
+	/**
+	 * @return the auditYear
+	 */
+	@SuppressWarnings("deprecation")
+	public String getAuditYear() {
+		emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+		Date auditDate = emAuditsVO.getStartDate();
+		if(auditDate == null){
+			return "";
+		}else{
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+			String audDate = sdf.format(auditDate);
+			String[] yearStr = audDate.split("/");
+			if(yearStr.length == 3){
+				return yearStr[2];
+			}else{
+				return "";
+			}
+		}
 	}
 
 }
