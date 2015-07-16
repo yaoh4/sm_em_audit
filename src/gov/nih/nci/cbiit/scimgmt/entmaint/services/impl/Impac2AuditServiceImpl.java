@@ -180,7 +180,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 			BeanUtils.copyProperties(auditAccountVO, emAuditAccountsVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
+			log.error("Error occured creating audit account object",
 							e);
 		}
 		return auditAccountVO;

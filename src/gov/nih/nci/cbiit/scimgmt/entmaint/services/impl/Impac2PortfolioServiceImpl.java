@@ -98,7 +98,7 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			BeanUtils.copyProperties(portfolioAccountVO, emPortfolioVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
+			log.error("Error occured creating portfolio account object",
 							e);
 		}
 		return portfolioAccountVO;

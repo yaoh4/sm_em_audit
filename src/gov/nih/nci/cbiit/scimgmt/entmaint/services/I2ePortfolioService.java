@@ -15,7 +15,10 @@ public interface I2ePortfolioService {
 
     /**
      * Call stored procedure for saving notes
+     * 
      * @param npnId
+     * @param notes
+     * @param date
      * @return DBResult
      */
     public DBResult saveNotes(Long npnId, String notes, Date date);
@@ -29,5 +32,11 @@ public interface I2ePortfolioService {
      */
     public PaginatedListImpl<PortfolioI2eAccountVO> searchI2eAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
+    /**
+     * Get portfolio notes by npnId
+     * 
+     * @param npnId
+     * @return notes retrieved
+     */
     public String getPortfolioNoteById(Long id);
 }

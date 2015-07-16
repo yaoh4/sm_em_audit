@@ -97,7 +97,7 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 			BeanUtils.copyProperties(portfolioAccountVO, emPortfolioVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
+			log.error("Error occured creating portfolio account object",
 							e);
 		}
 		return portfolioAccountVO;
