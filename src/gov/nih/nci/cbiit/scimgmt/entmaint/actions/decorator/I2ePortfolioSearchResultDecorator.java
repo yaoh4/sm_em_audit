@@ -50,6 +50,10 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		return fullName;
 	}
 	
+	/**
+	 * Get I2E created date
+	 * @return created Date
+	 */
 	public String getI2eCreatedDate(){
 		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
 		Date createDate = portfolioVO.getCreatedDate();
@@ -59,6 +63,10 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
+	/**
+	 * Get Discrepancy and help icon
+	 * @return descrepancy
+	 */
 	public String getDiscrepancy(){
 		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
 		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
@@ -123,6 +131,10 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		return createDate;
 	}
 	
+	/**
+	 * get note action (image)
+	 * @return image icon
+	 */
 	public String getAction(){
 		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
 		String actionStr = "";

@@ -98,7 +98,7 @@ public class I2ePortfolioAction extends BaseAction {
 	 * @return
 	 */
 	public String clearSearchPortfolioAccounts() {
-		log.info("clearSearchPortfolioAccounts()");
+		log.debug("clearSearchPortfolioAccounts()");
 		session.remove(ApplicationConstants.I2E_PORTFOLIO_SEARCHVO);
 		//Setting default searchVO
 		initialComponent();				

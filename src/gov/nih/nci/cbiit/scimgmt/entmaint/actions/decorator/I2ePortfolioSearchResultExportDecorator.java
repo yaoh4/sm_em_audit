@@ -28,6 +28,10 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		return portfolioVO.getFullName();
 	}
 	
+	/**
+	 * get created date	
+	 * @return created date in string
+	 */
 	public String getI2eCreatedDate(){
 		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
 		Date createDate = portfolioVO.getCreatedDate();
@@ -37,6 +41,10 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
+	/**
+	 * Get note contents
+	 * @return note
+	 */
 	public String getAction(){
 		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
 		String note = portfolioVO.getNotes();
