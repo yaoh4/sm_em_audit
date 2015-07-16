@@ -3,13 +3,6 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
  <Display>
-  	<Tab>
- 		<type>i2e</type>
- 		<columnName>I2E Discrepancy</columnName>
- 		<property>discrepancy</property>
-		<sort>false</sort>
-		<export>false</export>
- 	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>Name</columnName>
@@ -56,13 +49,20 @@
  		<type>i2e</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>i2e</type>
  		<columnName>Last Updated</columnName>
  		<property>lastUpdated</property>
  		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Discrepancy</columnName>
+ 		<property>discrepancy</property>
+		<sort>false</sort>
+		<export>false</export>
  	</Tab>	
  	<Tab>
  		<type>i2eDiscrepancy</type>
@@ -110,7 +110,7 @@
  		<type>i2eDiscrepancy</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
   	<Tab>
  		<type>i2eDiscrepancy</type>

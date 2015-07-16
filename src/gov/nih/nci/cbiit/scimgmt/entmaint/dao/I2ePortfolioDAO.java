@@ -85,6 +85,11 @@ public class I2ePortfolioDAO {
 						criteria.addOrder(Order.asc("createdDate"));
 					else
 						criteria.addOrder(Order.desc("createdDate"));
+				}else if(sortOrderCriterion.equalsIgnoreCase("action")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+						criteria.addOrder(Order.asc("notes"));
+					else
+						criteria.addOrder(Order.desc("notes"));
 				}else {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc(sortOrderCriterion));
