@@ -38,10 +38,6 @@ import org.springframework.stereotype.Component;
 public class I2ePortfolioDAO {
 
 	private static final Log log = LogFactory.getLog(I2ePortfolioDAO.class);
-	public static final long PORTFOLIO_CATEGORY_ACTIVE = 22;
-	public static final long PORTFOLIO_CATEGORY_NEW = 23;
-	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
-	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -49,7 +45,7 @@ public class I2ePortfolioDAO {
 	private NciUser nciUser;
 	
 	/**
-	 * Search IMPACII portfolio accounts
+	 * Search I2E portfolio accounts
 	 * 
 	 * @param paginatedList
 	 * @param searchVO
@@ -123,7 +119,7 @@ public class I2ePortfolioDAO {
 			return paginatedList;
 
 		} catch (Throwable e) {
-			log.error("Error while searching for IMPAC II accounts in portfolio view", e);
+			log.error("Error while searching for I2E accounts in portfolio view", e);
 			throw e;
 		}
 
