@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+  "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+
+  <!-- ============== Tag Library Description Elements ============= -->
+
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>Form Field Tags for Framework</shortname>
+  <info>
+  </info>
+  <tag>
+     <name>WorkbenchApplicationLink</name>
+     <tagclass>gov.nih.nci.cbiit.scimgmt.entmaint.tags.WorkbenchApplicationLinkTag</tagclass>
+     <bodycontent>JSP</bodycontent>
+     <attribute>
+   	 	<name>application</name>
+	  	<required>true</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>
+     <attribute>
+   	 	<name>popScript</name>
+	  	<required>false</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>     
+     <attribute>
+   	 	<name>additionalParams</name>
+	  	<required>false</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>      
+        <attribute>
+   	 	<name>additionalUrlText</name>
+	  	<required>false</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>     
+         <attribute>
+   	 	<name>windowParams</name>
+	  	<required>false</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>           
+         <attribute>
+   	 	<name>applicationKey</name>
+	  	<required>true</required>
+	  	<rtexprvalue>true</rtexprvalue> 
+  	 </attribute>           
+
+  </tag>   
+  
+</taglib>

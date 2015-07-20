@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2015 9:54:39 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EraBusinessRolesMv" table="ERA_BUSINESS_ROLES_MV" schema="NCI_STAGE">
+        <id name="code" type="string">
+            <column name="ROLE_NAME" length="30" />
+            <generator class="assigned" />
+        </id>
+        <property name="descrip" type="string">
+            <column name="DESCRIP" length="2000" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!-- Base layouts -->
+    <definition name="base.definition" template="/jsp/layout/baselayout.jsp">
+        <put-attribute name="selectedTab" value=""/>
+        <put-attribute name="selectedSubNav" value=""/>
+         <put-attribute name="selectedSubTab" value=""/>
+        <put-attribute name="tabtitle" value=""/>
+        <put-attribute name="header" value="/jsp/header/header.jsp"/>
+        <put-attribute name="menu" value=""/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/jsp/footer/footer.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance"/>
+    </definition>
+
+ <!-- Error Details Pages -->
+    <definition name="tiles.error.details" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="content" value="/jsp/error/errorDetails.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance: Error Details"/>
+    </definition>
+
+    <!-- Administer Audit Page -->
+               
+     <definition name="entmaint.admin.administer.page" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
+        <put-attribute name="content" value="/jsp/content/admin.jsp"/>       
+    </definition>
+    
+    <!--  Reports page -->
+    <definition name="entmaint.admin.reports.page" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="reports"/>
+        <put-attribute name="menu" value="/jsp/menu/applicationmenu.jsp"/>
+        <put-attribute name="content" value="/jsp/content/adminReports.jsp"/>       
+    </definition>
+	
+	 <!-- User Login Error Pages -->
+    <definition name="tiles.error.user" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="content" value="/jsp/error/notAuthorized.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance: User Login Error"/>
+    </definition>
+    
+</tiles-definitions>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 5, 2015 3:44:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityT" table="EM_AUDIT_ACCOUNT_ACTIVITY_T">
+        <composite-id>
+            <key-property name="eaaId" type="long">
+                <column name="EAA_ID" precision="10" scale="0" />
+            </key-property>
+            <key-many-to-one name="category" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" lazy="false">
+                <column name="CATEGORY_ID" precision="10" scale="0" />
+            </key-many-to-one>
+		</composite-id>
+            <property name="actionId" type="long">
+                <column name="ACTION_ID" precision="10" scale="0" />
+            </property>
+            <property name="createUserId" type="string">
+                <column name="CREATE_USER_ID" length="30" />
+            </property>
+            <property name="createDate" type="timestamp">
+                <column name="CREATE_DATE" length="7" />
+            </property>
+            <property name="lastChangeUserId" type="string">
+                <column name="LAST_CHANGE_USER_ID" length="30" />
+            </property>
+            <property name="lastChangeDate" type="timestamp">
+                <column name="LAST_CHANGE_DATE" length="7" />
+            </property>
+            <property name="unsubmittedFlag" type="string">
+                <column name="UNSUBMITTED_FLAG" length="3" />
+            </property>
+            <property name="notes" type="string">
+                <column name="NOTES" length="600" />
+            </property>
+            <property name="lastSubmittedByUserId" type="string">
+                <column name="LAST_SUBMITTED_BY_USER_ID" length="30" />
+            </property>
+            <property name="lastSubmittedDate" type="timestamp">
+                <column name="LAST_SUBMITTED_DATE" length="7" />
+            </property>
+    </class>
+</hibernate-mapping>

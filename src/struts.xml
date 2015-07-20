@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.objectFactory"
+		value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	 <!-- struts.devMode will be enabled only during Development.-->	
+	 <constant name="struts.devMode" value="false" />
+	<constant name="struts.configuration.xml.reload" value="false" />
+	<constant name="struts.custom.i18n.resources" value="messages" />
+	<constant name="struts.action.extension" value="action,," />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.serve.static.browserCache" value="false" />
+	<constant name="struts.mapper.action.prefix.enabled" value="true" />
+
+	<constant name="struts.multipart.maxSize" value="-1" />
+	
+	<package name="default" namespace="/" extends="struts-default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+			<result-type name="redirect-action"
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+		
+		<interceptors>
+			<interceptor name="logger"
+				class="com.opensymphony.xwork2.interceptor.LoggingInterceptor" />
+			<interceptor name="userInfo"
+				class="gov.nih.nci.cbiit.scimgmt.entmaint.interceptors.UserInfoInterceptor" />
+			<interceptor-stack name="defaultLoginStack">
+				<interceptor-ref name="logger" />			
+				<interceptor-ref name="defaultStack">
+					<param name="params.excludeMethods">clearSearchPortfolioAccounts</param>
+				</interceptor-ref>	
+				<interceptor-ref name="userInfo" />		
+			</interceptor-stack>	
+			</interceptors>
+		<default-interceptor-ref name="defaultLoginStack" />   				
+				
+		
+       	<global-results>
+			<result name="error" type="tiles">tiles.error.details</result>
+			<result name="notauthorized" type="tiles">tiles.error.user</result>
+		</global-results>
+   
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="notauthorized" exception="gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException"></exception-mapping>
+		</global-exception-mappings>
+		
+		<action name="home" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
+			<result name="success" type="redirect-action">impac2/impac2Home</result>
+		</action>
+		
+		<action name="ChangeUser" method="changeUser"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="SysAdmin" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="sendErrorMessage"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.ErrorMessageAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+	</package>
+	
+	<include file="impac2.xml"/>
+	<include file="i2e.xml"/>
+	<include file="admin.xml"/>
+
+</struts>

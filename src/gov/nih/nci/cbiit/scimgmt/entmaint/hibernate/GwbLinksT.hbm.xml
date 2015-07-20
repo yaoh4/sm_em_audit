@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/dtd/
+-->
+
+<class 
+    name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.GwbLinksT" 
+    table="GWB_LINKS_T"
+>
+    <meta attribute="class-description" inherit="false">
+       @hibernate.class
+        table="GWB_LINKS_T"
+    </meta>
+
+    <id
+        name="id"
+        type="java.lang.Long"
+        column="ID"
+    >
+        <meta attribute="field-description">
+           @hibernate.id
+            generator-class="assigned"
+            type="java.lang.Long"
+            column="ID"
+
+        </meta>
+        <generator class="assigned" />
+    </id>
+
+    <property
+        name="linkType"
+        type="java.lang.String"
+        column="LINK_TYPE"
+        not-null="true"
+        length="1"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LINK_TYPE"
+            length="1"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="linkServer"
+        type="java.lang.String"
+        column="LINK_SERVER"
+        length="100"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LINK_SERVER"
+            length="100"
+        </meta>    
+    </property>
+    <property
+        name="linkPath"
+        type="java.lang.String"
+        column="LINK_PATH"
+        not-null="true"
+        length="500"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LINK_PATH"
+            length="500"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="name"
+        type="java.lang.String"
+        column="NAME"
+        length="100"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="NAME"
+            length="100"
+        </meta>    
+    </property>
+    <property
+        name="displayName"
+        type="java.lang.String"
+        column="DISPLAY_NAME"
+        not-null="true"
+        length="100"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="DISPLAY_NAME"
+            length="100"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="activeFlag"
+        type="java.lang.String"
+        column="ACTIVE_FLAG"
+        not-null="true"
+        length="1"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="ACTIVE_FLAG"
+            length="1"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="protocol"
+        type="java.lang.String"
+        column="PROTOCOL"
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="PROTOCOL"
+            length="30"
+        </meta>    
+    </property>
+    <property
+        name="createUserId"
+        type="java.lang.String"
+        column="CREATE_USER_ID"
+        not-null="true"
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="CREATE_USER_ID"
+            length="30"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="createDate"
+        type="java.sql.Timestamp"
+        column="CREATE_DATE"
+        not-null="true"
+        length="7"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="CREATE_DATE"
+            length="7"
+            not-null="true"
+        </meta>    
+    </property>
+    <property
+        name="lastChangeUserId"
+        type="java.lang.String"
+        column="LAST_CHANGE_USER_ID"
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LAST_CHANGE_USER_ID"
+            length="30"
+        </meta>    
+    </property>
+    <property
+        name="lastChangeDate"
+        type="java.sql.Timestamp"
+        column="LAST_CHANGE_DATE"
+        length="7"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LAST_CHANGE_DATE"
+            length="7"
+        </meta>    
+    </property>
+    <property
+        name="updateStamp"
+        type="java.lang.Integer"
+        column="UPDATE_STAMP"
+        length="5"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="UPDATE_STAMP"
+            length="5"
+        </meta>    
+    </property>
+
+    <!-- associations -->
+
+</class>
+</hibernate-mapping>

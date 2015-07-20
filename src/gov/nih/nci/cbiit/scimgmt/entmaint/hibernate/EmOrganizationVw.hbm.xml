@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2015 4:08:23 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmOrganizationVw" table="EM_ORGANIZATION_VW">
+        <id name="nihorgpath" type="string">
+            <column name="NIHORGPATH" length="753" />
+        </id>
+    </class>
+</hibernate-mapping>

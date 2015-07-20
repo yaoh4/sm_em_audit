@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	
+	<package name="admin"  namespace="/admin" extends="default">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
+			<result-type name="redirect-action"
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
+		</result-types>
+	
+        <global-results>
+			<result name="error" type="tiles">tiles.error.details</result>
+		</global-results>
+     		
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		
+		<action name="adminHome" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
+		</action>
+		
+		<action name="adminReports" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
+			<result name="success" type="tiles">entmaint.admin.reports.page</result>
+			<result name="error" type="tiles">entmaint.admin.reports.page</result>
+		</action>
+		<action name="reportSearch" method="searchReports"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
+			<result name="success" type="tiles">entmaint.admin.reports.page</result>
+			<result name="error" type="tiles">entmaint.admin.reports.page</result>
+			<result name="export" type="dispatcher">/jsp/content/adminReportSearchResultExport.jsp</result>
+		</action>
+		<action name="resetFields" method="clearAll"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
+			<result name="success" type="tiles">entmaint.admin.reports.page</result>
+			<result name="error" type="tiles">entmaint.admin.reports.page</result>
+		</action>
+		<action name="startAudit" method="startAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
+		</action>	
+		
+		<action name="endAudit" method="endAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="enableAudit" method="enableAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="resetAudit" method="resetAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="tiles">entmaint.admin.administer.page</result>
+			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>
+		
+		<action name="openEmail" method="openEmail"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
+			<result name="success" type="dispatcher">/jsp/content/email.jsp</result>
+		</action>
+		
+		
+		<action name="composeEmailAction" method="composeEmailSubjectAndBody" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.ComposeEmailAction">
+			<result type="stream">     
+				<param name="contentType">text/html</param>     
+				<param name="inputName">inputStream</param>   
+			</result>
+		</action>
+		
+		<action name="saveEmailAction" method="SaveEmail" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SaveEmailAction">
+			<result type="stream">     
+				<param name="contentType">text/html</param>     
+				<param name="inputName">inputStream</param>   
+			</result>
+		</action>		
+				
+	</package>
+</struts>

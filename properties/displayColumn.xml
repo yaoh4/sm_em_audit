@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ <Display>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II Discrepancy</columnName>
+ 		<property>discrepancy</property>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Segregation of Duties Violation</columnName>
+ 		<property>discrepancySod</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II Vs. NED IC Discrepancy</columnName>
+ 		<property>discrepancyIc</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Active IMPAC II/Inactive NED</columnName>
+ 		<property>discrepancyNedInactive</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II Vs. NED Last Name Discrepancy</columnName>
+ 		<property>discrepancyLastName</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 	</Tab>	 
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 		 	
+  	<Tab>
+ 		<type>active</type>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Submitted On</columnName>
+ 		<property>submittedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>
+
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+	<Tab>
+ 		<type>new</type>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Submitted On</columnName>
+ 		<property>submittedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>	
+	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab> 	
+	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Deleted Date</columnName>
+ 		<property>accountDeletedDate</property>
+ 	</Tab> 	
+	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Deleted By</columnName>
+ 		<property>deletedBy</property>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>IMPAC II Deletion Comments</columnName>
+ 		<property>deactivationComments</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Submitted On</columnName>
+ 		<property>submittedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>deleted</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>IMPAC II ID/ #R NIH_(Network)_ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab> 	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab> 	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+   	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+  	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Submitted</columnName>
+ 		<property>accountSubmitted</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Submitted On</columnName>
+ 		<property>submittedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>inactive</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioActive</type>
+		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Notes</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>lastUpdated</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Updated On</columnName>
+ 		<property>updatedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
+ 		<columnName>Updated By</columnName>
+ 		<property>updatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>		
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Notes</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>lastUpdated</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Updated On</columnName>
+ 		<property>updatedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Updated By</columnName>
+ 		<property>updatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Deleted Date</columnName>
+ 		<property>deletedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Deleted By</columnName>
+ 		<property>deletedBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>IMPAC II Deletion Comments</columnName>
+ 		<property>deactivationComments</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Notes</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>lastUpdated</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Updated On</columnName>
+ 		<property>updatedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDeleted</type>
+ 		<columnName>Updated By</columnName>
+ 		<property>updatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Segregation of Duties Violation</columnName>
+ 		<property>discrepancySod</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Vs. NED IC Discrepancy</columnName>
+ 		<property>discrepancyIc</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Active IMPAC II/Inactive NED</columnName>
+ 		<property>discrepancyNedInactive</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Vs. NED Last Name Discrepancy</columnName>
+ 		<property>discrepancyLastName</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Discrepancy</columnName>
+ 		<property>discrepancy</property>
+ 		<sort>true</sort>
+ 		<export>false</export>
+ 	</Tab> 		
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	
+  	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 		<export>false</export>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>applicationRoleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Notes</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Notes</columnName>
+ 		<property>notes</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Last Updated</columnName>
+ 		<property>lastUpdated</property>
+ 		<sort>false</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Updated On</columnName>
+ 		<property>updatedOn</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Updated By</columnName>
+ 		<property>updatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab> 	
+ </Display>   

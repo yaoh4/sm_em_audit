@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 5, 2015 8:47:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" table="APP_LOOKUP_T">
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="discriminator" type="string">
+            <column name="DISCRIMINATOR" length="90" not-null="true" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" length="60" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="1200" not-null="true" />
+        </property>
+        <property name="active" type="yes_no">
+            <column name="ACTIVE" length="1" not-null="true" />
+        </property>
+        <property name="orderNum" type="integer">
+            <column name="ORDER_NUM" precision="2" scale="0" not-null="true" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="CREATE_DATE" length="7" not-null="true" />
+        </property>
+        <property name="createUserId" type="string">
+            <column name="CREATE_USER_ID" length="50" not-null="true" />
+        </property>
+        <property name="lastChangeDate" type="timestamp">
+            <column name="LAST_CHANGE_DATE" length="7" />
+        </property>
+        <property name="lastChangeUserId" type="string">
+            <column name="LAST_CHANGE_USER_ID" length="50" />
+        </property>
+        <property name="applicationName" type="string">
+            <column name="APPLICATION_NAME" length="150" />
+        </property>
+    </class>
+</hibernate-mapping>

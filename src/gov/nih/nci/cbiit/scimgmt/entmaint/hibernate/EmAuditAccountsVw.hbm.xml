@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 5, 2015 1:53:49 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw" table="EM_AUDIT_ACCOUNTS_VW">
+            <id name="id" type="long">
+                <column name="ID" precision="10" scale="0" />
+            </id>
+            <many-to-one name="audit" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT" lazy="false" fetch="select">
+            	<column name="AUDIT_ID" precision="10" scale="0" not-null="true" />
+        	</many-to-one>
+            <property name="impaciiUserId" type="string">
+                <column name="IMPACII_USER_ID" length="30" />
+            </property>
+            <property name="lastName" type="string">
+                <column name="LAST_NAME" length="576" />
+            </property>
+            <property name="firstName" type="string">
+                <column name="FIRST_NAME" length="576" />
+            </property>
+            <property name="impaciiLastName" type="string">
+                <column name="IMPACII_LAST_NAME" length="30" />
+            </property>
+            <property name="impaciiFirstName" type="string">
+                <column name="IMPACII_FIRST_NAME" length="30" />
+            </property>
+            <property name="nihNetworkId" type="string">
+                <column name="NIH_NETWORK_ID" length="64" />
+            </property>
+            <property name="nedLastName" type="string">
+                <column name="NED_LAST_NAME" length="576" />
+            </property>
+            <property name="nedFirstName" type="string">
+                <column name="NED_FIRST_NAME" length="576" />
+            </property>
+            <property name="nedEmailAddress" type="string">
+                <column name="NED_EMAIL_ADDRESS" length="768" />
+            </property>
+            <property name="parentNedOrgPath" type="string">
+                <column name="PARENT_NED_ORG_PATH" length="2304" />
+            </property>
+            <property name="nedOrgPath" type="string">
+                <column name="NED_ORG_PATH" length="2304" />
+            </property>
+            <property name="nedIc" type="string">
+                <column name="NED_IC" length="576" />
+            </property>
+            <property name="nedActiveFlag" type="string">
+                <column name="NED_ACTIVE_FLAG" length="3" />
+            </property>
+            <property name="nciDoc" type="string">
+                <column name="NCI_DOC" length="5" />
+            </property>
+            <property name="createdDate" type="timestamp">
+                <column name="CREATED_DATE" length="7" />
+            </property>
+            <property name="createdByUserId" type="string">
+                <column name="CREATED_BY_USER_ID" length="30" />
+            </property>
+            <property name="createdByFullName" type="string">
+                <column name="CREATED_BY_FULL_NAME" length="60" />
+            </property>
+            <property name="deletedDate" type="timestamp">
+                <column name="DELETED_DATE" length="7" />
+            </property>
+            <property name="deletedByUserId" type="string">
+                <column name="DELETED_BY_USER_ID" length="30" />
+            </property>
+            <property name="deletedByFullName" type="string">
+                <column name="DELETED_BY_FULL_NAME" length="60" />
+            </property>
+            <property name="deactivationComments" type="string">
+                <column name="DEACTIVATION_COMMENTS" length="2000" />
+            </property>
+            <property name="secondaryOrgText" type="string">
+                <column name="SECONDARY_ORG_TEXT" length="32" />
+            </property>
+            <property name="lastLoginDate" type="timestamp">
+                <column name="LAST_LOGIN_DATE" length="7" />
+            </property>
+            <property name="inactiveUserFlag" type="string">
+                <column name="INACTIVE_USER_FLAG" length="3" />
+            </property>
+            <many-to-one name="activeAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" lazy="false">
+            	<column name="ACTIVE_ACTION_ID" precision="10" scale="0" />
+        	</many-to-one>
+            <property name="activeNotes" type="string">
+                <column name="ACTIVE_NOTES" length="600" />
+            </property>
+            <property name="activeUnsubmittedFlag" type="string">
+                <column name="ACTIVE_UNSUBMITTED_FLAG" length="3" />
+            </property>
+            <property name="activeSubmittedBy" type="string">
+                <column name="ACTIVE_SUBMITTED_BY" length="62" />
+            </property>
+            <property name="activeSubmittedDate" type="timestamp">
+                <column name="ACTIVE_SUBMITTED_DATE" length="7" />
+            </property>
+            <many-to-one name="newAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" lazy="false">
+            	<column name="NEW_ACTION_ID" precision="10" scale="0" />
+        	</many-to-one>
+            <property name="newNotes" type="string">
+                <column name="NEW_NOTES" length="600" />
+            </property>
+            <property name="newUnsubmittedFlag" type="string">
+                <column name="NEW_UNSUBMITTED_FLAG" length="3" />
+            </property>
+            <property name="newSubmittedBy" type="string">
+                <column name="NEW_SUBMITTED_BY" length="62" />
+            </property>
+            <property name="newSubmittedDate" type="timestamp">
+                <column name="NEW_SUBMITTED_DATE" length="7" />
+            </property>
+            <many-to-one name="deletedAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" lazy="false">
+            	<column name="DELETED_ACTION_ID" precision="10" scale="0" />
+        	</many-to-one>
+            <property name="deletedNotes" type="string">
+                <column name="DELETED_NOTES" length="600" />
+            </property>
+            <property name="deletedUnsubmittedFlag" type="string">
+                <column name="DELETED_UNSUBMITTED_FLAG" length="3" />
+            </property>
+            <property name="deletedSubmittedBy" type="string">
+                <column name="DELETED_SUBMITTED_BY" length="62" />
+            </property>
+            <property name="deletedSubmittedDate" type="timestamp">
+                <column name="DELETED_SUBMITTED_DATE" length="7" />
+            </property>
+            <many-to-one name="inactiveAction" class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT" lazy="false">
+            	<column name="INACTIVE_ACTION_ID" precision="10" scale="0" />
+        	</many-to-one>
+            <property name="inactiveNotes" type="string">
+                <column name="INACTIVE_NOTES" length="600" />
+            </property>
+            <property name="inactiveUnsubmittedFlag" type="string">
+                <column name="INACTIVE_UNSUBMITTED_FLAG" length="3" />
+            </property>
+            <property name="inactiveSubmittedBy" type="string">
+                <column name="INACTIVE_SUBMITTED_BY" length="62" />
+            </property>
+            <property name="inactiveSubmittedDate" type="timestamp">
+                <column name="INACTIVE_SUBMITTED_DATE" length="7" />
+            </property>
+            <property name="deletedByParentOrgPath" type="string">
+                <column name="DELETED_BY_PARENT_ORG_PATH" length="2304" />
+            </property>
+            <property name="deletedByNciDoc" type="string">
+                <column name="DELETED_BY_NCI_DOC" length="5" />
+            </property>
+            <property name="sodFlag" type="yes_no">
+                <column name="SOD_FLAG" length="1" />
+            </property>
+            <property name="icDiffFlag" type="yes_no">
+                <column name="IC_DIFF_FLAG" length="1" />
+            </property>
+            <property name="nedInactiveFlag" type="yes_no">
+                <column name="NED_INACTIVE_FLAG" length="1" />
+            </property>
+            <property name="lastNameDiffFlag" type="yes_no">
+                <column name="LAST_NAME_DIFF_FLAG" length="1" />
+            </property>
+            <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
+            	<key>
+                	<column name="EAA_ID" />
+            	</key>
+            	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw" />
+        	</bag>
+    </class>
+</hibernate-mapping>

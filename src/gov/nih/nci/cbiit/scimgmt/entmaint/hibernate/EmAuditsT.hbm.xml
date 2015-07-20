@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 2, 2015 11:26:31 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT" table="EM_AUDITS_T">
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0" />
+            <generator class="increment" />
+        </id>
+        <property name="impaciiFromDate" type="date">
+            <column name="IMPACII_FROM_DATE" length="7" not-null="true" />
+        </property>
+        <property name="impaciiToDate" type="date">
+            <column name="IMPACII_TO_DATE" length="7" not-null="true" />
+        </property>
+        <property name="startDate" type="date">
+            <column name="START_DATE" length="7" not-null="true" />
+        </property>
+        <property name="endDate" type="date">
+            <column name="END_DATE" length="7" />
+        </property>
+        <property name="createUserId" type="string">
+            <column name="CREATE_USER_ID" length="30" not-null="true" />
+        </property>
+        <property name="createDate" type="date">
+            <column name="CREATE_DATE" length="7" />
+        </property>
+        <property name="i2eFromDate" type="date">
+            <column name="I2E_FROM_DATE" length="7" not-null="true" />
+        </property>
+        <property name="i2eToDate" type="date">
+            <column name="I2E_TO_DATE" length="7" not-null="true" />
+        </property>
+         <bag name="statusHistories" cascade="none" inverse="true" lazy="false" order-by="CREATE_DATE desc" >
+			    <key column="EAU_ID" not-null="true"/>
+			    <one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT"/>
+		 </bag>
+    </class>
+</hibernate-mapping>
