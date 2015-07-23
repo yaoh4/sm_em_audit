@@ -570,7 +570,8 @@
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
- 		<property>impaciiUserIdNetworkId</property>		
+ 		<property>impaciiUserIdNetworkId</property>	
+ 		<export>false</export>	
  	</Tab>	
  	<Tab>
  		<type>portfolioNew</type>
