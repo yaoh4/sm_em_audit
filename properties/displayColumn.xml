@@ -517,7 +517,7 @@
  		<type>portfolioActive</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
@@ -621,7 +621,7 @@
  		<type>portfolioNew</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
@@ -716,7 +716,7 @@
  		<type>portfolioDeleted</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
@@ -856,7 +856,7 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>Notes</columnName>
  		<property>action</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  		<export>false</export>
  	</Tab>
  	<Tab>
