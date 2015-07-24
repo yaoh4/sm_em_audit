@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -33,6 +34,7 @@ public class AdminReportsAction extends BaseAction {
 	private PaginatedListImpl<AuditAccountVO> auditAccounts = null;
 	private List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
+	private String selectedAuditDescription;
 	
 	public String execute() throws Exception {
     	//prepare the report search
@@ -48,7 +50,7 @@ public class AdminReportsAction extends BaseAction {
     }
 	
 	public String clearAll(){
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
@@ -66,7 +68,7 @@ public class AdminReportsAction extends BaseAction {
 		setUpEnvironment();
 		this.setDefaultPageSize();
 		
-	    searchType = lookupService.getAppLookupById(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, searchVO.getCategory()).getCode();
+	    searchType = lookupService.getAppLookupById(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST, searchVO.getCategory()).getCode();
 	    if(searchType.indexOf("INACTIVE") >=0){
 	    	searchType = ApplicationConstants.CATEGORY_INACTIVE;
 	    }
@@ -80,7 +82,9 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchDeletedAccounts(auditAccounts, searchVO, false);
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, false);
-			}	
+			} else {
+				// TODO YURI search I2E audit accounts.
+			}
 			forward = ApplicationConstants.SUCCESS;
 		}else{
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(searchType) == true){
@@ -91,11 +95,15 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchDeletedAccounts(auditAccounts, searchVO, true);
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
+			} else {
+				// TODO YURI search I2E audit accounts.
 			}
 	
 			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
-			}else{
+			}else if (ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(searchType) == true) {
+				// TODO YURI add logic for I2E export
+			} else {
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
 			}
 			forward = ApplicationConstants.EXPORT;
@@ -111,11 +119,17 @@ public class AdminReportsAction extends BaseAction {
 	}
 	
 	private void setUpEnvironment(){
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
 			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
 			searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
+			setSelectedAuditDescription(auditPeriodList.get(0).getOptionValue());
+		} else {
+			for (DropDownOption option:getAuditPeriodList()) {
+				if(StringUtils.equals(searchVO.getAuditId().toString(), option.getOptionKey()))
+					setSelectedAuditDescription(option.getOptionValue());
+			}
 		}
 	}
 
@@ -248,6 +262,14 @@ public class AdminReportsAction extends BaseAction {
 	 */
 	public void setEmAuditsVO(EmAuditsVO emAuditsVO) {
 		this.emAuditsVO = emAuditsVO;
+	}
+
+	public String getSelectedAuditDescription() {
+		return selectedAuditDescription;
+	}
+
+	public void setSelectedAuditDescription(String selectedAuditDescription) {
+		this.selectedAuditDescription = selectedAuditDescription;
 	}
 	
 }

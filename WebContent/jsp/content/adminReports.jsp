@@ -76,4 +76,7 @@ function clearFields(){
 </div>
 </s:if>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
-<div id="auditHistory" align="center" style="display:none;" title=""><h4>Audit History</h4>	<s:include value="auditHistory.jsp"/></div>
+<div id="auditHistory" align="center" style="display:none;" title="">
+	<h4>Audit History for <s:property value="selectedAuditDescription"></s:property></h4>	
+	<s:include value="auditHistory.jsp"/>
+</div>

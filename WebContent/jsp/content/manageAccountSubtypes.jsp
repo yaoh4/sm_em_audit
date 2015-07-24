@@ -108,7 +108,7 @@
   		<h4>Audit Dashboard <span style="font-weight: normal;"></span></h4>
   	</s:elseif>
   	<s:else>
-  		<h4>eRA Audit Reports <span style="font-weight: normal;"></span></h4>
+  		<h4>Audit Reports <span style="font-weight: normal;"></span></h4>
   	</s:else>
   
   </s:else>

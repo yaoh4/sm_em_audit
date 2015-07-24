@@ -87,6 +87,28 @@ public class AuditSearchActionHelper {
 		return auditPeriodList;
 	}
 	
+	public  List<DropDownOption> createReportAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveReportAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
+		}
+		
+		return auditPeriodList;
+	}
+	
+	public  List<DropDownOption> createI2eAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveI2eAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
+		}
+		
+		return auditPeriodList;
+	}
+	
 	/**
 	 * This method is responsible for preparing drop down lists for organizationList and categoriesList for portfolio accounts search.
 	 * @return 
@@ -191,7 +213,7 @@ public class AuditSearchActionHelper {
 	
 	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
 		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
-		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
 		
 		if(cateList != null){
 			for(AppLookupT obj : cateList){

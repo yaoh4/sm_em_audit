@@ -13,6 +13,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -50,14 +51,14 @@ public class AdminDAO  {
 	 * 
 	 * @return Long audit id of the new Audit record
 	 */
-	public Long setupNewAudit(Date impaciiFromDate, Date impaciiToDate, String comments) {
+	public Long setupNewAudit(Date impaciiFromDate, Date impaciiToDate, String comments, String i2eAuditFlag) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Long auditId = null;		
 		try {
 			
 			//Setup audit control
-			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate);
+			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate, i2eAuditFlag);
 			auditId = (Long)session.save(emAuditsT);	
 			
 			//The freeze_audit_records procedure needs the above record to be present
@@ -157,15 +158,17 @@ public class AdminDAO  {
 	}
 	
 	
-	private EmAuditsT setupAudit(Date impaciiFromDate, Date impaciiToDate) {
+	private EmAuditsT setupAudit(Date impaciiFromDate, Date impaciiToDate, String i2eAuditFlag) {
 		//Insert a row into the EM_AUDIT_T table
 		EmAuditsT emAuditsT = new EmAuditsT();
 		emAuditsT.setCreateDate(new Date());
 		emAuditsT.setStartDate(new Date());
 		emAuditsT.setImpaciiFromDate(impaciiFromDate);
 		emAuditsT.setImpaciiToDate(impaciiToDate);
-		emAuditsT.setI2eFromDate(impaciiFromDate);
-		emAuditsT.setI2eToDate(impaciiToDate);
+		if(StringUtils.equalsIgnoreCase(i2eAuditFlag, ApplicationConstants.TRUE)) {
+			emAuditsT.setI2eFromDate(impaciiFromDate);
+			emAuditsT.setI2eToDate(impaciiToDate);
+		}
 		emAuditsT.setCreateUserId(nciUser.getOracleId());
 		
 		return emAuditsT;
@@ -278,5 +281,31 @@ public class AdminDAO  {
 		return emAudits;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<EmAuditsVw> retrieveI2eAuditList() {
+		Session session = sessionFactory.getCurrentSession();
+		List<EmAuditsVw> emAudits = null;
+		
+		try {
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			criteria.addOrder(Order.desc("id"));
+			criteria.add(Restrictions.isNotNull("i2eFromDate"));
+			Object result =  criteria.list();
+			if (result != null) {
+				emAudits = (List<EmAuditsVw>)result;
+				
+				if(!CollectionUtils.isEmpty(emAudits)) {
+					for(EmAuditsVw audit: emAudits) {
+						session.evict(audit);
+					}
+				}
+			}
+		} catch (Throwable e) {		
+			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
+			throw e;	
+		}
+		
+		return emAudits;
+	}
 	
 }

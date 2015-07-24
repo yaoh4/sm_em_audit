@@ -58,6 +58,7 @@ public interface ApplicationConstants {
     public static final String YOUR_GRANT_DETAILS_APP_LINK_LIST = "yourGrantDetailsapplinklist";
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
     public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
+    public static final String APP_LOOKUP_REPORTS_CATEGORY_LIST = "appLookupReportsCategory";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
@@ -109,6 +110,7 @@ public interface ApplicationConstants {
 	public static final String CATEGORY_NEW = "NEW";
 	public static final String CATEGORY_DELETED = "DELETED";
 	public static final String CATEGORY_INACTIVE = "INACTIVE";
+	public static final String CATEGORY_I2E = "I2E";
 	
 	public static final String ACTIVE_ACTION_ALL = "1";
 	public static final String NEW_ACTION_ALL = "5";
@@ -134,6 +136,7 @@ public interface ApplicationConstants {
     
     public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
     public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
+    public static String I2E_AUDIT_ACTIVE = "i2eActive";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
