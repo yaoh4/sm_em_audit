@@ -61,7 +61,7 @@ public class AdminDashboardAction extends BaseAction {
     	otherOrgsData = new HashMap<String, HashMap<String, DashboardData>>();
     	
     	//set up all environment for displaying dashboard page.
-    	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
     	Long auditId = emAuditsVO.getId();
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
@@ -410,7 +410,7 @@ public class AdminDashboardAction extends BaseAction {
 	 */
 	@SuppressWarnings("deprecation")
 	public String getAuditYear() {
-		emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+		emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
 		Date auditDate = emAuditsVO.getStartDate();
 		if(auditDate == null){
 			return "";
