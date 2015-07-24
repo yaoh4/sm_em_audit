@@ -145,6 +145,12 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareActiveAccounts(){
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+        EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+        setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO); 
+        
 		setUpDefaultSearch(); //check if default search is needed
 		//set up changePageSize dropdown and default pagesize
 		auditSearchActionHelper.setUpChangePageSizeDropDownList( getPropertyValue(ApplicationConstants.PAGE_SIZE_LIST),session);
