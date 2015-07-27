@@ -289,6 +289,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultEx
 src/gov/nih/nci/cbiit/scimgmt/entmaint/constants/ApplicationConstants.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/AdminDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/ApplicationDAO.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/I2eAuditDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/I2ePortfolioDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/Impac2AuditDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/Impac2PortfolioDAO.java -text
@@ -320,6 +321,12 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditsVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountRolesVw.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountRolesVw.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsT.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsT.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsVw.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioI2eVw.hbm.xml -text
@@ -343,6 +350,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/security/NciPerson.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/security/NciUser.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/AdminService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/ApplicationService.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/services/I2eAuditService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/I2ePortfolioService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2AuditService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2PortfolioService.java -text
@@ -350,6 +358,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LdapServices.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LookupService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/AdminServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/ApplicationServiceImpl.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/I2eAuditServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/I2ePortfolioServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2AuditServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2PortfolioServiceImpl.java -text
@@ -368,6 +377,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/LdapUtil.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/PaginatedListImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/Tab.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditAccountVO.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditI2eAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditSearchVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/EmAuditsVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PortfolioAccountVO.java -text

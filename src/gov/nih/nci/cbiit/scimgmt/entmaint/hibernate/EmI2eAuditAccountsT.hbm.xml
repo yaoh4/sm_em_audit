@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 24, 2015 3:42:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsT" table="EM_I2E_AUDIT_ACCOUNTS_T">
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="npnId" type="long">
+            <column name="NPN_ID" precision="10" scale="0" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="LAST_NAME" length="30" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="FIRST_NAME" length="30" />
+        </property>
+        <property name="nihNetworkId" type="string">
+            <column name="NIH_NETWORK_ID" length="64" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="7" not-null="true" />
+        </property>
+        <property name="createdByUserId" type="string">
+            <column name="CREATED_BY_USER_ID" length="30" not-null="true" />
+        </property>
+        <property name="lastChangeUserId" type="string">
+            <column name="LAST_CHANGE_USER_ID" length="30" />
+        </property>
+        <property name="eauId" type="long">
+            <column name="EAU_ID" precision="10" scale="0" not-null="true" />
+        </property>
+        <property name="actionId" type="long">
+            <column name="ACTION_ID" precision="10" scale="0" />
+        </property>
+        <property name="lastSubmittedByUserId" type="string">
+            <column name="LAST_SUBMITTED_BY_USER_ID" length="30" />
+        </property>
+        <property name="lastSubmittedDate" type="timestamp">
+            <column name="LAST_SUBMITTED_DATE" length="7" />
+        </property>
+        <property name="notes" type="string">
+            <column name="NOTES" length="600" />
+        </property>
+        <property name="unsubmittedFlag" type="string">
+            <column name="UNSUBMITTED_FLAG" length="3" />
+        </property>
+        <property name="actionCreateUserId" type="string">
+            <column name="ACTION_CREATE_USER_ID" length="30" />
+        </property>
+        <property name="actionCreateDate" type="timestamp">
+            <column name="ACTION_CREATE_DATE" length="7" />
+        </property>
+        <property name="oracleId" type="string">
+            <column name="ORACLE_ID" length="30" />
+        </property>
+        <property name="inactiveDate" type="timestamp">
+            <column name="INACTIVE_DATE" length="7" />
+        </property>
+    </class>
+</hibernate-mapping>
