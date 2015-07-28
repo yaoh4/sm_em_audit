@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
@@ -110,16 +111,13 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 	 * @return String
 	 */
 	public String getOrgPath(){
+		String orgPath = "";
 		PortfolioI2eAccountVO accountVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		List<I2eActiveUserRolesVw> roles = accountVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
+		List<I2eActiveUserRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			orgPath = accountRoles.get(0).getFullOrgPathAbbrev();
 		}
-		String orgPath = "<table width='100%' border='0'>";
-		for(I2eActiveUserRolesVw roleVw : roles){
-			orgPath = orgPath + "<tr><td>" + roleVw.getFullOrgPathAbbrev() +"</td></tr>";
-		}
-		orgPath = orgPath + "</table>";
+		
 		return orgPath;
 	}
 	
