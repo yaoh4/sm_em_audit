@@ -10,7 +10,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.common.PropertiesManager;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.I2ePortfolioDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2AuditDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2ePortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -242,7 +242,7 @@ public class AuditAccountTest {
 	}
 	
 	private int getI2ePortfolioAccount(String orgName, Long cateId){
-		PaginatedListImpl<EmPortfolioI2eVw> pl = new PaginatedListImpl<EmPortfolioI2eVw>();
+		PaginatedListImpl<EmI2ePortfolioVw> pl = new PaginatedListImpl<EmI2ePortfolioVw>();
 		AuditSearchVO svo = new AuditSearchVO();
 		svo.setOrganization(orgName);
 		svo.setCategory(cateId);

@@ -135,8 +135,8 @@ public class DatabaseManager {
 		String sql = null;
 		String name = orgName.toUpperCase();
 		
-		String sqlI2eAccount = "select count(*) as i2eCount from em_portfolio_i2e_vw where parent_ned_org_path = ?";
-		String sqlI2eDiscrepancy = "select count(*) as i2eCount from em_portfolio_i2e_vw where parent_ned_org_path = ? and " + 
+		String sqlI2eAccount = "select count(*) as i2eCount from em_i2e_portfolio_vw where parent_ned_org_path = ?";
+		String sqlI2eDiscrepancy = "select count(*) as i2eCount from em_i2e_portfolio_vw where parent_ned_org_path = ? and " + 
 							"(SOD_FLAG = 'Y' or NED_INACTIVE_FLAG = 'Y' or NO_ACTIVE_ROLE_FLAG = 'Y' or I2E_ONLY_FLAG = 'Y' or Active_ROLE_REMAINDER_FLAG = 'Y')";
 		if(cateId == 37){
 			sql = sqlI2eAccount;

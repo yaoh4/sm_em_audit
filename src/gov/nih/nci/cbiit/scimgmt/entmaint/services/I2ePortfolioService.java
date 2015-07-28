@@ -24,7 +24,7 @@ public interface I2ePortfolioService {
     public DBResult saveNotes(Long npnId, String notes, Date date);
     
     /**
-     * Data retrieval from view, EmPortfolioI2eVw
+     * Data retrieval from view, EmI2ePortfolioVw
      * @param paginatedList
      * @param searchVO
      * @param all

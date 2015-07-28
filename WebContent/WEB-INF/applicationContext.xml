@@ -59,7 +59,7 @@
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmOrganizationVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmDiscrepancyTypesT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EraBusinessRolesMv.hbm.xml</value>
-  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmPortfolioI2eVw.hbm.xml</value>
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2ePortfolioVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/I2eActiveUserRolesVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsT.hbm.xml</value>

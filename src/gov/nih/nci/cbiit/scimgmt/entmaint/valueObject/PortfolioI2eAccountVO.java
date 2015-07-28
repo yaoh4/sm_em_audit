@@ -2,10 +2,10 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.valueObject;
 
 import org.apache.commons.lang.StringUtils;
 
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2ePortfolioVw;
 
 @SuppressWarnings("serial")
-public class PortfolioI2eAccountVO extends EmPortfolioI2eVw{	
+public class PortfolioI2eAccountVO extends EmI2ePortfolioVw{	
 	
 	/**
 	 * Returns full name.

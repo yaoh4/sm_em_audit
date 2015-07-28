@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.I2ePortfolioDAO;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2ePortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
@@ -46,10 +46,10 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	@Override
 	public PaginatedListImpl<PortfolioI2eAccountVO> searchI2eAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = i2ePortfolioDAO.searchI2eAccounts(paginatedList, searchVO, all);
-		List<EmPortfolioI2eVw> portfolioList = paginatedList.getList();
+		List<EmI2ePortfolioVw> portfolioList = paginatedList.getList();
 
 		List<PortfolioI2eAccountVO> list = new ArrayList<PortfolioI2eAccountVO>();
-		for (final EmPortfolioI2eVw account : portfolioList) {
+		for (final EmI2ePortfolioVw account : portfolioList) {
 			account.setAccountDiscrepancies(populateAccountDiscrepancy(account));
 			list.add(populatePortfolioAccountVO(account));
 		}
@@ -82,7 +82,7 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	 * @param emPortfolioVw
 	 * @return
 	 */
-	private PortfolioI2eAccountVO populatePortfolioAccountVO(EmPortfolioI2eVw emPortfolioVw) {
+	private PortfolioI2eAccountVO populatePortfolioAccountVO(EmI2ePortfolioVw emPortfolioVw) {
 		final PortfolioI2eAccountVO portfolioAccountVO = new PortfolioI2eAccountVO();
 		try {
 			ConvertUtils.register(new BigDecimalConverter(null),
@@ -110,7 +110,7 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	 * @param category
 	 * @return
 	 */
-	private List<String> populateAccountDiscrepancy(EmPortfolioI2eVw account) {
+	private List<String> populateAccountDiscrepancy(EmI2ePortfolioVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
 		if(account.getSodFlag() != null) {

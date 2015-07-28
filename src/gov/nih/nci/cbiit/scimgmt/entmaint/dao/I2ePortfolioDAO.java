@@ -3,7 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioI2eVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2ePortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
@@ -52,7 +52,7 @@ public class I2ePortfolioDAO {
 	 * @param all
 	 * @return
 	 */
-	public PaginatedListImpl<EmPortfolioI2eVw> searchI2eAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
+	public PaginatedListImpl<EmI2ePortfolioVw> searchI2eAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for I2E accounts in portfolio view: " + searchVO);
 
 		try {
@@ -62,7 +62,7 @@ public class I2ePortfolioDAO {
 			String sortOrder = paginatedList.getSqlSortDirection();
 			
 			Criteria criteria = null;
-			criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioI2eVw.class);
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
 
 			// Sort order
 			if (!StringUtils.isBlank(sortOrderCriterion)) {
@@ -106,7 +106,7 @@ public class I2ePortfolioDAO {
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
 
-			List<EmPortfolioI2eVw> portfolioList = null;
+			List<EmI2ePortfolioVw> portfolioList = null;
 		
 			if (all) {
 				portfolioList = criteria.list();
@@ -169,7 +169,7 @@ public class I2ePortfolioDAO {
 		String note = "";
 		Criteria crit;
 		try {
-			crit = sessionFactory.getCurrentSession().createCriteria(EmPortfolioI2eVw.class);
+			crit = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
 			note = "notes";
 			crit.setProjection(Projections.property(note));
 			crit.add(Restrictions.eq("npnId", id));
