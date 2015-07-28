@@ -14,24 +14,27 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 	private String roleCode;
 	private String roleDescription;
 	private Long orgId;
+	private String fullOrgPathAbbrev;
 	private String fullOrgPathDescription;
 	private Date createdDate;
 
 	public EmI2eAuditAccountRolesVw() {
 	}
 
-	public EmI2eAuditAccountRolesVw(Long eiaaId, Date createdDate) {
+	public EmI2eAuditAccountRolesVw(Long eiaaId, Long npeId, Date createdDate) {
 		this.eiaaId = eiaaId;
+		this.npeId = npeId;
 		this.createdDate = createdDate;
 	}
 
-	public EmI2eAuditAccountRolesVw(Long eiaaId, Long npeId, String roleCode, String roleDescription, Long orgId,
-			String fullOrgPathDescription, Date createdDate) {
+	public EmI2eAuditAccountRolesVw(Long eiaaId, Long npeId, String roleCode, String roleDescription,
+			Long orgId, String fullOrgPathAbbrev, String fullOrgPathDescription, Date createdDate) {
 		this.eiaaId = eiaaId;
 		this.npeId = npeId;
 		this.roleCode = roleCode;
 		this.roleDescription = roleDescription;
 		this.orgId = orgId;
+		this.fullOrgPathAbbrev = fullOrgPathAbbrev;
 		this.fullOrgPathDescription = fullOrgPathDescription;
 		this.createdDate = createdDate;
 	}
@@ -66,6 +69,14 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 
 	public void setOrgId(Long orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getFullOrgPathAbbrev() {
+		return this.fullOrgPathAbbrev;
+	}
+
+	public void setFullOrgPathAbbrev(String fullOrgPathAbbrev) {
+		this.fullOrgPathAbbrev = fullOrgPathAbbrev;
 	}
 
 	public String getFullOrgPathDescription() {
@@ -112,6 +123,9 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 						castOther.getRoleDescription())))
 				&& ((this.getOrgId() == castOther.getOrgId()) || (this.getOrgId() != null
 						&& castOther.getOrgId() != null && this.getOrgId().equals(castOther.getOrgId())))
+				&& ((this.getFullOrgPathAbbrev() == castOther.getFullOrgPathAbbrev()) || (this.getFullOrgPathAbbrev() != null
+						&& castOther.getFullOrgPathAbbrev() != null && this.getFullOrgPathAbbrev().equals(
+						castOther.getFullOrgPathAbbrev())))
 				&& ((this.getFullOrgPathDescription() == castOther.getFullOrgPathDescription()) || (this
 						.getFullOrgPathDescription() != null && castOther.getFullOrgPathDescription() != null && this
 						.getFullOrgPathDescription().equals(castOther.getFullOrgPathDescription())))
@@ -128,6 +142,7 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 		result = 37 * result + (getRoleCode() == null ? 0 : this.getRoleCode().hashCode());
 		result = 37 * result + (getRoleDescription() == null ? 0 : this.getRoleDescription().hashCode());
 		result = 37 * result + (getOrgId() == null ? 0 : this.getOrgId().hashCode());
+		result = 37 * result + (getFullOrgPathAbbrev() == null ? 0 : this.getFullOrgPathAbbrev().hashCode());
 		result = 37 * result + (getFullOrgPathDescription() == null ? 0 : this.getFullOrgPathDescription().hashCode());
 		result = 37 * result + (getCreatedDate() == null ? 0 : this.getCreatedDate().hashCode());
 		return result;

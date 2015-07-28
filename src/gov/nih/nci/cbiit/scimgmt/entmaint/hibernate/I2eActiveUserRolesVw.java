@@ -20,6 +20,8 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 	private Long orgId;
 	private String orgAbbrev;
 	private String docAbbrev;
+	private String fullOrgPathAbbrev;
+	private String fullOrgPathDescription;
 	private String ldapRoleName;
 	private Long ogaBranchId;
 
@@ -38,7 +40,8 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 
 	public I2eActiveUserRolesVw(String oracleId, String nciLdapCn, Long npnId, Long npeId, String roleCode,
 			String roleName, Date roleCreatedDate, String roleCreatedByFullName, Long orgId, String orgAbbrev,
-			String docAbbrev, String ldapRoleName, Long ogaBranchId) {
+			String docAbbrev, String fullOrgPathAbbrev, String fullOrgPathDescription, String ldapRoleName,
+			Long ogaBranchId) {
 		this.oracleId = oracleId;
 		this.nciLdapCn = nciLdapCn;
 		this.npnId = npnId;
@@ -50,6 +53,8 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 		this.orgId = orgId;
 		this.orgAbbrev = orgAbbrev;
 		this.docAbbrev = docAbbrev;
+		this.fullOrgPathAbbrev = fullOrgPathAbbrev;
+		this.fullOrgPathDescription = fullOrgPathDescription;
 		this.ldapRoleName = ldapRoleName;
 		this.ogaBranchId = ogaBranchId;
 	}
@@ -142,6 +147,22 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 		this.docAbbrev = docAbbrev;
 	}
 
+	public String getFullOrgPathAbbrev() {
+		return this.fullOrgPathAbbrev;
+	}
+
+	public void setFullOrgPathAbbrev(String fullOrgPathAbbrev) {
+		this.fullOrgPathAbbrev = fullOrgPathAbbrev;
+	}
+
+	public String getFullOrgPathDescription() {
+		return this.fullOrgPathDescription;
+	}
+
+	public void setFullOrgPathDescription(String fullOrgPathDescription) {
+		this.fullOrgPathDescription = fullOrgPathDescription;
+	}
+
 	public String getLdapRoleName() {
 		return this.ldapRoleName;
 	}
@@ -191,6 +212,12 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 						&& castOther.getOrgAbbrev() != null && this.getOrgAbbrev().equals(castOther.getOrgAbbrev())))
 				&& ((this.getDocAbbrev() == castOther.getDocAbbrev()) || (this.getDocAbbrev() != null
 						&& castOther.getDocAbbrev() != null && this.getDocAbbrev().equals(castOther.getDocAbbrev())))
+				&& ((this.getFullOrgPathAbbrev() == castOther.getFullOrgPathAbbrev()) || (this.getFullOrgPathAbbrev() != null
+						&& castOther.getFullOrgPathAbbrev() != null && this.getFullOrgPathAbbrev().equals(
+						castOther.getFullOrgPathAbbrev())))
+				&& ((this.getFullOrgPathDescription() == castOther.getFullOrgPathDescription()) || (this
+						.getFullOrgPathDescription() != null && castOther.getFullOrgPathDescription() != null && this
+						.getFullOrgPathDescription().equals(castOther.getFullOrgPathDescription())))
 				&& ((this.getLdapRoleName() == castOther.getLdapRoleName()) || (this.getLdapRoleName() != null
 						&& castOther.getLdapRoleName() != null && this.getLdapRoleName().equals(
 						castOther.getLdapRoleName())))
@@ -213,6 +240,8 @@ public class I2eActiveUserRolesVw implements java.io.Serializable {
 		result = 37 * result + (getOrgId() == null ? 0 : this.getOrgId().hashCode());
 		result = 37 * result + (getOrgAbbrev() == null ? 0 : this.getOrgAbbrev().hashCode());
 		result = 37 * result + (getDocAbbrev() == null ? 0 : this.getDocAbbrev().hashCode());
+		result = 37 * result + (getFullOrgPathAbbrev() == null ? 0 : this.getFullOrgPathAbbrev().hashCode());
+		result = 37 * result + (getFullOrgPathDescription() == null ? 0 : this.getFullOrgPathDescription().hashCode());
 		result = 37 * result + (getLdapRoleName() == null ? 0 : this.getLdapRoleName().hashCode());
 		result = 37 * result + (getOgaBranchId() == null ? 0 : this.getOgaBranchId().hashCode());
 		return result;

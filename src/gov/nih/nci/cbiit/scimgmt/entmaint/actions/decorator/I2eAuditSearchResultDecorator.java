@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -12,6 +13,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -277,6 +279,24 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			}
 		}
 		return  submittedBy;
+	}
+	
+	/**
+	 * This method is for displaying Org path for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgPath(){
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> roles = accountVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String orgPath = "<table width='100%' border='0'>";
+		for(EmI2eAuditAccountRolesVw roleVw : roles){
+			orgPath = orgPath + "<tr><td>" + roleVw.getFullOrgPathAbbrev() +"</td></tr>";
+		}
+		orgPath = orgPath + "</table>";
+		return orgPath;
 	}
 	
 	/**

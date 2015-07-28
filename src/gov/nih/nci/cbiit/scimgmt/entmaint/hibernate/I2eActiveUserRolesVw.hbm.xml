@@ -37,6 +37,12 @@
             <property name="docAbbrev" type="string">
                 <column name="DOC_ABBREV" length="4000" />
             </property>
+            <property name="fullOrgPathAbbrev" type="string">
+                <column name="FULL_ORG_PATH_ABBREV" length="4000" />
+            </property>
+            <property name="fullOrgPathDescription" type="string">
+                <column name="FULL_ORG_PATH_DESCRIPTION" length="4000" />
+            </property>
             <property name="ldapRoleName" type="string">
                 <column name="LDAP_ROLE_NAME" length="20" />
             </property>

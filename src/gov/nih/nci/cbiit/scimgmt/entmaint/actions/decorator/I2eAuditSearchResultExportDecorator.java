@@ -217,6 +217,24 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 	}
 	
 	/**
+	 * This method is for displaying Org path for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgPath(){
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> roles = accountVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String orgPath = "<table width='100%' border='0'>";
+		for(EmI2eAuditAccountRolesVw roleVw : roles){
+			orgPath = orgPath + "<tr><td>" + roleVw.getFullOrgPathAbbrev() +"</td></tr>";
+		}
+		orgPath = orgPath + "</table>";
+		return orgPath;
+	}
+	
+	/**
 	 * Checks if a discrepancy of the given type exists in the given account.
 	 * Helper method used by the other discrepancy specific methods.
 	 * 

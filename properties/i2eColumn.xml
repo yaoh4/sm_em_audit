@@ -32,7 +32,13 @@
  		<columnName>Created/Last Updated By</columnName>
  		<property>lastUpdByFullName</property>
  		<sort>true</sort>
- 	</Tab>	
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 	</Tab>
  	<Tab>
  		<type>i2e</type>
  		<columnName>Active I2E Role</columnName>
@@ -131,6 +137,12 @@
  	</Tab>	
  	<Tab>
  		<type>i2eDiscrepancy</type>
+ 		<columnName>Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
  		<columnName>Active I2E Role(s)</columnName>
  		<property>activeI2eRole</property>
  		<sort>false</sort>
@@ -225,6 +237,12 @@
  		<property>lastUpdByFullName</property>
  		<sort>true</sort>
  	</Tab>	
+ 	<Tab>
+ 		<type>i2eActive</type>
+ 		<columnName>Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 	</Tab>
  	<Tab>
  		<type>i2eActive</type>
  		<columnName>Active I2E Role(s)</columnName>

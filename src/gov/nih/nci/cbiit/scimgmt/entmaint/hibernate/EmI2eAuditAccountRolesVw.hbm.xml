@@ -21,6 +21,9 @@
             <property name="roleDescription" type="string">
                 <column name="ROLE_DESCRIPTION" length="50" />
             </property>
+            <property name="fullOrgPathAbbrev" type="string">
+                <column name="FULL_ORG_PATH_ABBREV" length="4000" />
+            </property>
             <property name="fullOrgPathDescription" type="string">
                 <column name="FULL_ORG_PATH_DESCRIPTION" length="600" />
             </property>

@@ -106,6 +106,24 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 	}
 	
 	/**
+	 * This method is for displaying Org path for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgPath(){
+		PortfolioI2eAccountVO accountVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		List<I2eActiveUserRolesVw> roles = accountVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String orgPath = "<table width='100%' border='0'>";
+		for(I2eActiveUserRolesVw roleVw : roles){
+			orgPath = orgPath + "<tr><td>" + roleVw.getFullOrgPathAbbrev() +"</td></tr>";
+		}
+		orgPath = orgPath + "</table>";
+		return orgPath;
+	}
+	
+	/**
 	 * Checks if SOD discrepancy exists
 	 * 
 	 * @return String 'Y' if discrepancy exists, else empty string.
