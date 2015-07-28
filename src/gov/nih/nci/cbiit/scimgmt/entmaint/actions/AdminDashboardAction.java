@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
@@ -33,6 +35,7 @@ public class AdminDashboardAction extends BaseAction {
 	private static final String NEW = "new";
 	private static final String DELETED = "deleted";
 	private static final String INACTIVE = "inactive";
+	private static final String I2E = "i2e";
 	
 	//------------------------------
 	//Attributes for Dashboard
@@ -46,6 +49,8 @@ public class AdminDashboardAction extends BaseAction {
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
+	@Autowired
+	protected I2eAuditService i2eAuditService;
 	
 	/**
      * Set up all necessary component for dashboard. If success, takes the user to dashboard page. 
@@ -65,9 +70,48 @@ public class AdminDashboardAction extends BaseAction {
     	Long auditId = emAuditsVO.getId();
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
+    	List<AuditI2eAccountVO> auditI2eAccountVOs = i2eAuditService.getAllAccountsByAuditId(auditId);
     	int i = 0;
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
+    			String org = audit.getParentNedOrgPath();
+    			String nciDoc = audit.getNciDoc();
+    			String nedIc = audit.getNedIc();
+    			if(org != null){
+    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+							org = ApplicationConstants.ORG_PATH_NON_NCI;
+						}
+    					if(containsKey(otherOrgsData, org)){
+    						HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
+	    					//calculate Count
+	    					setCountForEachCategory(audit, dashData);
+	    					otherOrgsData.put(org, dashData);
+	    				}else{
+	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+	    					//calculate count
+	    					setFirstElementCountForEachCategory(audit, dashData);
+	    					otherOrgsData.put(org, dashData);
+	    				}
+	    			}else{
+	    				if(containsKey(orgsData, org)){
+	    					HashMap<String,DashboardData> dashData = orgsData.get(org);
+	    					//calculate Count
+	    					setCountForEachCategory(audit, dashData);
+	    					orgsData.put(org, dashData);
+	    				}else{
+	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+	    					//calculate count
+	    					setFirstElementCountForEachCategory(audit, dashData);
+	    					orgsData.put(org, dashData);
+	    				}
+    				}
+    			}
+    		}
+    	}
+    	i = 0;
+    	if(auditI2eAccountVOs != null && auditI2eAccountVOs.size() > 0){
+    		for(AuditI2eAccountVO audit : auditI2eAccountVOs){
     			String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
@@ -144,6 +188,8 @@ public class AdminDashboardAction extends BaseAction {
     		forward = ApplicationConstants.CATEGORY_DELETED;
     	}else if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)){
     		forward = ApplicationConstants.CATEGORY_INACTIVE;
+    	}else if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)){
+    		forward = ApplicationConstants.CATEGORY_I2E;
     	}
     	
     	return forward;
@@ -233,6 +279,19 @@ public class AdminDashboardAction extends BaseAction {
     		}
     	}
     }
+   
+    /** 
+     * Calculate counts, including total, uncompleted numbers sorted by organization names. The other organization needs to computed separately.
+     * @param audit
+     * @param dashData
+     */
+    private void setCountForEachCategory(AuditI2eAccountVO audit, HashMap<String,DashboardData> dashData){
+    	//active account
+    	incrementCountByCategory(audit, dashData, I2E);
+    	if(!StringUtils.isEmpty(audit.getSubmittedBy())){
+    		incrementCompletedCountByCategory(audit, dashData, I2E);
+    	}
+    }
     
     private void incrementCountByCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData, String category){
     	if(category.equalsIgnoreCase(ACTIVE)){
@@ -255,6 +314,15 @@ public class AdminDashboardAction extends BaseAction {
     		int count = ddata.getInactiveAccountCount();
     		ddata.setInactiveAccountCount(++count);
     		dashData.put(INACTIVE, ddata);
+    	}
+    }
+    
+    private void incrementCountByCategory(AuditI2eAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    	if(category.equalsIgnoreCase(I2E)){
+    		DashboardData ddata = dashData.get(I2E);
+    		int count = ddata.getI2eAccountCount();
+    		ddata.setI2eAccountCount(++count);
+    		dashData.put(I2E, ddata);
     	}
     }
     
@@ -282,6 +350,15 @@ public class AdminDashboardAction extends BaseAction {
     	}
     }
     
+    private void incrementCompletedCountByCategory(AuditI2eAccountVO audit, HashMap<String,DashboardData> dashData, String category){
+    	if(category.equalsIgnoreCase(I2E)){
+    		DashboardData ddata = dashData.get(I2E);
+    		int count = ddata.getI2eCompleteCount();
+    		ddata.setI2eCompleteCount(++count);
+    		dashData.put(I2E, ddata);
+    	}
+    }
+    
     /**
      * First map element, initial all categories with hashmap<String, DashboardData, make sure next computing will not get nullPoint.
      * All categories include ACTIVE, NEW, DELETED, INACTIVE.
@@ -297,6 +374,29 @@ public class AdminDashboardAction extends BaseAction {
     	dashData.put(DELETED, dash);
     	dash = new DashboardData();
     	dashData.put(INACTIVE, dash);
+    	dash = new DashboardData();
+    	dashData.put(I2E, dash);
+    	setCountForEachCategory(audit, dashData);
+    }
+    
+    /**
+     * First map element, initial all categories with hashmap<String, DashboardData, make sure next computing will not get nullPoint.
+     * All categories include ACTIVE, NEW, DELETED, INACTIVE.
+     * @param audit
+     * @param dashData
+     */
+    private void setFirstElementCountForEachCategory(AuditI2eAccountVO audit, HashMap<String,DashboardData> dashData){
+    	DashboardData dash = new DashboardData();
+    	dashData.put(I2E, dash);
+    	dash = new DashboardData();
+    	dashData.put(ACTIVE, dash);
+    	dash = new DashboardData();
+    	dashData.put(NEW, dash);
+    	dash = new DashboardData();
+    	dashData.put(DELETED, dash);
+    	dash = new DashboardData();
+    	dashData.put(INACTIVE, dash);
+    	dash = new DashboardData();
     	setCountForEachCategory(audit, dashData);
     }
     
@@ -319,7 +419,8 @@ public class AdminDashboardAction extends BaseAction {
 			otherTotalData.setDeletedAccountCount(otherTotalData.getDeletedAccountCount() + deleteData.getDeletedAccountCount());
 			DashboardData InactData = tempMap.get(INACTIVE);
 			otherTotalData.setInactiveAccountCount(otherTotalData.getInactiveAccountCount() + InactData.getInactiveAccountCount());
-
+			DashboardData i2eData = tempMap.get(I2E);
+			otherTotalData.setI2eAccountCount(otherTotalData.getI2eAccountCount() + i2eData.getI2eAccountCount());
 		}
 		return otherTotalData;
 	}
@@ -405,6 +506,21 @@ public class AdminDashboardAction extends BaseAction {
 		this.otherOrgKeys = otherOrgKeys;
 	}
 
+
+	/**
+	 * @return the emAuditsVO
+	 */
+	public EmAuditsVO getEmAuditsVO() {
+		return emAuditsVO;
+	}
+
+	/**
+	 * @param emAuditsVO the emAuditsVO to set
+	 */
+	public void setEmAuditsVO(EmAuditsVO emAuditsVO) {
+		this.emAuditsVO = emAuditsVO;
+	}
+	
 	/**
 	 * @return the auditYear
 	 */

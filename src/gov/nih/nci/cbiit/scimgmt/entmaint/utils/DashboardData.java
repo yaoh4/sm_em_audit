@@ -9,10 +9,12 @@ public class DashboardData {
 	private int newAccountCount;
 	private int deletedAccountCount;
 	private int inactiveAccountCount;
+	private int i2eAccountCount;
 	private int activeCompleteCount;
 	private int newCompleteCount;
 	private int deletedCompleteCount;
 	private int inactiveCompleteCount;
+	private int i2eCompleteCount;
 
 	/**
 	 * @return the orgName
@@ -66,6 +68,16 @@ public class DashboardData {
 		return this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
 	}
 	/**
+	 * @return the i2eAccountDataStr
+	 */
+	public String getI2eAccountDataStr(String key) {
+		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_I2E + "\",\"" + key + "\");'>" + this.i2eCompleteCount + "/" + this.i2eAccountCount + " </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getI2ePercent() + "%)</span>";
+	}
+
+	public String getI2eAccountDataStr() {
+		return this.i2eCompleteCount + "/" + this.i2eAccountCount + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getI2ePercent() + "%)</span>";
+	}
+	/**
 	 * @return the activeAccountCount
 	 */
 	public int getActiveAccountCount() {
@@ -112,6 +124,18 @@ public class DashboardData {
 	 */
 	public void setInactiveAccountCount(int inactiveAccountCount) {
 		this.inactiveAccountCount = inactiveAccountCount;
+	}
+	/**
+	 * @return the i2eAccountCount
+	 */
+	public int getI2eAccountCount() {
+		return i2eAccountCount;
+	}
+	/**
+	 * @param i2eAccountCount the i2eAccountCount to set
+	 */
+	public void setI2eAccountCount(int i2eAccountCount) {
+		this.i2eAccountCount = i2eAccountCount;
 	}
 	/**
 	 * @return the activeCompleteCount
@@ -162,6 +186,18 @@ public class DashboardData {
 		this.inactiveCompleteCount = inactiveCompleteCount;
 	}
 	/**
+	 * @return the i2eCompleteCount
+	 */
+	public int getI2eCompleteCount() {
+		return i2eCompleteCount;
+	}
+	/**
+	 * @param i2eCompleteCount the i2eCompleteCount to set
+	 */
+	public void setI2eCompleteCount(int i2eCompleteCount) {
+		this.i2eCompleteCount = i2eCompleteCount;
+	}
+	/**
 	 * @return the activePercent
 	 */
 	public int getActivePercent() {
@@ -206,4 +242,16 @@ public class DashboardData {
 			return (int)percent;
 		}
 	}
+	/**
+	 * @return the i2ePercent
+	 */
+	public int getI2ePercent() {
+		if(i2eAccountCount == 0){
+			return 0;
+		}else{
+			double percent = 100 * this.i2eCompleteCount / this.i2eAccountCount;
+			return (int)percent;
+		}
+	}
+
 }

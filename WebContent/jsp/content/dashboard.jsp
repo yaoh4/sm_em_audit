@@ -19,6 +19,9 @@
       <th>New Accounts</th>
       <th>Deleted Accounts</th>
       <th>Inactive &gt;130 Days Accounts</th>
+      <s:if test="emAuditsVO.i2eFromDate != null">
+      	<th>I2E Accounts</th>
+      </s:if>
     </tr>
     <s:set var="orgData" value="orgsData"/>
     <s:set var="keys" value="orgKeys"/>
@@ -43,6 +46,9 @@
     	<td style="white-space: nowrap;"><%= dData.get("new").getNewAccountDataStr(key) %></td>
     	<td style="white-space: nowrap;"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
     	<td style="white-space: nowrap;"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	<s:if test="emAuditsVO.i2eFromDate != null">
+      		<td style="white-space: nowrap;"><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
+      	</s:if>
     </tr>
     <% } %>
     <tr class="org">
@@ -51,6 +57,9 @@
       <td style="white-space: nowrap;"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
       <td style="white-space: nowrap;"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
       <td style="white-space: nowrap;"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      <s:if test="emAuditsVO.i2eFromDate != null">
+      	<td style="white-space: nowrap;"><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
+      </s:if>
     </tr>
    
     <% 
@@ -66,6 +75,9 @@
     	<td style="white-space: nowrap;"><%= oData.get("new").getNewAccountDataStr(key) %></td>
     	<td style="white-space: nowrap;"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
     	<td style="white-space: nowrap;"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	<s:if test="emAuditsVO.i2eFromDate != null">
+    		<td style="white-space: nowrap;"><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
+    	</s:if>
     </tr>
     <% } %>
 
