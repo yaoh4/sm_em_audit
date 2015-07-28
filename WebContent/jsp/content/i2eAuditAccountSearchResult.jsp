@@ -7,24 +7,24 @@
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-ui-1.11.3.css"/>
 <%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl" %>
-<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO" %>
+<%@ page import="gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO" %>
 <%
 	String sortAction = null;
-	PaginatedListImpl<PortfolioAccountVO> i2ePortfolioAccounts = null;
-	if(request.getAttribute("i2ePortfolioAccounts") != null) {
-		i2ePortfolioAccounts  =(PaginatedListImpl)request.getAttribute("i2ePortfolioAccounts");
-		sortAction = (String)request.getParameter("sortAction") + "?size=" + i2ePortfolioAccounts.getFullListSize();
+	PaginatedListImpl<AuditI2eAccountVO> i2eAuditAccounts = null;
+	if(request.getAttribute("activeAuditAccounts") != null) {
+		i2eAuditAccounts  =(PaginatedListImpl)request.getAttribute("activeAuditAccounts");
+		sortAction = (String)request.getParameter("sortAction") + "?size=" + i2eAuditAccounts.getFullListSize();
 	} else {
 		sortAction = (String)request.getParameter("sortAction");
 	}
 %>
 <body onload="moveToAnchor();"></body>
 <div class="table-responsive">
-<display:table class="table table-bordered" name="i2ePortfolioAccounts" id="i2ePortfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
+<display:table class="table table-bordered" name="activeAuditAccounts" id="i2eAuditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2eAuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
- <s:if test="#t.display == 'true'">
+<s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
- </s:if>
+</s:if>
 </s:iterator>
 </display:table>
 </div>
@@ -32,3 +32,7 @@
 	<br/>
 	<div align="left" id="helpDiv"></div>
 </div>
+<div id="note" style="display: none; overflow:auto;" title="Note">
+	<br>
+	<div align="left" id="noteId"></div>
+</div>	

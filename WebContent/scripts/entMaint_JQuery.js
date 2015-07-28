@@ -228,6 +228,23 @@ function onCategoryChage(category){
 	});
 }
 
+function getNote(id){
+	var result = "";
+	$.ajax({
+		url: "getNoteAction.action",
+		type: "post",
+		data: {pId: id},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
 function getNote(id, category){
 	var result = "";
 	$.ajax({
@@ -243,6 +260,21 @@ function getNote(id, category){
 	});
 	
 	return result;
+}
+
+function fetchAuditNote(id){
+	$.ajax({
+			url: "getNoteAction.action",
+			type: "post",
+			data: {pId: id},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				$('#noteId').html(result);
+				openNote();
+			}, 
+			error: function(){}		
+		});
 }
 
 function fetchAuditNote(id, category){

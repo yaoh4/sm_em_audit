@@ -187,7 +187,9 @@ WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/dashboard.jsp -text
 WebContent/jsp/content/email.jsp -text
+WebContent/jsp/content/i2eAuditAccountSearchResult.jsp -text
 WebContent/jsp/content/i2eAuditAccounts.jsp -text
+WebContent/jsp/content/i2eAuditSearchResultExport.jsp -text
 WebContent/jsp/content/i2ePortfolioAccountSearchResult.jsp -text
 WebContent/jsp/content/i2ePortfolioAccounts.jsp -text
 WebContent/jsp/content/i2ePortfolioSearchResultExport.jsp -text
@@ -276,12 +278,15 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/Impac2PortfolioAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/RoleDescriptionAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SaveEmailAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SubmitAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SubmitI2eAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/SysAdminAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2eAuditSearchResultDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2eAuditSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/PortfolioSearchResultDecorator.java -text

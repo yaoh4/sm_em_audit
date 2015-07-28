@@ -4,9 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.displaytag.decorator.TableDecorator;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -100,6 +103,79 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getRoleCreatedDate());
 
 		return createDate;
+	}
+	
+	/**
+	 * Checks if SOD discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancySod() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_SOD);
+	}
+	
+	/**
+	 * Checks if NED Inactive discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyNedInactive() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_NED_INACTIVE);
+	}
+	
+	/**
+	 * Checks if Inactive I2E Role(s) discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyInactiveI2eRole() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE);
+	}
+	
+	/**
+	 * Checks if Inactive IMPAC II discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eOnly() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ONLY);
+	}
+	
+	/**
+	 * Checks if I2e Inactive discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eInactive() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
+	}
+	
+	/**
+	 * Checks if a discrepancy of the given type exists in the given account.
+	 * Helper method used by the other discrepancy specific methods.
+	 * 
+	 * @param accountVO the account in which to look for discrepancy
+	 * @param type the discrepancy type to check for.
+	 * 
+	 * @return String 'Y' if discrepancy exists, else return empty String.
+	 */
+	private String isDiscrepancy(PortfolioI2eAccountVO portfolioVO, String type) {
+		String isDiscrepancy = "";
+		
+		List<String> discrepancies = portfolioVO.getAccountDiscrepancies();
+		if(!CollectionUtils.isEmpty(discrepancies)) {
+			for(String discrepancy: discrepancies) {
+				if(discrepancy.equals(type)) {
+					return "Y";
+				}
+			}
+		}
+		return isDiscrepancy;
 	}
 	
 }
