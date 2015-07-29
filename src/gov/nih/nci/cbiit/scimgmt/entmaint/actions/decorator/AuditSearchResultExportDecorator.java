@@ -208,7 +208,9 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if (eaaVw != null) {
 			AppLookupT action = eaaVw.getAction();
 			if (action != null && action.getDescription() != null) {
-				actionStr = action.getDescription();			
+				if(eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")){
+					actionStr = action.getDescription();
+				}
 			}
 		}
 		return actionStr;
