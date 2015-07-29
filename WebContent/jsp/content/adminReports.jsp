@@ -62,17 +62,34 @@ function clearFields(){
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
   <label  class="panel-title"><b>Results - All Inactive > 130 Days Accounts</b></label>
   </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
+  <label  class="panel-title"><b>Results - All I2E Accounts</b></label>
+  </s:if>
   <span style="float:right;"><a href='javascript:openHistory();'>Audit Info</a></span>
   </div>
- <s:if test="%{auditAccounts.list.size > 0}">
-<div align="center" style="overflow:auto; width: 100%;">
-	<s:include value="/jsp/content/adminReportSearchResult.jsp"/>
-</div>
-</s:if>
-<s:else>
-	<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
-	<body onload="moveToAnchor();"></body>
-</s:else> 
+  
+	<s:if test="%{#type != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
+		<s:if test="%{auditAccounts.list.size > 0}">
+			<div align="center" style="overflow:auto; width: 100%;">
+				<s:include value="/jsp/content/adminReportSearchResult.jsp"/>
+			</div>
+		</s:if>
+		<s:else>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
+			<body onload="moveToAnchor();"></body>
+		</s:else> 
+	</s:if>
+	<s:else>
+		<s:if test="%{auditI2eAccounts.list.size > 0}">
+			<div align="center" style="overflow:auto; width: 100%;">
+				<s:include value="/jsp/content/adminReportI2eSearchResult.jsp"/>
+			</div>
+		</s:if>
+		<s:else>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
+			<body onload="moveToAnchor();"></body>
+		</s:else>
+	</s:else>
 </div>
 </s:if>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>

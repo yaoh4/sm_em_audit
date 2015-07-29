@@ -103,6 +103,7 @@ public interface ApplicationConstants {
     public static String SUCCESS = "success";
     public static String INPUT = "input";
     public static String EXPORT = "export";
+    public static String EXPORT_I2E = "exporti2e";
     public static String AUDIT_ENABLED = "audit_enabled";
     public static String AUDIT_DISABLED = "audit_disabled";
     

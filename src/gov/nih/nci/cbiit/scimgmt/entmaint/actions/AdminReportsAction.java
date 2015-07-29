@@ -13,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
@@ -28,10 +31,13 @@ public class AdminReportsAction extends BaseAction {
 	@Autowired
 	protected AdminService adminService;
 	@Autowired
-	protected Impac2AuditService impac2AuditService;	
+	protected Impac2AuditService impac2AuditService;
+	@Autowired
+	protected I2eAuditService i2eAuditService;
 	
 	private String searchType;
 	private PaginatedListImpl<AuditAccountVO> auditAccounts = null;
+	private PaginatedListImpl<AuditI2eAccountVO> auditI2eAccounts = null;
 	private List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	private String selectedAuditDescription;
@@ -72,7 +78,11 @@ public class AdminReportsAction extends BaseAction {
 	    if(searchType.indexOf("INACTIVE") >=0){
 	    	searchType = ApplicationConstants.CATEGORY_INACTIVE;
 	    }
-		auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
+	    if(searchType.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
+	    	auditI2eAccounts = new PaginatedListImpl<AuditI2eAccountVO>(request,changePageSize);
+	    } else {
+	    	auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
+	    }
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchActiveAccounts(auditAccounts, searchVO, false);
@@ -83,7 +93,7 @@ public class AdminReportsAction extends BaseAction {
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, false);
 			} else {
-				// TODO YURI search I2E audit accounts.
+				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, false);
 			}
 			forward = ApplicationConstants.SUCCESS;
 		}else{
@@ -96,17 +106,18 @@ public class AdminReportsAction extends BaseAction {
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
 			} else {
-				// TODO YURI search I2E audit accounts.
+				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, true);
 			}
-	
+			forward = ApplicationConstants.EXPORT;
 			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
 			}else if (ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(searchType) == true) {
-				// TODO YURI add logic for I2E export
+				auditI2eAccounts.setList(getExportAccountVOList(auditI2eAccounts.getList()));
+				forward = ApplicationConstants.EXPORT_I2E;
 			} else {
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
 			}
-			forward = ApplicationConstants.EXPORT;
+			
 		}
 	    setResultColumn(searchType); 
 		showResult = true;
@@ -190,6 +201,46 @@ public class AdminReportsAction extends BaseAction {
 		return exportAccountVOList;
 	}
 	
+	private List<AuditI2eAccountVO> getExportAccountVOList(List<AuditI2eAccountVO> auditAccounts) {
+		
+		List<AuditI2eAccountVO> exportAccountVOList = new ArrayList<AuditI2eAccountVO>();
+		
+		for(AuditI2eAccountVO auditAccountVO: auditAccounts) {
+			Long actionId = null;
+			if(auditAccountVO != null && auditAccountVO.getAction() != null && auditAccountVO.getAction().getId() != null){
+				actionId = auditAccountVO.getAction().getId();
+			}
+			if(actionId != null && (actionId == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT)){
+				continue;
+			}
+			String nedIc = auditAccountVO.getNedIc();
+			
+			exportAccountVOList.add(auditAccountVO);
+			List<EmI2eAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
+			
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					AuditI2eAccountVO auditAccountVOItem = new AuditI2eAccountVO();
+					
+					auditAccountVOItem.setNedIc(nedIc);
+					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
+					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
+					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
+					auditAccountVOItem.addAccountRole(accountRoles.get(index));
+					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
+					
+					exportAccountVOList.add(auditAccountVOItem);				
+				}
+			}
+		}
+		
+		return exportAccountVOList;
+	}
+
 	private List<AuditAccountVO> getInactiveExportAccountVOList(List<AuditAccountVO> auditAccounts){
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
@@ -270,6 +321,14 @@ public class AdminReportsAction extends BaseAction {
 
 	public void setSelectedAuditDescription(String selectedAuditDescription) {
 		this.selectedAuditDescription = selectedAuditDescription;
+	}
+
+	public PaginatedListImpl<AuditI2eAccountVO> getAuditI2eAccounts() {
+		return auditI2eAccounts;
+	}
+
+	public void setAuditI2eAccounts(PaginatedListImpl<AuditI2eAccountVO> auditI2eAccounts) {
+		this.auditI2eAccounts = auditI2eAccounts;
 	}
 	
 }
