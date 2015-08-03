@@ -97,6 +97,9 @@ public class DatabaseManager {
 		String sql_inactive = "select count(*) as numCount from em_audit_accounts_vw eaa, em_audits_vw ea where eaa.audit_id = ea.id " +
 					"and ea.id = ? and eaa.inactive_user_flag = 'Y' and eaa.parent_ned_org_path = ?";
 		
+		String sql_i2e = "select count(*) as numCount from em_i2e_audit_accounts_vw eaa, em_audits_vw ea where eaa.audit_id = ea.id " +
+				"and ea.id = ? and eaa.parent_ned_org_path = ?";
+		
 		if(type.equalsIgnoreCase(ApplicationConstants.ACTIVE_TYPE)){
 			sql = sql_active;
 		}else if(type.equalsIgnoreCase(ApplicationConstants.NEW_TYPE)){
@@ -105,6 +108,8 @@ public class DatabaseManager {
 			sql = sql_deleted;
 		}else if(type.equalsIgnoreCase(ApplicationConstants.INACTIVE_TYPE)){
 			sql = sql_inactive;
+		}else if(type.equalsIgnoreCase(ApplicationConstants.I2EACCOUNT)){
+			sql = sql_i2e;
 		}
 		
 		try{
@@ -177,6 +182,43 @@ public class DatabaseManager {
 		}finally{
 			try {
 				st.close();
+				rs.close();
+			} catch (SQLException ee) {
+				ee.printStackTrace();
+			}
+		}
+		
+		if(ids != null && ids.size() > 0){
+			id = ids.get(0);
+		}else{
+			id = null;
+		}
+		
+		return id;
+	}
+	
+	public Long getEiaaId(Connection conn, Long auditId){
+		Long id = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Long> ids = new ArrayList<Long>();
+		
+		String sql = "select id as id from em_i2e_audit_accounts_t where id is not null and eau_id = ?";
+		try{
+			ps = conn.prepareStatement(sql);
+			ps.setLong(1, auditId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Long eiaaId = rs.getLong("id");
+				if(eiaaId != null){
+					ids.add(eiaaId);
+				}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				ps.close();
 				rs.close();
 			} catch (SQLException ee) {
 				ee.printStackTrace();

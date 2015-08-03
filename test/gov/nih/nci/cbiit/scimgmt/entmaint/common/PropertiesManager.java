@@ -45,5 +45,9 @@ public class PropertiesManager {
 	public static String getI2eDiscrepancyId(){
 		return prop.getProperty("i2eDiscrepancyID");
 	}
+	
+	public static String getActionId(){
+		return prop.getProperty("actionID");
+	}
 
 }
