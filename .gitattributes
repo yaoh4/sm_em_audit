@@ -397,7 +397,6 @@ src/struts.xml -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/common/ApplicationConstants.java -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/common/DatabaseManager.java -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/common/EntmaintService.java -text
-test/gov/nih/nci/cbiit/scimgmt/entmaint/common/EnvLoader.java -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/common/PropertiesManager.java -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/junit/AuditAccountTest.java -text
 test/gov/nih/nci/cbiit/scimgmt/entmaint/junit/applicationContext.xml -text

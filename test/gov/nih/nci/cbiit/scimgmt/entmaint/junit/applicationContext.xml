@@ -20,8 +20,6 @@
             http://www.springframework.org/schema/task/spring-task.xsd">
 	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
-   <bean id="envLoader" class="gov.nih.nci.cbiit.scimgmt.entmaint.common.EnvLoader" />
-   
    <context:component-scan base-package="gov.nih.nci.cbiit" />
 
    <bean id="propertyConfigurer"
@@ -29,7 +27,7 @@
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="locations">
 			<list>
-				<value>file:C:/dev/tomcat.conf/entmaint/entmaint.properties</value>
+				<value>file:${conf.dir}/entmaint/entmaint.properties</value>
 			</list>
 		</property>
 	</bean> 

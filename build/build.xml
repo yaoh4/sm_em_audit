@@ -207,6 +207,7 @@
    <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.deploy"/>
 	<target name="junit-local" depends="compile, copy_properties_files">
 	    <junit printsummary="yes" haltonfailure="no">
+	    <sysproperty key="conf.dir" value="${conf.dir}"/>
 		<classpath refid="project.classpath" />
 		<classpath location="${class_path_test1}" />
 		 <classpath location="${class_path_test2}" />
