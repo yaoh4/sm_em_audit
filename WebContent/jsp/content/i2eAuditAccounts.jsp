@@ -272,3 +272,8 @@
 	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
 	</div>
 </div>
+<script>
+	$( window ).ready(function() { 
+		onOrgChange($('#org option:selected').val());
+	});
+</script>

@@ -159,3 +159,8 @@
 <div id="submitNotesAction" style="display: none;" title="Submit Notes">
 	<s:include value="/jsp/helper/submitNotesContent.jsp" />
 </div>
+<script>
+	$( window ).ready(function() { 
+		onOrgChange($('#portfolioOrg option:selected').val());
+	});
+</script>
