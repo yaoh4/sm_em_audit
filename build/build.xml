@@ -31,14 +31,14 @@
 	<property name="distribution.dir"       value="./distribution" />
 	<property name="webcontent.dir"		    value="./WebContent" />
 	<property name="properties.dir"		    value="./properties" />
-	<property name="class_path_test1"       value="./WebContent/WEB-INF/classes"/>
-	<property name="class_path_test2"       value="./bin"/>
+	<property name="test.classes.dir"       value="./bin"/>
 	<property name="doc.dir"				value="./docs" />
 	<property name="javadoc.dir"            value="./docs/javadoc" />
 	<property name="web.inf.dir"            value="${webcontent.dir}/WEB-INF" />
 	<property name="global.lib.dir"			value="./lib" />
 	<property name="lib.dir"				value="${web.inf.dir}/lib" />
 	<property name="src.dir"                value="./src" />
+	<property name="test.dir"                value="./test" />
 	<property name="build.dir"              value="./build" />
 	<property name="build.war.dir"          value="./build/war" />
 	<property name="web.inf.dir"			value="${webcontent.dir}/WEB-INF" />
@@ -106,7 +106,9 @@
     <delete includeEmptyDirs="true" failonerror="false">
          <fileset dir="${conf.dir}/${app.name}" includes="**/*"/>
     </delete>
-    
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${test.classes.dir}" includes="**/*"/>
+    </delete>
 </target>
 
 
@@ -117,9 +119,15 @@
         classpath="${project.classpath}" 
         srcdir="${src.dir}"
         destdir="${java.classes.dir}" />
-        
+    <javac debug="on"
+    	classpath="${project.classpath}:${java.classes.dir}"
+        srcdir="${test.dir}"
+        destdir="${test.classes.dir}" /> 
     <copy todir="${java.classes.dir}">
         <fileset dir="${src.dir}" excludes="**/*.java"/>
+    </copy>
+    <copy todir="${test.classes.dir}">
+    	<fileset dir="${test.dir}" excludes="**/*.java"/>
     </copy>
               
               
@@ -209,8 +217,8 @@
 	    <junit printsummary="yes" haltonfailure="no">
 	    <sysproperty key="conf.dir" value="${conf.dir}"/>
 		<classpath refid="project.classpath" />
-		<classpath location="${class_path_test1}" />
-		 <classpath location="${class_path_test2}" />
+		<classpath location="${java.classes.dir}" />
+	   	<classpath location="${test.classes.dir}" />
 		<test name="gov.nih.nci.cbiit.scimgmt.entmaint.junit.AuditAccountTest" haltonfailure="no" outfile="${distribution.dir}/result">
 			<formatter type="plain" />
 			<formatter type="xml" />
