@@ -254,4 +254,25 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 		}
 		return isDiscrepancy;
 	}
+	
+	/**
+	 * Get the last submitted date.
+	 * 
+	 * @return String the update date
+	 */
+	public String getSubmittedDate(){
+		
+		String dateStr = "";
+		
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		
+		if(accountVO != null){		
+			Date submittedDate = accountVO.getSubmittedDate();
+			if(submittedDate != null){
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);		
+			}
+		}
+							
+		return dateStr;
+	}
 }
