@@ -83,7 +83,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchDeletedAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, "Y") || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}		
 		setDefaultPageSize();
@@ -122,7 +123,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, "Y") || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		setDefaultPageSize();
@@ -170,7 +172,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchNewAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, "Y") || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		
@@ -213,7 +216,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchInactiveAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, "Y") || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		setDefaultPageSize();

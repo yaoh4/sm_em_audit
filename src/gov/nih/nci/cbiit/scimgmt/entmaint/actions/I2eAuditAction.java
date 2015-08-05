@@ -89,7 +89,8 @@ public class I2eAuditAction extends BaseAction {
 	 */
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, "Y") || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		setDefaultPageSize();

@@ -66,6 +66,7 @@ public class AdminDashboardAction extends BaseAction {
     	
     	//set up all environment for displaying dashboard page.
     	emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
     	Long auditId = emAuditsVO.getId();
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
@@ -169,15 +170,14 @@ public class AdminDashboardAction extends BaseAction {
 	 * This method provide a bridge to search audit page based on category, active, new, deleted, inactive or i2e
 	 */
     public String searchAudit(){
-    	searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
-    	if(searchVO == null){
-    		searchVO = new AuditSearchVO();
-    	}
+    	searchVO = new AuditSearchVO();
     	String forward = "";
     	String cate = request.getParameter("cate");
     	String orgName = request.getParameter("orgName");
     	searchVO.setOrganization(orgName);
     	searchVO.setExcludeNCIOrgs(false);
+    	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	searchVO.setAuditId(emAuditsVO.getId());
     	session.put(ApplicationConstants.SEARCHVO, searchVO);
     	if(cate.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)){
     		forward = ApplicationConstants.CATEGORY_ACTIVE;
