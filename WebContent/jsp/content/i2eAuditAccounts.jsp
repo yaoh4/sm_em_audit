@@ -223,6 +223,7 @@
 					</div>
 				</div>
 			</fieldset>
+			<s:hidden id="roleId" name="role"/>
 		</s:form>
 	</div>
 	<br />
