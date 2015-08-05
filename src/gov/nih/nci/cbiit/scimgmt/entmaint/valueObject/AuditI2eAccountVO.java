@@ -24,6 +24,14 @@ public class AuditI2eAccountVO extends EmI2eAuditAccountsVw{
 		return sb.toString();
 	}
 	
+	/**
+	 * Returns full name without single quotes.
+	 * @return String
+	 */
+	public String getCleanFullName() {
+		return StringUtils.remove(getFullName(), "'");
+	}
+	
 	public void addAccountRole(EmI2eAuditAccountRolesVw role){
 		getAccountRoles().add(role);
 	}

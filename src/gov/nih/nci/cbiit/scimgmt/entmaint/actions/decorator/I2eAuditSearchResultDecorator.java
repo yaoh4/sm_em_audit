@@ -153,7 +153,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 		Long auditId = searchVO.getAuditId();
 		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
-			name=accountVO.getFullName();
+			name=accountVO.getCleanFullName();
 		}
 		String id = ""+accountVO.getId();
 		String actionStr = "";

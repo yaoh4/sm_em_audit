@@ -35,4 +35,12 @@ public class PortfolioAccountVO extends EmPortfolioVw{
 		return sb.toString();
 	}
 	
+	/**
+	 * Returns full name without single quotes.
+	 * @return String
+	 */
+	public String getCleanFullName() {
+		return StringUtils.remove(getFullName(), "'");
+	}
+	
 }

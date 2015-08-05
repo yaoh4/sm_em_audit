@@ -59,7 +59,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 //			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
 //		}
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
-			name=accountVO.getFullName();
+			name=accountVO.getCleanFullName();
 		}
 		String id = ""+accountVO.getId();
 		String actionStr = "";

@@ -160,7 +160,7 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		String actionStr = "";
 		StringBuffer name = new StringBuffer("&nbsp;");
 		if(!StringUtils.isBlank(portfolioVO.getFullName())){
-			name.append(portfolioVO.getFullName());
+			name.append(portfolioVO.getCleanFullName());
 		}
 		String id = ""+portfolioVO.getNpnId();
 		String note = portfolioVO.getNotes();

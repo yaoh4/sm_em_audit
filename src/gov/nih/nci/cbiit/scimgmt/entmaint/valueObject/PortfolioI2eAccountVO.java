@@ -35,4 +35,11 @@ public class PortfolioI2eAccountVO extends EmI2ePortfolioVw{
 		return sb.toString();
 	}
 	
+	/**
+	 * Returns full name without single quotes.
+	 * @return String
+	 */
+	public String getCleanFullName() {
+		return StringUtils.remove(getFullName(), "'");
+	}
 }
