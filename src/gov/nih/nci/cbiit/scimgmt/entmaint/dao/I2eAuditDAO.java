@@ -17,6 +17,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -63,10 +64,14 @@ public class I2eAuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_NOACTION) ) {
-				criteria.add(Restrictions.isNull("action.id"));
+				Disjunction dc = Restrictions.disjunction();
+	            dc.add(Restrictions.isNull("action.id"));
+	            dc.add(Restrictions.eq("unsubmittedFlag", ApplicationConstants.FLAG_YES));
+	            criteria.add(dc);
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("unsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}
 
 			return getPaginatedListResult(paginatedList, criteria, all);
