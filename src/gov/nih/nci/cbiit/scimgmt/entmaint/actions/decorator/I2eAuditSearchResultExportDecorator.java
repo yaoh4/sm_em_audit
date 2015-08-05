@@ -17,8 +17,8 @@ import org.displaytag.decorator.TableDecorator;
 import org.springframework.beans.factory.annotation.Configurable;
 
 /**
- * This class is responsible for decorating the rows of I2E portfolio accounts search results table.
- * @author Jim Zhou
+ * This class is responsible for decorating the rows of I2E audit accounts search results table.
+ * @author 
  *
  */
 @Configurable

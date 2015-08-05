@@ -27,7 +27,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * This class is responsible for decorating the rows of I2E audit accounts search results table.
- * @author Jim Zhou
+ * @author 
  *
  */
 @Configurable

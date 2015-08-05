@@ -45,7 +45,6 @@ public class AdminDashboardAction extends BaseAction {
 	private HashMap<String, HashMap<String, DashboardData>> orgsData;
 	private HashMap<String, HashMap<String, DashboardData>> otherOrgsData;
 	private DashboardData others;
-	private String auditYear;
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
@@ -71,7 +70,7 @@ public class AdminDashboardAction extends BaseAction {
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
     	List<AuditI2eAccountVO> auditI2eAccountVOs = i2eAuditService.getAllAccountsByAuditId(auditId);
-    	int i = 0;
+
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
     			String org = audit.getParentNedOrgPath();
@@ -109,7 +108,7 @@ public class AdminDashboardAction extends BaseAction {
     			}
     		}
     	}
-    	i = 0;
+
     	if(auditI2eAccountVOs != null && auditI2eAccountVOs.size() > 0){
     		for(AuditI2eAccountVO audit : auditI2eAccountVOs){
     			String org = audit.getParentNedOrgPath();
@@ -167,7 +166,7 @@ public class AdminDashboardAction extends BaseAction {
     }
     
     /**
-	 * This method provide a bridge to search audit page based on category, active, new, deleted, or inactive
+	 * This method provide a bridge to search audit page based on category, active, new, deleted, inactive or i2e
 	 */
     public String searchAudit(){
     	searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
@@ -361,7 +360,7 @@ public class AdminDashboardAction extends BaseAction {
     
     /**
      * First map element, initial all categories with hashmap<String, DashboardData, make sure next computing will not get nullPoint.
-     * All categories include ACTIVE, NEW, DELETED, INACTIVE.
+     * All categories include ACTIVE, NEW, DELETED, INACTIVE, I2E.
      * @param audit
      * @param dashData
      */
@@ -381,7 +380,7 @@ public class AdminDashboardAction extends BaseAction {
     
     /**
      * First map element, initial all categories with hashmap<String, DashboardData, make sure next computing will not get nullPoint.
-     * All categories include ACTIVE, NEW, DELETED, INACTIVE.
+     * All categories include ACTIVE, NEW, DELETED, INACTIVE, I2E.
      * @param audit
      * @param dashData
      */

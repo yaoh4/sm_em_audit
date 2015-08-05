@@ -42,12 +42,15 @@ public class AdminReportsAction extends BaseAction {
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	private String selectedAuditDescription;
 	
+	/**
+     * Set up all necessary component for report. Displays the report page with default search results. 
+     * @return
+     */
 	public String execute() throws Exception {
     	//prepare the report search
 		if(searchVO == null){
 			searchVO = new AuditSearchVO();
 		}
-		//setUpEnvironment();
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		//default Search
 		String forward = searchReports();
@@ -55,6 +58,10 @@ public class AdminReportsAction extends BaseAction {
         return forward;
     }
 	
+	/**
+     * Clears the report search criteria to the default. 
+     * @return
+     */
 	public String clearAll(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
@@ -65,6 +72,10 @@ public class AdminReportsAction extends BaseAction {
 		return ApplicationConstants.SUCCESS;
 	}
 	
+	/**
+     * Perform search based on the search criteria.
+     * @return
+     */
 	public String searchReports() throws Exception{
 		String forward = "";
 		//perform the report search
@@ -144,6 +155,7 @@ public class AdminReportsAction extends BaseAction {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setResultColumn(String searchType){
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.REPORTCOLATTRIBUTE);
 		displayColumn = colMap.get(searchType);
