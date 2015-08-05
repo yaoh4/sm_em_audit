@@ -197,11 +197,15 @@ public class AdminServiceImpl implements AdminService {
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
 		List<EmAuditsVw> emAuditsList = adminDAO.retrieveI2eAuditList();
-		boolean latest = true;
+		boolean latest = false;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
+				if(audit.getEndDate() == null)
+					latest = true;
+				else
+					latest = false;
 				emAuditVOList.add(setupAuditVO(audit,latest,false));
-				latest = false;
+				
 			}
 		}
 		
