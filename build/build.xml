@@ -171,7 +171,7 @@
 
 <!--  build the web archive -->
    
-    <target name="war" depends="compile,copy_properties_files" description="create war file">
+    <target name="war" depends="junit" description="create war file">
             
 
 		<copy todir="${app.war.dir}">
@@ -214,8 +214,8 @@
    </target>  
    <!-- run ALL targets -->
    <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.deploy"/>
-	<target name="junit-local" depends="compile, copy_properties_files">
-	    <junit printsummary="yes" haltonfailure="no">
+	<target name="junit" depends="compile, copy_properties_files">
+	    <junit showoutput="true" printsummary="yes" haltonfailure="no">
 	    <sysproperty key="conf.dir" value="${conf.dir}"/>
 		<classpath refid="project.classpath" />
 		<classpath location="${java.classes.dir}" />
