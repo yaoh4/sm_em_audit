@@ -76,6 +76,7 @@
     <!-- Create deployment dirs make_deployment_dirs -->
     <target name="make_deployment_dirs" description="create deployment dirs" depends="clean" >
         <mkdir dir="${java.classes.dir}"/>
+    	<mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${doc.dir}"/>
         <mkdir dir="${javadoc.dir}"/>
         <mkdir dir="${distribution.dir}"/>
