@@ -136,6 +136,9 @@ tr.org th {
 	background-color: #fff;
 	color: #333;
 }
+tr.org td {
+	white-space: nowrap;
+}
 tr.org a {
 	float: left;
 	font-weight: bold;

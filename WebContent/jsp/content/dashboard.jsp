@@ -42,23 +42,23 @@
     	<% 
     		HashMap<String, DashboardData> dData = (HashMap<String, DashboardData>)orgData.get(key); 
     	%>
-    	<td style="white-space: nowrap;"><%= dData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("new").getNewAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	<td><%= dData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td><%= dData.get("new").getNewAccountDataStr(key) %></td>
+    	<td><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
     	<s:if test="emAuditsVO.i2eFromDate != null">
-      		<td style="white-space: nowrap;"><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
+      		<td><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
       	</s:if>
     </tr>
     <% } %>
     <tr class="org">
       <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
-      <td style="white-space: nowrap;"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
-      <td style="white-space: nowrap;"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
-      <td style="white-space: nowrap;"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
-      <td style="white-space: nowrap;"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      <td><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
+      <td><b><%= otherTotal.getNewAccountDataStr() %></b></td>
+      <td><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
+      <td><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
       <s:if test="emAuditsVO.i2eFromDate != null">
-      	<td style="white-space: nowrap;"><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
+      	<td><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
       </s:if>
     </tr>
    
@@ -71,12 +71,12 @@
     	<% 
     		HashMap<String, DashboardData> oData = (HashMap<String, DashboardData>)otherOrgData.get(key); 
     	%>    
-     	<td style="white-space: nowrap;"><%= oData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("new").getNewAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td style="white-space: nowrap;"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
+     	<td><%= oData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td><%= oData.get("new").getNewAccountDataStr(key) %></td>
+    	<td><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
     	<s:if test="emAuditsVO.i2eFromDate != null">
-    		<td style="white-space: nowrap;"><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
+    		<td><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
     	</s:if>
     </tr>
     <% } %>
