@@ -64,6 +64,6 @@
 <#include "/${parameters.templateDir}/simple/dynamic-attributes.ftl" />
 /><#rt/>
 <#rt/>
-&nbsp;<label style="width: auto; align: left" for="${parameters.id?html}${itemKeyStr?html}">${itemValue}&nbsp;&nbsp;</label><#t/>
+&nbsp;<label style="width: auto; align: left" for="${parameters.id?html}${itemKeyStr?html}">${itemValue}&nbsp;&nbsp;&nbsp;&nbsp;</label><#t/>
 
 </@s.iterator>
