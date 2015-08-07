@@ -22,9 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Action class for commands executed on the Admin tab.
+ * Action class for Dashboard tab.
  * 
- * @author menons2
+ * @author zhoujim, dinhys
  *
  */
 @SuppressWarnings("serial")
@@ -72,81 +72,9 @@ public class AdminDashboardAction extends BaseAction {
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
     	List<AuditI2eAccountVO> auditI2eAccountVOs = i2eAuditService.getAllAccountsByAuditId(auditId);
 
-    	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
-    		for(AuditAccountVO audit : auditAccountVOs){
-    			String org = audit.getParentNedOrgPath();
-    			String nciDoc = audit.getNciDoc();
-    			String nedIc = audit.getNedIc();
-    			if(org != null){
-    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
-    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
-							org = ApplicationConstants.ORG_PATH_NON_NCI;
-						}
-    					if(containsKey(otherOrgsData, org)){
-    						HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
-	    					//calculate Count
-	    					setCountForEachCategory(audit, dashData);
-	    					otherOrgsData.put(org, dashData);
-	    				}else{
-	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
-	    					//calculate count
-	    					setFirstElementCountForEachCategory(audit, dashData);
-	    					otherOrgsData.put(org, dashData);
-	    				}
-	    			}else{
-	    				if(containsKey(orgsData, org)){
-	    					HashMap<String,DashboardData> dashData = orgsData.get(org);
-	    					//calculate Count
-	    					setCountForEachCategory(audit, dashData);
-	    					orgsData.put(org, dashData);
-	    				}else{
-	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
-	    					//calculate count
-	    					setFirstElementCountForEachCategory(audit, dashData);
-	    					orgsData.put(org, dashData);
-	    				}
-    				}
-    			}
-    		}
-    	}
-
-    	if(auditI2eAccountVOs != null && auditI2eAccountVOs.size() > 0){
-    		for(AuditI2eAccountVO audit : auditI2eAccountVOs){
-    			String org = audit.getParentNedOrgPath();
-    			String nciDoc = audit.getNciDoc();
-    			String nedIc = audit.getNedIc();
-    			if(org != null){
-    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
-    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
-							org = ApplicationConstants.ORG_PATH_NON_NCI;
-						}
-    					if(containsKey(otherOrgsData, org)){
-    						HashMap<String,DashboardData> dashData = otherOrgsData.get(org);
-	    					//calculate Count
-	    					setCountForEachCategory(audit, dashData);
-	    					otherOrgsData.put(org, dashData);
-	    				}else{
-	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
-	    					//calculate count
-	    					setFirstElementCountForEachCategory(audit, dashData);
-	    					otherOrgsData.put(org, dashData);
-	    				}
-	    			}else{
-	    				if(containsKey(orgsData, org)){
-	    					HashMap<String,DashboardData> dashData = orgsData.get(org);
-	    					//calculate Count
-	    					setCountForEachCategory(audit, dashData);
-	    					orgsData.put(org, dashData);
-	    				}else{
-	    					HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
-	    					//calculate count
-	    					setFirstElementCountForEachCategory(audit, dashData);
-	    					orgsData.put(org, dashData);
-	    				}
-    				}
-    			}
-    		}
-    	}
+    	populateImpac2DashboardData(auditAccountVOs);
+    	populateI2eDashboardData(auditI2eAccountVOs);
+    	
     	//calculate the total other orgs
     	others = incrementCountOther(otherOrgsData);
     	
@@ -423,7 +351,102 @@ public class AdminDashboardAction extends BaseAction {
 		}
 		return otherTotalData;
 	}
+	
+	/**
+	 * Populate counts for Impac2 Dashboard data
+	 * 
+	 * @param auditAccountVOs
+	 */
+	private void populateImpac2DashboardData(List<AuditAccountVO> auditAccountVOs) {
+		
+    	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
+    		for(AuditAccountVO audit : auditAccountVOs){
+    			String org = audit.getParentNedOrgPath();
+    			String nciDoc = audit.getNciDoc();
+    			String nedIc = audit.getNedIc();
+    			if(org != null){
+    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+							org = ApplicationConstants.ORG_PATH_NON_NCI;
+						}
+    					classifyOrgCategory(otherOrgsData, org, audit);
+	    			}else{
+	    				classifyOrgCategory(orgsData, org, audit);
+    				}
+    			}
+    		}
+    	}
+    	return;
+	}
 
+	/**
+	 * Populate counts for I2e Dashboard data
+	 * 
+	 * @param auditAccountVOs
+	 */
+	private void populateI2eDashboardData(List<AuditI2eAccountVO> auditI2eAccountVOs) {
+		
+		if(auditI2eAccountVOs != null && auditI2eAccountVOs.size() > 0){
+    		for(AuditI2eAccountVO audit : auditI2eAccountVOs){
+    			String org = audit.getParentNedOrgPath();
+    			String nciDoc = audit.getNciDoc();
+    			String nedIc = audit.getNedIc();
+    			if(org != null){
+    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+							org = ApplicationConstants.ORG_PATH_NON_NCI;
+						}
+    					classifyOrgCategory(otherOrgsData, org, audit);
+	    			}else{
+	    				classifyOrgCategory(orgsData, org, audit);
+    				}
+    			}
+    		}
+    	}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
+	private void classifyOrgCategory(HashMap<String, HashMap<String, DashboardData>> orgHashmap, String org, AuditAccountVO audit) {
+		if(containsKey(orgHashmap, org)){
+			HashMap<String,DashboardData> dashData = orgHashmap.get(org);
+			//calculate Count
+			setCountForEachCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}else{
+			HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+			//calculate count
+			setFirstElementCountForEachCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
+	private void classifyOrgCategory(HashMap<String, HashMap<String, DashboardData>> orgHashmap, String org, AuditI2eAccountVO audit) {
+		if(containsKey(orgHashmap, org)){
+			HashMap<String,DashboardData> dashData = orgHashmap.get(org);
+			//calculate Count
+			setCountForEachCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}else{
+			HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+			//calculate count
+			setFirstElementCountForEachCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}
+	}
+	
 	/**
 	 * @return the orgKeys
 	 */
