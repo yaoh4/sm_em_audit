@@ -25,6 +25,8 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 	private String unsubmittedFlag;
 	private String actionCreateUserId;
 	private Date actionCreateDate;
+	private String actionLastChangeUserId;
+	private Date actionLastChangeDate;
 	private String oracleId;
 	private Date inactiveDate;
 
@@ -42,7 +44,8 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 	public EmI2eAuditAccountsT(Long id, Long npnId, String lastName, String firstName, String nihNetworkId,
 			Date createdDate, String createdByUserId, String lastChangeUserId, Long eauId, Long actionId,
 			String lastSubmittedByUserId, Date lastSubmittedDate, String notes, String unsubmittedFlag,
-			String actionCreateUserId, Date actionCreateDate, String oracleId, Date inactiveDate) {
+			String actionCreateUserId, Date actionCreateDate, String oracleId, Date inactiveDate,
+			String actionLastChangeUserId, Date actionLastChangeDate) {
 		this.id = id;
 		this.npnId = npnId;
 		this.lastName = lastName;
@@ -61,6 +64,8 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 		this.actionCreateDate = actionCreateDate;
 		this.oracleId = oracleId;
 		this.inactiveDate = inactiveDate;
+		this.actionLastChangeUserId = actionLastChangeUserId;
+		this.actionLastChangeDate = actionLastChangeDate;
 	}
 
 	public Long getId() {
@@ -207,4 +212,19 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 		this.inactiveDate = inactiveDate;
 	}
 
+	public String getActionLastChangeUserId() {
+		return this.actionLastChangeUserId;
+	}
+
+	public void setActionLastChangeUserId(String actionLastChangeUserId) {
+		this.actionLastChangeUserId = actionLastChangeUserId;
+	}
+	
+	public Date getActionLastChangeDate() {
+		return this.actionLastChangeDate;
+	}
+
+	public void setActionLastChangeDate(Date actionLastChangeDate) {
+		this.actionLastChangeDate = actionLastChangeDate;
+	}
 }

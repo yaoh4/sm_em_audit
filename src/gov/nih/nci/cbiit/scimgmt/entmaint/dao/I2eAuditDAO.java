@@ -99,7 +99,8 @@ public class I2eAuditDAO {
 				account.setActionCreateDate(date);
 				account.setActionCreateUserId(nciUser.getUserId().toUpperCase());
 			} else {
-				account.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+				account.setActionLastChangeUserId(nciUser.getUserId().toUpperCase());
+				account.setActionLastChangeDate(date);
 			}
 			account.setActionId(actionId);
 			account.setNotes(actionComments);
@@ -127,7 +128,8 @@ public class I2eAuditDAO {
 		try {
 			EmI2eAuditAccountsT account = getAccountsT(id);
 			if(account != null) {
-				account.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+				account.setActionLastChangeUserId(nciUser.getUserId().toUpperCase());
+				account.setActionLastChangeDate(new Date());
 				account.setUnsubmittedFlag(ApplicationConstants.FLAG_YES);
 				account.setLastSubmittedByUserId(null);
 				account.setLastSubmittedDate(null);

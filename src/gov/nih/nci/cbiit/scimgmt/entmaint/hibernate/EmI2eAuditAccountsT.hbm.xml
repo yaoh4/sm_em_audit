@@ -53,6 +53,12 @@
         <property name="actionCreateDate" type="timestamp">
             <column name="ACTION_CREATE_DATE" length="7" />
         </property>
+        <property name="actionLastChangeUserId" type="string">
+            <column name="ACTION_LAST_CHANGE_USER_ID" length="30" />
+        </property>
+        <property name="actionLastChangeDate" type="timestamp">
+            <column name="ACTION_LAST_CHANGE_DATE" length="7" />
+        </property>
         <property name="oracleId" type="string">
             <column name="ORACLE_ID" length="30" />
         </property>
