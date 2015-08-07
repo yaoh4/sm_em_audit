@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/jquery-ui-1.11.3.css" />"/>
 <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/jquery.cleditor.css"/>" />
 <script src="<s:url value="/scripts/jquery.cleditor.min.js" />" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/entmaint.css" />" />
+<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/custom.css" />" />
 <script>
       $(document).ready(function () { 
     	$("#input").cleditor({height:700});
