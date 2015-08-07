@@ -45,9 +45,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	@Autowired
 	private LookupService lookupService;
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchActiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for active accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchActiveAccounts(paginatedList, searchVO, all);
@@ -63,9 +67,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchNewAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for new accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchNewAccounts(paginatedList, searchVO, all);
@@ -80,9 +88,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchDeletedAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for deleted accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchDeletedAccounts(paginatedList, searchVO, all);
@@ -97,9 +109,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchInactiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for inactive > 130 days
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchInactiveAccounts(paginatedList, searchVO, all);
@@ -115,9 +131,14 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#submit(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Update actions taken on account for submit.
+     * @param category
+     * @param eaaId
+     * @param actionId
+     * @param actionComments
+     * @return DBResult
+     */
 	@Override
 	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments, Date date) {
 		AppLookupT cat = lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
@@ -125,29 +146,41 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#unsubmit(java.lang.String, java.lang.Integer)
-	 */
+    /**
+     * Update actions taken on account for unsubmit.
+     * @param category
+     * @param eaaId
+     * @return DBResult
+     */
 	@Override
 	public DBResult unsubmit(String category, Long eaaId) {
 		return impac2AuditDAO.unsubmit(category, eaaId);
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#getAuditAccountById(java.lang.Long)
-	 */
+    /**
+     * Get EmAuditAccountsVw record using id (EAA_ID)
+     * @param id
+     * @return
+     */
 	public EmAuditAccountsVw getAuditAccountById(Long id) {
 		return impac2AuditDAO.getAuditAccountById(id);
 	}
 	
+    /**
+     * Get Audit Note using ID (EAA_ID)
+     * @param id
+     * @return String (Note)
+     */
 	public String getAuditNoteById(Long id, String category){
 		
 		return impac2AuditDAO.getAuditNoteById(id, category);
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#getAllAccountsByAuditId(java.lang.Long)
-	 */
+    /**
+     * Retrieve all accounts for a specific audit id
+     * @param auditId
+     * @return
+     */
 	@Override
 	public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId) {
 		List<EmAuditAccountsVw> auditAccountsList = impac2AuditDAO.getAllAccountsByAuditId(auditId);

@@ -41,9 +41,13 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	@Autowired
 	private LookupService lookupService;
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#searchImpac2Accounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.SearchObject)
-	 */
+    /**
+     * Data retrieval from view, EmPortfolioVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<PortfolioAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2PortfolioDAO.searchImpac2Accounts(paginatedList, searchVO, all);
@@ -59,15 +63,17 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return paginatedList;
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#saveNotes(java.lang.String, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Call stored procedure for saving notes
+     * @param impaciiUserId
+     * @return DBResult
+     */
 	@Override
 	public DBResult saveNotes(String impaciiUserId, String notes, Date date) {
 		return impac2PortfolioDAO.saveNotes(impaciiUserId, notes, date);
 	}
 	/**
-	 * 
+	 * Note retrieve from view
 	 * @param id
 	 * @param category
 	 * @return

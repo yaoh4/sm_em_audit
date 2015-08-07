@@ -15,16 +15,19 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Autowired
 	private ApplicationDAO applicationDAO;
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService#loadPersonInfo(gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser)
+	/**
+	 * Get NCI User information such as Roles and Organization
+	 * 
+	 * @return 
 	 */
 	@Override
 	public void loadPersonInfo(NciUser nciUser) {
 		applicationDAO.loadPersonInfo(nciUser);
     }
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService#getAppPropertiesList()
+	/**
+	 * Retrieve Application properties from DB
+	 * @return
 	 */
 	@Override
 	public List<AppPropertiesT> getAppPropertiesList() {

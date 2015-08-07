@@ -36,9 +36,13 @@ public class I2eAuditServiceImpl implements I2eAuditService {
 	private LookupService lookupService;
 	
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService#searchActiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl, gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO, java.lang.Boolean)
-	 */
+    /**
+     * Data retrieval for active accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditI2eAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditI2eAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = i2eAuditDAO.searchActiveAccounts(paginatedList, searchVO, all);
@@ -53,25 +57,33 @@ public class I2eAuditServiceImpl implements I2eAuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService#submit(java.lang.Long, java.lang.Long, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Update actions taken on I2E account for submit.
+     * @param id
+     * @param actionId
+     * @param actionComments
+     * @return DBResult
+     */
 	@Override
 	public DBResult submit(Long id, Long actionId, String actionComments, Date date) {
 		return i2eAuditDAO.submit(id, actionId, actionComments, date);
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService#unsubmit(java.lang.Long)
-	 */
+    /**
+     * Update actions taken on I2E account for unsubmit.
+     * @param id
+     * @return DBResult
+     */
 	@Override
 	public DBResult unsubmit(Long id) {
 		return i2eAuditDAO.unsubmit(id);
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService#getAuditAccountById(java.lang.Long)
-	 */
+    /**
+     * Get AuditI2eAccountVO record using id
+     * @param id
+     * @return
+     */
 	public AuditI2eAccountVO getAuditAccountById(Long id) {
 		EmI2eAuditAccountsVw account = i2eAuditDAO.getAuditAccountById(id);
 		AuditI2eAccountVO acct = null;
@@ -81,13 +93,20 @@ public class I2eAuditServiceImpl implements I2eAuditService {
 		return acct;
 	}
 	
+    /**
+     * Get Audit Note using ID
+     * @param id
+     * @return String (Note)
+     */
 	public String getAuditNoteById(Long id){
 		return i2eAuditDAO.getAuditNoteById(id);
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService#getAllAccountsByAuditId(java.lang.Long)
-	 */
+    /**
+     * Retrieve all I2E accounts for a specific audit id
+     * @param auditId
+     * @return
+     */
 	@Override
 	public List<AuditI2eAccountVO> getAllAccountsByAuditId(Long auditId) {
 		List<EmI2eAuditAccountsVw> auditAccountsList = i2eAuditDAO.getAllAccountsByAuditId(auditId);

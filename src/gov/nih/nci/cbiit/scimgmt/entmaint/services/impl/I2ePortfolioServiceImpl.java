@@ -39,10 +39,13 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	@Autowired
 	private LookupService lookupService;
 
-
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService#searchI2eAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl, gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO, java.lang.Boolean)
-	 */
+    /**
+     * Data retrieval from view, EmI2ePortfolioVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<PortfolioAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<PortfolioI2eAccountVO> searchI2eAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = i2ePortfolioDAO.searchI2eAccounts(paginatedList, searchVO, all);
@@ -58,19 +61,25 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 		return paginatedList;
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService#saveNotes(java.lang.Integer, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Call stored procedure for saving notes
+     * 
+     * @param npnId
+     * @param notes
+     * @param date
+     * @return DBResult
+     */
 	@Override
 	public DBResult saveNotes(Long npnId, String notes, Date date) {
 		return i2ePortfolioDAO.saveNotes(npnId, notes, date);
 	}
-	/**
-	 * 
-	 * @param id
-	 * @param category
-	 * @return
-	 */
+	
+    /**
+     * Get portfolio notes by npnId
+     * 
+     * @param npnId
+     * @return notes retrieved
+     */
 	public String getPortfolioNoteById(Long id){
 		
 		return i2ePortfolioDAO.getPortfolioNoteById(id);
