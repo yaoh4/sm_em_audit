@@ -26,7 +26,7 @@
 			<result name="success" type="redirect-action">../impac2/impac2Home</result>
 		</action>
 		
-		<action name="i2eHome" method="search"
+		<action name="i2eHome" method="searchI2e"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
 			<result name="audit_enabled" type="redirect-action">prepareAuditAccounts</result>
 			<result name="audit_disabled" type="redirect-action">preparePortfolioAccounts</result>

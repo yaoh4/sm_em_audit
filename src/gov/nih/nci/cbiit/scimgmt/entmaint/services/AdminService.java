@@ -91,8 +91,9 @@ public interface AdminService {
 	 */
 	public boolean isAuditPresent();
 	/**
-	 * Retrieve Audit Info by selected audit ID 
-	 * @param auditId
-	 * @return
+	 * Checks if there is at least one I2E audit present in the system.
+	 * 
+	 * @return true if an I2E audit is present, false otherwise.
 	 */
+	public boolean isI2eAuditPresent();
 }

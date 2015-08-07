@@ -378,6 +378,15 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 	
 	/**
+	 * Checks if there is at least one audit present in the system.
+	 * 
+	 * @return true if an audit is present, false otherwise.
+	 */
+	public boolean isI2eAuditPresent() {
+		return adminService.isI2eAuditPresent();
+	}
+	
+	/**
 	 * Gets the contact us email
 	 * 
 	 * @return

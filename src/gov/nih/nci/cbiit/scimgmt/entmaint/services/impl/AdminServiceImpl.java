@@ -223,6 +223,17 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	
+	/**
+	 * Checks if there is at least one I2E audit present in the system.
+	 * 
+	 * @return true if an I2E audit is present, false otherwise.
+	 */
+	public boolean isI2eAuditPresent() {
+		
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveI2eAuditList()));
+		
+	}
+	
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest, boolean report) {
 		EmAuditsVO emAuditsVO = null;

@@ -149,6 +149,32 @@ public class EmAppUtil {
 		return false;	
 	}
 	
+	/**
+	 * Checks if the current Audit is enabled and contains I2E audit.
+	 * 
+	 * @return true if audit is enabled, else false.
+	 */
+	public static boolean isI2eAuditEnabled() {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null) {
+				String auditState = getCurrentAuditState(emAuditsVO);
+				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState) && emAuditsVO.getI2eFromDate() != null) {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is current and enabled");
+					return true;
+				} else {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is not current or not enabled or does not contain I2e");
+				}
+			} else {
+				logger.warn("No audit in session");
+			}
+		}
+				
+		return false;	
+	}
 	
 	/**
 	 * Checks if the given Audit ID represent the current or last active audit.

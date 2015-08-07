@@ -28,7 +28,7 @@
 	
 	<!--  We want to show the breadcrumb with both Portfolio and Audit only if there is at least one Audit in the system 
  Otherwise there is no Audit tab, so no need to have breadcrumb to select between them -->
-	<s:if test="isAuditPresent()">		    
+	<s:if test="isI2eAuditPresent()">		    
   		<ol class="breadcrumb">
   
   			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">

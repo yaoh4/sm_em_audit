@@ -66,4 +66,22 @@ public class HomeAction extends BaseAction {
         }
 
     }
+    
+	/**
+	 * Forwards to the Audit or Portfolio tab depending
+	 * on whether the audit is enabled or not.
+	 * 
+	 * @return forward string indicating whether audit is enabled or not.
+	 * @throws Exception
+	 */
+    public String searchI2e() throws Exception {
+        
+        if(EmAppUtil.isI2eAuditEnabled()) {
+        	return ApplicationConstants.AUDIT_ENABLED;
+        	
+        } else {
+        	return ApplicationConstants.AUDIT_DISABLED;
+        }
+
+    }
 }
