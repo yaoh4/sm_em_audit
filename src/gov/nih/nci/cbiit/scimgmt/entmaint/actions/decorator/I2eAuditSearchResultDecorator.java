@@ -221,7 +221,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
 		String id = "note"+accountVO.getId();
 		String note = "";
-		if(accountVO.getUnsubmittedFlag() == null || StringUtils.equalsIgnoreCase(accountVO.getUnsubmittedFlag(), "Y")){
+		if(accountVO.getUnsubmittedFlag() == null || StringUtils.equalsIgnoreCase(accountVO.getUnsubmittedFlag(), ApplicationConstants.FLAG_YES)){
 			note = accountVO.getNotes();
 		}
 		if(note == null){
@@ -272,7 +272,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			if(submittedDate != null){
 				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
 			} 
-			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES))){
 				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
 			}else{
 				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";

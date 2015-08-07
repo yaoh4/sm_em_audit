@@ -204,7 +204,7 @@ public class Impac2AuditDAO {
 			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to inactive accounts
-			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
+			criteria.add(Restrictions.eq("inactiveUserFlag", ApplicationConstants.FLAG_YES));
 			criteria.createAlias("audit", "audit");
 			
 			// Add user specific search criteria

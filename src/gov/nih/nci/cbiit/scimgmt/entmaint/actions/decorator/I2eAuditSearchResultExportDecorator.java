@@ -107,7 +107,7 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 			if(submittedDate != null){
 				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
 			} 
-			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("Y"))){
+			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES))){
 				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
 			}else{
 				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";
@@ -248,7 +248,7 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 		if(!CollectionUtils.isEmpty(discrepancies)) {
 			for(String discrepancy: discrepancies) {
 				if(discrepancy.equals(type)) {
-					return "Y";
+					return ApplicationConstants.FLAG_YES;
 				}
 			}
 		}

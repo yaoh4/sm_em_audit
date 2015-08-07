@@ -187,7 +187,7 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		if(!CollectionUtils.isEmpty(discrepancies)) {
 			for(String discrepancy: discrepancies) {
 				if(discrepancy.equals(type)) {
-					return "Y";
+					return ApplicationConstants.FLAG_YES;
 				}
 			}
 		}
