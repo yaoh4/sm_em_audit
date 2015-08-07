@@ -165,7 +165,6 @@ public class I2eAuditDAO {
 	 * get Audit Note by id
 	 */
 	public String getAuditNoteById(Long id){
-		String note = "";
 		Criteria crit;
 		try {
 			crit = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsVw.class);
