@@ -329,7 +329,7 @@ public class AdminDashboardAction extends BaseAction {
     
     
 	/** 
-	 * Calculate the other orgs total
+	 * Calculate the other orgs total and other orgs completed
 	 */
 	private DashboardData incrementCountOther(HashMap<String, HashMap<String, DashboardData>> otherOrgsMap){
 		DashboardData otherTotalData = new DashboardData();
@@ -340,14 +340,19 @@ public class AdminDashboardAction extends BaseAction {
 			HashMap<String, DashboardData> tempMap = otherOrgsMap.get(key);
 			DashboardData actData = tempMap.get(ACTIVE);
 			otherTotalData.setActiveAccountCount(otherTotalData.getActiveAccountCount() + actData.getActiveAccountCount());
+			otherTotalData.setActiveCompleteCount(otherTotalData.getActiveCompleteCount() + actData.getActiveCompleteCount());
 			DashboardData newData = tempMap.get(NEW);
 			otherTotalData.setNewAccountCount(otherTotalData.getNewAccountCount() + newData.getNewAccountCount());
+			otherTotalData.setNewCompleteCount(otherTotalData.getNewCompleteCount() + newData.getNewCompleteCount());
 			DashboardData deleteData = tempMap.get(DELETED);
 			otherTotalData.setDeletedAccountCount(otherTotalData.getDeletedAccountCount() + deleteData.getDeletedAccountCount());
+			otherTotalData.setDeletedCompleteCount(otherTotalData.getDeletedCompleteCount() + deleteData.getDeletedCompleteCount());
 			DashboardData InactData = tempMap.get(INACTIVE);
 			otherTotalData.setInactiveAccountCount(otherTotalData.getInactiveAccountCount() + InactData.getInactiveAccountCount());
+			otherTotalData.setInactiveCompleteCount(otherTotalData.getInactiveCompleteCount() + InactData.getInactiveCompleteCount());
 			DashboardData i2eData = tempMap.get(I2E);
 			otherTotalData.setI2eAccountCount(otherTotalData.getI2eAccountCount() + i2eData.getI2eAccountCount());
+			otherTotalData.setI2eCompleteCount(otherTotalData.getI2eCompleteCount() + i2eData.getI2eCompleteCount());
 		}
 		return otherTotalData;
 	}
