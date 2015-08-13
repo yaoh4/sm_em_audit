@@ -230,6 +230,10 @@
 	<!--  For tab-content -->
 </div>
 
+<s:if test="%{activeAuditAccounts.list.size > 0}"> 
+<s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
+</s:if>
+
 <div id="anchor"></div>
 
 <s:if test="showResult">
