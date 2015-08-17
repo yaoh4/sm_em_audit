@@ -19,6 +19,11 @@
 		action = "reportSearch";
 	}
 %>
+
+<s:if test="%{auditI2eAccounts.list.size > 0}"> 
+<s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
+</s:if>
+
 <body onload="moveToAnchor();"></body>
 <display:table style="width: 100%;" name="auditI2eAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action %>" excludedParams="size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AdminReportI2eSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">

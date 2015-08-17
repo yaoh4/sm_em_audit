@@ -19,7 +19,7 @@
 	}
 %>
 
-<s:if test="%{activeAuditAccounts.list.size > 0}"> 
+<s:if test="%{i2ePortfolioAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
 

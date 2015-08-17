@@ -21,7 +21,7 @@
 %>
 
 
-<s:if test="%{activeAuditAccounts.list.size > 0}"> 
+<s:if test="%{auditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
 
