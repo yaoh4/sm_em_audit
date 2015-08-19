@@ -185,7 +185,7 @@ public class AdminDashboardAction extends BaseAction {
     			(createdDate.after(impaciiFromDate) || createdDate.equals(impaciiFromDate)) && 
     			(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
     		incrementCountByCategory(audit, dashData, NEW);
-    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    		if(!StringUtils.isEmpty(audit.getNewSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, NEW);
     		}
     	}
@@ -194,14 +194,14 @@ public class AdminDashboardAction extends BaseAction {
     			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
     			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
     		incrementCountByCategory(audit, dashData, DELETED);
-    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    		if(!StringUtils.isEmpty(audit.getDeletedSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, DELETED);
     		}
     	}
     	//determine inactive account
     	if(audit.getInactiveUnsubmittedFlag() != null && audit.getInactiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
     		incrementCountByCategory(audit, dashData, INACTIVE);
-    		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
+    		if(!StringUtils.isEmpty(audit.getInactiveSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, INACTIVE);
     		}
     	}
