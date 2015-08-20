@@ -14,14 +14,21 @@
   <table class="table table-condensed table-striped">
       <caption>IMPAC II Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
     <tr>
-      <th>NCI Organizations</th>
-      <th>Active Accounts</th>
-      <th>New Accounts</th>
-      <th>Deleted Accounts</th>
-      <th>Inactive &gt;130 Days Accounts</th>
-      <s:if test="emAuditsVO.i2eFromDate != null">
-      	<th>I2E Accounts</th>
+       <s:if test="emAuditsVO.i2eFromDate != null">
+      <th width="20%">NCI Organizations</th>
+      <th width="16%">Active Accounts</th>
+      <th width="16%">New Accounts</th>
+      <th width="16%">Deleted Accounts</th>
+      <th width="16%">Inactive &gt;130 Days Accounts</th>
+      <th width="16%">I2E Accounts</th>
       </s:if>
+      <s:else>
+       <th width="40%">NCI Organizations</th>
+      <th width="15%">Active Accounts</th>
+      <th width="15%">New Accounts</th>
+      <th width="15%">Deleted Accounts</th>
+      <th width="15%">Inactive &gt;130 Days Accounts</th>
+      </s:else>
     </tr>
     <s:set var="orgData" value="orgsData"/>
     <s:set var="keys" value="orgKeys"/>

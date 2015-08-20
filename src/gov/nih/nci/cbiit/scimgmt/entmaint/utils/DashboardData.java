@@ -32,50 +32,70 @@ public class DashboardData {
 	 * @return the activeAccountDataStr
 	 */
 	public String getActiveAccountDataStr(String key) {
-		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_ACTIVE + "\",\"" + key + "\");'>" + this.activeCompleteCount + "/" + this.activeAccountCount + " </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getActivePercent() + "%)</span>";
+		if(this.activeAccountCount != 0){
+			return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_ACTIVE + "\",\"" + key + "\");'>" + this.activeCompleteCount + "/" + this.activeAccountCount + " </a><span class='percent'>(" + this.getActivePercent() + "%)</span>";
+		}else{
+			return getActiveAccountDataStr();
+		}
 	}
 
 	public String getActiveAccountDataStr() {
-		return this.activeCompleteCount + "/" + this.activeAccountCount + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getActivePercent() + "%)</span>";
+		return "<a>" + this.activeCompleteCount + "/" + this.activeAccountCount + " </a><span class='percent'>(" + this.getActivePercent() + "%)</span>";
 	}
 	
 	/**
 	 * @return the newAccountDataStr
 	 */
 	public String getNewAccountDataStr(String key) {
-		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_NEW + "\",\"" + key + "\");'>" + this.newCompleteCount + "/" + this.newAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getNewPercent() + "%)</span>";
+		if(this.newAccountCount != 0){
+			return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_NEW + "\",\"" + key + "\");'>" + this.newCompleteCount + "/" + this.newAccountCount + " </a><span class='percent'>(" + this.getNewPercent() + "%)</span>";
+		}else{
+			return getNewAccountDataStr();
+		}
 	}
 	
 	public String getNewAccountDataStr() {
-		return this.newCompleteCount + "/" + this.newAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getNewPercent() + "%)</span>";
+		return "<a>" + this.newCompleteCount + "/" + this.newAccountCount + " </a><span class='percent'>(" + this.getNewPercent() + "%)</span>";
 	}
 	/**
 	 * @return the deletedAccountDataStr
 	 */
 	public String getDeletedAccountDataStr(String key) {
-		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_DELETED + "\",\"" + key + "\");'>" + this.deletedCompleteCount + "/" + this.deletedAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
+		if(this.deletedAccountCount != 0){
+			return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_DELETED + "\",\"" + key + "\");'>" + this.deletedCompleteCount + "/" + this.deletedAccountCount + " </a><span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
+		}else{
+			return getDeletedAccountDataStr();
+		}
 	}
 	public String getDeletedAccountDataStr() {
-		return this.deletedCompleteCount + "/" + this.deletedAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
+		return "<a>" + this.deletedCompleteCount + "/" + this.deletedAccountCount + " </a><span class='percent'>(" + this.getDeletedPercent() + "%)</span>";
 	}
 	/**
 	 * @return the inactiveAccountDataStr
 	 */
 	public String getInactiveAccountDataStr(String key) {
-		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_INACTIVE + "\",\"" + key + "\");'>" + this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
+		if(this.inactiveAccountCount != 0){
+			return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_INACTIVE + "\",\"" + key + "\");'>" + this.inactiveCompleteCount + "/" + this.inactiveAccountCount + " </a><span class='percent'>(" + this.getInactivePercent() + "%)</span>";
+		}else{
+			return getInactiveAccountDataStr();
+		}
 	}
 	public String getInactiveAccountDataStr() {
-		return this.inactiveCompleteCount + "/" + this.inactiveAccountCount + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getInactivePercent() + "%)</span>";
+		return "<a>" + this.inactiveCompleteCount + "/" + this.inactiveAccountCount + " </a><span class='percent'>(" + this.getInactivePercent() + "%)</span>";
 	}
 	/**
 	 * @return the i2eAccountDataStr
 	 */
 	public String getI2eAccountDataStr(String key) {
-		return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_I2E + "\",\"" + key + "\");'>" + this.i2eCompleteCount + "/" + this.i2eAccountCount + " </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getI2ePercent() + "%)</span>";
+		if(this.i2eAccountCount != 0){
+			return "<a href='javascript:searchAuditByCategory(\"" + ApplicationConstants.CATEGORY_I2E + "\",\"" + key + "\");'>" + this.i2eCompleteCount + "/" + this.i2eAccountCount + " </a><span class='percent'>(" + this.getI2ePercent() + "%)</span>";
+		}else{
+			return getI2eAccountDataStr();
+		}
 	}
 
 	public String getI2eAccountDataStr() {
-		return this.i2eCompleteCount + "/" + this.i2eAccountCount + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='percent'>(" + this.getI2ePercent() + "%)</span>";
+		return "<a>" + this.i2eCompleteCount + "/" + this.i2eAccountCount + " </a><span class='percent'>(" + this.getI2ePercent() + "%)</span>";
 	}
 	/**
 	 * @return the activeAccountCount
