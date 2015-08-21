@@ -18,7 +18,7 @@
  	<Tab>
  		<type>i2e</type>
  		<columnName>NED Org Path</columnName>
- 		<property>parentNedOrgPath</property>
+ 		<property>nedOrgPath</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -120,7 +120,7 @@
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>NED Org Path</columnName>
- 		<property>parentNedOrgPath</property>
+ 		<property>nedOrgPath</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -222,7 +222,7 @@
  	<Tab>
  		<type>i2eActive</type>
  		<columnName>NED Org Path</columnName>
- 		<property>parentNedOrgPath</property>
+ 		<property>nedOrgPath</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
