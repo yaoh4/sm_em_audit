@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,9 +17,10 @@ import java.util.Set;
 import org.hibernate.criterion.Restrictions;
 
 public class DatabaseManager {
-	String url = PropertiesManager.getUrl();
-	String userId = PropertiesManager.getUserId();
-	String password = PropertiesManager.getPassword();
+	private String url = PropertiesManager.getUrl();
+	private String userId = PropertiesManager.getUserId();
+	private String password = PropertiesManager.getPassword();
+	public static final String NON_NCI = "Non-NCI";
 	
 	public Connection getConnection(){
 		Connection connection = null;
@@ -257,6 +260,167 @@ public class DatabaseManager {
 		}
 		
 		return note;
+	}
+	
+	public Long getDashboardActiveCompletedCount(Connection conn, Date impaciiToDate, Date impaciiFromDate, String orgName, Long auditId){
+		Long count = 0L;
+		Statement st = null;
+		ResultSet rs = null;
+		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(impaciiToDate);
+		String sql = null;
+		if(!orgName.equalsIgnoreCase(NON_NCI)){
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (deleted_date is null or trunc(deleted_date) > to_date('" + dateStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateStr+ "', 'yyyy-MM-dd')) " + 
+					" and created_date is not null and (trunc(created_date) < to_date('" + dateStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateStr+ "', 'yyyy-MM-dd')) " +  
+					" and active_submitted_date is not null and parent_ned_org_path = '" + orgName+ "' and audit_id = " + auditId;
+		}else{
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (deleted_date is null or trunc(deleted_date) > to_date('" + dateStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateStr+ "', 'yyyy-MM-dd')) " + 
+					" and created_date is not null and (trunc(created_date) < to_date('" + dateStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateStr+ "', 'yyyy-MM-dd')) " +  
+					" and active_submitted_date is not null and NCI_DOC = 'OTHER' and ned_ic <> 'NCI' and audit_id = " + auditId;
+		}
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			rs.next();
+			count = rs.getLong("myCount");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	public Long getDashboardNewCompletedCount(Connection conn, Date impaciiToDate, Date impaciiFromDate, String orgName, Long auditId){
+		Long count = 0L;
+		Statement st = null;
+		ResultSet rs = null;
+		String dateFromStr = new SimpleDateFormat("yyyy-MM-dd").format(impaciiFromDate);
+		String dateToStr = new SimpleDateFormat("yyyy-MM-dd").format(impaciiToDate);
+		
+		String sql = null;
+		if(!orgName.equalsIgnoreCase(NON_NCI)){
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (trunc(created_date) > to_date('" + dateFromStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateFromStr+ "', 'yyyy-MM-dd')) " + 
+					" and (trunc(created_date) < to_date('" + dateToStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateToStr+ "', 'yyyy-MM-dd')) " +  
+					" and new_submitted_date is not null and parent_ned_org_path = '" + orgName+ "' and audit_id = " + auditId;
+		}else{
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (trunc(created_date) > to_date('" + dateFromStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateFromStr+ "', 'yyyy-MM-dd')) " + 
+					" and (trunc(created_date) < to_date('" + dateToStr+ "', 'yyyy-MM-dd') or trunc(created_date) = to_date('" + dateToStr+ "', 'yyyy-MM-dd')) " +  
+					" and new_submitted_date is not null and NCI_DOC = 'OTHER' and ned_ic <> 'NCI' and audit_id = " + auditId;
+		}
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			rs.next();
+			count = rs.getLong("myCount");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	public Long getDashboardDeletedCompletedCount(Connection conn, Date impaciiToDate, Date impaciiFromDate, String orgName, Long auditId){
+		Long count = 0L;
+		Statement st = null;
+		ResultSet rs = null;
+		String dateFromStr = new SimpleDateFormat("yyyy-MM-dd").format(impaciiFromDate);
+		String dateToStr = new SimpleDateFormat("yyyy-MM-dd").format(impaciiToDate);
+		
+		String sql = null;
+		if(!orgName.equalsIgnoreCase(NON_NCI)){
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (trunc(deleted_date) > to_date('" + dateFromStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateFromStr+ "', 'yyyy-MM-dd')) " + 
+					" and (trunc(deleted_date) < to_date('" + dateToStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateToStr+ "', 'yyyy-MM-dd')) " +  
+					" and deleted_submitted_date is not null and parent_ned_org_path = '" + orgName+ "' and audit_id = " + auditId;
+		}else{
+			sql = "select count(*) as myCount from em_audit_accounts_vw where (trunc(deleted_date) > to_date('" + dateFromStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateFromStr+ "', 'yyyy-MM-dd')) " + 
+					" and (trunc(deleted_date) < to_date('" + dateToStr+ "', 'yyyy-MM-dd') or trunc(deleted_date) = to_date('" + dateToStr+ "', 'yyyy-MM-dd')) " +  
+					" and deleted_submitted_date is not null and NCI_DOC = 'OTHER' and ned_ic <> 'NCI' and audit_id = " + auditId;
+		}
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			rs.next();
+			count = rs.getLong("myCount");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	public Long getDashboardInactiveCompletedCount(Connection conn, String orgName, Long auditId){
+		Long count = 0L;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		String sql = null;
+		if(!orgName.equalsIgnoreCase(NON_NCI)){
+			sql = "select count(*) as myCount from em_audit_accounts_vw where inactive_unsubmitted_flag is not null and inactive_unsubmitted_flag = 'Y' and parent_ned_org_path = '" + orgName+ "' and audit_id = " + auditId;
+		}else{
+			sql = "select count(*) as myCount from em_audit_accounts_vw where inactive_unsubmitted_flag is not null and inactive_unsubmitted_flag = 'Y' and NCI_DOC = 'OTHER' and ned_ic <> 'NCI' and audit_id = " + auditId;
+		}
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			rs.next();
+			count = rs.getLong("myCount");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	public Long getDashboardI2eCompletedCount(Connection conn, String orgName, Long auditId){
+		Long count = 0L;
+		Statement st = null;
+		ResultSet rs = null;
+		String sql = null;
+
+		if(!orgName.equalsIgnoreCase(NON_NCI)){
+			sql = "select count(*) as myCount from em_i2e_audit_accounts_vw where submitted_by is not null and parent_ned_org_path = '" + orgName+ "' and audit_id = " + auditId;
+		}else{
+			sql = "select count(*) as myCount from em_i2e_audit_accounts_vw where submitted_by is not null and NCI_DOC = 'OTHER' and ned_ic <> 'NCI' and audit_id = " + auditId;
+		}
+		try{
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			rs.next();
+			count = rs.getLong("myCount");
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		return count;
 	}
 	
 	public static void main(String[] args) throws Exception{
