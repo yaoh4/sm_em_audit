@@ -45,6 +45,7 @@ public class AdminDashboardAction extends BaseAction {
 	private HashMap<String, HashMap<String, DashboardData>> orgsData;
 	private HashMap<String, HashMap<String, DashboardData>> otherOrgsData;
 	private DashboardData others;
+	private Long auditId;
 	
 	@Autowired
 	protected Impac2AuditService impac2AuditService;	
@@ -61,13 +62,15 @@ public class AdminDashboardAction extends BaseAction {
     	 * Define two hashMaps to hold data and user maps to sort all Organizations with total counts for active, 
     	 * new, deleted and inactive accounts in one loop.
     	 */
+    	//clear the audit ID
+    	auditId = null;
     	orgsData = new HashMap<String, HashMap<String,DashboardData>>();
     	otherOrgsData = new HashMap<String, HashMap<String, DashboardData>>();
     	
     	//set up all environment for displaying dashboard page.
     	emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
-    	Long auditId = emAuditsVO.getId();
+    	auditId = emAuditsVO.getId();
     
     	List<AuditAccountVO> auditAccountVOs = impac2AuditService.getAllAccountsByAuditId(auditId);
     	List<AuditI2eAccountVO> auditI2eAccountVOs = i2eAuditService.getAllAccountsByAuditId(auditId);
@@ -548,6 +551,20 @@ public class AdminDashboardAction extends BaseAction {
 		this.emAuditsVO = emAuditsVO;
 	}
 	
+	/**
+	 * @return the auditId
+	 */
+	public Long getAuditId() {
+		return auditId;
+	}
+
+	/**
+	 * @param auditId the auditId to set
+	 */
+	public void setAuditId(Long auditId) {
+		this.auditId = auditId;
+	}
+
 	/**
 	 * @return the auditYear
 	 */
