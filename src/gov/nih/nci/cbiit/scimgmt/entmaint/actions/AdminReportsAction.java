@@ -142,6 +142,7 @@ public class AdminReportsAction extends BaseAction {
 	
 	private void setUpEnvironment(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
+		this.setFormAction("adminReports");
 		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
 			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
