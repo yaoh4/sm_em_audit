@@ -173,9 +173,9 @@ public class I2ePortfolioAction extends BaseAction {
 	public String getTitle() {
 		String title = "";
 		if((long)session.get(ApplicationConstants.CURRENTPAGE) == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_ACCOUNT){
-			title = "Active Accounts";
+			title = "I2E Accounts";
 		}else if((long)session.get(ApplicationConstants.CURRENTPAGE) == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY){
-			title = "All Active Accounts";
+			title = "I2E Accounts With Discrepancy";
 		}
 		return title;
 	}
