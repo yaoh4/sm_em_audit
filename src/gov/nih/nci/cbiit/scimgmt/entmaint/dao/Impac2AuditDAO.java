@@ -370,7 +370,9 @@ public class Impac2AuditDAO {
 					.add(Projections.property("activeSubmittedBy"), "activeSubmittedBy")
 					.add(Projections.property("newSubmittedBy"), "newSubmittedBy")
 					.add(Projections.property("deletedSubmittedBy"), "deletedSubmittedBy")
-					.add(Projections.property("inactiveSubmittedBy"), "inactiveSubmittedBy"));
+					.add(Projections.property("inactiveSubmittedBy"), "inactiveSubmittedBy")
+					.add(Projections.property("deletedByParentOrgPath"), "deletedByParentOrgPath")
+					.add(Projections.property("deletedByNciDoc"), "deletedByNciDoc"));
 
 			List<EmAuditAccountsVw> auditList = null;
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmAuditAccountsVw.class))
