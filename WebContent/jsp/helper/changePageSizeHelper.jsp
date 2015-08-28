@@ -1,6 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<s:form action="%{formAction}" cssClass="form-horizontal">
+<s:form action="reportSearch" cssClass="form-horizontal">
 <div style="display:block; padding-left: 10px; padding-top: 10px; font-size:0.9em; text-align:left;">
 	<label class="control-label col-sm-0" for="changePageSize">Change page size:</label>
 	<s:select name="changePageSize" id="changePageSize"
