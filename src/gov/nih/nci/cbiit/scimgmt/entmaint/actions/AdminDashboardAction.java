@@ -369,7 +369,14 @@ public class AdminDashboardAction extends BaseAction {
 		
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
-    			String org = audit.getParentNedOrgPath();
+    			//doing delete account first because the parentNedOrgPath will be null if deleted account appears.
+    			//Yuri, please confirm the following implementation from Subashini and Sunita???
+//    			Date deletedDate = audit.getDeletedDate();
+//    	    	if(deletedDate != null){
+//    	    		populateImpac2DeletedAccountData(audit);
+//    	    	}
+
+    	    	String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
     			if(org != null){
@@ -387,6 +394,33 @@ public class AdminDashboardAction extends BaseAction {
     	return;
 	}
 
+	/**
+	 * Since deleted account does not have the orgization name, we will based on deletedByOrgName to categorize the deleted account
+	 *  confirm with Subasini??
+	 */
+	
+	private void populateImpac2DeletedAccountData(AuditAccountVO audit){
+		//since parentOrgPath is empty for deleted account, we will use deletedByParentOrgPath as org name.
+    	String org = audit.getDeletedByParentOrgPath();
+    	String nciDoc = audit.getDeletedByNciDoc();
+    	String nedIc = audit.getNedIc();
+    	
+    	if(org == null || org.trim().length() < 1){
+    		return; //do not deal with empty org name, David will fix it later.
+    	}else{
+    		if(org != null){
+				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+						org = ApplicationConstants.ORG_PATH_NON_NCI;
+					}
+					classifyOrgCategory(otherOrgsData, org, audit);
+    			}else{
+    				classifyOrgCategory(orgsData, org, audit);
+				}
+			}
+    	}
+	}
+	
 	/**
 	 * Populate counts for I2e Dashboard data
 	 * 
