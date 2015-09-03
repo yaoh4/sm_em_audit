@@ -7,6 +7,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -156,6 +157,9 @@ public class Impac2PortfolioDAO {
 
 		} catch (Throwable e) {
 			log.error("Error while searching for IMPAC II accounts in portfolio view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: searchVO - " + searchVO + ", all - " + all);
+			log.error("Outgoing parameters: PaginatedList - " + paginatedList);
 			throw e;
 		}
 
@@ -187,6 +191,9 @@ public class Impac2PortfolioDAO {
 			saveOrUpdateNotes(notes);
 		} catch (Throwable e) {
 			log.error("Save notes failed for id=" + id + " text=" + text + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id + ", text - " + text + ", date - " + date);
+			log.error("Outgoing parameters: DBResult - " + result.getStatus());
 			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
@@ -198,7 +205,7 @@ public class Impac2PortfolioDAO {
 	 */
 	public String getPortfolioNoteById(String id){
 		String note = "";
-		Criteria crit;
+		Criteria crit = null;
 		try {
 			crit = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
 			note = "notes";
@@ -207,6 +214,9 @@ public class Impac2PortfolioDAO {
 			return (String)crit.uniqueResult();
 		} catch (HibernateException e) {
 			log.error("getPortfolioNoteById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id);
+			log.error("Outgoing parameters: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
 			throw e;
 		}
 	}

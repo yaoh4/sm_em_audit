@@ -7,6 +7,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2ePortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -125,6 +126,9 @@ public class I2ePortfolioDAO {
 
 		} catch (Throwable e) {
 			log.error("Error while searching for I2E accounts in portfolio view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: paginatedList - " + paginatedList + ", searchVO - " + searchVO +", all - " + all );
+			log.error("Outgoing parameters:  paginatedList - " + (paginatedList == null ? "NULL" :  paginatedList.toString()));
 			throw e;
 		}
 
@@ -156,6 +160,9 @@ public class I2ePortfolioDAO {
 			saveOrUpdateNotes(notes);
 		} catch (Throwable e) {
 			log.error("Save notes failed for id=" + id + " text=" + text + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id +", text - " + text +", date - " + date);
+			log.error("Outgoing parameters: DBResult - " + result.getStatus());
 			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
@@ -167,7 +174,7 @@ public class I2ePortfolioDAO {
 	 */
 	public String getPortfolioNoteById(Long id){
 		String note = "";
-		Criteria crit;
+		Criteria crit = null;
 		try {
 			crit = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
 			note = "notes";
@@ -176,6 +183,9 @@ public class I2ePortfolioDAO {
 			return (String)crit.uniqueResult();
 		} catch (HibernateException e) {
 			log.error("getPortfolioNoteById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id);
+			log.error("Outgoing paramters: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
 			throw e;
 		}
 	}

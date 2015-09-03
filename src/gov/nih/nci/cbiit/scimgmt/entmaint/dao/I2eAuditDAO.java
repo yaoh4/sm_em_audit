@@ -5,6 +5,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -51,6 +52,7 @@ public class I2eAuditDAO {
 	 */
 	public PaginatedListImpl<EmI2eAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for I2E active accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmI2eAuditAccountsVw> paginatedListResult = null;
 		try {
 	  
 			Criteria criteria = null;
@@ -74,10 +76,15 @@ public class I2eAuditDAO {
 				criteria.add(Restrictions.eq("unsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}
 
-			return getPaginatedListResult(paginatedList, criteria, all);
+			paginatedListResult = getPaginatedListResult(paginatedList, criteria, all);
+			
+			return paginatedListResult;
 
 		} catch (Throwable e) {
 			log.error("Error while searching for I2E active accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: PaginatedList - " + paginatedList + ", searchVO - " + searchVO + ", " + "all - " + all);
+			log.error("Outgoing parameters: PaginatedListImpl - " + (paginatedListResult == null ? "NULL" : "object ID=" + paginatedListResult.toString()));
 			throw e;
 		}
 	}
@@ -108,12 +115,15 @@ public class I2eAuditDAO {
 			account.setLastSubmittedByUserId(nciUser.getUserId().toUpperCase());
 			account.setLastSubmittedDate(date);
 			saveOrUpdateAction(account);
+			result.setStatus(DBResult.SUCCESS);
 		} catch (Throwable e) {
 			log.error("Submit Action in I2E Audit failed for Id=" + id + " actionId=" + actionId + " actionComments="
 					+ actionComments + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: id - " + id +", actionId - " + actionId + ", date" + date);
+			log.error("Outgoing parameters: DBResult - " + result.getStatus());
 			throw e;
 		}
-		result.setStatus(DBResult.SUCCESS);
 		return result;
 	}
 	
@@ -139,6 +149,9 @@ public class I2eAuditDAO {
 			}
 		} catch (Throwable e) {
 			log.error("Unsubmit Action in I2E Audit failed for Id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("pass-in parameters: id - " + id);
+			log.error("Outgoing Parameters: DBResult - " + result.getStatus());
 			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
@@ -152,13 +165,17 @@ public class I2eAuditDAO {
 	 * @return
 	 */
 	public EmI2eAuditAccountsVw getAuditAccountById(Long id) {
+		EmI2eAuditAccountsVw result = null;
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsVw.class);
 			crit.add(Restrictions.eq("id", id));
-			EmI2eAuditAccountsVw result = (EmI2eAuditAccountsVw) crit.uniqueResult();
+			result = (EmI2eAuditAccountsVw) crit.uniqueResult();
 			return result;
 		} catch (Throwable e) {
 			log.error("getAuditAccountById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id);
+			log.error("Outgoing parameters: EmI2eAuditAccountsVw - " + (result == null? "NULL" : result.getId()));
 			throw e;
 		}
 	}
@@ -167,7 +184,7 @@ public class I2eAuditDAO {
 	 * get Audit Note by id
 	 */
 	public String getAuditNoteById(Long id){
-		Criteria crit;
+		Criteria crit = null;
 		try {
 			crit = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsVw.class);
 			crit.setProjection(Projections.property("notes"));
@@ -175,6 +192,9 @@ public class I2eAuditDAO {
 			return (String)crit.uniqueResult();
 		} catch (HibernateException e) {
 			log.error("getAuditNoteById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id);
+			log.error("Outgoing parameters: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
 			throw e;
 		}
 	}
@@ -187,6 +207,7 @@ public class I2eAuditDAO {
 	 */
 	public List<EmI2eAuditAccountsVw> getAllAccountsByAuditId(Long auditId) {
 		log.debug("retrieving all I2e accounts from audit view for auditId: " + auditId);
+		List<EmI2eAuditAccountsVw> auditList = null;
 		try {
 
 			Criteria criteria = null;
@@ -200,13 +221,16 @@ public class I2eAuditDAO {
 					.add(Projections.property("nciDoc"), "nciDoc")
 					.add(Projections.property("submittedBy"), "submittedBy"));
 
-			List<EmI2eAuditAccountsVw> auditList = null;
+			
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmI2eAuditAccountsVw.class))
 					.list();
 
 			return auditList;
 		} catch (Throwable e) {
 			log.error("getAllAccountsByAuditId failed for auditId=" + auditId + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: auditId - " + auditId);
+			log.error("Outgoing Parameters: size od auditList - " + (auditList == null ? "NULL" : ""+auditList.size()));
 			throw e;
 		}
 	}

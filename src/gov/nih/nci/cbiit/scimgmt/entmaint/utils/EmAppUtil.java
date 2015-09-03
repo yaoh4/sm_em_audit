@@ -3,8 +3,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -12,6 +10,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -225,6 +224,14 @@ public class EmAppUtil {
 			label = "inactive";
 		}
 		return label;
+	}
+
+	public static void logUserID(NciUser nciUser, Logger logger){
+		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());
+	}
+
+	public static void logUserID(NciUser nciUser, Log logger){
+		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());
 	}
 
 }

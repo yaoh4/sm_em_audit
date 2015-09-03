@@ -11,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -74,7 +75,10 @@ public class AdminDAO  {
 			session.save(history);
         				
 		} catch (Throwable e) {		
-			logger.error("Error setting up audit data, new auditId: " + auditId, e);			
+			logger.error("Error setting up audit data, new auditId: " + auditId, e);
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Parameters: impaciiFromDate - " + impaciiFromDate + ", " + "impaciiToDate - " + impaciiToDate + ", " + 
+			              "comments - " + comments + ", " + "i2eAuditFlag - " + i2eAuditFlag);
 			throw e;		
 		}
 		return auditId;
@@ -102,7 +106,9 @@ public class AdminDAO  {
 			updateAuditHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_RESET, comments);
 			
 		} catch (Throwable e) {		
-			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);						
+			logger.error("Error while updating data in EM_AUDITS_T for auditId " + auditId, e);		
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Parameters: " + "auditId - " + auditId +", " + "comments - " + comments);
 			throw e;			 
 		}
 		
@@ -131,7 +137,9 @@ public class AdminDAO  {
 			logger.info("Inserted Audit History with id " + id + " for audit " + auditId);
         
 		} catch (Throwable e) {		
-			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);						
+			logger.error("Error while updating data in EM_AUDIT_HISTORY_T for auditId " + auditId, e);		
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Parameters: auditID - " + auditId +", " + "actionCode - " + actionCode +", comments - " + comments);
 			throw e;			
 		}
 		
@@ -207,7 +215,10 @@ public class AdminDAO  {
 				session.evict(emAuditsVw);
 			}
 		} catch (Throwable e) {		
-			logger.error("Error retrieving data from EM_AUDITS_VW ", e);			
+			logger.error("Error retrieving data from EM_AUDITS_VW ", e);		
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Pass-in Parameters: None");
+			logger.error("outgoing parameters: EmAuditsVw - " + (emAuditsVw == null ? "NULL" : "Object ID=" + emAuditsVw.getId() ));
 			throw e;	
 		}
 		
@@ -227,7 +238,10 @@ public class AdminDAO  {
 				session.evict(emAuditsVw);
 			}
 		} catch (Throwable e) {		
-			logger.error("Error retrieving data from EM_AUDITS_VW ", e);			
+			logger.error("Error retrieving data from EM_AUDITS_VW ", e);	
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Pass-in Parameters: " + " auditId - " + auditId);
+			logger.error("Outgoing paramters: EmAuditsVw = " + (emAuditsVw == null ? "NULL" : "Object ID=" + emAuditsVw.getId()));
 			throw e;	
 		}
 		
@@ -249,6 +263,9 @@ public class AdminDAO  {
 			session.evict(emAuditsVw);
 		} catch (Throwable e) {		
 			logger.error("Error retrieving data from EM_AUDITS_VW for auditId " + auditId, e);			
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Pass-in Parameters: auditID - " + auditId);
+			logger.error("Outgoing parameters: EmAuditsVw - " + (emAuditsVw == null ? "NULL" : "Object ID=" + emAuditsVw.getId()));
 			throw e;
 		}
 		
@@ -274,7 +291,10 @@ public class AdminDAO  {
 				}
 			}
 		} catch (Throwable e) {		
-			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
+			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);		
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Parameters: None");
+			logger.error("Outgoing Parameters: List<EmAuditsVw - " + (emAudits == null ? "NULL" : "Size of List=" + emAudits.size()));
 			throw e;	
 		}
 		
@@ -301,11 +321,14 @@ public class AdminDAO  {
 				}
 			}
 		} catch (Throwable e) {		
-			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);			
+			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);	
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Outgoing Parameters: List<EmAuditsVw - " + (emAudits == null ? "NULL" : "Size of List=" + emAudits.size()));
 			throw e;	
 		}
 		
 		return emAudits;
 	}
 	
+
 }

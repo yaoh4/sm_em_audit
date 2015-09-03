@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.HibernateDAOException;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class PropertyListDAO  {
 			logger.info("criteria " + criteria.toString());
 			result = criteria.list();
 		} catch (Exception e) {
+			logger.error("Pass-in parameters: listName - " + listName);
+			logger.error("Outgoing parameters: Result - " + result);
 			throw new HibernateDAOException(e.getMessage());
 
 		}
