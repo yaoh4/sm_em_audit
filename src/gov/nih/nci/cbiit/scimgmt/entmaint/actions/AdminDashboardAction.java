@@ -370,11 +370,10 @@ public class AdminDashboardAction extends BaseAction {
     	if(auditAccountVOs != null && auditAccountVOs.size() > 0){
     		for(AuditAccountVO audit : auditAccountVOs){
     			//doing delete account first because the parentNedOrgPath will be null if deleted account appears.
-    			//Yuri, please confirm the following implementation from Subashini and Sunita???
-//    			Date deletedDate = audit.getDeletedDate();
-//    	    	if(deletedDate != null){
-//    	    		populateImpac2DeletedAccountData(audit);
-//    	    	}
+    			Date deletedDate = audit.getDeletedDate();
+    	    	if(deletedDate != null){
+    	    		populateImpac2DeletedAccountData(audit);
+    	    	}
 
     	    	String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
