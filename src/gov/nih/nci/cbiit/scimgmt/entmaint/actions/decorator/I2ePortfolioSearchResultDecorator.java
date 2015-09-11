@@ -145,7 +145,10 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		}
 		String orgPath = "<table width='100%' border='0'>";
 		for(I2eActiveUserRolesVw roleVw : roles){
-			orgPath = orgPath + "<tr><td>" + roleVw.getFullOrgPathAbbrev() +"</td></tr>";
+			int beginIndex = roleVw.getFullOrgPathAbbrev().lastIndexOf("/");
+			String lastOrg = (beginIndex > 0 ?  roleVw.getFullOrgPathAbbrev().substring(beginIndex + 1) : roleVw.getFullOrgPathAbbrev());
+			String displayStr = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
+			orgPath = orgPath + "<tr><td>" + displayStr +"</td></tr>";
 		}
 		orgPath = orgPath + "</table>";
 		return orgPath;
