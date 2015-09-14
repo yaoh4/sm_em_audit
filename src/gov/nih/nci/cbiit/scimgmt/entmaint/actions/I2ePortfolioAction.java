@@ -252,15 +252,27 @@ public class I2ePortfolioAction extends BaseAction {
 	 * This method returns rolesColumns.
 	 * @return List<Tab>
 	 */
-	public List<Tab> getI2ePortfolioAccountsRolesColumns(){
-		return auditSearchActionHelper.getNestedTableColumns(displayColumn, ApplicationConstants.I2E_PORTFOLIO_ACCOUNT);
+	public List<Tab> getI2ePortfolioAccountsRolesColumns(){		
+		return auditSearchActionHelper.getNestedTableColumns(displayColumn, getPortfolioAccountType());
 	}
 	
 	/**
 	 * This method returns roles Columns titles.
 	 * @return String
 	 */
-	public String getI2ePortfolioAccountsRolesColumnsNames(){		
-		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.I2E_PORTFOLIO_ACCOUNT);
+	public String getI2ePortfolioAccountsRolesColumnsNames(){			
+		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, getPortfolioAccountType());
+	}
+	
+	/**
+	 * This method returns portfolioAccountType i.e. I2E Accounts/ I2E Accounts with discrepancy.
+	 * @return String
+	 */
+	public String getPortfolioAccountType(){
+		String portfolioAccountType =  ApplicationConstants.I2E_PORTFOLIO_ACCOUNT;
+		if (searchVO.getCategory().longValue() == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY) {
+			portfolioAccountType = ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY;
+		}
+		return portfolioAccountType;
 	}
 }

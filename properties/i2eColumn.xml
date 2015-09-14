@@ -143,18 +143,21 @@
  		<columnName>Role Org Path</columnName>
  		<property>orgPath</property>
  		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>Active I2E Role(s)</columnName>
  		<property>activeI2eRole</property>
  		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
  		<columnName>I2E Role(s) Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
  	</Tab>
   	<Tab>
  		<type>i2eDiscrepancy</type>
