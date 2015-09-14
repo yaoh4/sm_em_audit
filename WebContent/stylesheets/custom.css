@@ -187,3 +187,12 @@ legend {
 	padding-left: 15px;
 	
 }
+
+span.rolesHeader{
+	width: 33.1%;
+	display: inline-block;
+}
+table.nestedTableStyle{
+	table-layout: fixed;
+	margin-bottom:0px;
+}

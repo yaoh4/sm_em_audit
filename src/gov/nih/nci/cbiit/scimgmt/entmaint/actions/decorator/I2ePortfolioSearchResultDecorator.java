@@ -100,18 +100,11 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 	 * @return applicationRole string with info icon.
 	 */
 	public String getActiveI2eRole(){
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		List<I2eActiveUserRolesVw> roles = portfolioVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String role = "<table width='100%' border='0'>";
-		for(I2eActiveUserRolesVw roleVw : roles){
-			String createdBy = roleVw.getRoleCreatedByFullName();
-			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;</td></tr>";
-		}
-		role = role + "</table>";
+		String role = "";
+		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();		
+		if(StringUtils.isNotBlank(roleVw.getRoleCreatedByFullName()) && StringUtils.isNotBlank(roleVw.getRoleName())){
+			role = role + "<span title='" + roleVw.getRoleCreatedByFullName() + "'>" +  roleVw.getRoleName() + "</span>&nbsp;";
+		}		
 		return role;
 	}
 	
@@ -120,17 +113,12 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 	 * @return role created date in mm/dd/yyyy format.
 	 */
 	public String getRoleCreateOn(){
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		List<I2eActiveUserRolesVw> roles = portfolioVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String createDate = "<table width='100%' border='0'>";
-		for(I2eActiveUserRolesVw roleVw : roles){
-			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getRoleCreatedDate()) + "</td></tr>";
-		}
-		createDate = createDate + "</table>";
-		return createDate;
+		String createDate = "";
+		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();
+		if(roleVw.getRoleCreatedDate() != null){
+			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getRoleCreatedDate());
+		}		
+		return createDate;	
 	}
 	
 	/**
@@ -138,19 +126,13 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 	 * @return String
 	 */
 	public String getOrgPath(){
-		PortfolioI2eAccountVO accountVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		List<I2eActiveUserRolesVw> roles = accountVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String orgPath = "<table width='100%' border='0'>";
-		for(I2eActiveUserRolesVw roleVw : roles){
+		String orgPath = "";
+		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();
+		if(StringUtils.isNotBlank(roleVw.getFullOrgPathAbbrev())){
 			int beginIndex = roleVw.getFullOrgPathAbbrev().lastIndexOf("/");
 			String lastOrg = (beginIndex > 0 ?  roleVw.getFullOrgPathAbbrev().substring(beginIndex + 1) : roleVw.getFullOrgPathAbbrev());
-			String displayStr = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
-			orgPath = orgPath + "<tr><td>" + displayStr +"</td></tr>";
+			orgPath = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
 		}
-		orgPath = orgPath + "</table>";
 		return orgPath;
 	}
 	

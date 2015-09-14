@@ -292,4 +292,20 @@ public class I2eAuditAction extends BaseAction {
 		this.role = role;
 	}
 	
+	/**
+	 * This method returns rolesColumns.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getI2eAuditAccountsRolesColumns(){
+		return auditSearchActionHelper.getNestedTableColumns(displayColumn, ApplicationConstants.I2E_AUDIT_ACTIVE);
+	}
+	
+	/**
+	 * This method returns roles Columns titles.
+	 * @return String
+	 */
+	public String getI2eAuditAccountsRolesColumnsNames(){		
+		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.I2E_AUDIT_ACTIVE);
+	}
+	
 }

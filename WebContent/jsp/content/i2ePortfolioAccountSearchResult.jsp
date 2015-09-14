@@ -26,9 +26,32 @@
 <body onload="moveToAnchor();"></body>
 <div class="table-responsive">
 <display:table class="table table-bordered" name="i2ePortfolioAccounts" id="i2ePortfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
+
+<s:set var="i2ePortfolioAccountsRoles" value="%{#attr['i2ePortfolioAccountsId'].accountRoles}" />
+<s:set var="i2ePortfolioAccountsRolesId" value="%{#attr['i2ePortfolioAccountsId'].npnId}" />
+<s:set var="i2ePortfolioAccountsRolesColumns" value="%{getI2ePortfolioAccountsRolesColumns()}" />
+<s:set var="i2ePortfolioAccountsRolesColumnsNames" value="%{getI2ePortfolioAccountsRolesColumnsNames()}" />
+		
 <s:iterator var="t" value="displayColumn">
  <s:if test="#t.display == 'true'">
-	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+ 	<s:if test="#t.isNestedColumn == 'false'">
+		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+	</s:if>
+ 	<s:if test="#t.columnName == 'Created/Last Updated By'">
+ 		<display:column title="${i2ePortfolioAccountsRolesColumnsNames}" style="width:30%;">
+ 		
+			<display:table class="table table-bordered nestedTableStyle" name="${i2ePortfolioAccountsRoles}" id="i2ePortfolioAccountsRoles_${i2ePortfolioAccountsRolesId}" 
+						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
+						   
+			<display:setProperty name="basic.show.header" value="false" />
+			
+				<s:iterator var="t" value="i2ePortfolioAccountsRolesColumns">
+					<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
+				</s:iterator>
+				
+			</display:table>
+		</display:column>
+ 	</s:if> 	
  </s:if>
 </s:iterator>
 </display:table>

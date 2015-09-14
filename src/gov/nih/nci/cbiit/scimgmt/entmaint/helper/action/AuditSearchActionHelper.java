@@ -19,6 +19,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
 	
+	public static final String ROLE_ORG_PATH = "Role Org Path";
 
 	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		
@@ -224,5 +225,33 @@ public class AuditSearchActionHelper {
 			}
 		}
 		return categoryList;
+	}
+	
+	/**
+	 * This method returns nested columns for requested type.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getNestedTableColumns(List<Tab> displayColumn, String type){
+		ArrayList<Tab> nestedColumns = new ArrayList<Tab>();
+		for(Tab tab : displayColumn){
+			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
+				nestedColumns.add(tab);
+			}
+		}
+		return nestedColumns;
+	}
+	
+	/**
+	 * This method returns Nested Columns titles for requested type.
+	 * @return String
+	 */
+	public String getNestedTableColumnsNames(List<Tab> displayColumn, String type){
+		String nestedColumnsNames = "";
+		for(Tab tab : displayColumn){
+			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
+				nestedColumnsNames += "<span class='rolesHeader'>" + (!ROLE_ORG_PATH.equalsIgnoreCase(tab.getColumnName()) ? " | " : "") + tab.getColumnName() + "</span>";
+			}
+		}	
+		return nestedColumnsNames;
 	}
 }

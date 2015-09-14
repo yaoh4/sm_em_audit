@@ -107,18 +107,11 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 	 * @return applicationRole string with info icon.
 	 */
 	public String getActiveI2eRole(){
-		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
-		List<EmI2eAuditAccountRolesVw> roles = auditVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String role = "<table width='100%' border='0'>";
-		for(EmI2eAuditAccountRolesVw roleVw : roles){
-			String createdBy = "";
-			String roleName = roleVw.getRoleDescription();
-			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;</td></tr>";
-		}
-		role = role + "</table>";
+		String role = "";
+		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();		
+		if(StringUtils.isNotBlank(roleVw.getRoleDescription())){
+			role = roleVw.getRoleDescription();
+		}		
 		return role;
 	}
 	
@@ -127,17 +120,12 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 	 * @return role created date in mm/dd/yyyy format.
 	 */
 	public String getRoleCreateOn(){
-		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
-		List<EmI2eAuditAccountRolesVw> roles = auditVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String createDate = "<table width='100%' border='0'>";
-		for(EmI2eAuditAccountRolesVw roleVw : roles){
-			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
-		}
-		createDate = createDate + "</table>";
-		return createDate;
+		String createDate = "";
+		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();
+		if(roleVw.getCreatedDate() != null){
+			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate());
+		}		
+		return createDate;	
 	}
 	
 	/**
@@ -286,19 +274,13 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 	 * @return String
 	 */
 	public String getOrgPath(){
-		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
-		List<EmI2eAuditAccountRolesVw> roles = accountVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
-			return "";
-		}
-		String orgPath = "<table width='100%' border='0'>";
-		for(EmI2eAuditAccountRolesVw roleVw : roles){
+		String orgPath = "";
+		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();
+		if(StringUtils.isNotBlank(roleVw.getFullOrgPathAbbrev())){
 			int beginIndex = roleVw.getFullOrgPathAbbrev().lastIndexOf("/");
 			String lastOrg = (beginIndex > 0 ?  roleVw.getFullOrgPathAbbrev().substring(beginIndex + 1) : roleVw.getFullOrgPathAbbrev());
-			String displayStr = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
-			orgPath = orgPath + "<tr><td>" + displayStr +"</td></tr>";
+			orgPath = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";			
 		}
-		orgPath = orgPath + "</table>";
 		return orgPath;
 	}
 	
