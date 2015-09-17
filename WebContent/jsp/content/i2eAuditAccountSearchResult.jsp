@@ -38,7 +38,7 @@
 		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
 	</s:if>
  	<s:if test="#t.columnName == 'Created/Last Updated By'">
- 		<display:column title="${i2eAuditAccountsRolesColumnsNames}" style="width:30%;">
+ 		<display:column title="${i2eAuditAccountsRolesColumnsNames}" style="width:32%;">
  		
 			<display:table class="table table-bordered nestedTableStyle" name="${i2eAuditAccountsRoles}" id="i2eAuditAccountsRoles_${i2eAuditAccountsRolesId}" 
 						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2eAuditSearchResultDecorator">
