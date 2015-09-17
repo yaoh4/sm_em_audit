@@ -49,8 +49,8 @@
             <property name="nedIc" type="string">
                 <column name="NED_IC" length="576" />
             </property>
-            <property name="nedActiveFlag" type="string">
-                <column name="NED_ACTIVE_FLAG" length="3" />
+            <property name="nedActiveFlag" type="yes_no">
+                <column name="NED_ACTIVE_FLAG" length="1" />
             </property>
             <property name="nciDoc" type="string">
                 <column name="NCI_DOC" length="5" />
@@ -76,7 +76,7 @@
             <property name="i2eOnlyFlag" type="yes_no">
                 <column name="I2E_ONLY_FLAG" length="1" />
             </property>
-            <property name="sodFlag" type="string">
+            <property name="sodFlag" type="yes_no">
                 <column name="SOD_FLAG" length="0" />
             </property>
             <property name="nedInactiveFlag" type="yes_no">
@@ -85,8 +85,8 @@
             <property name="noActiveRoleFlag" type="yes_no">
                 <column name="NO_ACTIVE_ROLE_FLAG" length="1" />
             </property>
-            <property name="activeRoleRemainderFlag" type="string">
-                <column name="ACTIVE_ROLE_REMAINDER_FLAG" length="0" />
+            <property name="activeRoleRemainderFlag" type="yes_no">
+                <column name="ACTIVE_ROLE_REMAINDER_FLAG" length="1" />
             </property>
             <bag name="accountRoles" table="EM_I2E_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>

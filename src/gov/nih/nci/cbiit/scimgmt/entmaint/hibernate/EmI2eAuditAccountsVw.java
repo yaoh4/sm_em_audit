@@ -26,7 +26,7 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private String nedActiveFlag;
+	private Boolean nedActiveFlag;
 	private String nciDoc;
 	private String lastUpdByFullName;
 	private AppLookupT action;
@@ -35,10 +35,10 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private String submittedBy;
 	private Date submittedDate;
 	private Boolean i2eOnlyFlag;
-	private String sodFlag;
+	private Boolean sodFlag;
 	private Boolean nedInactiveFlag;
 	private Boolean noActiveRoleFlag;
-	private String activeRoleRemainderFlag;
+	private Boolean activeRoleRemainderFlag;
 	private List<EmI2eAuditAccountRolesVw> accountRoles = new ArrayList<EmI2eAuditAccountRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 
@@ -52,10 +52,10 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 
 	public EmI2eAuditAccountsVw(Long id, Long auditId, String npnId, String nihNetworkId, String lastName,
 			String firstName, Date createdDate, String nedLastName, String nedFirstName, String i2eLastName, String i2eFirstName,
-			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag,
+			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag,
 			String nciDoc, String lastUpdByFullName, AppLookupT action, String notes, String unsubmittedFlag,
-			String submittedBy, Date submittedDate, Boolean i2eOnlyFlag, String sodFlag, Boolean nedInactiveFlag, Boolean noActiveRoleFlag,
-			String activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
+			String submittedBy, Date submittedDate, Boolean i2eOnlyFlag, Boolean sodFlag, Boolean nedInactiveFlag, Boolean noActiveRoleFlag,
+			Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
 		this.id = id;
 		this.auditId = auditId;
 		this.npnId = npnId;
@@ -208,11 +208,11 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.nedIc = nedIc;
 	}
 
-	public String getNedActiveFlag() {
+	public Boolean getNedActiveFlag() {
 		return this.nedActiveFlag;
 	}
 
-	public void setNedActiveFlag(String nedActiveFlag) {
+	public void setNedActiveFlag(Boolean nedActiveFlag) {
 		this.nedActiveFlag = nedActiveFlag;
 	}
 
@@ -280,11 +280,11 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.i2eOnlyFlag = i2eOnlyFlag;
 	}
 
-	public String getSodFlag() {
+	public Boolean getSodFlag() {
 		return this.sodFlag;
 	}
 
-	public void setSodFlag(String sodFlag) {
+	public void setSodFlag(Boolean sodFlag) {
 		this.sodFlag = sodFlag;
 	}
 
@@ -304,11 +304,11 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.noActiveRoleFlag = noActiveRoleFlag;
 	}
 
-	public String getActiveRoleRemainderFlag() {
+	public Boolean getActiveRoleRemainderFlag() {
 		return this.activeRoleRemainderFlag;
 	}
 
-	public void setActiveRoleRemainderFlag(String activeRoleRemainderFlag) {
+	public void setActiveRoleRemainderFlag(Boolean activeRoleRemainderFlag) {
 		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
 	}
 	

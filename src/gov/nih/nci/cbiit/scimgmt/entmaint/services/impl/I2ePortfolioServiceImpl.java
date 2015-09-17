@@ -122,27 +122,27 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 	private List<String> populateAccountDiscrepancy(EmI2ePortfolioVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
-		if(account.getSodFlag() != null) {
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_SOD);
 		}
 
 		// Check if NED_ACTIVE_FLAG is N
-		if (account.getNedInactiveFlag() != null) {
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NED_INACTIVE);
 		}
 		
 		// Check for Active I2E Account/Inactive I2E Role(s)
-		if (account.getNoActiveRoleFlag() != null) {
+		if (account.getNoActiveRoleFlag() != null && account.getNoActiveRoleFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE);
 		}
 
 		// Check for Active I2E Account/Inactive IMPAC II Account
-		if (account.getI2eOnlyFlag() != null) {
+		if (account.getI2eOnlyFlag() != null && account.getI2eOnlyFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ONLY);
 		}
 		
 		// Check for Inactive I2E Account/Active I2E Role(s)
-		if (account.getActiveRoleRemainderFlag() != null) {
+		if (account.getActiveRoleRemainderFlag() != null && account.getActiveRoleRemainderFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
 		}
 				

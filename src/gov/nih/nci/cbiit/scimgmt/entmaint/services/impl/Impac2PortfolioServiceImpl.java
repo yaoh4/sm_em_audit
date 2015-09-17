@@ -120,22 +120,22 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	private List<String> populateAccountDiscrepancy(EmPortfolioVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
-		if(account.getSodFlag() != null) {
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
 		// Check if NED_IC is not NCI
-		if (account.getIcDiffFlag() != null) {
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
 		}
 
 		// Check if NED_ACTIVE_FLAG is N
-		if (account.getNedInactiveFlag() != null) {
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
 		}
 
 		// Check if last name is different between IMPACII and NED
-		if (account.getLastNameDiffFlag() != null) {
+		if (account.getLastNameDiffFlag() != null && account.getLastNameDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;

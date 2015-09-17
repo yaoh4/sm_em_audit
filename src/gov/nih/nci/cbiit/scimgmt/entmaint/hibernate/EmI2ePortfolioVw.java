@@ -24,7 +24,7 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private String nedActiveFlag;
+	private Boolean nedActiveFlag;
 	private String nciDoc;
 	private Date createdDate;
 	private String lastUpdByFullName;
@@ -51,7 +51,7 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 
 	public EmI2ePortfolioVw(Long npnId, String oracleId, String nihNetworkId, String lastName, String firstName,
 			String i2eLastName, String i2eFirstName, String nedLastName, String nedFirstName, String nedEmailAddress,
-			String parentNedOrgPath, String nedOrgPath, String nedIc, String nedActiveFlag, String nciDoc,
+			String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag, String nciDoc,
 			Date createdDate, String lastUpdByFullName, Boolean i2eOnlyFlag, String notes,
 			String notesSubmittedByFullName, Date notesSubmittedDate, Boolean sodFlag, Boolean nedInactiveFlag,
 			Boolean noActiveRoleFlag, Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
@@ -188,11 +188,11 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 		this.nedIc = nedIc;
 	}
 
-	public String getNedActiveFlag() {
+	public Boolean getNedActiveFlag() {
 		return this.nedActiveFlag;
 	}
 
-	public void setNedActiveFlag(String nedActiveFlag) {
+	public void setNedActiveFlag(Boolean nedActiveFlag) {
 		this.nedActiveFlag = nedActiveFlag;
 	}
 

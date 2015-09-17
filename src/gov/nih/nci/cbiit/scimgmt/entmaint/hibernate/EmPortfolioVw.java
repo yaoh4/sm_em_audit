@@ -23,7 +23,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private String nedActiveFlag;
+	private Boolean nedActiveFlag;
 	private String nciDoc;
 	private Date createdDate;
 	private String createdByUserId;
@@ -57,7 +57,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 
 	public EmPortfolioVw(String impaciiUserId, String nihNetworkId, String lastName, String firstName, String impaciiLastName, String impaciiFirstName,
 			String nedLastName, String nedFirstName, String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
-			String nedActiveFlag, String nciDoc, Date createdDate, String createdByUserId, String createdByFullName,
+			Boolean nedActiveFlag, String nciDoc, Date createdDate, String createdByUserId, String createdByFullName,
 			Date deletedDate, String deletedByUserId, String deletedByFullName, String deactivationComments,
 			String secondaryOrgText, String lastLoginDate, String impaciiOnlyFlag, String notes,
 			String notesSubmittedByFullName, Date notesSubmittedDate,
@@ -253,7 +253,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 		return nciDoc;
 	}
 
-	public String getNedActiveFlag() {
+	public Boolean getNedActiveFlag() {
 		return nedActiveFlag;
 	}
 
@@ -399,7 +399,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 		this.nciDoc = nciDoc;
 	}
 
-	public void setNedActiveFlag(String nedActiveFlag) {
+	public void setNedActiveFlag(Boolean nedActiveFlag) {
 		this.nedActiveFlag = nedActiveFlag;
 	}
 
