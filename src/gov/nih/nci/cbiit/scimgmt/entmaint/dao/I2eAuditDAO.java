@@ -363,6 +363,21 @@ public class I2eAuditDAO {
 					criteria.addOrder(Order.asc("notes"));
 				else
 					criteria.addOrder(Order.desc("notes"));
+			}else if (sortOrderCriterion.equalsIgnoreCase("discrepancy")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("sodFlag"));
+					criteria.addOrder(Order.asc("nedInactiveFlag"));
+					criteria.addOrder(Order.asc("noActiveRoleFlag"));
+					criteria.addOrder(Order.asc("i2eOnlyFlag"));
+					criteria.addOrder(Order.asc("activeRoleRemainderFlag"));
+				}
+				else {
+					criteria.addOrder(Order.desc("sodFlag"));
+					criteria.addOrder(Order.desc("nedInactiveFlag"));
+					criteria.addOrder(Order.desc("noActiveRoleFlag"));
+					criteria.addOrder(Order.desc("i2eOnlyFlag"));
+					criteria.addOrder(Order.desc("activeRoleRemainderFlag"));
+				}
 			}else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 					criteria.addOrder(Order.asc(sortOrderCriterion));

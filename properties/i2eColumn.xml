@@ -175,7 +175,7 @@
  		<type>i2eActive</type>
  		<columnName>I2E Discrepancy</columnName>
  		<property>discrepancy</property>
-		<sort>false</sort>
+		<sort>true</sort>
 		<export>false</export>
  	</Tab>
  	 	<Tab>
