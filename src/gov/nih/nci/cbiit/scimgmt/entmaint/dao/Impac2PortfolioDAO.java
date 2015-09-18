@@ -334,6 +334,7 @@ public class Impac2PortfolioDAO {
         disc.add(Restrictions.eq("nedInactiveFlag", true));
         disc.add(Restrictions.eq("lastNameDiffFlag", true));
         criteria.add(disc);
+        criteria.add(Restrictions.isNull("deletedDate"));
 		return criteria;
 	}
 	
