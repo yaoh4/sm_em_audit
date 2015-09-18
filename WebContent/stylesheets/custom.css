@@ -196,4 +196,12 @@ span.rolesHeader{
 table.nestedTableStyle{
 	table-layout: fixed;
 	margin-bottom:0px;
+	width:400px;
+	min-width:100%;
+	max-width:100%;	
+}
+.nestedTableStyle td{
+	/*Boostrap's table-responsive class has white-space:no-wrap which messes with the Nested table contents when table is enlarged.*/
+	/* To avoid overlapping of nested table columns we are overriding that property here.*/
+	white-space:normal;
 }
