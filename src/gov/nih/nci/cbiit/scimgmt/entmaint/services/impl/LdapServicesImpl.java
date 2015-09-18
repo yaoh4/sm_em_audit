@@ -74,17 +74,21 @@ public class LdapServicesImpl implements LdapServices {
         // Load user EM roles
         applicationService.loadPersonInfo(nciUser);
         
-        // For non production environment, give IC coordinator role to application developers
+        // Give IC coordinator role to application developers
+        // Changed to allow production environment APP_DEVELOPER role for validation
         if (entMaintProperties.getPropertyValue("ENVIRONMENT").contains("Development") ||
-            	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") ||
-            	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage")) {
+            	entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") ||
+            	entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage") ||
+            	entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Production")) {
         	String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
-            String[] appDevUsers  = devUsers.split(",");
-            for (int i=0;i <appDevUsers.length;i++){
-                if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])){
-                    nciUser.setCurrentUserRole("EMREP");
-                }
-            }
+        	if(devUsers != null) {
+				String[] appDevUsers = devUsers.split(",");
+				for (int i = 0; i < appDevUsers.length; i++) {
+					if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
+						nciUser.setCurrentUserRole("EMREP");
+					}
+				}
+        	}
         }
         
         // Verify that the logged on user has the role to access the application
