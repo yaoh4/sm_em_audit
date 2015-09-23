@@ -89,7 +89,7 @@
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>Active I2E Account/Inactive I2E Role(s)</columnName>
+ 		<columnName>Active I2E Account/Inactive I2E Role</columnName>
  		<property>discrepancyInactiveI2eRole</property>
  		<sort>false</sort>
  		<display>false</display>
@@ -103,7 +103,7 @@
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>Inactive I2E Account/Active I2E Role(s)</columnName>
+ 		<columnName>Inactive I2E Account/Active I2E Role</columnName>
  		<property>discrepancyI2eInactive</property>
  		<sort>false</sort>
  		<display>false</display>
@@ -147,14 +147,14 @@
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>Active I2E Role(s)</columnName>
+ 		<columnName>Active I2E Role</columnName>
  		<property>activeI2eRole</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
- 		<columnName>I2E Role(s) Created On</columnName>
+ 		<columnName>I2E Role Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
@@ -194,7 +194,7 @@
  	</Tab>
  	<Tab>
  		<type>i2eActive</type>
- 		<columnName>Active I2E Account/Inactive I2E Role(s)</columnName>
+ 		<columnName>Active I2E Account/Inactive I2E Role</columnName>
  		<property>discrepancyInactiveI2eRole</property>
  		<sort>false</sort>
  		<display>false</display>
@@ -208,7 +208,7 @@
  	</Tab>
  	<Tab>
  		<type>i2eActive</type>
- 		<columnName>Inactive I2E Account/Active I2E Role(s)</columnName>
+ 		<columnName>Inactive I2E Account/Active I2E Role</columnName>
  		<property>discrepancyI2eInactive</property>
  		<sort>false</sort>
  		<display>false</display>
@@ -252,14 +252,14 @@
  	</Tab>
  	<Tab>
  		<type>i2eActive</type>
- 		<columnName>Active I2E Role(s)</columnName>
+ 		<columnName>Active I2E Role</columnName>
  		<property>activeI2eRole</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
  	</Tab>
  	<Tab>
  		<type>i2eActive</type>
- 		<columnName>I2E Role(s) Created On</columnName>
+ 		<columnName>I2E Role Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>

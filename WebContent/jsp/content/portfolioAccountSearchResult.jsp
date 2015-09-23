@@ -27,7 +27,7 @@
 <display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=sortAction%>" excludedParams="sortAction size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
-	<s:if test="#t.columnName == 'IMPAC II Application Role(s)'">
+	<s:if test="#t.columnName == 'IMPAC II Application Role'">
 		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}" style="white-space:nowrap;"/>
 	</s:if>
 	<s:else>
