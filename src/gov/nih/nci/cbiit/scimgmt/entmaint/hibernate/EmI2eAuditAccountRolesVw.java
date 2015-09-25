@@ -17,6 +17,7 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 	private String fullOrgPathAbbrev;
 	private String fullOrgPathDescription;
 	private Date createdDate;
+	private String createdByFullName;
 
 	public EmI2eAuditAccountRolesVw() {
 	}
@@ -28,7 +29,7 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 	}
 
 	public EmI2eAuditAccountRolesVw(Long eiaaId, Long npeId, String roleCode, String roleDescription,
-			Long orgId, String fullOrgPathAbbrev, String fullOrgPathDescription, Date createdDate) {
+			Long orgId, String fullOrgPathAbbrev, String fullOrgPathDescription, Date createdDate, String createdByFullName) {
 		this.eiaaId = eiaaId;
 		this.npeId = npeId;
 		this.roleCode = roleCode;
@@ -37,6 +38,7 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 		this.fullOrgPathAbbrev = fullOrgPathAbbrev;
 		this.fullOrgPathDescription = fullOrgPathDescription;
 		this.createdDate = createdDate;
+		this.createdByFullName = createdByFullName;
 	}
 
 	public Long getEiaaId() {
@@ -103,6 +105,14 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 		this.npeId = npeId;
 	}
 
+	public String getCreatedByFullName() {
+		return createdByFullName;
+	}
+
+	public void setCreatedByFullName(String createdByFullName) {
+		this.createdByFullName = createdByFullName;
+	}
+	
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -131,7 +141,10 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 						.getFullOrgPathDescription().equals(castOther.getFullOrgPathDescription())))
 				&& ((this.getCreatedDate() == castOther.getCreatedDate()) || (this.getCreatedDate() != null
 						&& castOther.getCreatedDate() != null && this.getCreatedDate().equals(
-						castOther.getCreatedDate())));
+						castOther.getCreatedDate())))
+				&& ((this.getCreatedByFullName() == castOther.getCreatedByFullName()) || (this
+						.getCreatedByFullName() != null && castOther.getCreatedByFullName() != null && this
+						.getCreatedByFullName().equals(castOther.getCreatedByFullName())));
 	}
 
 	public int hashCode() {
@@ -145,6 +158,7 @@ public class EmI2eAuditAccountRolesVw implements java.io.Serializable {
 		result = 37 * result + (getFullOrgPathAbbrev() == null ? 0 : this.getFullOrgPathAbbrev().hashCode());
 		result = 37 * result + (getFullOrgPathDescription() == null ? 0 : this.getFullOrgPathDescription().hashCode());
 		result = 37 * result + (getCreatedDate() == null ? 0 : this.getCreatedDate().hashCode());
+		result = 37 * result + (getCreatedByFullName() == null ? 0 : this.getCreatedByFullName().hashCode());
 		return result;
 	}
 

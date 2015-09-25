@@ -30,6 +30,8 @@
             <property name="createdDate" type="timestamp">
                 <column name="CREATED_DATE" length="7" />
             </property>
-        
+        	<property name="createdByFullName" type="string">
+                <column name="CREATED_BY_FULL_NAME" length="80" />
+            </property>
     </class>
 </hibernate-mapping>
