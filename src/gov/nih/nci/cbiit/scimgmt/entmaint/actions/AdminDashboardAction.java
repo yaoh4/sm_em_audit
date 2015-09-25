@@ -211,6 +211,37 @@ public class AdminDashboardAction extends BaseAction {
     }
    
     /** 
+     * Calculate counts, including total, uncompleted numbers sorted by organization names. The other organization needs to computer seperately.
+     * @param audit
+     * @param dashData
+     */
+    private void setCountForDeletedCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    	
+	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
+    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
+    	Date deletedDate = audit.getDeletedDate();
+   	
+    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
+   	
+    	try {
+			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	
+    	//determine deleted account
+    	if(deletedDate != null && 
+    			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
+    			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
+    		incrementCountByCategory(audit, dashData, DELETED);
+    		if(!StringUtils.isEmpty(audit.getDeletedSubmittedBy())){
+    			incrementCompletedCountByCategory(audit, dashData, DELETED);
+    		}
+    	}
+    }
+    
+    /** 
      * Calculate counts, including total, uncompleted numbers sorted by organization names. The other organization needs to computed separately.
      * @param audit
      * @param dashData
@@ -306,7 +337,6 @@ public class AdminDashboardAction extends BaseAction {
     	dashData.put(INACTIVE, dash);
     	dash = new DashboardData();
     	dashData.put(I2E, dash);
-    	setCountForEachCategory(audit, dashData);
     }
     
     /**
@@ -327,7 +357,6 @@ public class AdminDashboardAction extends BaseAction {
     	dash = new DashboardData();
     	dashData.put(INACTIVE, dash);
     	dash = new DashboardData();
-    	setCountForEachCategory(audit, dashData);
     }
     
     
@@ -412,9 +441,9 @@ public class AdminDashboardAction extends BaseAction {
 					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
 						org = ApplicationConstants.ORG_PATH_NON_NCI;
 					}
-					classifyOrgCategory(otherOrgsData, org, audit);
+					classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
     			}else{
-    				classifyOrgCategory(orgsData, org, audit);
+    				classifyOrgCategoryForDeletedAccounts(orgsData, org, audit);
 				}
 			}
     	}
@@ -463,6 +492,29 @@ public class AdminDashboardAction extends BaseAction {
 			HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
 			//calculate count
 			setFirstElementCountForEachCategory(audit, dashData);
+			setCountForEachCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
+	private void classifyOrgCategoryForDeletedAccounts(HashMap<String, HashMap<String, DashboardData>> orgHashmap, String org, AuditAccountVO audit) {
+		if(containsKey(orgHashmap, org)){
+			HashMap<String,DashboardData> dashData = orgHashmap.get(org);
+			//calculate Count
+			setCountForDeletedCategory(audit, dashData);
+			orgHashmap.put(org, dashData);
+		}else{
+			HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
+			//calculate count
+			setFirstElementCountForEachCategory(audit, dashData);
+			setCountForDeletedCategory(audit, dashData);
 			orgHashmap.put(org, dashData);
 		}
 	}
@@ -484,6 +536,7 @@ public class AdminDashboardAction extends BaseAction {
 			HashMap<String, DashboardData> dashData = new HashMap<String, DashboardData>();
 			//calculate count
 			setFirstElementCountForEachCategory(audit, dashData);
+			setCountForEachCategory(audit, dashData);
 			orgHashmap.put(org, dashData);
 		}
 	}
