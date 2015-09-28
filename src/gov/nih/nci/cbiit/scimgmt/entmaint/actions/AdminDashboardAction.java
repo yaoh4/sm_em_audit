@@ -202,7 +202,7 @@ public class AdminDashboardAction extends BaseAction {
     		}
     	}
     	//determine inactive account
-    	if(audit.getInactiveUnsubmittedFlag() != null && audit.getInactiveUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
+    	if(audit.getInactiveUserFlag() != null && audit.getInactiveUserFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
     		incrementCountByCategory(audit, dashData, INACTIVE);
     		if(!StringUtils.isEmpty(audit.getInactiveSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, INACTIVE);
