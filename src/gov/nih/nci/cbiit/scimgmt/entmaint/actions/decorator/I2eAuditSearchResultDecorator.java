@@ -110,8 +110,10 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 		String role = "";
 		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();	
 		if(StringUtils.isNotBlank(roleVw.getCreatedByFullName()) && StringUtils.isNotBlank(roleVw.getRoleDescription())){
-			role = role + "<span title='" + roleVw.getCreatedByFullName() + "'>" +  roleVw.getRoleDescription() + "</span>&nbsp;";
-		}	
+			role = "<span title='" + roleVw.getCreatedByFullName() + "'>" +  roleVw.getRoleDescription() + "</span>&nbsp;";
+		} else if(StringUtils.isNotBlank(roleVw.getRoleDescription())) {
+			role = roleVw.getRoleDescription();
+		}
 		return role;
 	}
 	

@@ -275,4 +275,19 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 							
 		return dateStr;
 	}
+	
+	/**
+	 * This method is for exporting roleCreatedBy for application roles.
+	 * @return String
+	 */
+	public String getRoleCreatedBy(){
+		String createdBy = "";
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByFullName();
+		}
+		
+		return createdBy;
+	}
 }

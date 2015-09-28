@@ -103,8 +103,10 @@ public class I2ePortfolioSearchResultDecorator extends TableDecorator{
 		String role = "";
 		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();		
 		if(StringUtils.isNotBlank(roleVw.getRoleCreatedByFullName()) && StringUtils.isNotBlank(roleVw.getRoleName())){
-			role = role + "<span title='" + roleVw.getRoleCreatedByFullName() + "'>" +  roleVw.getRoleName() + "</span>&nbsp;";
-		}		
+			role = "<span title='" + roleVw.getRoleCreatedByFullName() + "'>" +  roleVw.getRoleName() + "</span>&nbsp;";
+		} else if (StringUtils.isNotBlank(roleVw.getRoleName())) {
+			role = roleVw.getRoleName();
+		}
 		return role;
 	}
 	

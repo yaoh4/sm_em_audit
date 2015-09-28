@@ -49,6 +49,13 @@
  	</Tab>
  	<Tab>
  		<type>i2e</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>roleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
  		<columnName>I2E Role Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
@@ -154,6 +161,13 @@
  	</Tab>
  	<Tab>
  		<type>i2eDiscrepancy</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>roleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
  		<columnName>I2E Role Created On</columnName>
  		<property>roleCreateOn</property>
  		<sort>false</sort>
@@ -256,6 +270,13 @@
  		<property>activeI2eRole</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eActive</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>roleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
  	</Tab>
  	<Tab>
  		<type>i2eActive</type>

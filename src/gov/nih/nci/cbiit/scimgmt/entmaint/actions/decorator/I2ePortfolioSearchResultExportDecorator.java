@@ -193,5 +193,19 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		}
 		return isDiscrepancy;
 	}
-	
+
+	/**
+	 * This method is for exporting roleCreatedBy for application roles.
+	 * @return String
+	 */
+	public String getRoleCreatedBy(){
+		String createdBy = "";
+		PortfolioI2eAccountVO accountVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		List<I2eActiveUserRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getRoleCreatedByFullName();
+		}
+		
+		return createdBy;
+	}
 }
