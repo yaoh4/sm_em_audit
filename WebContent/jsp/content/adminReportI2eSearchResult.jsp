@@ -25,10 +25,35 @@
 </s:if>
 
 <body onload="moveToAnchor();"></body>
-<display:table style="width: 100%;" name="auditI2eAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action %>" excludedParams="size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AdminReportI2eSearchResultDecorator">
+<div class="table-responsive">
+<display:table class="table table-bordered" style="width: 100%;" name="auditI2eAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action %>" excludedParams="size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AdminReportI2eSearchResultDecorator">
+
+<s:set var="i2eAuditAccountsRoles" value="%{#attr['auditAccountsId'].accountRoles}" />
+<s:set var="i2eAuditAccountsRolesId" value="%{#attr['auditAccountsId'].id}" />
+<s:set var="i2eAuditAccountsRolesColumns" value="%{getI2eAuditAccountsRolesColumns()}" />
+<s:set var="i2eAuditAccountsRolesColumnsNames" value="%{getI2eAuditAccountsRolesColumnsNames()}" />
+
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
-	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+	<s:if test="#t.isNestedColumn == 'false'">
+		<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>
+	</s:if>
+ 	<s:if test="#t.columnName == 'Created/Last Updated By'">
+ 		<display:column title="${i2eAuditAccountsRolesColumnsNames}" style="width:32%;">
+ 		
+			<display:table class="table table-bordered nestedTableStyle" name="${i2eAuditAccountsRoles}" id="i2eAuditAccountsRoles_${i2eAuditAccountsRolesId}" 
+						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2eAuditSearchResultDecorator">
+						   
+			<display:setProperty name="basic.show.header" value="false" />
+			
+				<s:iterator var="t" value="i2eAuditAccountsRolesColumns">
+					<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
+				</s:iterator>
+				
+			</display:table>
+		</display:column>
+ 	</s:if> 	
 </s:if>
 </s:iterator>
 </display:table>
+</div>

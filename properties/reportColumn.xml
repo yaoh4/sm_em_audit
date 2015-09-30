@@ -247,7 +247,7 @@
  	<Tab>
  		<type>i2e</type>
  		<columnName>NED Org Path</columnName>
- 		<property>parentNedOrgPath</property>
+ 		<property>nedOrgPath</property>
  		<sort>true</sort>
  	</Tab>
  	<Tab>
@@ -261,5 +261,61 @@
  		<columnName>Created/Last Updated By</columnName>
  		<property>lastUpdByFullName</property>
  		<sort>true</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Role Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Role</columnName>
+ 		<property>activeI2eRole</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>roleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	 
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Submitted Date</columnName>
+ 		<property>submittedDate</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
  	</Tab>
  </Display>			

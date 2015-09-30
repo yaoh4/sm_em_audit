@@ -138,6 +138,7 @@ public interface ApplicationConstants {
     public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
     public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
     public static String I2E_AUDIT_ACTIVE = "i2eActive";
+    public static String I2E_REPORT = "i2e";
     
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
