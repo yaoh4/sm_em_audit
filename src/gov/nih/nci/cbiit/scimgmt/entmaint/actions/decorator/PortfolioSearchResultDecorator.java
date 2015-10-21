@@ -173,11 +173,12 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 			if(disVw.getShortDescrip() != null){
 				//replace all single quote to HTML code
+				String secondId = disVw.getCode();
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + "');\"/>" + 
-						"<input type='hidden' id='help" + id + "' value='" + longDesc + resolution + "'/>" +
+				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
 						"<br/>");
 			}
 		}
