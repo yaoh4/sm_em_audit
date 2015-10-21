@@ -85,7 +85,7 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if(!CollectionUtils.isEmpty(discrepancies)) {
 			for(String discrepancy: discrepancies) {
 				if(discrepancy.equals(type)) {
-					return "Y";
+					return ApplicationConstants.FLAG_YES;
 				}
 			}
 		}
@@ -208,7 +208,9 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		if (eaaVw != null) {
 			AppLookupT action = eaaVw.getAction();
 			if (action != null && action.getDescription() != null) {
-				actionStr = action.getDescription();			
+				if(eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")){
+					actionStr = action.getDescription();
+				}
 			}
 		}
 		return actionStr;

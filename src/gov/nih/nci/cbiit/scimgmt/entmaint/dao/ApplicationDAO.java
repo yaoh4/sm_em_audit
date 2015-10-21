@@ -5,10 +5,10 @@ import java.util.List;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 
 import javax.persistence.ParameterMode;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -59,13 +59,16 @@ public class ApplicationDAO {
 	 * @return
 	 */
 	public List<AppPropertiesT> getAppPropertiesList() {
+		List<AppPropertiesT> result = null;
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(AppPropertiesT.class);
 			crit.add(Restrictions.eq("appName", ApplicationConstants.APP_NAME));
-			final List<AppPropertiesT> result = crit.list();
+			result = crit.list();
 			return result;
 		} catch (RuntimeException re) {
 			logger.error("get app properties failed", re);
+			EmAppUtil.logUserID(nciUser, logger);
+			logger.error("Outgoing Parameters: List<AppPerpertiesT> - " + (result == null ? "NULL" : "size=" + result.size()));
 			throw re;
 		}
 	}

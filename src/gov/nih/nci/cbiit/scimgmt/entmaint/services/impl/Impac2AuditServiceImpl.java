@@ -45,9 +45,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	@Autowired
 	private LookupService lookupService;
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchActiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for active accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchActiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchActiveAccounts(paginatedList, searchVO, all);
@@ -63,9 +67,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchNewAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for new accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchNewAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchNewAccounts(paginatedList, searchVO, all);
@@ -80,9 +88,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchDeletedAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for deleted accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchDeletedAccounts(paginatedList, searchVO, all);
@@ -97,9 +109,13 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#searchInactiveAccounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO)
-	 */
+    /**
+     * Data retrieval for inactive > 130 days
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2AuditDAO.searchInactiveAccounts(paginatedList, searchVO, all);
@@ -115,9 +131,14 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#submit(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Update actions taken on account for submit.
+     * @param category
+     * @param eaaId
+     * @param actionId
+     * @param actionComments
+     * @return DBResult
+     */
 	@Override
 	public DBResult submit(String category, Long eaaId, Long actionId, String actionComments, Date date) {
 		AppLookupT cat = lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
@@ -125,24 +146,50 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#unsubmit(java.lang.String, java.lang.Integer)
-	 */
+    /**
+     * Update actions taken on account for unsubmit.
+     * @param category
+     * @param eaaId
+     * @return DBResult
+     */
 	@Override
 	public DBResult unsubmit(String category, Long eaaId) {
 		return impac2AuditDAO.unsubmit(category, eaaId);
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService#getAuditAccountById(java.lang.Long)
-	 */
+    /**
+     * Get EmAuditAccountsVw record using id (EAA_ID)
+     * @param id
+     * @return
+     */
 	public EmAuditAccountsVw getAuditAccountById(Long id) {
 		return impac2AuditDAO.getAuditAccountById(id);
 	}
 	
+    /**
+     * Get Audit Note using ID (EAA_ID)
+     * @param id
+     * @return String (Note)
+     */
 	public String getAuditNoteById(Long id, String category){
 		
 		return impac2AuditDAO.getAuditNoteById(id, category);
+	}
+	
+    /**
+     * Retrieve all accounts for a specific audit id
+     * @param auditId
+     * @return
+     */
+	@Override
+	public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId) {
+		List<EmAuditAccountsVw> auditAccountsList = impac2AuditDAO.getAllAccountsByAuditId(auditId);
+		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
+		for (final EmAuditAccountsVw account : auditAccountsList) {
+			AuditAccountVO acct = populateAuditAccountVO(account);
+			list.add(acct);
+		}
+		return list;
 	}
 	
 	/**
@@ -166,7 +213,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 			BeanUtils.copyProperties(auditAccountVO, emAuditAccountsVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
+			log.error("Error occured creating audit account object",
 							e);
 		}
 		return auditAccountVO;
@@ -235,25 +282,26 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	private List<String> populateAccountDiscrepancy(EmAuditAccountsVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
-		if(account.getSodFlag() != null) {
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
 		// Check if NED_IC is not NCI
-		if (account.getIcDiffFlag() != null) {
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
 		}
 
 		// Check if NED_ACTIVE_FLAG is N
-		if (account.getNedInactiveFlag() != null) {
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
 		}
 
 		// Check if last name is different between IMPACII and NED
-		if (account.getLastNameDiffFlag() != null) {
+		if (account.getLastNameDiffFlag() != null && account.getLastNameDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;
 	}
+
 
 }

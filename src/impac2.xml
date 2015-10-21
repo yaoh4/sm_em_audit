@@ -20,6 +20,11 @@
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings>
 		
+		<action name="home" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
+			<result name="success" type="redirect-action">../impac2/impac2Home</result>
+		</action>
+		
 		<action name="impac2Home" method="search"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
 			<result name="audit_enabled" type="redirect-action">prepareActiveAuditAccounts</result>

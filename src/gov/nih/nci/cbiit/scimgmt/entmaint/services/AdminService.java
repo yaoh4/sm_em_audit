@@ -70,6 +70,19 @@ public interface AdminService {
 	 */
 	public List<EmAuditsVO> retrieveAuditVOList();
 	
+	/**
+	 * Retrieves the audit info for all Audits for reports
+	 * 
+	 * @return List<EmAuditsVO> t
+	 */
+	public List<EmAuditsVO> retrieveReportAuditVOList();
+
+	/**
+	 * Retrieves the i2e audit info for all Audits 
+	 * 
+	 * @return List<EmAuditsVO> t
+	 */
+	public List<EmAuditsVO> retrieveI2eAuditVOList();
 	
 	/**
 	 * Checks if there is at least one audit present in the system.
@@ -78,8 +91,9 @@ public interface AdminService {
 	 */
 	public boolean isAuditPresent();
 	/**
-	 * Retrieve Audit Info by selected audit ID 
-	 * @param auditId
-	 * @return
+	 * Checks if there is at least one I2E audit present in the system.
+	 * 
+	 * @return true if an I2E audit is present, false otherwise.
 	 */
+	public boolean isI2eAuditPresent();
 }

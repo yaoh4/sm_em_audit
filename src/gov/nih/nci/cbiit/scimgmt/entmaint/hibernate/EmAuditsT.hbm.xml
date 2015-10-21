@@ -27,10 +27,10 @@
             <column name="CREATE_DATE" length="7" />
         </property>
         <property name="i2eFromDate" type="date">
-            <column name="I2E_FROM_DATE" length="7" not-null="true" />
+            <column name="I2E_FROM_DATE" length="7" />
         </property>
         <property name="i2eToDate" type="date">
-            <column name="I2E_TO_DATE" length="7" not-null="true" />
+            <column name="I2E_TO_DATE" length="7" />
         </property>
          <bag name="statusHistories" cascade="none" inverse="true" lazy="false" order-by="CREATE_DATE desc" >
 			    <key column="EAU_ID" not-null="true"/>

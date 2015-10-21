@@ -83,7 +83,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchDeletedAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, ApplicationConstants.FLAG_YES) || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}		
 		setDefaultPageSize();
@@ -122,7 +123,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchActiveAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, ApplicationConstants.FLAG_YES) || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		setDefaultPageSize();
@@ -134,8 +136,8 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			forward = ApplicationConstants.EXPORT;
 		}
+		setForDashboard();
 		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_ACTIVE);
-
         return forward;
 	}
 	
@@ -170,9 +172,11 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchNewAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, ApplicationConstants.FLAG_YES) || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
+		
 		setDefaultPageSize();
 		activeAuditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
 		if(!DisplayTagHelper.isExportRequest(request, "auditAccountsId")) {
@@ -183,6 +187,7 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			forward = ApplicationConstants.EXPORT;
 		}
+		setForDashboard();
 		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_NEW);
 		
         return forward;
@@ -211,7 +216,8 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String searchInactiveAccounts() {
 		String forward = SUCCESS;
-		if(searchVO == null){
+		String dashboard = request.getParameter("dashboard");
+		if(StringUtils.equals(dashboard, ApplicationConstants.FLAG_YES) || searchVO == null){
 			searchVO = (AuditSearchVO) session.get(ApplicationConstants.SEARCHVO);
 		}
 		setDefaultPageSize();
@@ -223,7 +229,7 @@ public class Impac2AuditAction extends BaseAction {
 			activeAuditAccounts.setList(getExportAccountVOList(activeAuditAccounts.getList()));
 			forward = ApplicationConstants.EXPORT;
 		}
-
+		setForDashboard();
 		setUpEnvironmentAfterSearch(ApplicationConstants.CATEGORY_INACTIVE);
 
 		return forward;
@@ -519,4 +525,13 @@ public class Impac2AuditAction extends BaseAction {
     	EmAuditsVO emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	searchVO.setAuditId(emAuditsVO.getId());
    }
+	
+	private void setForDashboard(){
+		String dashboard = request.getParameter("dashboard");
+		if(dashboard == null || dashboard.equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
+			session.put(ApplicationConstants.USEDASHBOARD, dashboard);
+		}else{
+			session.put(ApplicationConstants.USEDASHBOARD, "");
+		}
+	}
 }

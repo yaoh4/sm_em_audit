@@ -59,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		//Setup a new audit
 		Long auditId = adminDAO.setupNewAudit(
-			emAuditsVO.getImpaciiFromDate(), emAuditsVO.getImpaciiToDate(), emAuditsVO.getComments());
+			emAuditsVO.getImpaciiFromDate(), emAuditsVO.getImpaciiToDate(), emAuditsVO.getComments(), emAuditsVO.getI2eAuditFlag());
 		
 		return auditId;
 	}
@@ -112,7 +112,7 @@ public class AdminServiceImpl implements AdminService {
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
 		
-		return setupAuditVO(emAuditsVw, false);
+		return setupAuditVO(emAuditsVw, false, false);
 	}
 	
 	
@@ -124,7 +124,7 @@ public class AdminServiceImpl implements AdminService {
 	public EmAuditsVO retrieveCurrentOrLastAuditVO() {
 		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList();
 		if(!CollectionUtils.isEmpty(auditList)) {
-			return setupAuditVO(auditList.get(0), true);
+			return setupAuditVO(auditList.get(0), true, false);
 		}
 		
 		return null;
@@ -141,7 +141,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
-		return setupAuditVO(emAuditsVw, true);
+		return setupAuditVO(emAuditsVw, true, false);
 	}
 		
 	
@@ -158,8 +158,54 @@ public class AdminServiceImpl implements AdminService {
 		boolean latest = true;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
-				emAuditVOList.add(setupAuditVO(audit,latest));
+				emAuditVOList.add(setupAuditVO(audit,latest,false));
 				latest = false;
+			}
+		}
+		
+		return emAuditVOList;
+	}
+	
+	/**
+	 * Retrieves the attributes of all Audit for Reports.
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public List<EmAuditsVO> retrieveReportAuditVOList() {
+		
+		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
+		
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		boolean latest = true;
+		if(CollectionUtils.isNotEmpty(emAuditsList)) {
+			for(EmAuditsVw audit: emAuditsList) {	
+				emAuditVOList.add(setupAuditVO(audit,latest,true));
+				latest = false;
+			}
+		}
+		
+		return emAuditVOList;
+	}
+	
+	/**
+	 * Retrieves the attributes of I2E Audit.
+	 * 
+	 * @return EmAuditsVO
+	 */
+	public List<EmAuditsVO> retrieveI2eAuditVOList() {
+		
+		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
+		
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveI2eAuditList();
+		boolean latest = false;
+		if(CollectionUtils.isNotEmpty(emAuditsList)) {
+			for(EmAuditsVw audit: emAuditsList) {	
+				if(audit.getEndDate() == null)
+					latest = true;
+				else
+					latest = false;
+				emAuditVOList.add(setupAuditVO(audit,latest,false));
+				
 			}
 		}
 		
@@ -177,8 +223,19 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 	
+	/**
+	 * Checks if there is at least one I2E audit present in the system.
+	 * 
+	 * @return true if an I2E audit is present, false otherwise.
+	 */
+	public boolean isI2eAuditPresent() {
+		
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveI2eAuditList()));
+		
+	}
 	
-	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest) {
+	
+	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest, boolean report) {
 		EmAuditsVO emAuditsVO = null;
 		
 		if(emAuditsVw != null) {
@@ -188,6 +245,10 @@ public class AdminServiceImpl implements AdminService {
 			if(emAuditsVO.getImpaciiFromDate() != null && 
 				emAuditsVO.getImpaciiToDate() != null) {
 				emAuditsVO.setImpac2AuditFlag(ApplicationConstants.TRUE);
+			}
+			if(emAuditsVO.getI2eFromDate() != null && 
+					emAuditsVO.getI2eToDate() != null) {
+					emAuditsVO.setI2eAuditFlag(ApplicationConstants.TRUE);
 			}
 		
 		
@@ -199,13 +260,35 @@ public class AdminServiceImpl implements AdminService {
 			}
 			
 			//Set the description for impac II audit
-			if(emAuditsVO.getImpac2AuditFlag() != null && emAuditsVO.getImpac2AuditFlag().equalsIgnoreCase(ApplicationConstants.TRUE)){
+			if(emAuditsVO.getI2eAuditFlag() != null && emAuditsVO.getI2eAuditFlag().equalsIgnoreCase(ApplicationConstants.TRUE)){
 				final StringBuffer sb = new StringBuffer();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
 				if(latest) {
 					// Add (Current) to description
-					sb.append(" (Current)");
+					if(report)
+						sb.append(" (Current - IMPAC II and I2E)");
+					else
+						sb.append(" (Current)");
+				}
+				else if (report){
+					sb.append(" (IMPAC II and I2E)");
+				}
+				emAuditsVO.setDescription(sb.toString());
+			}
+			else if(emAuditsVO.getImpac2AuditFlag() != null && emAuditsVO.getImpac2AuditFlag().equalsIgnoreCase(ApplicationConstants.TRUE)){
+				final StringBuffer sb = new StringBuffer();
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
+				if(latest) {
+					// Add (Current) to description
+					if(report)
+						sb.append(" (Current - IMPAC II)");
+					else
+						sb.append(" (Current)");
+				}
+				else if (report){
+					sb.append(" (IMPAC II)");
 				}
 				emAuditsVO.setDescription(sb.toString());
 			}

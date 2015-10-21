@@ -1,6 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 
-// Generated Mar 5, 2015 1:58:31 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jul 6, 2015 12:14:14 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -9,7 +9,9 @@ import java.util.Date;
  */
 public class EmPortfolioNotesT implements java.io.Serializable {
 
+	private Long id;
 	private String impaciiUserId;
+	private Long npnId;
 	private String notes;
 	private String createUserId;
 	private Date createDate;
@@ -19,20 +21,30 @@ public class EmPortfolioNotesT implements java.io.Serializable {
 	public EmPortfolioNotesT() {
 	}
 
-	public EmPortfolioNotesT(String impaciiUserId, String createUserId, Date createDate) {
-		this.impaciiUserId = impaciiUserId;
+	public EmPortfolioNotesT(Long id, String createUserId, Date createDate) {
+		this.id = id;
 		this.createUserId = createUserId;
 		this.createDate = createDate;
 	}
 
-	public EmPortfolioNotesT(String impaciiUserId, String notes, String createUserId, Date createDate,
-			String lastChangeUserId, Date lastChangeDate) {
+	public EmPortfolioNotesT(Long id, String impaciiUserId, Long npnId, String notes, String createUserId,
+			Date createDate, String lastChangeUserId, Date lastChangeDate) {
+		this.id = id;
 		this.impaciiUserId = impaciiUserId;
+		this.npnId = npnId;
 		this.notes = notes;
 		this.createUserId = createUserId;
 		this.createDate = createDate;
 		this.lastChangeUserId = lastChangeUserId;
 		this.lastChangeDate = lastChangeDate;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getImpaciiUserId() {
@@ -41,6 +53,14 @@ public class EmPortfolioNotesT implements java.io.Serializable {
 
 	public void setImpaciiUserId(String impaciiUserId) {
 		this.impaciiUserId = impaciiUserId;
+	}
+
+	public Long getNpnId() {
+		return this.npnId;
+	}
+
+	public void setNpnId(Long npnId) {
+		this.npnId = npnId;
 	}
 
 	public String getNotes() {

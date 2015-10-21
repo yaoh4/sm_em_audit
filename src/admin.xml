@@ -20,6 +20,10 @@
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings>
 		
+		<action name="home" method="execute"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
+			<result name="success" type="redirect-action">../impac2/impac2Home</result>
+		</action>
 		
 		<action name="adminHome" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
@@ -37,6 +41,7 @@
 			<result name="success" type="tiles">entmaint.admin.reports.page</result>
 			<result name="error" type="tiles">entmaint.admin.reports.page</result>
 			<result name="export" type="dispatcher">/jsp/content/adminReportSearchResultExport.jsp</result>
+			<result name="exporti2e" type="dispatcher">/jsp/content/adminReportI2eSearchResultExport.jsp</result>
 		</action>
 		<action name="resetFields" method="clearAll"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
@@ -53,6 +58,20 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
 			<result name="error" type="tiles">entmaint.admin.page</result>
+		</action>	
+		
+		<action name="gotoDashboard" method="gotoDashboard"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminDashboardAction">
+			<result name="success" type="tiles">entmaint.admin.dashboard</result>
+		</action>	
+		
+		<action name="searchAudit" method="searchAudit"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminDashboardAction">
+			<result name="ACTIVE" type="redirectAction">../impac2/searchActiveAuditAccounts?dashboard=Y</result>
+			<result name="NEW" type="redirectAction">../impac2/searchNewAuditAccounts?dashboard=Y</result>
+			<result name="DELETED" type="redirectAction">../impac2/searchDeletedAuditAccounts?dashboard=Y</result>
+			<result name="INACTIVE" type="redirectAction">../impac2/searchInactiveAuditAccounts?dashboard=Y</result>
+			<result name="I2E" type="redirectAction">../i2e/searchI2eAuditAccounts?dashboard=Y</result>
 		</action>	
 		
 		<action name="enableAudit" method="enableAudit"

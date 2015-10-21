@@ -86,7 +86,7 @@ public class PortfolioSearchResultExportDecorator extends
 		if(discrepancies != null && !discrepancies.isEmpty()) {
 			for(String discrepancy: discrepancies) {
 				if(discrepancy.equals(type)) {
-					return "Y";
+					return ApplicationConstants.FLAG_YES;
 				}
 			}
 		}

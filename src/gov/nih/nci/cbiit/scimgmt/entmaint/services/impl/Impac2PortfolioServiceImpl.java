@@ -41,9 +41,13 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	@Autowired
 	private LookupService lookupService;
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#searchImpac2Accounts(gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.SearchObject)
-	 */
+    /**
+     * Data retrieval from view, EmPortfolioVw
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<PortfolioAccountVO>
+     */
 	@Override
 	public PaginatedListImpl<PortfolioAccountVO> searchImpac2Accounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
 		paginatedList = impac2PortfolioDAO.searchImpac2Accounts(paginatedList, searchVO, all);
@@ -59,15 +63,17 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return paginatedList;
 	}
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService#saveNotes(java.lang.String, java.lang.String, java.util.Date)
-	 */
+    /**
+     * Call stored procedure for saving notes
+     * @param impaciiUserId
+     * @return DBResult
+     */
 	@Override
 	public DBResult saveNotes(String impaciiUserId, String notes, Date date) {
 		return impac2PortfolioDAO.saveNotes(impaciiUserId, notes, date);
 	}
 	/**
-	 * 
+	 * Note retrieve from view
 	 * @param id
 	 * @param category
 	 * @return
@@ -98,7 +104,7 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 			BeanUtils.copyProperties(portfolioAccountVO, emPortfolioVw);
 
 		} catch (final Exception e) {
-			log.error("Error occured creating notification transfer object",
+			log.error("Error occured creating portfolio account object",
 							e);
 		}
 		return portfolioAccountVO;
@@ -114,22 +120,22 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 	private List<String> populateAccountDiscrepancy(EmPortfolioVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
-		if(account.getSodFlag() != null) {
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
 		}
 
 		// Check if NED_IC is not NCI
-		if (account.getIcDiffFlag() != null) {
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
 		}
 
 		// Check if NED_ACTIVE_FLAG is N
-		if (account.getNedInactiveFlag() != null) {
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
 		}
 
 		// Check if last name is different between IMPACII and NED
-		if (account.getLastNameDiffFlag() != null) {
+		if (account.getLastNameDiffFlag() != null && account.getLastNameDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
 		return discrepancyList;

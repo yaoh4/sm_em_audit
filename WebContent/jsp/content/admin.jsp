@@ -87,6 +87,7 @@ function submitForm(){
   
     <s:hidden id="sendAuditNotice" name="sendAuditNotice" />
     <s:hidden id="icEmails" name="icEmails" />
+ 
  <p style="text-align:left;"> 
 <span style="float:right;"><img src="../images/mail.png" width="22" height="22" alt="EMAIL"/>
 <a href="#" onclick="submitForm();">Open/Edit Audit Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -95,11 +96,17 @@ function submitForm(){
     <div class="form-group">
     	<label for="Audit" class="col-sm-3 control-label" style="padding-top:0px;">Audit:</label>
     	<div class="col-sm-4" style="padding-bottom:0px;">
-    		<s:checkbox name="emAuditsVO.impac2AuditFlag" disabled="true"/> 
-        	<label style="padding-left:0px;">IMPAC II</label>
-			&nbsp;&nbsp;&nbsp;
-        <!--  <s:checkbox name="emAuditsVO.i2eAuditFlag" style="padding-right:0px;" disabled="true"/> 
-			<label style="padding-left:0px;">I2E</label> -->
+			<s:if
+	    		test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
+        		<s:radio name="emAuditsVO.i2eAuditFlag"
+						list="#{'false':'IMPAC II Only','true':'IMPAC II and I2E'}"
+						template="radiomap-nobr.ftl" />
+			</s:if>
+       		<s:else>
+       			<s:radio name="emAuditsVO.i2eAuditFlag"
+						list="#{'false':'IMPAC II Only','true':'IMPAC II and I2E'}" disabled="true"
+						template="radiomap-nobr.ftl" /> 
+       		</s:else>
    		</div>
     </div>
   

@@ -3,13 +3,22 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -26,14 +35,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SuppressWarnings("serial")
 public class AdminAction extends BaseAction {
 
-   
-	private static final int COMMENTS_FIELD_SIZE = 1000;
+  private static final int COMMENTS_FIELD_SIZE = 1000;
 
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	protected boolean sendAuditNotice = false;	
 	protected boolean disableInput = true;
-	
 	
 	static Logger logger = Logger.getLogger(AdminAction.class);
 	
@@ -41,6 +48,9 @@ public class AdminAction extends BaseAction {
 	protected AdminService adminService;
 	@Autowired
 	private EntMaintProperties properties;
+	@Autowired
+	protected Impac2AuditService impac2AuditService;	
+	
 	
 	/**
 	 * Invoked when the user clicks the Audit tab. Depending on
@@ -108,25 +118,25 @@ public class AdminAction extends BaseAction {
     	}
     
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiToDate")) {
-    		if(emAuditsVO.getImpaciiToDate() == null) {
-    			emAuditsVO.setImpaciiToDate(new Date());
-    		} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
-    			//End date cannot be in future
-    			this.addActionError(getText("error.daterange.enddate.future"));
-    		}
+    	if(emAuditsVO.getImpaciiToDate() == null) {
+    		emAuditsVO.setImpaciiToDate(new Date());
+    	} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    		//End date cannot be in future
+    		this.addActionError(getText("error.daterange.enddate.future"));
+    	}
     	}
     	
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiFromDate")) {
-    		//Start date cannot be null
-    		if(emAuditsVO.getImpaciiFromDate() == null) {
-    			this.addActionError(getText("error.daterange.startdate.empty"));
-    		} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
-    			//Start date cannot be in future	
-    			this.addActionError(getText("error.daterange.startdate.future"));
-    		} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
-    			//Start date cannot be after end date
-    			this.addActionError(getText("error.daterange.outofsequence"));
-    		}
+    	//Start date cannot be null
+    	if(emAuditsVO.getImpaciiFromDate() == null) {
+    		this.addActionError(getText("error.daterange.startdate.empty"));
+    	} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
+    		//Start date cannot be in future	
+			this.addActionError(getText("error.daterange.startdate.future"));
+    	} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
+    		//Start date cannot be after end date
+    		this.addActionError(getText("error.daterange.outofsequence"));
+    	}
     	}
     	
     	validateComments();
@@ -201,7 +211,7 @@ public class AdminAction extends BaseAction {
     	}
     	//content = StringEscapeUtils.escapeHtml(content);
     	request.setAttribute("emailContent", content);
-    	
+    
     	return SUCCESS;
     }
     
@@ -228,7 +238,6 @@ public class AdminAction extends BaseAction {
     	
     	return ApplicationConstants.SUCCESS;
     }
-	
     
     private String updateAudit(String auditState) {
     	
@@ -271,7 +280,6 @@ public class AdminAction extends BaseAction {
 				break;
 		}
 	}
-
 
 	/**
 	 * Checks to see if the email client should be opened in preparation
@@ -341,7 +349,7 @@ public class AdminAction extends BaseAction {
 	public String getIcEmails() {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
 	}
-	
+
 	private String readEmailContent() throws Exception{
 		String fileName = properties.getPropertyValue("EMAIL_FILE") + File.separator + "email.txt";
 		File f = new File(fileName);
@@ -354,8 +362,8 @@ public class AdminAction extends BaseAction {
 				content = "";
 			}
 			bread.close();
-			return content;
+			return content;	
 		}
 	}
-
+		
 }

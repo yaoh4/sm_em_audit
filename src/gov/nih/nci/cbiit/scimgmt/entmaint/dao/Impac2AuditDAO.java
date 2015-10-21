@@ -8,6 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
@@ -26,6 +27,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,6 +56,7 @@ public class Impac2AuditDAO {
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchActiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II active accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmAuditAccountsVw> pListImpl = null;
 		try {
 	  
 			Criteria criteria = null;
@@ -75,16 +78,25 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_NOACTION) ) {
-				criteria.add(Restrictions.isNull("activeAction.id"));
+				Disjunction dc = Restrictions.disjunction();
+	            dc.add(Restrictions.isNull("activeAction.id"));
+	            dc.add(Restrictions.eq("activeUnsubmittedFlag", ApplicationConstants.FLAG_YES));
+	            criteria.add(dc);
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("activeUnsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}
 
-			return getPaginatedListResult(paginatedList, criteria, all);
+			pListImpl =  getPaginatedListResult(paginatedList, criteria, all);
+			return pListImpl;
 
 		} catch (Throwable e) {
 			log.error("Error while searching for IMPAC II active accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: paginatedList - " + paginatedList + ", searchVO - " + searchVO + ", all - " + all);
+			log.error("Outgoing parameters: PaginatedList - " + pListImpl);
+			
 			throw e;
 		}
 	}
@@ -99,6 +111,7 @@ public class Impac2AuditDAO {
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchNewAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II new accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmAuditAccountsVw> pListImpl = null;
 		try {
 	
 			Criteria criteria = null;
@@ -117,15 +130,24 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_NOACTION) ) {
-				criteria.add(Restrictions.isNull("newAction.id"));
+				Disjunction dc = Restrictions.disjunction();
+				dc.add(Restrictions.isNull("newAction.id"));
+				dc.add(Restrictions.eq("newUnsubmittedFlag", ApplicationConstants.FLAG_YES));
+	            criteria.add(dc);
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("newAction.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("newUnsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}
 
-			return getPaginatedListResult(paginatedList, criteria, all);
+			pListImpl = getPaginatedListResult(paginatedList, criteria, all);
+			return pListImpl;
+			
 		} catch (Throwable e) {
 			log.error("searching for IMPAC II new accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: paginatedList - " + paginatedList + ", searchVO - " + searchVO + ", all - " + all );
+			log.error("Outgoing parameters: PaginatedList - " + pListImpl);
 			throw e;
 		}
 	}
@@ -140,6 +162,8 @@ public class Impac2AuditDAO {
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchDeletedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II deleted accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmAuditAccountsVw> pListImpl = null;
+		
 		try {
 
 			Criteria criteria = null;
@@ -158,16 +182,24 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_NOACTION) ) {
-				criteria.add(Restrictions.isNull("deletedAction.id"));
+				Disjunction dc = Restrictions.disjunction();
+				dc.add(Restrictions.isNull("deletedAction.id"));
+				dc.add(Restrictions.eq("deletedUnsubmittedFlag", ApplicationConstants.FLAG_YES));
+	            criteria.add(dc);
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("deletedAction.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("deletedUnsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}
 
-			return getPaginatedListResult(paginatedList, criteria, all);
+			pListImpl = getPaginatedListResult(paginatedList, criteria, all);
+			return pListImpl;
 			
 		} catch (Throwable e) {
 			log.error("searching for IMPAC II deleted accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: PaginatedListImpl - " + paginatedList + ", seachVO - " + searchVO +", all - " + all);
+			log.error("Outgoing parameters: PaginatedListImpl - " + pListImpl);
 			throw e;
 		}
 	}
@@ -182,6 +214,8 @@ public class Impac2AuditDAO {
 	 */
 	public PaginatedListImpl<EmAuditAccountsVw> searchInactiveAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
 		log.debug("searching for IMPAC II inactive accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmAuditAccountsVw> pListImpl = null;
+		
 		try {
 
 			Criteria criteria = null;
@@ -191,7 +225,7 @@ public class Impac2AuditDAO {
 			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to inactive accounts
-			criteria.add(Restrictions.eq("inactiveUserFlag", "Y"));
+			criteria.add(Restrictions.eq("inactiveUserFlag", ApplicationConstants.FLAG_YES));
 			criteria.createAlias("audit", "audit");
 			
 			// Add user specific search criteria
@@ -199,16 +233,24 @@ public class Impac2AuditDAO {
 			
 			// action
 			if (!StringUtils.isBlank(searchVO.getAct()) && StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_NOACTION) ) {
-				criteria.add(Restrictions.isNull("inactiveAction.id"));
+				Disjunction dc = Restrictions.disjunction();
+				dc.add(Restrictions.isNull("inactiveAction.id"));
+				dc.add(Restrictions.eq("inactiveUnsubmittedFlag", ApplicationConstants.FLAG_YES));
+	            criteria.add(dc);
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("inactiveAction.id", new Long(searchVO.getAct())));
+				criteria.add(Restrictions.eq("inactiveUnsubmittedFlag", ApplicationConstants.FLAG_NO));
 			}				
 
-			return getPaginatedListResult(paginatedList, criteria, all);
+			pListImpl = getPaginatedListResult(paginatedList, criteria, all);
+			return pListImpl;
 			
 		} catch (Throwable e) {
 			log.error("searching for IMPAC II inactive accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: PaginatedListImpl - " + paginatedList + ", searchVO - " + searchVO +", all - " + all);
+			log.error("Outgoing parameter: PaginatedListImpl - " + pListImpl);
 			throw e;
 		}
 	}
@@ -247,6 +289,9 @@ public class Impac2AuditDAO {
 			log.error("Submit Action in Audit failed for eaaId=" + eaaId + " category=" + category.getCode()
 					+ " actionId=" + actionId + " actionComments=" + actionComments
 					+ e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: category - " + category +", eaaId - " + eaaId + ", actionId - " + actionId + ", actionComments - " + actionComments + ", date - " + date);
+			log.error("Outgoing Parameter: DBResult - " + result.getStatus());
 			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
@@ -277,6 +322,9 @@ public class Impac2AuditDAO {
 		} catch (Throwable e) {
 			log.error("Unsubmit Action in Audit failed for eaaId=" + eaaId + " category=" + category
 					+ e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: category - " + category +", eaaId - " + eaaId);
+			log.error("Outgoing Parameter: DBResult - " + result.getStatus());
 			throw e;
 		}
 		result.setStatus(DBResult.SUCCESS);
@@ -290,13 +338,17 @@ public class Impac2AuditDAO {
 	 * @return
 	 */
 	public EmAuditAccountsVw getAuditAccountById(Long id) {
+		EmAuditAccountsVw result = null;
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 			crit.add(Restrictions.eq("id", id));
-			EmAuditAccountsVw result = (EmAuditAccountsVw) crit.uniqueResult();
+			result = (EmAuditAccountsVw) crit.uniqueResult();
 			return result;
 		} catch (Throwable e) {
 			log.error("getAuditAccountById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id);
+			log.error("Outgoing Parameter: EmAuditAccountsVw - " + result);
 			throw e;
 		}
 	}
@@ -306,7 +358,7 @@ public class Impac2AuditDAO {
 	 */
 	public String getAuditNoteById(Long id, String category){
 		String note = "";
-		Criteria crit;
+		Criteria crit = null;
 		try {
 			crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(category)){
@@ -323,6 +375,55 @@ public class Impac2AuditDAO {
 			return (String)crit.uniqueResult();
 		} catch (HibernateException e) {
 			log.error("getAuditNoteById failed for id=" + id + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id +", category - " + category);
+			log.error("Outgoing Parameter: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
+			throw e;
+		}
+	}
+	
+	/**
+	 * Get all audit accounts for a specific audit
+	 * 
+	 * @param auditId
+	 * @return
+	 */
+	public List<EmAuditAccountsVw> getAllAccountsByAuditId(Long auditId) {
+		log.debug("retrieving all accounts from audit view for auditId: " + auditId);
+		List<EmAuditAccountsVw> auditList = null;
+		try {
+
+			Criteria criteria = null;
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+			criteria.createAlias("audit", "audit");
+			criteria.add(Restrictions.eq("audit.id", auditId));
+			
+			// Only retrieve necessary columns	
+			criteria.setProjection(Projections.projectionList().add(Projections.property("id"), "id")
+					.add(Projections.property("deletedDate"), "deletedDate")
+					.add(Projections.property("createdDate"), "createdDate")
+					.add(Projections.property("inactiveUserFlag"), "inactiveUserFlag")
+					.add(Projections.property("nedIc"), "nedIc")
+					.add(Projections.property("parentNedOrgPath"), "parentNedOrgPath")
+					.add(Projections.property("nciDoc"), "nciDoc")
+					.add(Projections.property("activeSubmittedBy"), "activeSubmittedBy")
+					.add(Projections.property("newSubmittedBy"), "newSubmittedBy")
+					.add(Projections.property("deletedSubmittedBy"), "deletedSubmittedBy")
+					.add(Projections.property("inactiveSubmittedBy"), "inactiveSubmittedBy")
+					.add(Projections.property("deletedByParentOrgPath"), "deletedByParentOrgPath")
+					.add(Projections.property("deletedByNciDoc"), "deletedByNciDoc"));
+
+			
+			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmAuditAccountsVw.class))
+					.list();
+
+			return auditList;
+			
+		} catch (Throwable e) {
+			log.error("getAllAccountsByAuditId failed for auditId=" + auditId + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: auditId - " + auditId);
+			log.error("Outgoing Parameter: size of EmAuditAccountsVw - " + (auditList == null ? "NULL" : auditList.size()));
 			throw e;
 		}
 	}

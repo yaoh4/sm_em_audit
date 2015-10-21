@@ -31,13 +31,14 @@
 	<property name="distribution.dir"       value="./distribution" />
 	<property name="webcontent.dir"		    value="./WebContent" />
 	<property name="properties.dir"		    value="./properties" />
-	
+	<property name="test.classes.dir"       value="./bin"/>
 	<property name="doc.dir"				value="./docs" />
 	<property name="javadoc.dir"            value="./docs/javadoc" />
 	<property name="web.inf.dir"            value="${webcontent.dir}/WEB-INF" />
 	<property name="global.lib.dir"			value="./lib" />
 	<property name="lib.dir"				value="${web.inf.dir}/lib" />
 	<property name="src.dir"                value="./src" />
+	<property name="test.dir"                value="./test" />
 	<property name="build.dir"              value="./build" />
 	<property name="build.war.dir"          value="./build/war" />
 	<property name="web.inf.dir"			value="${webcontent.dir}/WEB-INF" />
@@ -50,9 +51,9 @@
 	
     <property name="app.distribution.dir"   value="${distribution.dir}/${app.name}"/>
     <property name="app.name.war"           value="${app.name}.war"/>
-   
+   	
     <property name="common.properties.dir"  value="${properties.dir}/${common.env}"/>
-	
+   
 	
 	<echo message="************************************************************"></echo>
     <echo message="Build started: ${start.timestamp}"></echo>
@@ -75,6 +76,7 @@
     <!-- Create deployment dirs make_deployment_dirs -->
     <target name="make_deployment_dirs" description="create deployment dirs" depends="clean" >
         <mkdir dir="${java.classes.dir}"/>
+    	<mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${doc.dir}"/>
         <mkdir dir="${javadoc.dir}"/>
         <mkdir dir="${distribution.dir}"/>
@@ -105,7 +107,9 @@
     <delete includeEmptyDirs="true" failonerror="false">
          <fileset dir="${conf.dir}/${app.name}" includes="**/*"/>
     </delete>
-    
+    <delete includeEmptyDirs="true" failonerror="false">
+        <fileset dir="${test.classes.dir}" includes="**/*"/>
+    </delete>
 </target>
 
 
@@ -116,9 +120,15 @@
         classpath="${project.classpath}" 
         srcdir="${src.dir}"
         destdir="${java.classes.dir}" />
-        
+    <javac debug="on"
+    	classpath="${project.classpath}:${java.classes.dir}"
+        srcdir="${test.dir}"
+        destdir="${test.classes.dir}" /> 
     <copy todir="${java.classes.dir}">
         <fileset dir="${src.dir}" excludes="**/*.java"/>
+    </copy>
+    <copy todir="${test.classes.dir}">
+    	<fileset dir="${test.dir}" excludes="**/*.java"/>
     </copy>
               
               
@@ -190,8 +200,7 @@
             </lib>
         </war>
     </target>
- 
-    
+  
    <target name="tomcat.undeploy">
       <undeploy url="${tomcat.url}" failonerror="false"
                     username="${tomcat.user}" password="${tomcat.password}"
@@ -204,6 +213,18 @@
               war="${basedir}/${app.distribution.dir}/${app.name.war}"/>
    </target>  
    <!-- run ALL targets -->
-   <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.undeploy, tomcat.deploy"/>
-
+   <target name="all" depends="clean,make_deployment_dirs,copy_properties_files,compile,war, tomcat.deploy"/>
+	<target name="junit" depends="compile, copy_properties_files">
+	    <junit showoutput="true" printsummary="yes" haltonfailure="no">
+	    <sysproperty key="conf.dir" value="${conf.dir}"/>
+		<classpath refid="project.classpath" />
+		<classpath location="${java.classes.dir}" />
+	   	<classpath location="${test.classes.dir}" />
+		<test name="gov.nih.nci.cbiit.scimgmt.entmaint.junit.AuditAccountTest" haltonfailure="no" outfile="${distribution.dir}/result">
+			<formatter type="plain" />
+			<formatter type="xml" />
+		</test>
+	 
+	  </junit>
+	</target>
 </project>

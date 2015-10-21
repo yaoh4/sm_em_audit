@@ -39,7 +39,7 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		String actionStr = "";
 		StringBuffer name = new StringBuffer("&nbsp;");
 		if(!StringUtils.isBlank(portfolioVO.getFullName())){
-			name.append(portfolioVO.getFullName());
+			name.append(portfolioVO.getCleanFullName());
 		}
 		String id = portfolioVO.getImpaciiUserId();
 		String note = portfolioVO.getNotes();

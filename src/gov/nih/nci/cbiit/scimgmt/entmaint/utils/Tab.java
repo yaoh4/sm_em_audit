@@ -18,6 +18,8 @@ public class Tab {
 	private String display;
 	@XStreamAlias("export")
 	private String export;
+	@XStreamAlias("isNestedColumn")
+	private String isNestedColumn;
 	
 	/**
 	 * @return the type
@@ -105,6 +107,20 @@ public class Tab {
 	
 	
 	/**
+	 * @return the isNestedColumn
+	 */
+	public String getIsNestedColumn() {
+		return isNestedColumn;
+	}
+
+	/**
+	 * @param isNestedColumn the isNestedColumn to set
+	 */
+	public void setIsNestedColumn(String isNestedColumn) {
+		this.isNestedColumn = isNestedColumn;
+	}
+
+	/**
 	 * Set default values. This method is called during the deserialization
 	 * process and here we can check if a field value is null. If it is,
 	 * then it means that the tag for that field is not present.
@@ -123,6 +139,10 @@ public class Tab {
 		
 		if(sort == null) {
 			sort = "true";
+		}
+		
+		if(isNestedColumn == null){
+			isNestedColumn = "false";
 		}
 		
 		return this;

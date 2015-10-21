@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 30, 2015 2:45:07 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw" table="I2E_ACTIVE_USER_ROLES_VW">
+        <composite-id>
+            <key-property name="npnId" type="long">
+                <column name="NPN_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="npeId" type="long">
+                <column name="NPE_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="roleCode" type="string">
+                <column name="ROLE_CODE" length="8" />
+            </key-property>
+        </composite-id>
+            <property name="oracleId" type="string">
+                <column name="ORACLE_ID" length="30" />
+            </property>
+            <property name="nciLdapCn" type="string">
+                <column name="NCI_LDAP_CN" length="30" />
+            </property>
+
+            <property name="roleName" type="string">
+                <column name="ROLE_NAME" length="50" />
+            </property>
+            <property name="roleCreatedDate" type="timestamp">
+                <column name="ROLE_CREATED_DATE" length="7" />
+            </property>
+            <property name="orgId" type="long">
+                <column name="ORG_ID" precision="10" scale="0" />
+            </property>
+            <property name="orgAbbrev" type="string">
+                <column name="ORG_ABBREV" length="10" />
+            </property>
+            <property name="docAbbrev" type="string">
+                <column name="DOC_ABBREV" length="4000" />
+            </property>
+            <property name="fullOrgPathAbbrev" type="string">
+                <column name="FULL_ORG_PATH_ABBREV" length="4000" />
+            </property>
+            <property name="fullOrgPathDescription" type="string">
+                <column name="FULL_ORG_PATH_DESCRIPTION" length="4000" />
+            </property>
+            <property name="ldapRoleName" type="string">
+                <column name="LDAP_ROLE_NAME" length="20" />
+            </property>
+            <property name="ogaBranchId" type="long">
+                <column name="OGA_BRANCH_ID" precision="22" scale="0" />
+            </property>
+            <property name="roleCreatedByFullName" type="string">
+                <column name="ROLE_CREATED_BY_FULL_NAME" length="62" />
+            </property>
+    </class>
+</hibernate-mapping>

@@ -196,5 +196,126 @@
  		<columnName>RESULT</columnName>
  		<property>result</property>
  		<sort>true</sort>
- 	</Tab> 	 
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Segregation of Duties Violation</columnName>
+ 		<property>discrepancySod</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Account/Inactive NED</columnName>
+ 		<property>discrepancyNedInactive</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Account/Inactive I2E Role</columnName>
+ 		<property>discrepancyInactiveI2eRole</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Account/Inactive IMPAC II Account</columnName>
+ 		<property>discrepancyI2eOnly</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Inactive I2E Account/Active I2E Role</columnName>
+ 		<property>discrepancyI2eInactive</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Account Created Date</columnName>
+ 		<property>i2eCreatedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Created/Last Updated By</columnName>
+ 		<property>lastUpdByFullName</property>
+ 		<sort>true</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Role Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Active I2E Role</columnName>
+ 		<property>activeI2eRole</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Role Created by</columnName>
+ 		<property>roleCreatedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>I2E Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Action</columnName>
+ 		<property>action</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>	 
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Notes</columnName>
+ 		<property>actionNote</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Submitted Date</columnName>
+ 		<property>submittedDate</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
+ 		<columnName>Submitted By</columnName>
+ 		<property>submittedBy</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
  </Display>			

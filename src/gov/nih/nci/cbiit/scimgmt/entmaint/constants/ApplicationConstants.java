@@ -57,6 +57,8 @@ public interface ApplicationConstants {
     public static final String APP_LOOKUP_INACTIVE_ACTION_LIST = "appLookupInactiveAction";
     public static final String YOUR_GRANT_DETAILS_APP_LINK_LIST = "yourGrantDetailsapplinklist";
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
+    public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
+    public static final String APP_LOOKUP_REPORTS_CATEGORY_LIST = "appLookupReportsCategory";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
@@ -73,6 +75,13 @@ public interface ApplicationConstants {
     public static final String DISCREPANCY_CODE_IC = "ICDIFF";
     public static final String DISCREPANCY_CODE_NED_INACTIVE = "NEDINACTIVE";
     public static final String DISCREPANCY_CODE_LAST_NAME = "LNAMEDIFF";
+    
+    /* I2e Discrepancy type codes */
+    public static final String DISCREPANCY_CODE_I2E_SOD = "I2ESOD";
+    public static final String DISCREPANCY_CODE_I2E_NED_INACTIVE = "I2ENEDINACTIVE";
+    public static final String DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE = "I2ENOACTIVEROLE";
+    public static final String DISCREPANCY_CODE_I2E_ONLY = "I2EONLY";
+    public static final String DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER = "I2EACTIVEROLEREM";
     
     /* Organization Drop down */
     public static final String ORG_PATH_NON_NCI = "Non-NCI";
@@ -94,6 +103,7 @@ public interface ApplicationConstants {
     public static String SUCCESS = "success";
     public static String INPUT = "input";
     public static String EXPORT = "export";
+    public static String EXPORT_I2E = "exporti2e";
     public static String AUDIT_ENABLED = "audit_enabled";
     public static String AUDIT_DISABLED = "audit_disabled";
     
@@ -101,6 +111,7 @@ public interface ApplicationConstants {
 	public static final String CATEGORY_NEW = "NEW";
 	public static final String CATEGORY_DELETED = "DELETED";
 	public static final String CATEGORY_INACTIVE = "INACTIVE";
+	public static final String CATEGORY_I2E = "I2E";
 	
 	public static final String ACTIVE_ACTION_ALL = "1";
 	public static final String NEW_ACTION_ALL = "5";
@@ -124,11 +135,18 @@ public interface ApplicationConstants {
     public static String PORTFOLIO_DELETED = "portfolioDeleted";
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
     
+    public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
+    public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
+    public static String I2E_AUDIT_ACTIVE = "i2eActive";
+    public static String I2E_REPORT = "i2e";
+    
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
+    public static String I2ECOLATTRIBUTE="i2eColAttribute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
-
+    public static String I2E_PORTFOLIO_SEARCHVO = "i2ePortfolioSearchVO";
+    
     public static String ACTIONLIST = "actionList";
     
     public static String PAGE_SIZE = "pageSize";
@@ -137,6 +155,9 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
 	public static final String CURRENTPAGE ="currentPage";
+	
+	public static final long I2E_PORTFOLIO_CATEGORY_ACCOUNT= 37;
+	public static final long I2E_PORTFOLIO_CATEGORY_DISCREPANCY= 38;
 	
 	public static final String FLAG_YES = "Y";
 	public static final String FLAG_NO = "N";
@@ -162,4 +183,7 @@ public interface ApplicationConstants {
 	public static final String ERAUA_NA = "NA";
 	public static final String ERAUA_INFO = "eraus.info.message";
 	public static final String IC_CODE="CA";
+	
+	public static final String DASHBOARD = "Y";
+	public static final String USEDASHBOARD="dashboard";
 }

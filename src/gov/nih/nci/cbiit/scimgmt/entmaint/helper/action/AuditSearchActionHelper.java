@@ -19,6 +19,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
 	
+	public static final String ROLE_ORG_PATH = "Role Org Path";
 
 	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		
@@ -87,6 +88,28 @@ public class AuditSearchActionHelper {
 		return auditPeriodList;
 	}
 	
+	public  List<DropDownOption> createReportAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveReportAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
+		}
+		
+		return auditPeriodList;
+	}
+	
+	public  List<DropDownOption> createI2eAuditPeriodDropDownList(AdminService adminService){
+		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveI2eAuditVOList();
+		for(EmAuditsVO emAuditVO : emAuditVOs){
+			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
+			auditPeriodList.add(ddp);
+		}
+		
+		return auditPeriodList;
+	}
+	
 	/**
 	 * This method is responsible for preparing drop down lists for organizationList and categoriesList for portfolio accounts search.
 	 * @return 
@@ -113,6 +136,30 @@ public class AuditSearchActionHelper {
 	}
 	
 	/**
+	 * This method is responsible for preparing drop down lists for organizationList and categoriesList for portfolio accounts search.
+	 * @return 
+	 */
+	public void  createI2EPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService, Map<String, Object> session){
+
+		List<EmOrganizationVw> orgs = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
+		if(orgs != null && orgs.size() >0){
+			for(EmOrganizationVw org : orgs){
+				DropDownOption orgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());	
+				organizationList.add(orgOption);	
+			}
+			session.put(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST, organizationList);	
+		}
+
+		List<AppLookupT> categories = (List<AppLookupT>)lookupService.getList(ApplicationConstants.APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST);		
+		if(categories != null && categories.size() >0){
+			for(AppLookupT category : categories){
+				DropDownOption categoryOption = new DropDownOption(""+category.getId(), category.getDescription());	
+				categoriesList.add(categoryOption);
+			}
+			session.put(ApplicationConstants.CATEGORY_DROPDOWN_LIST, categoriesList);	
+		}		
+	}
+	/**
 	 * This method is responsible for fetching displayColumns for different categories.
 	 * @return List<Tab>
 	 */
@@ -136,6 +183,23 @@ public class AuditSearchActionHelper {
 	}
 	
 	/**
+	 * This method is responsible for fetching displayColumns for different categories.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getI2ePortfolioDisplayColumn(Map<String, List<Tab>> colMap, int category){
+		List<Tab> displayColumn = null;
+		switch(category){
+		case (int)ApplicationConstants.I2E_PORTFOLIO_CATEGORY_ACCOUNT:
+			 displayColumn = colMap.get(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT);
+			 break;
+		case (int)ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY:
+			 displayColumn = colMap.get(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY);
+			 break;
+		}
+		return displayColumn;
+	}
+	
+	/**
 	 * This method is setting Up ChangePageSize DropDown List.
 	 * @return 
 	 */
@@ -150,7 +214,7 @@ public class AuditSearchActionHelper {
 	
 	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
 		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
-		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
 		
 		if(cateList != null){
 			for(AppLookupT obj : cateList){
@@ -161,5 +225,33 @@ public class AuditSearchActionHelper {
 			}
 		}
 		return categoryList;
+	}
+	
+	/**
+	 * This method returns nested columns for requested type.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getNestedTableColumns(List<Tab> displayColumn, String type){
+		ArrayList<Tab> nestedColumns = new ArrayList<Tab>();
+		for(Tab tab : displayColumn){
+			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
+				nestedColumns.add(tab);
+			}
+		}
+		return nestedColumns;
+	}
+	
+	/**
+	 * This method returns Nested Columns titles for requested type.
+	 * @return String
+	 */
+	public String getNestedTableColumnsNames(List<Tab> displayColumn, String type){
+		String nestedColumnsNames = "";
+		for(Tab tab : displayColumn){
+			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
+				nestedColumnsNames += "<span class='rolesHeader'>" + (!ROLE_ORG_PATH.equalsIgnoreCase(tab.getColumnName()) ? " | " : "") + tab.getColumnName() + "</span>";
+			}
+		}	
+		return nestedColumnsNames;
 	}
 }

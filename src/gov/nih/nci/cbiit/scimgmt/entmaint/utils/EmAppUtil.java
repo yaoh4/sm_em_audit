@@ -3,8 +3,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -12,6 +10,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -149,6 +148,32 @@ public class EmAppUtil {
 		return false;	
 	}
 	
+	/**
+	 * Checks if the current Audit is enabled and contains I2E audit.
+	 * 
+	 * @return true if audit is enabled, else false.
+	 */
+	public static boolean isI2eAuditEnabled() {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		if(session != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null) {
+				String auditState = getCurrentAuditState(emAuditsVO);
+				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState) && emAuditsVO.getI2eFromDate() != null) {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is current and enabled");
+					return true;
+				} else {
+					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is not current or not enabled or does not contain I2e");
+				}
+			} else {
+				logger.warn("No audit in session");
+			}
+		}
+				
+		return false;	
+	}
 	
 	/**
 	 * Checks if the given Audit ID represent the current or last active audit.
@@ -199,6 +224,14 @@ public class EmAppUtil {
 			label = "inactive";
 		}
 		return label;
+	}
+
+	public static void logUserID(NciUser nciUser, Logger logger){
+		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());
+	}
+
+	public static void logUserID(NciUser nciUser, Log logger){
+		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());
 	}
 
 }

@@ -30,10 +30,13 @@
 			 			var actionLabel = jQuery('#selectActId option:selected').text();
 			 			var comments = $('#noteText').val();
 			 			var category = $('#categoryId').val();
+			 			var extraChars = $.trim(comments).length - 200;
 			 			if(aId == null || $.trim(aId).length < 1){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ACTION_SELECTION)}'/></font>");
 			 			}else if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@EMPTY_NOTE)}'/></font>");
+			 			}else if($.trim(comments).length > 200){
+			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/>" + " by " + extraChars + " characters.</font>");
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",
@@ -164,7 +167,7 @@
 </div>
 <s:if test="category == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
   <div class="form-group">
-      <label class="control-label col-sm-3" >Accounts Deleted:</label>
+      <label class="control-label col-sm-3" >Accounts Deleted By:</label>
       <div class="col-sm-9"> 
        <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">    
       <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
@@ -177,13 +180,13 @@
 </s:if>
 <s:else>
  <div class="form-group">
-      <label class="control-label col-sm-3" >NCI Organization:</label>
+      <label class="control-label col-sm-3" for="org">NCI Organization:</label>
       <div class="col-sm-9"> 
        <s:if test="role == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@USER_ROLE_SUPER_USER">    
-      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
+      <s:select id="org" name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" onchange="onOrgChange(this.value);" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;"/>
       </s:if>
       <s:else>
-      <s:select name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
+      <s:select id="org" name="searchVO.organization" cssClass="form-control" value="%{#session.searchVO.organization}" list ="organizationList" listKey="optionKey" listValue="optionValue" headerKey="all" headerValue="All" style="width:590px;" />
       </s:else>
       </div>
  </div>     
@@ -195,6 +198,9 @@
 	    <s:if test="#session.currentPage == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED">
       	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck" disabled="true"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       	</s:if>
+      	<s:elseif test="#session.dashboard == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@DASHBOARD">
+	      	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck" disabled="true"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
+      	</s:elseif>
       	<s:else>
       	<s:checkbox name="searchVO.excludeNCIOrgs" cssStyle="valign:bottom" id="excludeNciCheck"/><label style="valign:bottom; font-weight: normal; font-size: 0.9em;">Exclude NCI Orgs with IC Coordinators</label>
       	</s:else>
@@ -286,3 +292,8 @@
 	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
 	</div>
 </div>
+<script>
+	$( window ).ready(function() { 
+		onOrgChange($('#org option:selected').val());
+	});
+</script>

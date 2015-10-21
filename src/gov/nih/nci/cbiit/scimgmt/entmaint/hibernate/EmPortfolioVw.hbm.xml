@@ -40,8 +40,8 @@
             <property name="nedIc" type="string">
                 <column name="NED_IC" length="576" />
             </property>
-            <property name="nedActiveFlag" type="string">
-                <column name="NED_ACTIVE_FLAG" length="3" />
+            <property name="nedActiveFlag" type="yes_no">
+                <column name="NED_ACTIVE_FLAG" length="1" />
             </property>
             <property name="nciDoc" type="string">
                 <column name="NCI_DOC" length="5" />

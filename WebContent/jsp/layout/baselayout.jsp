@@ -17,7 +17,6 @@
     <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/displaytag.css" />"/>
     <link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/bootstrap.min.css" />"/>
 	<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/custom.css" />"/>
-	<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/entmaint.css" />"/>
 	<script language="JavaScript" src="<s:url value="/scripts/jquery-2.1.3.min.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/jquery-ui-1.11.3.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/bootstrap.js" />" type="text/javascript"></script>

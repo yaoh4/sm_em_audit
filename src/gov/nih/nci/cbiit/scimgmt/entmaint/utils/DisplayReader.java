@@ -44,10 +44,15 @@ public class DisplayReader {
 		List<Tab> newTab = new ArrayList<Tab>();
 		List<Tab> deleteTab = new ArrayList<Tab>();
 		List<Tab> inactiveTab = new ArrayList<Tab>();
+		List<Tab> i2eTab = new ArrayList<Tab>();
 		List<Tab> portfolioActive = new ArrayList<Tab>();
 		List<Tab> portfolioNew = new ArrayList<Tab>();
 		List<Tab> portfolioDeleted = new ArrayList<Tab>();
 		List<Tab> portfolioDiscrepancy = new ArrayList<Tab>();
+		List<Tab> i2ePorfolioAccount = new ArrayList<Tab>();
+		List<Tab> i2ePorfolioDiscrepancy = new ArrayList<Tab>();
+		List<Tab> i2eActive = new ArrayList<Tab>();
+		
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
 			if(ApplicationConstants.CATEGORY_ACTIVE.equalsIgnoreCase(t.getType())){
@@ -62,6 +67,9 @@ public class DisplayReader {
 			if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(t.getType())){
 				inactiveTab.add(t);
 			}
+			if(ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(t.getType())){
+				i2eTab.add(t);
+			}
 			if(ApplicationConstants.PORTFOLIO_ACTIVE.equalsIgnoreCase(t.getType())){
 				portfolioActive.add(t);
 			}
@@ -74,16 +82,28 @@ public class DisplayReader {
 			if(ApplicationConstants.PORTFOLIO_DISCREPANCY.equalsIgnoreCase(t.getType())){
 				portfolioDiscrepancy.add(t);
 			}
+			if(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT.equalsIgnoreCase(t.getType())){
+				i2ePorfolioAccount.add(t);
+			}
+			if(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY.equalsIgnoreCase(t.getType())){
+				i2ePorfolioDiscrepancy.add(t);
+			}
+			if(ApplicationConstants.I2E_AUDIT_ACTIVE.equalsIgnoreCase(t.getType())){
+				i2eActive.add(t);
+			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
 		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);		
 		colMap.put(ApplicationConstants.CATEGORY_INACTIVE, inactiveTab);
+		colMap.put(ApplicationConstants.CATEGORY_I2E, i2eTab);
 		colMap.put(ApplicationConstants.PORTFOLIO_ACTIVE, portfolioActive);
 		colMap.put(ApplicationConstants.PORTFOLIO_NEW, portfolioNew);
 		colMap.put(ApplicationConstants.PORTFOLIO_DELETED, portfolioDeleted);
 		colMap.put(ApplicationConstants.PORTFOLIO_DISCREPANCY, portfolioDiscrepancy);
-		
+		colMap.put(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT, i2ePorfolioAccount);
+		colMap.put(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY, i2ePorfolioDiscrepancy);
+		colMap.put(ApplicationConstants.I2E_AUDIT_ACTIVE, i2eActive);
 		return colMap;
 	}
 	

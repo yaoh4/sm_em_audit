@@ -4,8 +4,10 @@
 <%
 	String action = (String)request.getParameter("act");
 %>
+<s:set var="filename" value="%{@org.apache.commons.lang.WordUtils@capitalizeFully(category) + \".xls\"}"/>
 <display:table name="activeAuditAccounts" id="auditAccountsId" export="true" requestURI="<%=action%>">
 <display:setProperty name="export.excel.decorator" value="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultExportDecorator"/>
+<display:setProperty name="export.excel.filename" value="${filename}"/>
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.export == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 24, 2015 3:42:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw" table="EM_I2E_AUDIT_ACCOUNT_ROLES_VW">
+        <composite-id>
+            <key-property name="eiaaId" type="long">
+                <column name="EIAA_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="npeId" type="long">
+                <column name="NPE_ID" precision="10" scale="0" />
+            </key-property>
+            <key-property name="roleCode" type="string">
+                <column name="ROLE_CODE" length="8" />
+            </key-property>
+            <key-property name="orgId" type="long">
+                <column name="ORG_ID" precision="10" scale="0" />
+            </key-property>
+        </composite-id>
+            <property name="roleDescription" type="string">
+                <column name="ROLE_DESCRIPTION" length="50" />
+            </property>
+            <property name="fullOrgPathAbbrev" type="string">
+                <column name="FULL_ORG_PATH_ABBREV" length="4000" />
+            </property>
+            <property name="fullOrgPathDescription" type="string">
+                <column name="FULL_ORG_PATH_DESCRIPTION" length="600" />
+            </property>
+            <property name="createdDate" type="timestamp">
+                <column name="CREATED_DATE" length="7" />
+            </property>
+        	<property name="createdByFullName" type="string">
+                <column name="CREATED_BY_FULL_NAME" length="80" />
+            </property>
+    </class>
+</hibernate-mapping>

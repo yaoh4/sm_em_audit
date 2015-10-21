@@ -154,6 +154,23 @@ function getRoleDescription(id){
 	openRole(result);
 }	
 
+function getI2eRoleDescription(id){
+	var result = "";
+	var category = $('#categoryId').val();
+	
+	$.ajax({
+			url: "i2eRoleDescriptionAction.action",
+			type: "post",
+			data: {rId: id, cate:category},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+			}, 
+			error: function(){}		
+		});
+	openRole(result);
+}	
+
 function openErrorDialog(){
 	$('#errorDialog').dialog("open");
 }
@@ -211,6 +228,23 @@ function onCategoryChage(category){
 	});
 }
 
+function getNote(id){
+	var result = "";
+	$.ajax({
+		url: "getNoteAction.action",
+		type: "post",
+		data: {pId: id},
+		async:   false,
+		success: function(msg){
+			result = $.trim(msg);
+			
+		}, 
+		error: function(){}		
+	});
+	
+	return result;
+}
+
 function getNote(id, category){
 	var result = "";
 	$.ajax({
@@ -226,6 +260,21 @@ function getNote(id, category){
 	});
 	
 	return result;
+}
+
+function fetchAuditNote(id){
+	$.ajax({
+			url: "getNoteAction.action",
+			type: "post",
+			data: {pId: id},
+			async:   false,
+			success: function(msg){
+				result = $.trim(msg);
+				$('#noteId').html(result);
+				openNote();
+			}, 
+			error: function(){}		
+		});
 }
 
 function fetchAuditNote(id, category){
@@ -290,4 +339,41 @@ function openEraua(){
 }
 function getDateRangeHelp(){	
 	$('#dateRangeHelp').dialog("open");
+}
+
+function toggle(thisname) {
+   var tr=document.getElementsByTagName('tr');
+   for (var i=0;i<tr.length;i++){
+	    if (tr[i].getAttribute(thisname)){
+	    if ( tr[i].style.display=='none' ){
+	       tr[i].style.display = '';
+	    }else {
+	       tr[i].style.display = 'none';
+	    }
+   }
+  }
+}
+
+function toggleOther(thisname){
+		var tr=document.getElementsByTagName('tr')
+		for (var i=0;i<tr.length;i++){
+		  if (tr[i].getAttribute(thisname)){
+		   if ( tr[i].style.display=='none' ){
+		     tr[i].style.display = '';
+		     $('#otherAnchor').html("<strong><a href=\"javascript:toggleOther('nameit');\"><img src='../images/CriteriaOpen.gif' alt='Plus'></a>OTHER</strong>");
+		   } else {
+		     tr[i].style.display = 'none';
+		     $('#otherAnchor').html("<strong><a href=\"javascript:toggleOther('nameit');\"><img src='../images/CriteriaClosed.gif' alt='Minus'></a>OTHER</strong>");	
+		   }
+		  }
+		}
+}
+
+function searchAuditByCategory(cate, org){
+	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org);
+	$('#dashboardFormId').submit();
+}
+function refresh(){
+	$('#dashboardFormId').attr("action", "gotoDashboard");
+	$('#dashboardFormId').submit();
 }
