@@ -70,6 +70,9 @@ td, th {
 	text-align: left;
 	vertical-align: text-top;
 }
+td ul {
+	padding: 0px 10px 10px;
+}
 table ol {
 	margin: 0;
 	padding: 0;
