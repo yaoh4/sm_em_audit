@@ -25,6 +25,7 @@ public class SaveEmailAction extends BaseAction {
 	public String SaveEmail(){
 		String content = request.getParameter("emailBody");
 		content = content.replace("\"", "'");
+		content = content.replaceAll("\\r\\n|\\r|\\n", " ");
 		try{
 				saveFile(content);
 				inputStream = new StringBufferInputStream("success");
