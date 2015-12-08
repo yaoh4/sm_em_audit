@@ -4,7 +4,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppInitializer;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
@@ -27,7 +27,7 @@ public class SysAdminAction extends BaseAction {
     @Autowired
     private LdapServices ldapServices; 
 	@Autowired
-    private ApplicationService applicationService;
+    private UserRoleService userRoleService;
 	@Autowired
 	private NciUser nciUser;
 	@Autowired

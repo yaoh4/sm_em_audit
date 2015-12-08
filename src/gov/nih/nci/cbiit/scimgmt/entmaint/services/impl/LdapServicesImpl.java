@@ -3,7 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.LdapUtil;
@@ -35,7 +35,7 @@ public class LdapServicesImpl implements LdapServices {
     private NciUser nciUser;
     
     @Autowired
-    private ApplicationService applicationService; 
+    private UserRoleService userRoleService; 
     
     @Autowired
 	private EntMaintProperties entMaintProperties;
@@ -56,6 +56,7 @@ public class LdapServicesImpl implements LdapServices {
 
     private String[] stAttrDirIDs = 
     { CN, NCI_ORACLE_ID, FIRST_NAME, SUR_NAME, FULL_NAME, EMAIL, GROUP_MEMBERSHIP, OU };
+    private static final String INVALID_LDAP_ENTRY="Could not find entry in LDAP server.";
 
     
     /**
@@ -67,12 +68,12 @@ public class LdapServicesImpl implements LdapServices {
      * @return NciUser the nciUser object populated with data from LDAP.
      * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
      */
-    public NciUser verifyNciUserWithRole(String remoteUser) throws UserLoginException {
+    public NciUser verifyNciUserWithRole(String remoteUser) throws Exception {
         logger.debug("inside NCIInterceptor.verifyNciUserWithRole():" + 
                      remoteUser);
         nciUser = populateNCIUser(remoteUser);
         // Load user EM roles
-        applicationService.loadPersonInfo(nciUser);
+        userRoleService.loadPersonInfo(nciUser);
         
         // Give IC coordinator role to application developers
         // Changed to allow production environment APP_DEVELOPER role for validation
@@ -134,7 +135,7 @@ public class LdapServicesImpl implements LdapServices {
      * @param remoteUser
      * @throws gov.nih.nci.cbiit.oracle.gpmats.exceptions.UserLoginException
      */
-    private NciUser populateNCIUser(String remoteUser) throws UserLoginException {
+    private NciUser populateNCIUser(String remoteUser) throws Exception {
         logger.debug("Retrieving NciUser from LDAP for user id " + remoteUser);
         String loginErrorMessage = " Error while verifying  the User , roles , permissions " +
                             "of user '"+ remoteUser +"' in LDAP : ";
@@ -159,18 +160,21 @@ public class LdapServicesImpl implements LdapServices {
                 attribs = ctx.getAttributes(stFDN, stAttrDirIDs);
                 logger.debug("attributes from ctx:" + attribs);
             } catch (Exception ex) {
-                logger.error(ex);
-                throw new UserLoginException(this.getClass().getName(), 
-                                             "setUserAttributes", 
-                                             loginErrorMessage + 
-                                             ex.getMessage());
+            	logger.error(ex);     
+            	if(INVALID_LDAP_ENTRY.equalsIgnoreCase(ex.getMessage())){        			            
+            		throw new UserLoginException(this.getClass().getName(), 
+            				"populateNCIUser NO LDAP", 
+            				loginErrorMessage + 
+            				ex.getMessage()); 
+            	}
+            	else{
+            		throw ex;
+            	}
             }
 
             try {
                 if (attribs.get(EMAIL).get() != null) {
                     nciUser.setEmail(attribs.get(EMAIL).get().toString());
-                } else {
-                    nciUser.setEmail(null);
                 }
             } catch (Exception ex) {
                 logger.error(ex);
@@ -182,9 +186,7 @@ public class LdapServicesImpl implements LdapServices {
             try {
                 if (attribs.get(NCI_ORACLE_ID).get() != null) {
                     nciUser.setOracleId(attribs.get(NCI_ORACLE_ID).get().toString());
-                } else {
-                    nciUser.setOracleId(null);
-                }               
+                }              
             } catch (Exception ex) {
                 logger.error(ex);
                 throw new UserLoginException(this.getClass().getName(), 
@@ -195,9 +197,7 @@ public class LdapServicesImpl implements LdapServices {
             try {
                 if (attribs.get(FIRST_NAME).get() != null) {
                     nciUser.setFirstName(attribs.get(FIRST_NAME).get().toString());
-                } else {
-                    nciUser.setFirstName(null);
-                }
+                } 
             } catch (Exception ex) {
                 logger.error(ex);
                 throw new UserLoginException(this.getClass().getName(), 
@@ -208,8 +208,6 @@ public class LdapServicesImpl implements LdapServices {
             try {
                 if (attribs.get(SUR_NAME).get() != null) {
                     nciUser.setLastName(attribs.get(SUR_NAME).get().toString());
-                } else {
-                    nciUser.setLastName(null);
                 }
             } catch (Exception ex) {
                 logger.error(ex);
@@ -269,9 +267,7 @@ public class LdapServicesImpl implements LdapServices {
                     }
                     nciUser.setGroupMembership(groups);
                     
-                } else {
-                    nciUser.setGroupMembership(null);
-                }
+                } 
             } catch (Exception ex) {
                 logger.error(ex);
                 throw new UserLoginException(this.getClass().getName(), 
