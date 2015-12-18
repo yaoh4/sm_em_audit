@@ -4,8 +4,10 @@ import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.NciPeopleVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+
 
 import javax.persistence.ParameterMode;
 
@@ -20,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApplicationDAO {
+public class UserRoleDAO {
 	
-	static Logger logger = Logger.getLogger(ApplicationDAO.class);
+	static Logger logger = Logger.getLogger(UserRoleDAO.class);
 	
 	@Autowired
 	private NciUser nciUser;
@@ -72,5 +74,30 @@ public class ApplicationDAO {
 			throw re;
 		}
 	}
+	
+	 /**
+     * This method checks if logged in user is Valid.
+     * @param oracleId
+     * @return boolean
+     */
+    public boolean isI2eAccountValid(String oracleId){    	
+    	boolean isI2eAccountValid = true; 
+    	Criteria criteria = null;
+    	try{    		
+    		criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);                     
+    		criteria.add(Restrictions.eq("oracleId", oracleId.toUpperCase()));
+    		NciPeopleVw nciUser = (NciPeopleVw) criteria.uniqueResult();
+    		if(nciUser == null || "N".equalsIgnoreCase(nciUser.getActiveFlag())){
+    			isI2eAccountValid = false;
+    			logger.info("I2E Account with oracleId : "+oracleId + " is not Valid.");
+        	}  
+
+    	} catch (Throwable ex) {
+    		logger.error("Error occurred while validating I2E Account of NCI User with oracleid: "+oracleId, ex);
+			throw ex;
+		}
+    	
+    	return isI2eAccountValid;
+    }
 	
 }

@@ -35,10 +35,12 @@
             </ul>
             
             <ul>
-                <li>
-                    User:
-                    <strong><s:property value="%{#session.nciUser.fullName}"/></strong>
-                </li>
+            	<s:if test="#session.nciUser != null">
+	                <li>
+	                    User:
+	                    <strong><s:property value="%{#session.nciUser.fullName}"/></strong>
+	                </li>
+                </s:if>
                 <li>
                     Env.:
                     <strong><s:property value="%{getPropertyValue('ENVIRONMENT')}"/></strong>

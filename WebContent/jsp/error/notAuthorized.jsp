@@ -11,7 +11,7 @@
 			<h4 style="color: #DD6903;">
 				You are not authorized to view this page. If you have any questions
 				regarding your access to this application, please send an email to 
-				<s:a href="mailto:%{contactEmail}">
+				<s:a href="mailto:%{contactEmail}?subject=IMPAC II And I2E Accounts Tracking System Access">
 					<s:property value="contactText" />
 				</s:a>.
 			</h4>
