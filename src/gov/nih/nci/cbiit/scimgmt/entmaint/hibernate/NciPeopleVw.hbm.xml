@@ -1,0 +1,121 @@
+<?xml version="1.0"?>					
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+    
+<hibernate-mapping>
+<class 
+    name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.NciPeopleVw" 
+    table="NCI_PEOPLE_VW"
+    lazy="false"
+>
+    <meta attribute="class-description" inherit="false">
+       @hibernate.class
+        table="NCI_PEOPLE_VW"
+    </meta>
+
+    <id
+        name="npnId"
+        type="java.lang.Long"
+        column="NPN_ID"
+        length="10"
+    >
+        <meta attribute="field-description">
+           @hibernate.id            
+            type="java.lang.Long"
+            column="NPN_ID"
+        </meta>        
+    </id>
+             
+  <property
+        name="nihNetworkId"
+        type="java.lang.String"
+        column="NIH_NETWORK_ID"       
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="NIH_NETWORK_ID"
+            length="30"           
+        </meta>    
+    </property>
+    
+     <property
+        name="oracleId"
+        type="java.lang.String"
+        column="ORACLE_ID"       
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="ORACLE_ID"
+            length="30"           
+        </meta>    
+    </property>
+    
+    <property
+        name="lastName"
+        type="java.lang.String"
+        column="LAST_NAME"       
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="LAST_NAME"
+            length="30"           
+        </meta>    
+    </property>
+    
+     <property
+        name="firstName"
+        type="java.lang.String"
+        column="FIRST_NAME"       
+        length="30"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="FIRST_NAME"
+            length="30"           
+        </meta>    
+    </property>
+    
+     <property
+        name="emailAddress"
+        type="java.lang.String"
+        column="EMAIL_ADDRESS"       
+        length="80"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="EMAIL_ADDRESS"
+            length="80"           
+        </meta>    
+    </property>   
+    
+    <property
+        name="inactiveDate"
+        type="java.sql.Timestamp"
+        column="INACTIVE_DATE"
+        length="7"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="INACTIVE_DATE"
+            length="7"
+        </meta>    
+    </property>
+    
+    <property
+        name="activeFlag"
+        type="java.lang.String"
+        column="ACTIVE_FLAG"       
+        length="1"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="ACTIVE_FLAG"
+            length="1"           
+        </meta>    
+    </property> 
+</class>
+</hibernate-mapping>

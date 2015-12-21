@@ -6,5 +6,5 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 public interface LdapServices {
 
-    public NciUser verifyNciUserWithRole(String remoteUser) throws UserLoginException;
+    public NciUser verifyNciUserWithRole(String remoteUser) throws Exception;
 }

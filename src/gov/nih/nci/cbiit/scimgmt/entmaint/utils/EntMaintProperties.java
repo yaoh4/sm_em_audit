@@ -1,7 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -24,7 +24,7 @@ public class EntMaintProperties extends Properties {
 	static Logger logger = Logger.getLogger(EntMaintProperties.class);
 
 	@Autowired
-	private ApplicationService applicationService;
+	private UserRoleService userRoleService;
 	
 	/**
 	 * Inits the.
@@ -35,7 +35,7 @@ public class EntMaintProperties extends Properties {
 			
 			logger.info("Initing EntMaintProperties");
 			
-			for (AppPropertiesT a : applicationService.getAppPropertiesList()) {
+			for (AppPropertiesT a : userRoleService.getAppPropertiesList()) {
 				setProperty(a.getPropKey(), a.getPropValue());
 			}
 			// Load property file from conf.dir directory

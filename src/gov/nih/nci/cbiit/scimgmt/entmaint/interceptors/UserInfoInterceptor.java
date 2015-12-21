@@ -1,9 +1,11 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.interceptors;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.ApplicationService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
+
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -28,6 +30,9 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
 	@Autowired
     private LdapServices ldapServices; 
+	
+	@Autowired
+    private UserRoleService userRoleService; 
 	
     public static Logger logger = Logger.getLogger(UserInfoInterceptor.class);
 
@@ -96,7 +101,16 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                     }
                     return "error";
                 }
-                nciUser = ldapServices.verifyNciUserWithRole(remoteUser);
+                try{
+                	nciUser = ldapServices.verifyNciUserWithRole(remoteUser);
+                }catch (UserLoginException ex) {                	
+                	return "notauthorized";
+                }
+                
+                //If User is Inactive, then navigate the user to Login Error page.
+                if(!userRoleService.isI2eAccountValid(nciUser.getOracleId())){
+                	return "notauthorized";
+                }
                 
                 session.put(ApplicationConstants.SESSION_USER, nciUser);
                 logger.debug("NCI user retrive  fm session:" + nciUser);

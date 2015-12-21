@@ -8,7 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 /**
  * interface  that provides all the generic APIs for the EM audit application
  */
-public interface ApplicationService {
+public interface UserRoleService {
 
 	/**
 	 * Get NCI User information such as Roles and Organization
@@ -22,4 +22,11 @@ public interface ApplicationService {
 	 * @return
 	 */
 	public List<AppPropertiesT> getAppPropertiesList();
+	
+	 /**
+     * This method checks if logged in user is Valid.
+     * @param oracleId
+     * @return boolean
+     */
+    public boolean isI2eAccountValid(String oracleId);
 }
