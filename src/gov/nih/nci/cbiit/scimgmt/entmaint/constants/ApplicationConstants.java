@@ -112,6 +112,7 @@ public interface ApplicationConstants {
 	public static final String CATEGORY_DELETED = "DELETED";
 	public static final String CATEGORY_INACTIVE = "INACTIVE";
 	public static final String CATEGORY_I2E = "I2E";
+	public static final String CATEGORY_EXCLUDED = "EXCLUDED";
 	
 	public static final String ACTIVE_ACTION_ALL = "1";
 	public static final String NEW_ACTION_ALL = "5";

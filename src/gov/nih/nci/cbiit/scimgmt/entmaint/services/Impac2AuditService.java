@@ -52,6 +52,15 @@ public interface Impac2AuditService {
     public PaginatedListImpl<AuditAccountVO> searchInactiveAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
+     * Data retrieval for Exclude from Audit accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
+    public PaginatedListImpl<AuditAccountVO> searchExcludedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
+    
+    /**
      * Update actions taken on account for submit.
      * @param category
      * @param eaaId
