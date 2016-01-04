@@ -8,8 +8,22 @@
 <script language="JavaScript" src="../scripts/bootstrap.min.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
-  
-  <div class="table-responsive">
+
+<script>
+	$(function() {
+		$("table td.colorPercent").each(function(e) {
+			if ($(this).text().indexOf("(0%)") != -1) {
+				$(this).addClass('red');
+			}
+			if ($(this).text().indexOf("(100%)") != -1) {
+				$(this).addClass('green');
+			}
+		});
+	});
+	
+</script>
+
+<div class="table-responsive">
   <form id="dashboardFormId" action="gotoDashboard" method="post">
   <table class="table table-condensed table-striped">
       <caption>IMPAC II Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
@@ -49,23 +63,23 @@
     	<% 
     		HashMap<String, DashboardData> dData = (HashMap<String, DashboardData>)orgData.get(key); 
     	%>
-    	<td><%= dData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td><%= dData.get("new").getNewAccountDataStr(key) %></td>
-    	<td><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= dData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= dData.get("new").getNewAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
     	<s:if test="emAuditsVO.i2eFromDate != null">
-      		<td><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
+      		<td class="colorPercent"><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
       	</s:if>
     </tr>
     <% } %>
     <tr class="org">
       <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
-      <td><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
-      <td><b><%= otherTotal.getNewAccountDataStr() %></b></td>
-      <td><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
-      <td><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      <td class="colorPercent"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
+      <td class="colorPercent"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
+      <td class="colorPercent"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
+      <td class="colorPercent"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
       <s:if test="emAuditsVO.i2eFromDate != null">
-      	<td><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
       </s:if>
     </tr>
    
@@ -78,12 +92,12 @@
     	<% 
     		HashMap<String, DashboardData> oData = (HashMap<String, DashboardData>)otherOrgData.get(key); 
     	%>    
-     	<td><%= oData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td><%= oData.get("new").getNewAccountDataStr(key) %></td>
-    	<td><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
+     	<td class="colorPercent"><%= oData.get("active").getActiveAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= oData.get("new").getNewAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	<td class="colorPercent"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
     	<s:if test="emAuditsVO.i2eFromDate != null">
-    		<td><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
+    		<td class="colorPercent"><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
     	</s:if>
     </tr>
     <% } %>

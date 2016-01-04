@@ -208,3 +208,9 @@ table.nestedTableStyle{
 	/* To avoid overlapping of nested table columns we are overriding that property here.*/
 	white-space:normal;
 }
+.red {
+    background-color: #ffb2b2;
+}
+.green {
+    background-color: #abe79e;
+}
