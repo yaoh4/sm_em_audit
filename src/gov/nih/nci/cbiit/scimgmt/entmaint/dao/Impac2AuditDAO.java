@@ -689,12 +689,16 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.asc("icDiffFlag"));
 					criteria.addOrder(Order.asc("nedInactiveFlag"));
 					criteria.addOrder(Order.asc("lastNameDiffFlag"));
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
 				}
 				else {
 					criteria.addOrder(Order.desc("sodFlag"));
 					criteria.addOrder(Order.desc("icDiffFlag"));
 					criteria.addOrder(Order.desc("nedInactiveFlag"));
 					criteria.addOrder(Order.desc("lastNameDiffFlag"));
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
 				}
 			} else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
