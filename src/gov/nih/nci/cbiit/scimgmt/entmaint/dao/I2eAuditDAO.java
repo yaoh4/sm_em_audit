@@ -219,7 +219,9 @@ public class I2eAuditDAO {
 					.add(Projections.property("nedIc"), "nedIc")
 					.add(Projections.property("parentNedOrgPath"), "parentNedOrgPath")
 					.add(Projections.property("nciDoc"), "nciDoc")
-					.add(Projections.property("submittedBy"), "submittedBy"));
+					.add(Projections.property("submittedBy"), "submittedBy")
+					.add(Projections.property("action"), "action")
+					.add(Projections.property("unsubmittedFlag"), "unsubmittedFlag"));
 
 			
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmI2eAuditAccountsVw.class))

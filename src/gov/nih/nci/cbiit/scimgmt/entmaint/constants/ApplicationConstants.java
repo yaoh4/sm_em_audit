@@ -130,6 +130,9 @@ public interface ApplicationConstants {
 	public static final Long NEW_EXCLUDE_FROM_AUDIT = 30L;
 	public static final Long DELETED_EXCLUDE_FROM_AUDIT = 31L;
 	public static final Long INACTIVE_EXCLUDE_FROM_AUDIT = 32L;
+	public static final String ACTIVE_ACTION_UNKNOWN = "4";
+	public static final String NEW_ACTION_UNKNOWN = "7";
+	public static final String DELETED_ACTION_UNKNOWN = "10";
 	
     public static String PORTFOLIO_ACTIVE = "portfolioActive";
     public static String PORTFOLIO_NEW = "portfolioNew";

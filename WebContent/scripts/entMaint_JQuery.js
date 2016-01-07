@@ -373,6 +373,10 @@ function searchAuditByCategory(cate, org){
 	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org);
 	$('#dashboardFormId').submit();
 }
+function searchAuditByCategory(cate, org, act){
+	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org+"&act=" + act);
+	$('#dashboardFormId').submit();
+}
 function refresh(){
 	$('#dashboardFormId').attr("action", "gotoDashboard");
 	$('#dashboardFormId').submit();
