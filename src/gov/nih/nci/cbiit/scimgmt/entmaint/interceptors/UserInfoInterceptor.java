@@ -4,7 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
-import gov.nih.nci.cbiit.scimgmt.entmaint.services.LdapServices;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
 
 import com.opensymphony.xwork2.ActionContext;
@@ -27,16 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings("serial")
 public class UserInfoInterceptor extends AbstractInterceptor implements StrutsStatics  {
-
-	@Autowired
-    private LdapServices ldapServices; 
 	
 	@Autowired
-    private UserRoleService userRoleService; 
-	
+    private UserRoleService userRoleService; 	
+	@Autowired
+    private EntMaintProperties entMaintProperties;	
     public static Logger logger = Logger.getLogger(UserInfoInterceptor.class);
-
-    private static final String EXCLUDED_USER_ID="ncildap";
 
     public UserInfoInterceptor() {
     }
@@ -54,8 +50,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
         logger.debug("Inside User Interceptor.intercept");
         // Is there a "user" object stored in the user's HttpSession?
         NciUser nciUser = 
-            (NciUser)session.get(ApplicationConstants.SESSION_USER);
-        
+            (NciUser)session.get(ApplicationConstants.SESSION_USER);        
 
     	//Check if this is a change user action
         String changeUser = request.getParameter("user");
@@ -83,38 +78,26 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                 		authUser = new String(decoder.decode(authUser.substring(6).getBytes()));
                         remoteUser = authUser.substring(0, authUser.indexOf(":"));
                }
-
-            }
-            
+            }            
           
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
-                // Check for excluded user
-                if (EXCLUDED_USER_ID.equalsIgnoreCase(remoteUser)) {
-                    String message  = "Login attempt by user  '"+remoteUser+
-                                      "' . User  has NO privileges for this application";
-                    
-                    logger.info(message);
-                    if (action instanceof ValidationAware) {
-                        ((ValidationAware)action).addActionError("<B>"+message+"</B>");
-                    }
-                    return "error";
-                }
-                try{
-                	nciUser = ldapServices.verifyNciUserWithRole(remoteUser);
-                }catch (UserLoginException ex) {                	
-                	return "notauthorized";
-                }
-                
-                //If User is Inactive, then navigate the user to Login Error page.
-                if(!userRoleService.isI2eAccountValid(nciUser.getOracleId())){
-                	return "notauthorized";
-                }
-                
-                session.put(ApplicationConstants.SESSION_USER, nciUser);
-                logger.debug("NCI user retrive  fm session:" + nciUser);
-                return invocation.invoke();
+            	nciUser = userRoleService.getNCIUser(remoteUser);  
+
+            	//If User is Inactive then navigate the user to Login Error page.
+            	if(nciUser == null || StringUtils.isEmpty(nciUser.getOracleId()) || "N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+            		return "notauthorized";
+            	} 
+            	populateNCIUserRoles(nciUser);
+            	
+            	//If user doesn't have required role to access this application then navigate the user to Login Error page.
+            	if(!verifyAuthorization(nciUser)){
+            		return "notauthorized";
+            	}
+            	session.put(ApplicationConstants.SESSION_USER, nciUser);
+            	logger.debug("NCI user retrive  fm session:" + nciUser);
+            	return invocation.invoke();
             } else {
                 if (action instanceof ValidationAware) {
                 	String message  = "Site Minder did not pass the SM User";         
@@ -130,10 +113,51 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             return invocation.invoke();
         }
     }
-
-    public void setLdapServices(LdapServices ldapServices) {
-        this.ldapServices = ldapServices;
-    }
     
+    /**
+     * Populate User Roles
+     * @param nciUser
+     */
+    public void populateNCIUserRoles( NciUser nciUser){
+    	// Load user EM roles
+    	userRoleService.loadPersonInfo(nciUser);
+
+    	// Give IC coordinator role to application developers
+    	// Changed to allow production environment APP_DEVELOPER role for validation
+    	if (entMaintProperties.getPropertyValue("ENVIRONMENT").contains("Development") ||
+    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") ||
+    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage") ||
+    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Production")) {
+    		String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
+    		if(devUsers != null) {
+    			String[] appDevUsers = devUsers.split(",");
+    			for (int i = 0; i < appDevUsers.length; i++) {
+    				if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
+    					nciUser.setCurrentUserRole("EMREP");
+    				}
+    			}
+    		}
+    	}
+    }
+
+    /**
+     * Defines the user authorization for this action.
+     * 
+     * @param nu NciUser to be verified
+     * 
+     * @return boolean true if the user has access, else false
+     * @throws gov.nih.nci.cbiit.oracle.entmaint.exceptions.UserLoginException
+     */
+    private boolean verifyAuthorization(NciUser nciUser) throws UserLoginException {
+        logger.debug("In the verifyAuthorization method with user: " + 
+                     nciUser);
+		if (nciUser.getCurrentUserRole() == null
+				|| (!nciUser.getCurrentUserRole().equalsIgnoreCase(
+						ApplicationConstants.USER_ROLE_IC_COORDINATOR) && !nciUser.getCurrentUserRole()
+						.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))) {
+			return false;
+		}
+        return true;
+    }
  
 }

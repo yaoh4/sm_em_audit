@@ -75,29 +75,24 @@ public class UserRoleDAO {
 		}
 	}
 	
-	 /**
-     * This method checks if logged in user is Valid.
-     * @param oracleId
-     * @return boolean
+	/**
+     * This method retrieves information of logged in user from NciPeopleVw.
+     * @param userId    
+     * @return nciPeopleVw
      */
-    public boolean isI2eAccountValid(String oracleId){    	
-    	boolean isI2eAccountValid = true; 
-    	Criteria criteria = null;
-    	try{    		
-    		criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);                     
-    		criteria.add(Restrictions.eq("oracleId", oracleId.toUpperCase()));
-    		NciPeopleVw nciUser = (NciPeopleVw) criteria.uniqueResult();
-    		if(nciUser == null || "N".equalsIgnoreCase(nciUser.getActiveFlag())){
-    			isI2eAccountValid = false;
-    			logger.info("I2E Account with oracleId : "+oracleId + " is not Valid.");
-        	}  
-
+    public NciPeopleVw getNCIUserInformation(String userId){ 
+    	NciPeopleVw nciPeopleVw = null;
+    	Criteria criteria = null;    	
+    	try{
+    		criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);       		
+    		criteria.add(Restrictions.eq("nihNetworkId", userId.toUpperCase()));    		
+    		nciPeopleVw = (NciPeopleVw) criteria.uniqueResult();
+        	
     	} catch (Throwable ex) {
-    		logger.error("Error occurred while validating I2E Account of NCI User with oracleid: "+oracleId, ex);
+    		logger.error("Error occurred while retrieving I2E Account of NCI User with nihNetworkId: "+userId, ex);
 			throw ex;
 		}
-    	
-    	return isI2eAccountValid;
-    }
-	
+     	
+    	return nciPeopleVw;
+    }	
 }
