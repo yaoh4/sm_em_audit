@@ -118,7 +118,7 @@ public class AdminDashboardAction extends BaseAction {
     	String action = request.getParameter("act");
     	searchVO.setOrganization(orgName);
     	searchVO.setExcludeNCIOrgs(false);
-    	if(!StringUtils.isEmpty(action))
+    	if(!StringUtils.isEmpty(action) && !StringUtils.equalsIgnoreCase(action, "undefined"))
     		searchVO.setAct(action);
     	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	searchVO.setAuditId(emAuditsVO.getId());
