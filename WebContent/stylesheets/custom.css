@@ -209,8 +209,8 @@ table.nestedTableStyle{
 	white-space:normal;
 }
 .red {
-    background-color: #ffb2b2;
+    color: #e65c65 !important;
 }
 .green {
-    background-color: #abe79e;
+    color: #aae65c !important;
 }

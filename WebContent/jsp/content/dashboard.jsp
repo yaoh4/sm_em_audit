@@ -11,7 +11,7 @@
 
 <script>
 	$(function() {
-		$("table td.colorPercent").each(function(e) {
+		$("table td span.percent").each(function(e) {
 			if ($(this).text().indexOf("(0%)") != -1) {
 				$(this).addClass('red');
 			}
