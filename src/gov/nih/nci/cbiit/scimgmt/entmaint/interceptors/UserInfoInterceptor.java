@@ -87,6 +87,18 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
             	//If User is Inactive then navigate the user to Login Error page.
             	if(nciUser == null || StringUtils.isEmpty(nciUser.getOracleId()) || "N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+            		
+            		String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
+            		String errorReason = "";
+            		if(nciUser != null){
+            			if(StringUtils.isEmpty(nciUser.getOracleId())){
+            				errorReason = "OracleId is Null.";
+            			}
+            			else if("N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+            				errorReason = "I2E Account is not Active.";
+            			}
+            		}
+            		logger.error(accessError + errorReason);
             		return "notauthorized";
             	} 
             	populateNCIUserRoles(nciUser);
