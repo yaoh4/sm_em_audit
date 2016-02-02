@@ -85,22 +85,32 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
             	nciUser = userRoleService.getNCIUser(remoteUser);  
 
-            	//If User is Inactive then navigate the user to Login Error page.
-            	if(nciUser == null || StringUtils.isEmpty(nciUser.getOracleId()) || "N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
-            		
-            		String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
-            		String errorReason = "";
-            		if(nciUser != null){
-            			if(StringUtils.isEmpty(nciUser.getOracleId())){
-            				errorReason = "OracleId is Null.";
-            			}
-            			else if("N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
-            				errorReason = "I2E Account is not Active.";
-            			}
-            		}
-            		logger.error(accessError + errorReason);
-            		return "notauthorized";
-            	} 
+            	String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
+        		String errorReason = "";
+        		
+        		if(nciUser == null){
+					logger.error(accessError);
+    				return "notauthorized";
+				}
+				
+				//If OracleId is Null
+				if(StringUtils.isEmpty(nciUser.getOracleId())){
+					errorReason = "OracleId is Null.";
+				}
+				//If Email is Null
+				if(StringUtils.isEmpty(nciUser.getEmail())){
+					errorReason = "Email is Null.";
+				}
+				//If User is Inactive
+				else if("N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+					errorReason = "I2E Account is not Active.";
+				}
+				
+				if(StringUtils.isNotEmpty(errorReason)){
+					logger.error(accessError + errorReason);
+					return "notauthorized";
+				} 
+				
             	populateNCIUserRoles(nciUser);
             	
             	//If user doesn't have required role to access this application then navigate the user to Login Error page.
@@ -136,20 +146,16 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 
     	// Give IC coordinator role to application developers
     	// Changed to allow production environment APP_DEVELOPER role for validation
-    	if (entMaintProperties.getPropertyValue("ENVIRONMENT").contains("Development") ||
-    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") ||
-    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage") ||
-    			entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Production")) {
-    		String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
-    		if(devUsers != null) {
-    			String[] appDevUsers = devUsers.split(",");
-    			for (int i = 0; i < appDevUsers.length; i++) {
-    				if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
-    					nciUser.setCurrentUserRole("EMREP");
-    				}
+    	String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
+    	if(devUsers != null) {
+    		String[] appDevUsers = devUsers.split(",");
+    		for (int i = 0; i < appDevUsers.length; i++) {
+    			if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
+    				nciUser.setCurrentUserRole("EMREP");
     			}
     		}
     	}
+
     }
 
     /**
