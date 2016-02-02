@@ -297,7 +297,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/Impac2PortfolioDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/PropertyListDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/UserRoleDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/HibernateDAOException.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/JdbcDAOException.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/UserLoginException.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/helper/DisplayTagHelper.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/helper/action/AuditSearchActionHelper.java -text
