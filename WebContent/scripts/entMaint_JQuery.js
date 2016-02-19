@@ -202,6 +202,7 @@ function onOrgChange(org){
 }
 
 function onCategoryChage(category){
+	org = $('#portfolioOrg option:selected').val();
 	if(category == '22' || category == '25'){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
@@ -218,7 +219,7 @@ function onCategoryChage(category){
 	$.ajax({
 		url: "orgOptionAction.action",
 		type: "post",
-		data: {cate: category},
+		data: {cate: category, org: org},
 		async:   false,
 		success: function(msg){
 			result = $.trim(msg);
