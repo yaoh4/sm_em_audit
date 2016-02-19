@@ -13,10 +13,15 @@
 	$(function() {
 		$("table td span.percent").each(function(e) {
 			if ($(this).text().indexOf("(0%)") != -1) {
-				$(this).addClass('red');
+				if($(this).parent().children("a").text().indexOf("0/0") == -1) {
+					$(this).addClass('red');
+				}
 			}
-			if ($(this).text().indexOf("(100%)") != -1) {
+			else if ($(this).text().indexOf("(100%)") != -1) {
 				$(this).addClass('green');
+			}
+			else {
+				$(this).addClass('black');
 			}
 		});
 	});
