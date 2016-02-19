@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.security;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
@@ -542,4 +543,20 @@ public class NciPerson implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+    
+	public String getFirstLastName() {
+		final StringBuffer sb = new StringBuffer("");
+		
+		if(!StringUtils.isBlank(this.getFirstName())){
+			sb.append(this.getFirstName());
+		}
+		if(!StringUtils.isBlank(this.getFirstName()) && !StringUtils.isBlank(this.getLastName())){
+			sb.append(" ");
+		}
+		if(!StringUtils.isBlank(this.getLastName())){
+			sb.append(this.getLastName());
+		}
+		
+		return sb.toString();
+	}
 }

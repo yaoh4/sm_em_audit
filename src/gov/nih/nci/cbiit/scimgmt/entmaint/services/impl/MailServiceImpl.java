@@ -234,7 +234,7 @@ public class MailServiceImpl implements MailService {
 					orgMapName.put("EMADMIN",new ArrayList<String>());
 				}
 				orgMapEmail.get("EMADMIN").add(nciUser.getEmail());
-				orgMapName.get("EMADMIN").add(nciUser.getFullName());
+				orgMapName.get("EMADMIN").add(nciUser.getFirstLastName());
 			}
 			else {
 				if(!orgMapEmail.containsKey(nciUser.getOrgPath())) {
@@ -242,7 +242,7 @@ public class MailServiceImpl implements MailService {
 					orgMapName.put(nciUser.getOrgPath(),new ArrayList<String>());
 				}
 				orgMapEmail.get(nciUser.getOrgPath()).add(nciUser.getEmail());
-				orgMapName.get(nciUser.getOrgPath()).add(nciUser.getFullName());
+				orgMapName.get(nciUser.getOrgPath()).add(nciUser.getFirstLastName());
 			}
 		}
 		

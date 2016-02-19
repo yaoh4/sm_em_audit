@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -72,6 +73,7 @@ public class DiscrepanciesAction extends BaseAction {
 		//perform the discrepancy search
 		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY);
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
+		portfolioAccounts.setList(filterDiscrepancyAccounts(portfolioAccounts.getList()));
 		
 		//Get displayColumn as per entered category.
 		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
@@ -80,6 +82,7 @@ public class DiscrepanciesAction extends BaseAction {
 				
 		searchVO.setCategory(ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY);
 		i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, true);
+		i2ePortfolioAccounts.setList(filterI2eDiscrepancyAccounts(i2ePortfolioAccounts.getList()));
 		
 		colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.I2ECOLATTRIBUTE);	
 		displayColumnI2e = auditSearchActionHelper.getI2ePortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());
@@ -106,6 +109,48 @@ public class DiscrepanciesAction extends BaseAction {
 		}
 	}
 	
+	private List<PortfolioI2eAccountVO> filterI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list) {
+		
+		List<PortfolioI2eAccountVO> accounts = new ArrayList<PortfolioI2eAccountVO>();
+		for (PortfolioI2eAccountVO account : list) {
+			PortfolioI2eAccountVO entry = account;
+			entry.getAccountDiscrepancies().clear();
+			
+			for(String dis : account.getAccountDiscrepancies()){
+				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
+				if(disVw.getShortDescrip() != null){
+					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
+						account.getAccountDiscrepancies().add(dis);
+					}
+				}
+			}
+			if(!account.getAccountDiscrepancies().isEmpty())
+				accounts.add(entry);
+		}
+		return accounts;
+	}
+
+	private List<PortfolioAccountVO> filterDiscrepancyAccounts(List<PortfolioAccountVO> list) {
+		
+		List<PortfolioAccountVO> accounts = new ArrayList<PortfolioAccountVO>();
+		for (PortfolioAccountVO account : list) {
+			PortfolioAccountVO entry = account;
+			entry.getAccountDiscrepancies().clear();
+			
+			for(String dis : account.getAccountDiscrepancies()){
+				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
+				if(disVw.getShortDescrip() != null){
+					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
+						account.getAccountDiscrepancies().add(dis);
+					}
+				}
+			}
+			if(!account.getAccountDiscrepancies().isEmpty())
+				accounts.add(entry);
+		}
+		return accounts;
+	}
+
 	/**
 	 * This method returns rolesColumns.
 	 * @return List<Tab>

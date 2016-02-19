@@ -36,11 +36,16 @@ public class AutomatedSendEmailTask {
 	 * Send emails to IC coordinator for discrepancy accounts
 	 */
 	public void sendDiscrepancyEmail() {
+		if (entMaintProperties.getProperty("email.discrepancy.sendflag", "Y").equalsIgnoreCase("N")) {
+			log.info("=====> Monthly Reminder emails to IC coordinators is turned off. Property Name: email.discrepancy.sendflag");
+			return;
+		}
+		log.info("=====> Sending Monthly Reminder emails to IC coordinators");
 		try {
 			//Send email			
 			mailService.sendDiscrepancyEmail();
 		} catch (Exception e) {
-			log.error("=====> Exception occurred while Sending reminder email", e);
+			log.error("=====> Exception occurred while Sending Monthly Reminder emails to IC coordinators", e);
 		}
 	}
 }
