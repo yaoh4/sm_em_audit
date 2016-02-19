@@ -113,19 +113,20 @@ public class DiscrepanciesAction extends BaseAction {
 		
 		List<PortfolioI2eAccountVO> accounts = new ArrayList<PortfolioI2eAccountVO>();
 		for (PortfolioI2eAccountVO account : list) {
-			PortfolioI2eAccountVO entry = account;
-			entry.getAccountDiscrepancies().clear();
+			List<String> filteredDiscrepancies = new ArrayList<String>();
 			
 			for(String dis : account.getAccountDiscrepancies()){
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 				if(disVw.getShortDescrip() != null){
 					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
-						account.getAccountDiscrepancies().add(dis);
+						filteredDiscrepancies.add(dis);
 					}
 				}
 			}
+			account.getAccountDiscrepancies().clear();
+			account.getAccountDiscrepancies().addAll(filteredDiscrepancies);
 			if(!account.getAccountDiscrepancies().isEmpty())
-				accounts.add(entry);
+				accounts.add(account);
 		}
 		return accounts;
 	}
@@ -134,19 +135,20 @@ public class DiscrepanciesAction extends BaseAction {
 		
 		List<PortfolioAccountVO> accounts = new ArrayList<PortfolioAccountVO>();
 		for (PortfolioAccountVO account : list) {
-			PortfolioAccountVO entry = account;
-			entry.getAccountDiscrepancies().clear();
+			List<String> filteredDiscrepancies = new ArrayList<String>();
 			
 			for(String dis : account.getAccountDiscrepancies()){
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 				if(disVw.getShortDescrip() != null){
 					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
-						account.getAccountDiscrepancies().add(dis);
+						filteredDiscrepancies.add(dis);
 					}
 				}
 			}
+			account.getAccountDiscrepancies().clear();
+			account.getAccountDiscrepancies().addAll(filteredDiscrepancies);
 			if(!account.getAccountDiscrepancies().isEmpty())
-				accounts.add(entry);
+				accounts.add(account);
 		}
 		return accounts;
 	}
