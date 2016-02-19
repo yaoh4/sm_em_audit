@@ -97,7 +97,7 @@
   	
   
   <!-- We are in admin tab -->
-  <s:else>
+  <s:elseif test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_ADMIN eq #request.selectedTab}">
   
   	<s:if
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_ADMINISTER eq #request.selectedSubNav}">
@@ -111,5 +111,10 @@
   		<h4>Audit Reports <span style="font-weight: normal;"></span></h4>
   	</s:else>
   
+  </s:elseif>
+  
+  <!-- We are in discrepancy tab -->
+  <s:else>
+  		<h4>IMPAC II Discrepancies <span style="font-weight: normal;"></span></h4>
   </s:else>
  

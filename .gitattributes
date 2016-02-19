@@ -1,5 +1,6 @@
 * text=auto !eol
 WebContent/WEB-INF/applicationContext.xml -text
+WebContent/WEB-INF/emailTemplates/discrepancyEmail.vm -text
 WebContent/WEB-INF/lib/activation.jar -text
 WebContent/WEB-INF/lib/antlr-2.7.7.jar -text
 WebContent/WEB-INF/lib/aopalliance-1.0.jar -text
@@ -126,6 +127,7 @@ WebContent/WEB-INF/lib/xpp3_min-1.1.4c.jar -text
 WebContent/WEB-INF/lib/xstream-1.4.2.jar -text
 WebContent/WEB-INF/lib/xwork-core-2.3.16.3.jar -text
 WebContent/WEB-INF/tiles-admin.xml -text
+WebContent/WEB-INF/tiles-discrepancy.xml -text
 WebContent/WEB-INF/tiles-i2e.xml -text
 WebContent/WEB-INF/tiles-impac2.xml -text
 WebContent/WEB-INF/tld/displaytag-el.tld -text
@@ -188,6 +190,7 @@ WebContent/jsp/content/adminReports.jsp -text
 WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/dashboard.jsp -text
+WebContent/jsp/content/discrepancies.jsp -text
 WebContent/jsp/content/email.jsp -text
 WebContent/jsp/content/i2eAuditAccountSearchResult.jsp -text
 WebContent/jsp/content/i2eAuditAccounts.jsp -text
@@ -263,11 +266,13 @@ properties/test/entmaint.properties -text
 properties/test/ldap.properties -text
 properties/test/log4j.properties -text
 src/admin.xml -text
+src/discrepancy.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminDashboardAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/AdminReportsAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/BaseAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ComposeEmailAction.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/DiscrepanciesAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/ErrorMessageAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/FetchI2eNoteAction.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/FetchNoteAction.java -text
@@ -365,6 +370,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2AuditService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2PortfolioService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LdapServices.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LookupService.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/services/MailService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/UserRoleService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/AdminServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/I2eAuditServiceImpl.java -text
@@ -373,8 +379,10 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2AuditServiceImpl.java
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2PortfolioServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LdapServicesImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LookupServiceImpl.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/MailServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/UserRoleServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/tags/WorkbenchApplicationLinkTag.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/AutomatedSendEmailTask.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DBResult.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DashboardData.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DisplayObject.java -text
@@ -389,6 +397,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/Tab.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditI2eAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditSearchVO.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/DiscrepancyEmailAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/EmAuditsVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PortfolioAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PortfolioI2eAccountVO.java -text

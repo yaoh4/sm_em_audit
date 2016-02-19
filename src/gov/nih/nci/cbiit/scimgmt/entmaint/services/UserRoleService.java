@@ -23,10 +23,19 @@ public interface UserRoleService {
 	 */
 	public List<AppPropertiesT> getAppPropertiesList();
 	
+	/**
+	 * This method retrieves information of logged in user from NciPeopleVw and populates NCIUser.
+	 * @param userId    
+	 * @return nciPeopleVw
+	 */
+	public NciUser getNCIUser(String userId);  
+		
 	 /**
      * This method checks if logged in user is Valid.
      * @param oracleId
      * @return boolean
      */
     public boolean isI2eAccountValid(String oracleId);
+
+	public List<String> retrieveIcCoordinators();
 }

@@ -16,6 +16,7 @@ public class NciUser extends NciPerson {
    // private Long personId; changed to String for UserRoleDAO
     private String personId;
    
+    private String activeFlag;
 
     public NciUser() {
         super();
@@ -57,5 +58,19 @@ public class NciUser extends NciPerson {
 
 	public void setOrgPath(String orgPath) {
 		this.orgPath = orgPath;
+	}
+
+	/**
+	 * @return the activeFlag
+	 */
+	public String getActiveFlag() {
+		return activeFlag;
+	}
+
+	/**
+	 * @param activeFlag the activeFlag to set
+	 */
+	public void setActiveFlag(String activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 }

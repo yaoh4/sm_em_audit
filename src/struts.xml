@@ -78,5 +78,6 @@
 	<include file="impac2.xml"/>
 	<include file="i2e.xml"/>
 	<include file="admin.xml"/>
+	<include file="discrepancy.xml"/>
 
 </struts>

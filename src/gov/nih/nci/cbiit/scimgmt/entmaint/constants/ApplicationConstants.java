@@ -11,6 +11,7 @@ public interface ApplicationConstants {
     public static final String TAB_IMPAC2 = "impac2";
     public static final String TAB_I2E = "i2e";
     public static final String TAB_ADMIN = "admin";
+    public static final String TAB_DISCREPANCY = "discrepancies";
 	
     /* Tab Navigation links for IMPAC II and I2E*/
 	public static final String SUB_NAV_AUDIT = "audit";

@@ -27,6 +27,17 @@
 			I2E
 		</s:a></li>
 	</s:else> 
+	<s:if
+		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_DISCREPANCY eq #request.selectedTab}">
+		<li><li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+		   	My Discrepancies
+		</s:a></li>
+	</s:if>
+	<s:else>
+		<li><s:a href="/entmaint/discrepancy/Discrepancies.action" cssStyle="text-decoration:none;">
+			My Discrepancies
+		</s:a></li>
+	</s:else>
 	
 	<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAdminUser()}">
 

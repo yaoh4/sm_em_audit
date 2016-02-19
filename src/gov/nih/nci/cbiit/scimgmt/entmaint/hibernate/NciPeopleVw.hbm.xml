@@ -116,6 +116,13 @@
             column="ACTIVE_FLAG"
             length="1"           
         </meta>    
-    </property> 
+    </property>
+    <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="true" lazy="true" fetch="select">
+            	<key>
+                	<column name="NPN_ID" precision="10" scale="0" not-null="true" />
+            	</key>
+            	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw" />
+    </bag>
+        	 
 </class>
 </hibernate-mapping>

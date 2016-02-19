@@ -143,7 +143,36 @@
 		<property name="cacheAdministrator">
 			<ref bean="cacheAdministrator" />
 		</property>
-	</bean> 
+	</bean>
+  
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="resourceLoaderPath">
+			<value>/WEB-INF/emailTemplates/</value>
+		</property>
+	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mailfwd.nih.gov" />
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+ 
+	<bean id="mailService" class="gov.nih.nci.cbiit.scimgmt.entmaint.services.impl.MailServiceImpl">
+		<property name="emailTemplates">
+			<props>
+				<prop key="discrepancyEmail">discrepancyEmail.vm</prop>
+			</props>
+		</property>
+	</bean>
 	
+	<bean id="AutomatedEmailTask" class="gov.nih.nci.cbiit.scimgmt.entmaint.utils.AutomatedSendEmailTask">
+	</bean>
+	
+	<task:scheduler id="entmaintTaskScheduler" pool-size="5" />
+
+	<task:scheduled-tasks scheduler="entmaintTaskScheduler">
+		<!--  Run every morning at 5:30 AM -->
+		<task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 55 7 * * ?" />
+	</task:scheduled-tasks>
 	
 </beans>

@@ -41,6 +41,18 @@
 	</s:if>
 </s:elseif>
 
+<!--  Discrepancies tab selected -->
+<s:elseif
+	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_DISCREPANCY eq #request.selectedTab}">
+	
+	
+	    
+  		<ol class="breadcrumb">
+  			<li  class="active">My Discrepancies</li>
+  		</ol>
+
+</s:elseif>
+
 
 <!-- Admin tab selected -->
  <s:else>
