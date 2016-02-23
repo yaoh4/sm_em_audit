@@ -251,7 +251,12 @@ public class MailServiceImpl implements MailService {
 			
 			String[] email = entry.getValue().toArray(new String[entry.getValue().size()]);
 			String dear = StringUtils.join(orgMapName.get(entry.getKey()), ", ");
-		
+			if (orgMapName.get(entry.getKey()).size() >= 3) {
+				StringBuffer sb = new StringBuffer(dear);
+		        sb.replace(dear.lastIndexOf(", "), dear.lastIndexOf(", ") + 1, ", and ");
+		        dear = sb.toString();
+			}
+			
 			PaginatedListImpl<PortfolioAccountVO> portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>();	
 			PaginatedListImpl<PortfolioI2eAccountVO> portfolioI2eAccounts = new PaginatedListImpl<PortfolioI2eAccountVO>();	
 			AuditSearchVO searchVO = new AuditSearchVO();
@@ -279,7 +284,7 @@ public class MailServiceImpl implements MailService {
 				final Map<String, Object> params = new HashMap<String, Object>();
 				params.put("accounts", accounts);
 				params.put("dear", dear);
-				params.put("url", "http://localhost/entmaint/discrepancy/Discrepancies.action");
+				params.put("url", entMaintProperties.getProperty("email.discrepancy.url"));
 				params.put("org", (entry.getKey().equalsIgnoreCase("EMADMIN")? "NCI Orgs without IC Coordinators": entry.getKey()));
 				params.put("monthYear", df.format(new Date()));
 				send(entMaintProperties.getProperty("email.from"), "discrepancyEmail", email,
