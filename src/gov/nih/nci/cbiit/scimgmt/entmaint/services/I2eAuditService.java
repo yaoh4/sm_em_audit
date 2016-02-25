@@ -6,6 +6,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -59,4 +60,10 @@ public interface I2eAuditService {
      */
     public List<AuditI2eAccountVO> getAllAccountsByAuditId(Long auditId);
     
+    /**
+     * Retrieve a set of nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+    public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId);
 }

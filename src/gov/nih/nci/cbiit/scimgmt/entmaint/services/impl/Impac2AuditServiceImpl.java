@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -27,7 +28,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @Component
 public class Impac2AuditServiceImpl implements Impac2AuditService {
@@ -302,6 +305,25 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		}
 		return discrepancyList;
 	}
-
+ 
+    /**
+     * Retrieve a set of impaciiUserId/nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+	public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId) {
+		// Retrieve list of excluded from audit accounts for IMPAC II
+		PaginatedListImpl<AuditAccountVO> auditAccounts = new PaginatedListImpl<AuditAccountVO>();
+		AuditSearchVO searchVO = new AuditSearchVO();
+		searchVO.setAuditId(auditId);
+		searchVO.setAct(ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT.toString());
+		auditAccounts = searchActiveAccounts(auditAccounts, searchVO, true);
+		HashSet<String> nihNetworkIdList = new HashSet<String>();
+		for (AuditAccountVO account: auditAccounts.getList()) {
+			if(!StringUtils.isEmpty(account.getImpaciiUserId()) || !StringUtils.isEmpty(account.getNihNetworkId()))
+				nihNetworkIdList.add((!StringUtils.isEmpty(account.getImpaciiUserId()) ? account.getImpaciiUserId() : account.getNihNetworkId()));
+		}
+		return nihNetworkIdList;
+	}
 
 }

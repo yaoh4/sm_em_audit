@@ -1,10 +1,10 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.valueObject;
 
-public class DiscrepancyEmailAccountVO {
+public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAccountVO> {
 
 	private String discrepancyText;
 	private String fullName;
-	private String impaciiUserIdNetworkId;
+	private String nihNetworkId;
 	private String nedOrgPath;
 	private String secondaryOrgText;
 	private String createdDate;
@@ -45,18 +45,18 @@ public class DiscrepancyEmailAccountVO {
 	}
 
 	/**
-	 * @return the impaciiUserIdNetworkId
+	 * @return the nihNetworkId
 	 */
-	public String getImpaciiUserIdNetworkId() {
-		return impaciiUserIdNetworkId;
+	public String getNihNetworkId() {
+		return nihNetworkId;
 	}
 
 	/**
-	 * @param impaciiUserIdNetworkId
-	 *            the impaciiUserIdNetworkId to set
+	 * @param nihNetworkId
+	 *            the nihNetworkId to set
 	 */
-	public void setImpaciiUserIdNetworkId(String impaciiUserIdNetworkId) {
-		this.impaciiUserIdNetworkId = impaciiUserIdNetworkId;
+	public void setNihNetworkId(String nihNetworkId) {
+		this.nihNetworkId = nihNetworkId;
 	}
 
 	/**
@@ -117,6 +117,11 @@ public class DiscrepancyEmailAccountVO {
 	 */
 	public void setCreatedByFullName(String createdByFullName) {
 		this.createdByFullName = createdByFullName;
+	}
+
+	@Override
+	public int compareTo(DiscrepancyEmailAccountVO o) {
+		return this.getFullName().compareTo(o.getFullName());
 	}
 	
 }

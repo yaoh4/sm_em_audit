@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -11,6 +12,7 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.commons.beanutils.converters.LongConverter;
 import org.apache.commons.beanutils.converters.ShortConverter;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @Component
 public class I2eAuditServiceImpl implements I2eAuditService {
@@ -181,4 +184,23 @@ public class I2eAuditServiceImpl implements I2eAuditService {
 	}
 
 
+    /**
+     * Retrieve a set of nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+	public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId) {
+		// Retrieve list of excluded from audit accounts for IMPAC II
+		PaginatedListImpl<AuditI2eAccountVO> auditAccounts = new PaginatedListImpl<AuditI2eAccountVO>();
+		AuditSearchVO searchVO = new AuditSearchVO();
+		searchVO.setAuditId(auditId);
+		searchVO.setAct(ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT.toString());
+		auditAccounts = searchActiveAccounts(auditAccounts, searchVO, true);
+		HashSet<String> nihNetworkIdList = new HashSet<String>();
+		for (AuditI2eAccountVO account: auditAccounts.getList()) {
+			if(!StringUtils.isEmpty(account.getNihNetworkId()))
+				nihNetworkIdList.add(account.getNihNetworkId());
+		}
+		return nihNetworkIdList;
+	}
 }

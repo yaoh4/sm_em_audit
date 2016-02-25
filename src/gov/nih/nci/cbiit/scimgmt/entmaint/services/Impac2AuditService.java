@@ -7,6 +7,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -89,4 +90,10 @@ public interface Impac2AuditService {
      */
     public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId);
     
+    /**
+     * Retrieve a set of impaciiUserId/nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+    public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId);
 }

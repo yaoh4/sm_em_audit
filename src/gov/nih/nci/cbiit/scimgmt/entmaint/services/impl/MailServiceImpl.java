@@ -3,15 +3,20 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2PortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.MailService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.DiscrepancyEmailAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 
@@ -21,14 +26,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
@@ -53,6 +60,12 @@ public class MailServiceImpl implements MailService {
 	protected Impac2PortfolioService impac2PortfolioService;
 	@Autowired
 	protected I2ePortfolioService i2ePortfolioService;
+	@Autowired
+	protected Impac2AuditService impac2AuditService;
+	@Autowired
+	protected I2eAuditService i2eAuditService;
+	@Autowired
+	protected AdminService adminService;
 	@Autowired
 	private LookupService lookupService;
 	@Autowired
@@ -206,8 +219,18 @@ public class MailServiceImpl implements MailService {
 		this.velocityEngine = velocityEngine;
 	}
 	
+	/**
+	 * Sends Monthly Discrepancy account email to the IC Coordinators
+	 */
 	@Override
 	public void sendDiscrepancyEmail() {
+		
+		// Check if Audit is active
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(EmAppUtil.getCurrentAuditState(emAuditsVO))) {
+			log.info("=====> Monthly Reminder emails to IC coordinators is turned off. Audit is active (enabled).");
+			return;
+		}
 		
 		// Retrieve list of IC coordinator network ID
 		List<String> icCoordinators = userRoleService.retrieveIcCoordinators();
@@ -246,12 +269,17 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 		
+		// Get accounts that are excluded from last audit
+		Long auditId = emAuditsVO.getId();
+		HashSet<String> excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
+		HashSet<String> excludedI2eAccounts = i2eAuditService.retrieveExcludedFromAuditAccounts(auditId);
+		
 		// For each Org, send the email
 		for (Map.Entry<String,List<String>> entry : orgMapEmail.entrySet()) {
 			
 			String[] email = entry.getValue().toArray(new String[entry.getValue().size()]);
 			String dear = StringUtils.join(orgMapName.get(entry.getKey()), ", ");
-			if (orgMapName.get(entry.getKey()).size() >= 3) {
+			if (orgMapName.get(entry.getKey()).size() >= 2) {
 				StringBuffer sb = new StringBuffer(dear);
 		        sb.replace(dear.lastIndexOf(", "), dear.lastIndexOf(", ") + 1, ", and ");
 		        dear = sb.toString();
@@ -276,9 +304,10 @@ public class MailServiceImpl implements MailService {
 			portfolioI2eAccounts = i2ePortfolioService.searchI2eAccounts(portfolioI2eAccounts, searchVO, true);
 		
 			// Populate the account list to pass to email template
-			List<DiscrepancyEmailAccountVO> accounts = populateDiscrepancyAccounts(portfolioAccounts.getList());
-			accounts.addAll(populateI2eDiscrepancyAccounts(portfolioI2eAccounts.getList()));
-
+			List<DiscrepancyEmailAccountVO> accounts = populateDiscrepancyAccounts(portfolioAccounts.getList(), excludedAccounts);
+			accounts.addAll(populateI2eDiscrepancyAccounts(portfolioI2eAccounts.getList(), excludedI2eAccounts));
+			Collections.sort(accounts);
+			
 			if(accounts.size() > 0) {
 				DateFormat df = new SimpleDateFormat("MM/yyyy");
 				final Map<String, Object> params = new HashMap<String, Object>();
@@ -294,16 +323,23 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
-
-	private List<DiscrepancyEmailAccountVO> populateDiscrepancyAccounts(List<PortfolioAccountVO> list) {
+	/**
+	 * Populate the account information necessary for discrepancy email table.
+	 * 
+	 * Filter out the following accounts:
+	 * - Last Name Diff Discrepancy
+	 * - Accounts that were marked "Excluded from Audit" from the last audit
+	 * 
+	 * @param list
+	 * @return
+	 */
+	private List<DiscrepancyEmailAccountVO> populateDiscrepancyAccounts(List<PortfolioAccountVO> list, HashSet<String> excluded) {
 		
 		List<DiscrepancyEmailAccountVO> accounts = new ArrayList<DiscrepancyEmailAccountVO>();
 		for (PortfolioAccountVO account : list) {
 			DiscrepancyEmailAccountVO entry = new DiscrepancyEmailAccountVO();
 			entry.setFullName(account.getFullName());
-			entry.setImpaciiUserIdNetworkId((account.getImpaciiUserId() == null ? "" : account.getImpaciiUserId()
-					+ "/")
-					+ (account.getNihNetworkId() == null ? "" : account.getNihNetworkId()));
+			entry.setNihNetworkId((account.getImpaciiUserId() != null ? account.getImpaciiUserId() : (account.getNihNetworkId() == null ? "" : account.getNihNetworkId())));
 			entry.setNedOrgPath(account.getNedOrgPath());
 			entry.setSecondaryOrgText(account.getSecondaryOrgText());
 			entry.setCreatedByFullName(account.getCreatedByFullName());
@@ -320,21 +356,30 @@ public class MailServiceImpl implements MailService {
 					}
 				}
 			}
-			
 			entry.setDiscrepancyText(sbu.toString());
-			if(!StringUtils.isEmpty(entry.getDiscrepancyText()))
+			if(!StringUtils.isEmpty(entry.getDiscrepancyText()) && !excluded.contains(entry.getNihNetworkId()))
 				accounts.add(entry);
 		}
 		return accounts;
 	}
 
-	private List<DiscrepancyEmailAccountVO> populateI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list) {
+	/**
+	 * Populate the account information necessary for discrepancy email table.
+	 * 
+	 * Filter out the following accounts:
+	 * - Last Name Diff Discrepancy
+	 * - Accounts that were marked "Excluded from Audit" from the last audit
+	 * 
+	 * @param list
+	 * @return
+	 */
+	private List<DiscrepancyEmailAccountVO> populateI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list, HashSet<String> excluded) {
 		
 		List<DiscrepancyEmailAccountVO> accounts = new ArrayList<DiscrepancyEmailAccountVO>();
 		for (PortfolioI2eAccountVO account : list) {
 			DiscrepancyEmailAccountVO entry = new DiscrepancyEmailAccountVO();
 			entry.setFullName(account.getFullName());
-			entry.setImpaciiUserIdNetworkId((account.getNihNetworkId() == null ? "" : account.getNihNetworkId()));
+			entry.setNihNetworkId((account.getNihNetworkId() == null ? "" : account.getNihNetworkId()));
 			entry.setNedOrgPath(account.getNedOrgPath());
 			entry.setSecondaryOrgText("");
 			entry.setCreatedByFullName(account.getLastUpdByFullName());
@@ -350,9 +395,9 @@ public class MailServiceImpl implements MailService {
 				}
 			}
 			entry.setDiscrepancyText(sbu.toString());
-			accounts.add(entry);
+			if(!excluded.contains(entry.getNihNetworkId()))
+				accounts.add(entry);
 		}
 		return accounts;
 	}
-
 }

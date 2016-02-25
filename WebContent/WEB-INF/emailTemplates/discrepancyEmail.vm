@@ -13,28 +13,27 @@
 	<table bgcolor ="#AAAAAA" border="0" cellpadding="2" cellspacing="1">
 		<thead>
 		<tr bgcolor="#CCCCCC">
-			<th>Discrepancy Type</th>
 			<th>Name</th>
 			<th>NIH (Network) ID</th>
+			<th>Discrepancy Type</th>
 		</tr>
 		</thead>
 		<tbody>
 		#foreach ($row in $accounts)
 		<tr bgcolor="#FFFFFF">
-			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.fullName</td>
-			<td style="border-bottom:solid 1px #cccccc;">$row.impaciiUserIdNetworkId</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.nihNetworkId</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
 		</tr>
 		#end
 		</tbody>
 	</table>
 
 	<p>
-		<b style="mso-bidi-font-weight:normal">
-			<span style="font-size:11.0pt;font-family:&quot;Cambria&quot;,&quot;serif&quot;;color:blue">
-				In anticipation of the next NIH eRA annual audit of user accounts, we encourage you to click $url to review these accounts and make any corrections necessary.
-			</span>
-		</b>
+		In order to ensure that the accounts are maintained only for persons with a legitimate business 
+		need to conduct official NIH and NCI business and in anticipation of the next NIH eRA annual 
+		audit of user accounts, we encourage you to click <a href="$url">$url</a> 
+		to review these accounts and make any corrections necessary.
 	</p>
 	<p>
 		Thank you!
