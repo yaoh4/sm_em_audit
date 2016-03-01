@@ -219,7 +219,9 @@ public class I2eAuditDAO {
 					.add(Projections.property("nedIc"), "nedIc")
 					.add(Projections.property("parentNedOrgPath"), "parentNedOrgPath")
 					.add(Projections.property("nciDoc"), "nciDoc")
-					.add(Projections.property("submittedBy"), "submittedBy"));
+					.add(Projections.property("submittedBy"), "submittedBy")
+					.add(Projections.property("action"), "action")
+					.add(Projections.property("unsubmittedFlag"), "unsubmittedFlag"));
 
 			
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmI2eAuditAccountsVw.class))
@@ -370,6 +372,8 @@ public class I2eAuditDAO {
 					criteria.addOrder(Order.asc("noActiveRoleFlag"));
 					criteria.addOrder(Order.asc("i2eOnlyFlag"));
 					criteria.addOrder(Order.asc("activeRoleRemainderFlag"));
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
 				}
 				else {
 					criteria.addOrder(Order.desc("sodFlag"));
@@ -377,6 +381,8 @@ public class I2eAuditDAO {
 					criteria.addOrder(Order.desc("noActiveRoleFlag"));
 					criteria.addOrder(Order.desc("i2eOnlyFlag"));
 					criteria.addOrder(Order.desc("activeRoleRemainderFlag"));
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
 				}
 			}else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))

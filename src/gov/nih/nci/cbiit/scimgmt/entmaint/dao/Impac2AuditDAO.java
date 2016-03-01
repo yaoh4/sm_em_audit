@@ -22,6 +22,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -256,6 +257,68 @@ public class Impac2AuditDAO {
 	}
 	
 	/**
+	 * Search EmAuditAccountsVw for Exclude from Audit accounts
+	 * 
+	 * @param paginatedList
+	 * @param searchVO
+	 * @param all
+	 * @return
+	 */
+	public PaginatedListImpl<EmAuditAccountsVw> searchExcludedAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
+		log.debug("searching for IMPAC II Exclude from Audit accounts in audit view: " + searchVO);
+		PaginatedListImpl<EmAuditAccountsVw> pListImpl = null;
+		
+		try {
+
+			Criteria criteria = null;
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+
+			// Sort order
+			criteria = addSortOrder(criteria, paginatedList);
+			
+			// Criteria for excluded accounts
+			criteria.createAlias("audit", "audit");
+			
+			// Add audit id to search criteria
+			addSearchCriteria(criteria, searchVO);
+			
+			// Look for Exclude from Audit action
+			Conjunction c1 = Restrictions.conjunction();
+			c1.add(Restrictions.eq("activeAction.id", ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT));
+			c1.add(Restrictions.eq("activeUnsubmittedFlag", ApplicationConstants.FLAG_NO));
+			
+			Conjunction c2 = Restrictions.conjunction();
+			c2.add(Restrictions.eq("newAction.id", ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT));
+			c2.add(Restrictions.eq("newUnsubmittedFlag", ApplicationConstants.FLAG_NO));
+			
+			Conjunction c3 = Restrictions.conjunction();
+			c3.add(Restrictions.eq("deletedAction.id", ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT));
+			c3.add(Restrictions.eq("deletedUnsubmittedFlag", ApplicationConstants.FLAG_NO));
+			
+			Conjunction c4 = Restrictions.conjunction();
+			c4.add(Restrictions.eq("inactiveAction.id", ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT));
+			c4.add(Restrictions.eq("inactiveUnsubmittedFlag", ApplicationConstants.FLAG_NO));
+			
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(c1);
+			dc.add(c2);
+			dc.add(c3);
+			dc.add(c4);
+	        criteria.add(dc);
+
+			pListImpl = getPaginatedListResult(paginatedList, criteria, all);
+			return pListImpl;
+			
+		} catch (Throwable e) {
+			log.error("searching for IMPAC II Exclude from Audit accounts in audit view", e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: PaginatedListImpl - " + paginatedList + ", searchVO - " + searchVO +", all - " + all);
+			log.error("Outgoing parameter: PaginatedListImpl - " + pListImpl);
+			throw e;
+		}
+	}
+	
+	/**
 	 * Submit action taken for audit accounts
 	 * 
 	 * @param category
@@ -411,7 +474,13 @@ public class Impac2AuditDAO {
 					.add(Projections.property("deletedSubmittedBy"), "deletedSubmittedBy")
 					.add(Projections.property("inactiveSubmittedBy"), "inactiveSubmittedBy")
 					.add(Projections.property("deletedByParentOrgPath"), "deletedByParentOrgPath")
-					.add(Projections.property("deletedByNciDoc"), "deletedByNciDoc"));
+					.add(Projections.property("deletedByNciDoc"), "deletedByNciDoc")
+					.add(Projections.property("activeAction"), "activeAction")
+					.add(Projections.property("activeUnsubmittedFlag"), "activeUnsubmittedFlag")
+					.add(Projections.property("newAction"), "newAction")
+					.add(Projections.property("newUnsubmittedFlag"), "newUnsubmittedFlag")
+					.add(Projections.property("deletedAction"), "deletedAction")
+					.add(Projections.property("deletedUnsubmittedFlag"), "deletedUnsubmittedFlag"));
 
 			
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmAuditAccountsVw.class))
@@ -626,12 +695,16 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.asc("icDiffFlag"));
 					criteria.addOrder(Order.asc("nedInactiveFlag"));
 					criteria.addOrder(Order.asc("lastNameDiffFlag"));
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
 				}
 				else {
 					criteria.addOrder(Order.desc("sodFlag"));
 					criteria.addOrder(Order.desc("icDiffFlag"));
 					criteria.addOrder(Order.desc("nedInactiveFlag"));
 					criteria.addOrder(Order.desc("lastNameDiffFlag"));
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
 				}
 			} else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))

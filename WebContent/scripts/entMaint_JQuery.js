@@ -202,6 +202,7 @@ function onOrgChange(org){
 }
 
 function onCategoryChage(category){
+	org = $('#portfolioOrg option:selected').val();
 	if(category == '22' || category == '25'){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
@@ -218,7 +219,7 @@ function onCategoryChage(category){
 	$.ajax({
 		url: "orgOptionAction.action",
 		type: "post",
-		data: {cate: category},
+		data: {cate: category, org: org},
 		async:   false,
 		success: function(msg){
 			result = $.trim(msg);
@@ -371,6 +372,10 @@ function toggleOther(thisname){
 
 function searchAuditByCategory(cate, org){
 	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org);
+	$('#dashboardFormId').submit();
+}
+function searchAuditByCategory(cate, org, act){
+	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org+"&act=" + act);
 	$('#dashboardFormId').submit();
 }
 function refresh(){

@@ -85,6 +85,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 
 		String id = ""+auditVO.getNpnId();
 		StringBuffer sbu = new StringBuffer();
+		sbu.append("<ul>");
 		for(String s : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,s);
 			if(disVw.getShortDescrip() != null){
@@ -93,11 +94,12 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
 						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
-						"<br/>");
+						"</li>");
 			}
 		}
+		sbu.append("</ul>");
 		
 		return sbu.toString();
 	}

@@ -62,6 +62,9 @@ function clearFields(){
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
   <label  class="panel-title"><b>Results - All Inactive > 130 Days Accounts</b></label>
   </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_EXCLUDED}">
+  <label  class="panel-title"><b>Results - All Not NCI Purview</b></label>
+  </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
   <label  class="panel-title"><b>Results - All I2E Accounts</b></label>
   </s:if>

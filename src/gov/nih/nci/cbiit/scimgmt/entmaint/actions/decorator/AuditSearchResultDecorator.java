@@ -131,6 +131,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		List<String> discrepancies = accountVO.getAccountDiscrepancies();
 		StringBuffer sbu = new StringBuffer();
+		sbu.append("<ul>");
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,
 					dis);
@@ -140,11 +141,12 @@ public class AuditSearchResultDecorator extends TableDecorator{
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + code + "');\"/>" + 
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='"+path +"/images/info.png' alt='info' onclick=\"openHelp('help" + code + "');\"/>" + 
 						"<input type='hidden' id='help" + code + "' value='" + longDesc + resolution + "'/>" +
-						"<br/><br/>");
+						"</li>");
 			}
 		}
+		sbu.append("</ul>");
 		return sbu.toString();
 	}
 	
