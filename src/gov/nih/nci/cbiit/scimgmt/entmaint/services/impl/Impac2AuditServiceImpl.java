@@ -133,6 +133,27 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		return paginatedList;
 	}
 
+    /**
+     * Data retrieval for Exclude from Audit accounts
+     * @param paginatedList
+     * @param searchVO
+     * @param all
+     * @return PaginatedListImpl<AuditAccountVO>
+     */
+	@Override
+	public PaginatedListImpl<AuditAccountVO> searchExcludedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+		paginatedList = impac2AuditDAO.searchExcludedAccounts(paginatedList, searchVO, all);
+		List<EmAuditAccountsVw> auditAccountsList = paginatedList.getList();
+		final List<AuditAccountVO> list = new ArrayList<AuditAccountVO>();
+		for (final EmAuditAccountsVw account : auditAccountsList) {
+			account.setAccountActivity(getAccountActivity(account));
+			AuditAccountVO acct = populateAuditAccountVO(account);
+			list.add(acct);
+		}
+		paginatedList.setList(list);
+		return paginatedList;
+	}
+
 
     /**
      * Update actions taken on account for submit.
@@ -271,6 +292,54 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 				activity.setSubmittedDate(account.getInactiveSubmittedDate());
 				activity.setUnsubmittedFlag(account.getInactiveUnsubmittedFlag());
 			}
+		}
+		return activity;
+	}
+	
+	/**
+	 * Get account activity for any category
+	 * 
+	 * @param accountActivities
+	 * @return
+	 */
+	private EmAuditAccountActivityVw getAccountActivity(EmAuditAccountsVw account) {
+		EmAuditAccountActivityVw activity = null;
+		if (account.getActiveAction() != null) {
+			activity = new EmAuditAccountActivityVw();
+			activity.setEaaId(account.getId());
+			activity.setAction(account.getActiveAction());
+			activity.setNotes(account.getActiveNotes());
+			activity.setSubmittedByFullName(account.getActiveSubmittedBy());
+			activity.setSubmittedDate(account.getActiveSubmittedDate());
+			activity.setUnsubmittedFlag(account.getActiveUnsubmittedFlag());
+		}
+		if (account.getNewAction() != null) {
+			activity = new EmAuditAccountActivityVw();
+			activity.setEaaId(account.getId());
+			activity.setAction(account.getNewAction());
+			activity.setNotes(account.getNewNotes());
+			activity.setSubmittedByFullName(account.getNewSubmittedBy());
+			activity.setSubmittedDate(account.getNewSubmittedDate());
+			activity.setUnsubmittedFlag(account.getNewUnsubmittedFlag());
+
+		}
+		if (account.getDeletedAction() != null) {
+			activity = new EmAuditAccountActivityVw();
+			activity.setEaaId(account.getId());
+			activity.setAction(account.getDeletedAction());
+			activity.setNotes(account.getDeletedNotes());
+			activity.setSubmittedByFullName(account.getDeletedSubmittedBy());
+			activity.setSubmittedDate(account.getDeletedSubmittedDate());
+			activity.setUnsubmittedFlag(account.getDeletedUnsubmittedFlag());
+		}
+		if (account.getInactiveAction() != null) {
+			activity = new EmAuditAccountActivityVw();
+			activity.setEaaId(account.getId());
+			activity.setAction(account.getInactiveAction());
+			activity.setNotes(account.getInactiveNotes());
+			activity.setSubmittedByFullName(account.getInactiveSubmittedBy());
+			activity.setSubmittedDate(account.getInactiveSubmittedDate());
+			activity.setUnsubmittedFlag(account.getInactiveUnsubmittedFlag());
 		}
 		return activity;
 	}

@@ -103,6 +103,8 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchDeletedAccounts(auditAccounts, searchVO, false);
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, false);
+			}else if(ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(searchType) == true){
+				auditAccounts = impac2AuditService.searchExcludedAccounts(auditAccounts, searchVO, false);
 			} else {
 				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, false);
 			}
@@ -116,12 +118,16 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchDeletedAccounts(auditAccounts, searchVO, true);
 			}else if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
+			}else if(ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(searchType) == true){
+				auditAccounts = impac2AuditService.searchExcludedAccounts(auditAccounts, searchVO, true);
 			} else {
 				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, true);
 			}
 			forward = ApplicationConstants.EXPORT;
 			if (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(searchType) == true){
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), false));
+			}else if (ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(searchType) == true){
+				auditAccounts.setList(getExcludedExportAccountVOList(auditAccounts.getList()));
 			}else if (ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(searchType) == true) {
 				auditI2eAccounts.setList(getExportAccountVOList(auditI2eAccounts.getList()));
 				forward = ApplicationConstants.EXPORT_I2E;
@@ -254,6 +260,45 @@ public class AdminReportsAction extends BaseAction {
 		return exportAccountVOList;
 	}
 
+	private List<AuditAccountVO> getExcludedExportAccountVOList(List<AuditAccountVO> auditAccounts) {
+		
+		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
+		
+		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			String nedIc = auditAccountVO.getNedIc();
+			
+			exportAccountVOList.add(auditAccountVO);
+			List<EmAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
+			
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					AuditAccountVO auditAccountVOItem = new AuditAccountVO();
+					
+					auditAccountVOItem.setNedIc(nedIc);
+					auditAccountVOItem.setImpaciiUserId(auditAccountVO.getImpaciiUserId());
+					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
+					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
+					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
+					auditAccountVOItem.setImpaciiLastName(auditAccountVO.getImpaciiLastName());
+					auditAccountVOItem.setImpaciiFirstName(auditAccountVO.getImpaciiFirstName());
+					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
+					auditAccountVOItem.addAccountRole(accountRoles.get(index));
+					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
+					auditAccountVOItem.setCreatedByUserId(auditAccountVO.getCreatedByUserId());
+					auditAccountVOItem.setCreatedByFullName(auditAccountVO.getCreatedByFullName());
+					
+					exportAccountVOList.add(auditAccountVOItem);				
+				}
+			}
+		}
+		
+		return exportAccountVOList;
+	}
+	
 	private List<AuditAccountVO> getInactiveExportAccountVOList(List<AuditAccountVO> auditAccounts){
 		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		for(AuditAccountVO auditAccountVO: auditAccounts) {

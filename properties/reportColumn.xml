@@ -318,4 +318,58 @@
  		<sort>false</sort>
  		<display>false</display>
  	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>IC</columnName>
+ 		<property>nedIc</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>NIH ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>NAME</columnName>
+ 		<property>fullName</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>CREATED</columnName>
+ 		<property>accountCreatedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>DATABASE ROLE NAME</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>ORG ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>ROLE DATE</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>SECONDARY</columnName>
+ 		<property>secondaryOrgText</property>
+ 		<sort>true</sort>
+ 	</Tab>
  </Display>			

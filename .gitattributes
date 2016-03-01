@@ -190,6 +190,7 @@ WebContent/jsp/content/adminReports.jsp -text
 WebContent/jsp/content/auditAccounts.jsp -text
 WebContent/jsp/content/auditHistory.jsp -text
 WebContent/jsp/content/dashboard.jsp -text
+WebContent/jsp/content/dashboardUnknown.jsp -text
 WebContent/jsp/content/discrepancies.jsp -text
 WebContent/jsp/content/email.jsp -text
 WebContent/jsp/content/i2eAuditAccountSearchResult.jsp -text
@@ -382,6 +383,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LookupServiceImpl.java -tex
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/MailServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/UserRoleServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/tags/WorkbenchApplicationLinkTag.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/ActionDashboardData.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/AutomatedSendEmailTask.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DBResult.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DashboardData.java -text

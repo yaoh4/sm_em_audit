@@ -158,6 +158,7 @@ public class Impac2PortfolioAction extends BaseAction{
 		PrintWriter pw = null;
 		String defaultOrg = nciUser.getOrgPath();
 		String category = request.getParameter("cate");
+		String org = request.getParameter("org");
 		String scriptCall = "";
 		if(isSuperUser()){
 			scriptCall  = "onchange=\"onOrgChange(this.value);\"";
@@ -176,7 +177,7 @@ public class Impac2PortfolioAction extends BaseAction{
 				
 				for(DropDownOption ddo : organizationList){
 					if(session.get(ApplicationConstants.PORTFOLIO_SEARCHVO) != null && 
-							ddo.getOptionKey().equalsIgnoreCase(((AuditSearchVO)session.get(ApplicationConstants.PORTFOLIO_SEARCHVO)).getOrganization())){
+							ddo.getOptionKey().equalsIgnoreCase(org)){
 						pw.print("<option value='" + ddo.getOptionKey() +"' selected=\"selected\">" + ddo.getOptionValue() +"</option>");
 					}else{
 						pw.print("<option value='" + ddo.getOptionKey() +"' >" + ddo.getOptionValue() +"</option>");
