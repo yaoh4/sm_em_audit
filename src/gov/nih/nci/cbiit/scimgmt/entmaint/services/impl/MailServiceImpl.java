@@ -162,7 +162,7 @@ public class MailServiceImpl implements MailService {
 					} else {
 						subject = "[" + env.toUpperCase() + "] " + subject;
 						subject += " {TO: " + StringUtils.join(to, ',') + "} {CC: " + StringUtils.join(cc, ',') + "}";
-						final String[] overrideAddrs = StringUtils.split(entMaintProperties
+						final String[] overrideAddrs = parse(entMaintProperties
 								.getProperty("email.bcc"));						
 						helper.setTo(overrideAddrs);
 					}
