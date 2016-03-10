@@ -251,7 +251,7 @@ public class MailServiceImpl implements MailService {
 			} catch (Exception e) {
 				continue;
 			}
-			if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+			if(StringUtils.equalsIgnoreCase(nciUser.getCurrentUserRole(), "EMADMIN")) {
 				if(!orgMapEmail.containsKey("EMADMIN")) {
 					orgMapEmail.put("EMADMIN",new ArrayList<String>());
 					orgMapName.put("EMADMIN",new ArrayList<String>());
