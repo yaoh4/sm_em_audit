@@ -180,20 +180,21 @@ public class EmAppUtil {
 	 * 
 	 * @return true if audit is current or last active, else false.
 	 */
-	public static boolean isAuditCurrentOrLastActive(Long auditId) {
+	public static boolean isAuditCurrent(Long auditId) {
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		
 		if(session != null) {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 			if(emAuditsVO != null && emAuditsVO.getId().equals(auditId)) {
-				logger.debug("Audit with ID " + auditId + " is current or last active");
-				return true;
-			} else {
-				logger.debug("Audit with ID " + auditId + " is not current or last active");
-			}
+				if(!ApplicationConstants.AUDIT_STATE_CODE_RESET.equals(emAuditsVO.getAuditState())) {
+					logger.debug("Audit with ID " + auditId + " is current");
+					return true;
+				}
+			} 
 		}
 		
+		logger.debug("Audit with ID " + auditId + " is not current");
 		return false;	
 	}
 	
@@ -205,7 +206,7 @@ public class EmAppUtil {
 		// - Selected audit is enabled,  or  
 		// - Selected Audit is current/last active, and user is admin.
 
-		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrentOrLastActive(auditId))) {
+		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrent(auditId))) {
 			result = true;
 		}
 		
