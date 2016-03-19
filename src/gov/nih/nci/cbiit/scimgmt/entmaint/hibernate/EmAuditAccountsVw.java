@@ -25,7 +25,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private Boolean nedActiveFlag;
 	private String nciDoc;
 	private Date createdDate;
 	private String createdByUserId;
@@ -79,7 +78,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public EmAuditAccountsVw(Long id, EmAuditsT audit, String impaciiUserId, String nihNetworkId, String lastName, String firstName,
 			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName,
-			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag,
+			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
 			String nciDoc, Date createdDate, String createdByUserId, String createdByFullName, Date deletedDate,
 			String deletedByUserId, String deletedByFullName, String deactivationComments, String secondaryOrgText,
 			Date lastLoginDate, String inactiveUserFlag, AppLookupT activeAction, String activeNotes,
@@ -105,7 +104,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.nedOrgPath = nedOrgPath;
 		this.parentNedOrgPath = parentNedOrgPath;
 		this.nedIc = nedIc;
-		this.nedActiveFlag = nedActiveFlag;
 		this.nciDoc = nciDoc;
 		this.createdDate = createdDate;
 		this.createdByUserId = createdByUserId;
@@ -196,9 +194,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						&& getParentNedOrgPath().equals(castOther.getParentNedOrgPath()))
 				&& (getNedIc() == castOther.getNedIc() || getNedIc() != null && castOther.getNedIc() != null
 						&& getNedIc().equals(castOther.getNedIc()))
-				&& (getNedActiveFlag() == castOther.getNedActiveFlag() || getNedActiveFlag() != null
-						&& castOther.getNedActiveFlag() != null
-						&& getNedActiveFlag().equals(castOther.getNedActiveFlag()))
 				&& (getNciDoc() == castOther.getNciDoc() || getNciDoc() != null && castOther.getNciDoc() != null
 						&& getNciDoc().equals(castOther.getNciDoc()))
 				&& (getCreatedDate() == castOther.getCreatedDate() || getCreatedDate() != null
@@ -373,11 +368,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public String getNciDoc() {
 		return nciDoc;
 	}
-
-	public Boolean getNedActiveFlag() {
-		return nedActiveFlag;
-	}
-
+	
 	public String getNedEmailAddress() {
 		return nedEmailAddress;
 	}
@@ -428,7 +419,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getNedOrgPath() == null ? 0 : getNedOrgPath().hashCode());
 		result = 37 * result + (getParentNedOrgPath() == null ? 0 : getParentNedOrgPath().hashCode());
 		result = 37 * result + (getNedIc() == null ? 0 : getNedIc().hashCode());
-		result = 37 * result + (getNedActiveFlag() == null ? 0 : getNedActiveFlag().hashCode());
 		result = 37 * result + (getNciDoc() == null ? 0 : getNciDoc().hashCode());
 		result = 37 * result + (getCreatedDate() == null ? 0 : getCreatedDate().hashCode());
 		result = 37 * result + (getCreatedByUserId() == null ? 0 : getCreatedByUserId().hashCode());
@@ -536,10 +526,6 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setNciDoc(String nciDoc) {
 		this.nciDoc = nciDoc;
-	}
-
-	public void setNedActiveFlag(Boolean nedActiveFlag) {
-		this.nedActiveFlag = nedActiveFlag;
 	}
 
 	public void setNedEmailAddress(String nedEmailAddress) {

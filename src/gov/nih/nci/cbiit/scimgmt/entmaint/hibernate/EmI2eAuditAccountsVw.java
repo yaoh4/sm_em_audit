@@ -26,7 +26,6 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private Boolean nedActiveFlag;
 	private String nciDoc;
 	private String lastUpdByFullName;
 	private AppLookupT action;
@@ -52,7 +51,7 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 
 	public EmI2eAuditAccountsVw(Long id, Long auditId, String npnId, String nihNetworkId, String lastName,
 			String firstName, Date createdDate, String nedLastName, String nedFirstName, String i2eLastName, String i2eFirstName,
-			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag,
+			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
 			String nciDoc, String lastUpdByFullName, AppLookupT action, String notes, String unsubmittedFlag,
 			String submittedBy, Date submittedDate, Boolean i2eOnlyFlag, Boolean sodFlag, Boolean nedInactiveFlag, Boolean noActiveRoleFlag,
 			Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
@@ -71,7 +70,6 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.parentNedOrgPath = parentNedOrgPath;
 		this.nedOrgPath = nedOrgPath;
 		this.nedIc = nedIc;
-		this.nedActiveFlag = nedActiveFlag;
 		this.nciDoc = nciDoc;
 		this.lastUpdByFullName = lastUpdByFullName;
 		this.action = action;
@@ -206,14 +204,6 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 
 	public void setNedIc(String nedIc) {
 		this.nedIc = nedIc;
-	}
-
-	public Boolean getNedActiveFlag() {
-		return this.nedActiveFlag;
-	}
-
-	public void setNedActiveFlag(Boolean nedActiveFlag) {
-		this.nedActiveFlag = nedActiveFlag;
 	}
 
 	public String getNciDoc() {
@@ -374,9 +364,6 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 						&& castOther.getNedOrgPath() != null && this.getNedOrgPath().equals(castOther.getNedOrgPath())))
 				&& ((this.getNedIc() == castOther.getNedIc()) || (this.getNedIc() != null
 						&& castOther.getNedIc() != null && this.getNedIc().equals(castOther.getNedIc())))
-				&& ((this.getNedActiveFlag() == castOther.getNedActiveFlag()) || (this.getNedActiveFlag() != null
-						&& castOther.getNedActiveFlag() != null && this.getNedActiveFlag().equals(
-						castOther.getNedActiveFlag())))
 				&& ((this.getNciDoc() == castOther.getNciDoc()) || (this.getNciDoc() != null
 						&& castOther.getNciDoc() != null && this.getNciDoc().equals(castOther.getNciDoc())))
 				&& ((this.getLastUpdByFullName() == castOther.getLastUpdByFullName()) || (this.getLastUpdByFullName() != null
@@ -429,7 +416,6 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getParentNedOrgPath() == null ? 0 : this.getParentNedOrgPath().hashCode());
 		result = 37 * result + (getNedOrgPath() == null ? 0 : this.getNedOrgPath().hashCode());
 		result = 37 * result + (getNedIc() == null ? 0 : this.getNedIc().hashCode());
-		result = 37 * result + (getNedActiveFlag() == null ? 0 : this.getNedActiveFlag().hashCode());
 		result = 37 * result + (getNciDoc() == null ? 0 : this.getNciDoc().hashCode());
 		result = 37 * result + (getLastUpdByFullName() == null ? 0 : this.getLastUpdByFullName().hashCode());
 		result = 37 * result + (getAction() == null ? 0 : this.getAction().hashCode());

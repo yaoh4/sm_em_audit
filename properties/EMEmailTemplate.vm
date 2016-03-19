@@ -4,7 +4,7 @@ the following artifacts must be submitted to the eRA Helpdesk by a Primary IC Co
 	%0D%0A%09 - A listing of all current user accounts for NCI, including the roles assigned to those accounts. 
 	%0D%0A%09 - A listing of new accounts that have been created since $auditStartDate.
 	%0D%0A%09 - A listing of the accounts that were deleted or terminated in the prior year since $auditStartDate.
-	%0D%0A%09 - A listing of all accounts that have been inactive for over 130 days. 
+	%0D%0A%09 - A listing of all accounts that have been inactive for over 120 days. 
  	
 %0D%0A%0D%0A
 As an IC Coordinator for your division or organization, please review and validate accounts in your respective division or organization by logging into 
@@ -24,9 +24,9 @@ your selection to validate that listed new IMPAC II accounts and associated role
 deleted during the audit period. Please review by clicking the Complete button corresponding to each account and specifying your 
 selection to validate that the extraneous IMPAC II accounts have been deleted or terminated in the prior year since $auditStartDate. %0D%0A%0D%0A
 
-%09 4.%20	INACTIVE >130 DAYS ACCOUNTS - By default, you will see a list of IMPAC II user accounts for your organization that have been inactive 
-for more than 130 days. Please review by clicking the Complete button corresponding to each account and specifying your 
-selection that will ensure that the listed IMPAC II accounts that have been inactive for more than 130 days are required to be active. 
+%09 4.%20	INACTIVE >120 DAYS ACCOUNTS - By default, you will see a list of IMPAC II user accounts for your organization that have been inactive 
+for more than 120 days. Please review by clicking the Complete button corresponding to each account and specifying your 
+selection that will ensure that the listed IMPAC II accounts that have been inactive for more than 120 days are required to be active. 
 Please note that it is essential that you indicate the accounts that you need to retain by choosing Needed option from the Action drop-down. 
 Please delete all of the unneeded accounts and choose Not Needed option from the Action drop-down.%0D%0A%0D%0A
 

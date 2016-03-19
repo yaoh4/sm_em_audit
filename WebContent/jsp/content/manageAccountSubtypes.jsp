@@ -56,12 +56,12 @@
 	
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_INACTIVE_ACCOUNTS eq #request.selectedSubTab}">
 				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Inactive > 130 Days Accounts
+					Inactive > 120 Days Accounts
 				</s:a></li>
 			</s:if>
 			<s:else>
 				<li><s:a href="prepareInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
-					Inactive > 130 Days Accounts
+					Inactive > 120 Days Accounts
 				</s:a></li>
 			</s:else>
 
