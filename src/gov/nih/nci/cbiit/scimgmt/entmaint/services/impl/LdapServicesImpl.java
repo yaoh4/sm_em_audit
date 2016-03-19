@@ -173,7 +173,8 @@ public class LdapServicesImpl implements LdapServices {
             }
 
             try {
-                if (attribs.get(EMAIL).get() != null) {
+            	//Updated for appscan support
+                if (attribs.get(EMAIL) != null) {
                     nciUser.setEmail(attribs.get(EMAIL).get().toString());
                 }
             } catch (Exception ex) {
@@ -252,7 +253,8 @@ public class LdapServicesImpl implements LdapServices {
                                              ex.getMessage());
             }
             try {
-                if (attribs.get(GROUP_MEMBERSHIP).get() != null) {
+            	//Updated for appscan support
+                if (attribs.get(GROUP_MEMBERSHIP) != null) {
                     NamingEnumeration<?> groupMembership = 
                         attribs.get(GROUP_MEMBERSHIP).getAll();
                     ArrayList<String> groups = new ArrayList<String>();
