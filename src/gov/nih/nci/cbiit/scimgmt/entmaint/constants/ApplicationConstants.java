@@ -184,6 +184,7 @@ public interface ApplicationConstants {
 	public static final String EMPTY_NOTE="error.empty.note";
 	public static final String MISSING_NOTE="error.missing.note";
 	public static final String ACTION_SELECTION="error.action.selection";
+	public static final String TRANSFER_ORG_NOT_SELECTED="transfer.org.not.selected";
 	
 	public static final String DATE_RANGE_HELP="date.range.help";
 	

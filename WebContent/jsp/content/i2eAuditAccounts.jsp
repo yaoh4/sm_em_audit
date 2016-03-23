@@ -36,6 +36,8 @@
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@EMPTY_NOTE)}'/></font>");
 			 			}else if($.trim(comments).length > 200){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@MISSING_NOTE)}'/>" + " by " + extraChars + " characters.</font>");
+			 			}else if(aId == "50"  && transferOrg.length < 1){
+			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TRANSFER_ORG_NOT_SELECTED)}'/></font>");
 			 			}else{
 				 			$.ajax({
 				 				url: "submitAction.action",
@@ -59,6 +61,9 @@
 				 				if($('#'+cId).has("#hiddenTransferredNciOrg"+cId).length > 0){
 				 					$('#hiddenTransferredNciOrg'+cId).val(transferOrg);
 				 				}	
+				 				else{
+				 					$('#'+cId).append("<input type='hidden' id='hiddenTransferredNciOrg"+ cId + "' value='" + transferOrg +"' />");
+				 				}
 				 				if($('#'+cId).has('#hiddenAction'+cId).length > 0){
 				 					$('#hiddenAction'+cId).val(aId);
 				 				}	

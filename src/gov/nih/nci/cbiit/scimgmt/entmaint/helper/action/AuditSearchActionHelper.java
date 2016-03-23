@@ -265,7 +265,8 @@ public class AuditSearchActionHelper {
 	 * @param parentNedOrgPath
 	 */
 	public void createTransferOrgDropDownList(List<DropDownOption> transferOrganizationList, LookupService lookupService, String parentNedOrgPath){
-		
+		DropDownOption emptyOption = new DropDownOption("", "");
+		transferOrganizationList.add(emptyOption);
 		for(EmOrganizationVw org : (List<EmOrganizationVw>) lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)){
 			if(!parentNedOrgPath.equalsIgnoreCase(org.getNihorgpath()) && !ApplicationConstants.ORG_PATH_NON_NCI.equalsIgnoreCase(org.getNihorgpath())){
 				DropDownOption transferOrgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());

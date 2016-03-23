@@ -802,7 +802,7 @@ public class Impac2AuditDAO {
 				EmAuditAccountActivityT activity = getAccountActivityT(account.getId(), cat.getCode());
 				if(activity == null) {
 					activity = new EmAuditAccountActivityT();
-					activity.setEaaId(accountId);
+					activity.setEaaId(account.getId());
 					activity.setCategory(cat);
 					activity.setCreateUserId(nciUser.getUserId().toUpperCase());
 					activity.setCreateDate(new Date());

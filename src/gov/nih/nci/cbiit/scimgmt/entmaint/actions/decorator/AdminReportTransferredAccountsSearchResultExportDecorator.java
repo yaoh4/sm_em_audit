@@ -39,14 +39,17 @@ public class AdminReportTransferredAccountsSearchResultExportDecorator extends T
 	public String getImpaciiActiveStatusFlag(){
 		String status = "";
 		TransferredAuditAccountsVO accountVO = (TransferredAuditAccountsVO)getCurrentRowObject();
-		if(accountVO.getImpaciiActiveStatusFlag() != null){
-			if(accountVO.getImpaciiActiveStatusFlag()){
-				status = "Yes";
-			}
-			else{
-				status="No";
-			}
-		}		
+		
+		if(accountVO.getImpaciiActiveStatusFlag() == null){
+			status = "NA";
+			
+		}else if(accountVO.getImpaciiActiveStatusFlag()){
+			status = "Yes";
+			
+		}else{
+			status="No";
+		}
+
 		return status;
 	}
 	
@@ -57,14 +60,17 @@ public class AdminReportTransferredAccountsSearchResultExportDecorator extends T
 	public String getI2eActiveStatusFlag(){
 		String status = "";
 		TransferredAuditAccountsVO accountVO = (TransferredAuditAccountsVO)getCurrentRowObject();
-		if(accountVO.getI2eActiveStatusFlag() != null){
-			if( accountVO.getI2eActiveStatusFlag()){
-				status = "Yes";
-			}
-			else{
-				status="No";
-			}
+		
+		if(accountVO.getI2eActiveStatusFlag() == null){
+			status = "NA";
+			
+		}else if( accountVO.getI2eActiveStatusFlag()){
+			status = "Yes";
+			
+		}else{
+			status="No";
 		}
+
 		return status;
 	}	
 }
