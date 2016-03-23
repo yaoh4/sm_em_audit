@@ -153,16 +153,24 @@
 		$('#noteText').val(note);		
 		$('#orgId').val(parentNedOrgPath);
 		
-		var actionId = $('#hiddenAction'+cellId).val();
-		if(actionId == 50 || actionId == 51 || actionId == 52 || actionId == 53){
-			onActionChage(actionId,'');
-			$('#transferOrgDiv').css("display","inline");
-			$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+		var tranferOptionExists = false;
+		$.each([ 50, 51, 52, 53 ], function( index, value ) {			 
+			 if( 0 != $('#selectActId option[value='+value+']').length){
+				 tranferOptionExists = true;
+				 return false;
+			 }
+		});		
+		if(tranferOptionExists){
+			var actionId = $('#hiddenAction'+cellId).val();
+			if(actionId == 50 || actionId == 51 || actionId == 52 || actionId == 53){
+				onActionChage(actionId,'');
+				$('#transferOrgDiv').css("display","inline");
+				$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+			}
+			else{
+				$('#transferOrgDiv').css("display","none");
+			}
 		}
-		else{
-			$('#transferOrgDiv').css("display","none");
-		}
-		
 		$("#submitAction").dialog( "open" );
 	}	
 	function unsubmitAct(name, cellId){

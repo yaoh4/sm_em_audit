@@ -150,14 +150,17 @@
 		$('#noteText').val(note);	
 		$('#orgId').val(parentNedOrgPath);
 		
-		var actionId = $('#hiddenAction'+cellId).val();
-		if(actionId == 50){
-			onActionChage(actionId,'');
-			$('#transferOrgDiv').css("display","inline");
-			$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
-		}
-		else{
-			$('#transferOrgDiv').css("display","none");
+		var tranferOptionExists = (0 != $('#selectActId option[value='+50+']').length);
+		if(tranferOptionExists){
+			var actionId = $('#hiddenAction'+cellId).val();
+			if(actionId == 50){
+				onActionChage(actionId,'');
+				$('#transferOrgDiv').css("display","inline");
+				$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+			}
+			else{
+				$('#transferOrgDiv').css("display","none");
+			}
 		}
 		
 		$("#submitAction").dialog( "open" );
