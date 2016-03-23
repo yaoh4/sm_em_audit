@@ -46,8 +46,8 @@
             <property name="nedIc" type="string">
                 <column name="NED_IC" length="576" />
             </property>
-            <property name="nedActiveFlag" type="yes_no">
-                <column name="NED_ACTIVE_FLAG" length="1" />
+            <property name="impaciiActiveStatusFlag" type="yes_no">
+                <column name="IMPACII_ACTIVE_STATUS_FLAG" length="1" />
             </property>
             <property name="nciDoc" type="string">
                 <column name="NCI_DOC" length="5" />
@@ -159,6 +159,15 @@
             </property>
             <property name="lastNameDiffFlag" type="yes_no">
                 <column name="LAST_NAME_DIFF_FLAG" length="1" />
+            </property>           
+			<property name="transferToNedOrgPath" type="string">
+				<column name="TRANSFER_TO_NED_ORG_PATH" length="255" />
+			</property>
+			<property name="transferFromNedOrgPath" type="string">
+				<column name="TRANSFER_FROM_NED_ORG_PATH" length="255" />
+			</property>
+			<property name="transferredDate" type="timestamp">
+                <column name="TRANSFERRED_DATE" length="7" />
             </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>

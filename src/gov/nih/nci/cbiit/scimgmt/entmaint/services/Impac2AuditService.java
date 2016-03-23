@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -105,4 +106,11 @@ public interface Impac2AuditService {
      * @return
      */
     public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId);
+    
+    /**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
+     * @return DBResult
+	 */
+    public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer);
 }

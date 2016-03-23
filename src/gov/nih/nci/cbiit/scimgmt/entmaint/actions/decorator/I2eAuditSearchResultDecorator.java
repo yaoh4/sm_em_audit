@@ -147,6 +147,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
 			name=accountVO.getCleanFullName();
 		}
+		String parentNedOrgPath = accountVO.getParentNedOrgPath();
 		String id = ""+accountVO.getId();
 		String actionStr = "";
 		String actionId ="";
@@ -173,7 +174,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			actionStr = actionStr + "</br>";
 		}
 		//if the action record is new or submitted
-		if(accountVO.getAction() != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N"))){
+		if(accountVO.getAction() != null && !ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(accountVO.getAction().getDescription()) && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
@@ -191,14 +192,23 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
 				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
 			}
+			if(accountVO.getTransferToNedOrgPath() != null){
+				actionStr = actionStr + "<br/> (Transferred)";
+			}
 			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
+			if( accountVO.getAction() != null &&  ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(accountVO.getAction().getDescription())){
+				actionStr = actionStr + "<input type='hidden' id='hiddenTransferredNciOrg"+ id +"' value='" + accountVO.getTransferToNedOrgPath() + "'/>";
+			}
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ",'" + parentNedOrgPath + "');\" value=\"Complete\"/>";
+			}
+			if(accountVO.getTransferToNedOrgPath() != null){
+				actionStr = actionStr + "<br/> (Transferred)";
 			}
 			actionStr = actionStr + "</div>";
 		}
@@ -295,6 +305,9 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 	 */
 	@SuppressWarnings("unchecked")
 	private String getActionId(String label){
+		if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(label)){
+			label = ApplicationConstants.SEARCH_TRANSFERED;
+		}
 		String id = "";
 		List<DropDownOption> actions = (List<DropDownOption>)this.getPageContext().getSession().getAttribute(ApplicationConstants.ACTIONLIST);
 		for(DropDownOption ddo : actions){

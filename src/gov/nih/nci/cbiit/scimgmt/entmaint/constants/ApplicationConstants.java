@@ -105,6 +105,7 @@ public interface ApplicationConstants {
     public static String INPUT = "input";
     public static String EXPORT = "export";
     public static String EXPORT_I2E = "exporti2e";
+    public static String EXPORT_TRANSFERRED = "exportTransferred";
     public static String AUDIT_ENABLED = "audit_enabled";
     public static String AUDIT_DISABLED = "audit_disabled";
     
@@ -114,6 +115,7 @@ public interface ApplicationConstants {
 	public static final String CATEGORY_INACTIVE = "INACTIVE";
 	public static final String CATEGORY_I2E = "I2E";
 	public static final String CATEGORY_EXCLUDED = "EXCLUDED";
+	public static final String CATEGORY_TRANSFER = "TRANSFER";
 	
 	public static final String ACTIVE_ACTION_ALL = "1";
 	public static final String NEW_ACTION_ALL = "5";
@@ -191,4 +193,14 @@ public interface ApplicationConstants {
 	
 	public static final String DASHBOARD = "Y";
 	public static final String USEDASHBOARD="dashboard";
+	
+	//Transfer action constants.
+	public static final String ACTION_TRANSFER = "Transfer";
+	public static final String SEARCH_TRANSFERED = "Transferred";
+	public static final Long ACTIVE_ACTION_TRANSFER = 50L;
+	public static final Long NEW_ACTION_TRANSFER = 51L;
+	public static final Long DELETED_ACTION_TRANSFER = 52L;
+	public static final Long INACTIVE_ACTION_TRANSFER = 53L;
+	
+	
 }

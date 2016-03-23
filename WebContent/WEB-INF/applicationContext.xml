@@ -64,7 +64,8 @@
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountRolesVw.hbm.xml</value>
-  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/NciPeopleVw.hbm.xml</value>  				
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/NciPeopleVw.hbm.xml</value>  	
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountsT.hbm.xml</value>  				
 			</list>
   		</property>
   		<property name="hibernateProperties">

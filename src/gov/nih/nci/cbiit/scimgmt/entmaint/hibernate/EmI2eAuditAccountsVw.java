@@ -26,7 +26,7 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private String parentNedOrgPath;
 	private String nedOrgPath;
 	private String nedIc;
-	private Boolean nedActiveFlag;
+	private Boolean i2eActiveStatusFlag;
 	private String nciDoc;
 	private String lastUpdByFullName;
 	private AppLookupT action;
@@ -41,6 +41,9 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private Boolean activeRoleRemainderFlag;
 	private List<EmI2eAuditAccountRolesVw> accountRoles = new ArrayList<EmI2eAuditAccountRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
+	private String transferToNedOrgPath;
+	private String transferFromNedOrgPath;
+	private Date transferredDate;
 
 	public EmI2eAuditAccountsVw() {
 	}
@@ -52,10 +55,10 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 
 	public EmI2eAuditAccountsVw(Long id, Long auditId, String npnId, String nihNetworkId, String lastName,
 			String firstName, Date createdDate, String nedLastName, String nedFirstName, String i2eLastName, String i2eFirstName,
-			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag,
+			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean i2eActiveStatusFlag,
 			String nciDoc, String lastUpdByFullName, AppLookupT action, String notes, String unsubmittedFlag,
 			String submittedBy, Date submittedDate, Boolean i2eOnlyFlag, Boolean sodFlag, Boolean nedInactiveFlag, Boolean noActiveRoleFlag,
-			Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
+			Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies, String transferToNedOrgPath, String transferFromNedOrgPath, Date transferredDate) {
 		this.id = id;
 		this.auditId = auditId;
 		this.npnId = npnId;
@@ -71,7 +74,7 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.parentNedOrgPath = parentNedOrgPath;
 		this.nedOrgPath = nedOrgPath;
 		this.nedIc = nedIc;
-		this.nedActiveFlag = nedActiveFlag;
+		this.i2eActiveStatusFlag = i2eActiveStatusFlag;
 		this.nciDoc = nciDoc;
 		this.lastUpdByFullName = lastUpdByFullName;
 		this.action = action;
@@ -86,6 +89,9 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
 		this.accountRoles = accountRoles;
 		this.accountDiscrepancies = accountDiscrepancies;
+		this.transferToNedOrgPath =transferToNedOrgPath;
+		this.transferFromNedOrgPath = transferFromNedOrgPath;
+		this.transferredDate = transferredDate;
 	}
 
 	public Long getId() {
@@ -208,12 +214,12 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.nedIc = nedIc;
 	}
 
-	public Boolean getNedActiveFlag() {
-		return this.nedActiveFlag;
+	public Boolean getI2eActiveStatusFlag() {
+		return this.i2eActiveStatusFlag;
 	}
 
-	public void setNedActiveFlag(Boolean nedActiveFlag) {
-		this.nedActiveFlag = nedActiveFlag;
+	public void setI2eActiveStatusFlag(Boolean i2eActiveStatusFlag) {
+		this.i2eActiveStatusFlag = i2eActiveStatusFlag;
 	}
 
 	public String getNciDoc() {
@@ -328,6 +334,30 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
 
+	public String getTransferToNedOrgPath() {
+		return transferToNedOrgPath;
+	}
+
+	public void setTransferToNedOrgPath(String transferToNedOrgPath) {
+		this.transferToNedOrgPath = transferToNedOrgPath;
+	}
+
+	public String getTransferFromNedOrgPath() {
+		return transferFromNedOrgPath;
+	}
+
+	public void setTransferFromNedOrgPath(String transferFromNedOrgPath) {
+		this.transferFromNedOrgPath = transferFromNedOrgPath;
+	}
+
+	public Date getTransferredDate() {
+		return transferredDate;
+	}
+
+	public void setTransferredDate(Date transferredDate) {
+		this.transferredDate = transferredDate;
+	}
+
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -374,9 +404,9 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 						&& castOther.getNedOrgPath() != null && this.getNedOrgPath().equals(castOther.getNedOrgPath())))
 				&& ((this.getNedIc() == castOther.getNedIc()) || (this.getNedIc() != null
 						&& castOther.getNedIc() != null && this.getNedIc().equals(castOther.getNedIc())))
-				&& ((this.getNedActiveFlag() == castOther.getNedActiveFlag()) || (this.getNedActiveFlag() != null
-						&& castOther.getNedActiveFlag() != null && this.getNedActiveFlag().equals(
-						castOther.getNedActiveFlag())))
+				&& ((this.getI2eActiveStatusFlag() == castOther.getI2eActiveStatusFlag()) || (this.getI2eActiveStatusFlag() != null
+						&& castOther.getI2eActiveStatusFlag() != null && this.getI2eActiveStatusFlag().equals(
+						castOther.getI2eActiveStatusFlag())))
 				&& ((this.getNciDoc() == castOther.getNciDoc()) || (this.getNciDoc() != null
 						&& castOther.getNciDoc() != null && this.getNciDoc().equals(castOther.getNciDoc())))
 				&& ((this.getLastUpdByFullName() == castOther.getLastUpdByFullName()) || (this.getLastUpdByFullName() != null
@@ -408,7 +438,16 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 						castOther.getNoActiveRoleFlag())))
 				&& ((this.getActiveRoleRemainderFlag() == castOther.getActiveRoleRemainderFlag()) || (this
 						.getActiveRoleRemainderFlag() != null && castOther.getActiveRoleRemainderFlag() != null && this
-						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())));
+						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())))
+				&& ((this.getTransferFromNedOrgPath() == castOther.getTransferFromNedOrgPath()) || (this.getTransferFromNedOrgPath() != null
+						&& castOther.getTransferFromNedOrgPath() != null && this.getTransferFromNedOrgPath().equals(
+						castOther.getTransferFromNedOrgPath())))
+				&& ((this.getTransferToNedOrgPath() == castOther.getTransferToNedOrgPath()) || (this.getTransferToNedOrgPath() != null
+						&& castOther.getTransferToNedOrgPath() != null && this.getTransferToNedOrgPath().equals(
+						castOther.getTransferToNedOrgPath())))
+				&& ((this.getTransferredDate() == castOther.getTransferredDate()) || (this.getTransferredDate() != null
+				        && castOther.getTransferredDate() != null && this.getTransferredDate().equals(
+				        castOther.getTransferredDate())));
 	}
 
 	public int hashCode() {
@@ -429,7 +468,7 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getParentNedOrgPath() == null ? 0 : this.getParentNedOrgPath().hashCode());
 		result = 37 * result + (getNedOrgPath() == null ? 0 : this.getNedOrgPath().hashCode());
 		result = 37 * result + (getNedIc() == null ? 0 : this.getNedIc().hashCode());
-		result = 37 * result + (getNedActiveFlag() == null ? 0 : this.getNedActiveFlag().hashCode());
+		result = 37 * result + (getI2eActiveStatusFlag() == null ? 0 : this.getI2eActiveStatusFlag().hashCode());
 		result = 37 * result + (getNciDoc() == null ? 0 : this.getNciDoc().hashCode());
 		result = 37 * result + (getLastUpdByFullName() == null ? 0 : this.getLastUpdByFullName().hashCode());
 		result = 37 * result + (getAction() == null ? 0 : this.getAction().hashCode());
@@ -441,8 +480,10 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
 		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
 		result = 37 * result + (getNoActiveRoleFlag() == null ? 0 : this.getNoActiveRoleFlag().hashCode());
-		result = 37 * result
-				+ (getActiveRoleRemainderFlag() == null ? 0 : this.getActiveRoleRemainderFlag().hashCode());
+		result = 37 * result + (getActiveRoleRemainderFlag() == null ? 0 : this.getActiveRoleRemainderFlag().hashCode());
+		result = 37 * result + (getTransferFromNedOrgPath() == null ? 0 : this.getTransferFromNedOrgPath().hashCode());
+		result = 37 * result + (getTransferToNedOrgPath() == null ? 0 : this.getTransferToNedOrgPath().hashCode());
+		result = 37 * result + (getTransferredDate() == null ? 0 : this.getTransferredDate().hashCode());
 		return result;
 	}
 

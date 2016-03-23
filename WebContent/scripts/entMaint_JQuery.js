@@ -382,3 +382,30 @@ function refresh(){
 	$('#dashboardFormId').attr("action", "gotoDashboard");
 	$('#dashboardFormId').submit();
 }
+
+function onActionChage(action,transferOrg){
+	
+	if(action == '50' || action == '51' || action == '52' || action == '53'){
+		$.ajax({
+			url: "getAccountTransferOrgList.action",
+			type: "post",
+			data: {transferOrg: transferOrg},
+			async:   false,
+			datatype:'json',
+			success: function(orgList){				
+				var transferOrgDropDown = $('#transferOrg');
+				transferOrgDropDown.find('option').remove();
+				$.each(orgList, function(index, org) { 
+					$('<option>').val(org.optionKey).text(org.optionValue).appendTo(transferOrgDropDown);
+				});
+
+			$('#transferOrgDiv').css("display","inline");
+			}, 
+			error: function(){}	
+		});		
+	}
+	else{
+		$('#transferOrgDiv').css("display","none");
+	}
+
+}

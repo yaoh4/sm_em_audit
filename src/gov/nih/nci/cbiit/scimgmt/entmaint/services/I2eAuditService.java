@@ -66,4 +66,12 @@ public interface I2eAuditService {
      * @return
      */
     public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId);
+
+    
+    /**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer
+     * @return DBResult
+	 */
+    public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer);
 }

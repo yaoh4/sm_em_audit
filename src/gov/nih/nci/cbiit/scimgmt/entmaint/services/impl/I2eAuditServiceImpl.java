@@ -203,4 +203,14 @@ public class I2eAuditServiceImpl implements I2eAuditService {
 		}
 		return nihNetworkIdList;
 	}
+	
+	/**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer
+     * @return DBResult
+	 */
+	@Override
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) {
+		return i2eAuditDAO.transfer(accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer);
+	}
 }

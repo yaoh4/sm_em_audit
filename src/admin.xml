@@ -42,6 +42,7 @@
 			<result name="error" type="tiles">entmaint.admin.reports.page</result>
 			<result name="export" type="dispatcher">/jsp/content/adminReportSearchResultExport.jsp</result>
 			<result name="exporti2e" type="dispatcher">/jsp/content/adminReportI2eSearchResultExport.jsp</result>
+			<result name="exportTransferred" type="dispatcher">/jsp/content/adminReportTransferredAccountSearchResultExport.jsp</result>
 		</action>
 		<action name="resetFields" method="clearAll"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">

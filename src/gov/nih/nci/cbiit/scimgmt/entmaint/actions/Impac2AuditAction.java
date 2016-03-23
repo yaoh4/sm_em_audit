@@ -441,9 +441,13 @@ public class Impac2AuditAction extends BaseAction {
 					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
 					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
-					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					(!this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue()))){
 				continue;
 			}else{
+				if(this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue())){
+					 opt = new DropDownOption(""+opt.getOptionKey(), ApplicationConstants.ACTION_TRANSFER);					
+				}
 				tempList.add(opt);
 			}
 		}

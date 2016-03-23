@@ -29,6 +29,7 @@
 			 			var actionLabel = jQuery('#selectActId option:selected').text();
 			 			var comments = $('#noteText').val();
 			 			var extraChars = $.trim(comments).length - 200;
+			 			var transferOrg = $('#transferOrg').val();
 			 			if(aId == null || $.trim(aId).length < 1){
 			 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ACTION_SELECTION)}'/></font>");
 			 			}else if((aId == "3" || aId == "4" || aId == "7" || aId =="10") && $.trim(comments).length < 1){
@@ -39,7 +40,7 @@
 				 			$.ajax({
 				 				url: "submitAction.action",
 				 				type: "post",
-				 				data: {pId: cId, aId: aId, note: comments},
+				 				data: {pId: cId, aId: aId, note: comments, transferOrg:transferOrg},
 				 				async:   false,
 				 				success: function(msg){
 				 					result = $.trim(msg);
@@ -51,7 +52,19 @@
 				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
 				 			}else if(items[0] == "fail"){
 				 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}'/></font>");
-				 			}else{
+				 			}else if(aId == "50"){
+				 				if(!$('#'+cId).text().match('(Transferred)')){
+				 					$('#'+cId).append("</br>(Transferred)");
+				 				}
+				 				if($('#'+cId).has("#hiddenTransferredNciOrg"+cId).length > 0){
+				 					$('#hiddenTransferredNciOrg'+cId).val(transferOrg);
+				 				}	
+				 				if($('#'+cId).has('#hiddenAction'+cId).length > 0){
+				 					$('#hiddenAction'+cId).val(aId);
+				 				}	
+				 				$( this ).dialog( "close" );
+				 			}
+				 			else{
 				 				$('#'+cId).html("");
 				 				var actStr = "";
 				 				if($.trim(comments).length > 0){
@@ -118,9 +131,9 @@
 			 }
 		});
 	});
-	function submitAct(name, cellId){
+	function submitAct(name, cellId, parentNedOrgPath){
 		$('#errorMessage').html("");
-		$('#nameId').val(name);
+		$('#nameId').val(name);		
 		if($.trim(name).length < 1){
 			$('#nameValue').html("<label style=padding-left:13px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>");
 		}else{
@@ -129,7 +142,19 @@
 		$('#cellId').val(cellId);
 		$('#selectActId').val($('#hiddenAction'+cellId).val());
 		var note = getNote(cellId);
-		$('#noteText').val(note);
+		$('#noteText').val(note);	
+		$('#orgId').val(parentNedOrgPath);
+		
+		var actionId = $('#hiddenAction'+cellId).val();
+		if(actionId == 50){
+			onActionChage(actionId,'');
+			$('#transferOrgDiv').css("display","inline");
+			$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+		}
+		else{
+			$('#transferOrgDiv').css("display","none");
+		}
+		
 		$("#submitAction").dialog( "open" );
 	}	
 	function unsubmitAct(name, cellId){

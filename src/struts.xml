@@ -19,13 +19,13 @@
 
 	<constant name="struts.multipart.maxSize" value="-1" />
 	
-	<package name="default" namespace="/" extends="struts-default">
+	<package name="default" namespace="/" extends="json-default">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
 			<result-type name="redirect-action"
-				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
-		</result-types>
+				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />		
+		</result-types>        
 		
 		<interceptors>
 			<interceptor name="logger"
@@ -71,8 +71,12 @@
 		<action name="sendErrorMessage"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.ErrorMessageAction">
 			<result name="success" type="redirect-action">home</result>
-		</action>
+		</action>	
 		
+		<action name="getAccountTransferOrgList" method="getAccountTransferOrgList" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.I2eAuditAction">
+			 <result type="json" name="success"><param name="root">transferOrgList</param></result>		
+		</action>
+			
 	</package>
 	
 	<include file="impac2.xml"/>

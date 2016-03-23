@@ -372,4 +372,46 @@
  		<property>secondaryOrgText</property>
  		<sort>true</sort>
  	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Active IMPAC II Account</columnName>
+ 		<property>impaciiActiveStatusFlag</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Active I2E Account</columnName>
+ 		<property>i2eActiveStatusFlag</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName> From Organization</columnName>
+ 		<property>transferFromNedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>To Organization</columnName>
+ 		<property>transferToNedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab> 	
  </Display>			

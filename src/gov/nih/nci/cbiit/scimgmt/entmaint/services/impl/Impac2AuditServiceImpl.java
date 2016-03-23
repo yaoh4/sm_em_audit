@@ -22,6 +22,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2AuditDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
@@ -393,6 +394,16 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 				nihNetworkIdList.add((!StringUtils.isEmpty(account.getImpaciiUserId()) ? account.getImpaciiUserId() : account.getNihNetworkId()));
 		}
 		return nihNetworkIdList;
+	}
+	
+	/**
+	 * Transfers Impac2 account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
+     * @return DBResult
+	 */
+	@Override
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) {
+		return impac2AuditDAO.transfer(accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer);
 	}
 
 }

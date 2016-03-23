@@ -61,9 +61,12 @@ public class AuditSearchActionHelper {
 			if(!isSuperUser && (act.getId() == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
 							    act.getId() == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
 							    act.getId() == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
-							    act.getId() == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT )){
+							    act.getId() == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
 					continue;
 			}else{
+				if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(act.getCode())){
+					act.setDescription(ApplicationConstants.SEARCH_TRANSFERED);
+				}
 				DropDownOption ddp1 = new DropDownOption(""+act.getId(), act.getDescription());	
 				actionList.add(ddp1);
 			}
@@ -253,5 +256,21 @@ public class AuditSearchActionHelper {
 			}
 		}	
 		return nestedColumnsNames;
+	}
+	
+	/**
+	 * This method creates Transfer organization drop down list.
+	 * @param transferOrganizationList
+	 * @param lookupService
+	 * @param parentNedOrgPath
+	 */
+	public void createTransferOrgDropDownList(List<DropDownOption> transferOrganizationList, LookupService lookupService, String parentNedOrgPath){
+		
+		for(EmOrganizationVw org : (List<EmOrganizationVw>) lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)){
+			if(!parentNedOrgPath.equalsIgnoreCase(org.getNihorgpath()) && !ApplicationConstants.ORG_PATH_NON_NCI.equalsIgnoreCase(org.getNihorgpath())){
+				DropDownOption transferOrgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());
+				transferOrganizationList.add(transferOrgOption);
+			}
+		}
 	}
 }
