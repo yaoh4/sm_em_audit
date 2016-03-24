@@ -241,6 +241,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest, boolean report) {
 		EmAuditsVO emAuditsVO = null;
+		String currentAuditState = null;
 		
 		if(emAuditsVw != null) {
 			emAuditsVO = populateEmAuditsVO(emAuditsVw);
@@ -259,7 +260,7 @@ public class AdminServiceImpl implements AdminService {
 			//Set current action
 			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();	
 			if(statusHistories != null && statusHistories.size() > 0) {
-				String currentAuditState = statusHistories.get(0).getActionCode();
+				currentAuditState = statusHistories.get(0).getActionCode();
 				emAuditsVO.setAuditState(currentAuditState);
 			}
 			
@@ -268,7 +269,7 @@ public class AdminServiceImpl implements AdminService {
 				final StringBuffer sb = new StringBuffer();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
-				if(latest) {
+				if(latest && !ApplicationConstants.AUDIT_STATE_CODE_RESET.equalsIgnoreCase(currentAuditState)) {
 					// Add (Current) to description
 					if(report)
 						sb.append(" (Current - IMPAC II and I2E)");
@@ -284,7 +285,7 @@ public class AdminServiceImpl implements AdminService {
 				final StringBuffer sb = new StringBuffer();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
-				if(latest) {
+				if(latest && !ApplicationConstants.AUDIT_STATE_CODE_RESET.equalsIgnoreCase(currentAuditState)) {
 					// Add (Current) to description
 					if(report)
 						sb.append(" (Current - IMPAC II)");

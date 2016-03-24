@@ -61,7 +61,8 @@ public class AdminAction extends BaseAction {
      */
     public String execute() throws Exception {
         
-    	//Retrieve current audit info from the DB 
+    	//Retrieve current audit info from the DB. If none exists,
+    	//then a new empty one will be created.
     	emAuditsVO = adminService.retrieveCurrentAuditVO();
     			
     	//Store it into the session

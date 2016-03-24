@@ -206,7 +206,7 @@ public class EmAppUtil {
 		
 		// Results should be editable if any one of the following conditions is satisfied 
 		// - Selected audit is enabled,  or  
-		// - Selected Audit is current/last active, and user is admin.
+		// - Selected Audit is current (not in reset state), and user is admin.
 
 		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrent(auditId))) {
 			result = true;
