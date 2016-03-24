@@ -72,6 +72,7 @@
 				 				}	
 				 				$( this ).dialog( "close" );
 				 			}else{
+				 				var isTransferred = $('#'+cId).text().match('(Transferred)');
 				 				$('#'+cId).html("");
 				 				var actStr = "";
 				 				if($.trim(comments).length > 0){
@@ -91,6 +92,9 @@
 				 					}
 				 				}
 				 				$('#'+cId).html(actStr);
+				 				if(isTransferred){
+				 					$('#'+cId).append("</br>(Transferred)");
+				 				}				 				
 				 				var elements = result.split(";");
 				 				var submitted = "Submitted on " + elements[0] + " by " + elements[1];
 				 				$('#submittedby'+cId).html(submitted);
@@ -129,8 +133,12 @@
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
 			 			}else{
+			 				var isTransferred = $('#'+cId).text().match('(Transferred)');
 			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
+			 				if(isTransferred){
+			 					$('#'+cId).append("</br>(Transferred)");
+			 				}	
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
 			 			}
