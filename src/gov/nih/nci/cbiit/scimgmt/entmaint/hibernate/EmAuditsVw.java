@@ -3,7 +3,6 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 // Generated Feb 26, 2015 9:50:07 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
-
 import java.util.List;
 
 /**
@@ -20,6 +19,10 @@ public class EmAuditsVw implements java.io.Serializable {
 	private Date createDate;
 	private Date i2eFromDate;
 	private Date i2eToDate;
+	private String activeCategoryEnabledFlag = "Y";
+	private String newCategoryEnabledFlag = "Y";
+	private String deletedCategoryEnabledFlag = "Y";
+	private String inactiveCategoryEnabledFlag = "Y";
 	
 	List<EmAuditHistoryVw>  statusHistories;
 	
@@ -175,6 +178,62 @@ public class EmAuditsVw implements java.io.Serializable {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+
+	/**
+	 * @return the activeCategoryEnabledFlag
+	 */
+	public String getActiveCategoryEnabledFlag() {
+		return activeCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param activeCategoryEnabledFlag the activeCategoryEnabledFlag to set
+	 */
+	public void setActiveCategoryEnabledFlag(String activeCategoryEnabledFlag) {
+		this.activeCategoryEnabledFlag = activeCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the newCategoryEnabledFlag
+	 */
+	public String getNewCategoryEnabledFlag() {
+		return newCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param newCategoryEnabledFlag the newCategoryEnabledFlag to set
+	 */
+	public void setNewCategoryEnabledFlag(String newCategoryEnabledFlag) {
+		this.newCategoryEnabledFlag = newCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the deletedCategoryEnabledFlag
+	 */
+	public String getDeletedCategoryEnabledFlag() {
+		return deletedCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param deletedCategoryEnabledFlag the deletedCategoryEnabledFlag to set
+	 */
+	public void setDeletedCategoryEnabledFlag(String deletedCategoryEnabledFlag) {
+		this.deletedCategoryEnabledFlag = deletedCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the inactiveCategoryDeletedFlag
+	 */
+	public String getInactiveCategoryEnabledFlag() {
+		return inactiveCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param inactiveCategoryDeletedFlag the inactiveCategoryDeletedFlag to set
+	 */
+	public void setInactiveCategoryEnabledFlag(String inactiveCategoryEnabledFlag) {
+		this.inactiveCategoryEnabledFlag = inactiveCategoryEnabledFlag;
 	}
 
 	/**

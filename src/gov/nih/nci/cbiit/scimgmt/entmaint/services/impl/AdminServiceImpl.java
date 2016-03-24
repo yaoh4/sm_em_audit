@@ -58,8 +58,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		//Setup a new audit
-		Long auditId = adminDAO.setupNewAudit(
-			emAuditsVO.getImpaciiFromDate(), emAuditsVO.getImpaciiToDate(), emAuditsVO.getComments(), emAuditsVO.getI2eAuditFlag());
+		Long auditId = adminDAO.setupNewAudit(emAuditsVO);
 		
 		return auditId;
 	}
@@ -122,7 +121,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @return EmAuditsVO
 	 */
 	public EmAuditsVO retrieveCurrentOrLastAuditVO() {
-		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList(null);
 		if(!CollectionUtils.isEmpty(auditList)) {
 			return setupAuditVO(auditList.get(0), true, false);
 		}
@@ -145,16 +144,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 		
 	
+	public List<EmAuditsVO> retrieveAuditVOList() {
+		return retrieveAuditVOList(null);
+	}
+	
+	
 	/**
 	 * Retrieves the attributes of all Audit.
 	 * 
 	 * @return EmAuditsVO
 	 */
-	public List<EmAuditsVO> retrieveAuditVOList() {
+	public List<EmAuditsVO> retrieveAuditVOList(String category) {
 		
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
-		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList(category);
 		boolean latest = true;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
@@ -175,7 +179,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
-		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList(null);
 		boolean latest = true;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
@@ -219,7 +223,7 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	public boolean isAuditPresent() {
 		
-		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList()));
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList(null)));
 		
 	}
 	

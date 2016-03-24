@@ -70,6 +70,15 @@ public interface AdminService {
 	 */
 	public List<EmAuditsVO> retrieveAuditVOList();
 	
+	
+	/**
+	 * Retrieves the audit info for all Audits for the given category
+	 * @param category 
+	 * 
+	 * @return List<EmAuditsVO> t
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList(String category);
+	
 	/**
 	 * Retrieves the audit info for all Audits for reports
 	 * 

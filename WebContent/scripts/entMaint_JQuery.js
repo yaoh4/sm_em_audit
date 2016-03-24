@@ -229,6 +229,23 @@ function onCategoryChage(category){
 	});
 }
 
+
+function onAuditSelected(auditId) {
+	
+	$.getJSON("reportCategoriesAction.action", {pId: auditId}, 
+		function(response){
+			var options = $("#searchCategory");
+			options.html('');
+			$.each(response, function(index, item) {
+				options.append(
+						$("<option />").attr("value", item.optionKey).text(item.optionValue));
+			});
+		}
+	);
+}
+
+
+
 function getNote(id){
 	var result = "";
 	$.ajax({

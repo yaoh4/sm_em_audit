@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionContext;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -20,6 +23,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 public class AuditSearchActionHelper {
 	
 	public static final String ROLE_ORG_PATH = "Role Org Path";
+	
+	static Logger logger = Logger.getLogger(AuditSearchActionHelper.class);
 
 	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		
@@ -80,9 +85,9 @@ public class AuditSearchActionHelper {
 		}
 	}
 	
-	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService){
+	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService, String category){
 		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
-		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList(category);
 		for(EmAuditsVO emAuditVO : emAuditVOs){
 			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
 			auditPeriodList.add(ddp);
@@ -215,20 +220,36 @@ public class AuditSearchActionHelper {
 		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
 	}
 	
-	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
-		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
-		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
+	public List<DropDownOption> getReportCategories(LookupService lookupService, AdminService adminService, Long auditId){
+		List<DropDownOption> categoryDropdownList = new ArrayList<DropDownOption>();
 		
-		if(cateList != null){
-			for(AppLookupT obj : cateList){
+		//All possible elements for the dropdown list
+		List<AppLookupT> reportsLookupList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
+		
+		//List of category codes from which elements sre filtered out depending on the specific audit
+		List<String> categoryCodes = lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		
+		EmAuditsVO auditVO = adminService.retrieveAuditVO(auditId);
+		List<String> accountCategories = auditVO.getCategoryList();
+		logger.info("Categories retrieved for auditId " + auditId + ": " + accountCategories.toString());
+		
+		for(AppLookupT obj : reportsLookupList){
+			//Add an element in the reports lookup list to the dropdown display if this 
+			//is not in the category code list which means that it cannot filtered out,
+			//OR it is in the account category List of this specific Audit
+			if(!categoryCodes.contains(obj.getCode()) ||
+					accountCategories.contains(WordUtils.capitalizeFully(obj.getCode())) ) {
 				DropDownOption ddo = new DropDownOption();
 				ddo.setOptionKey(""+obj.getId());
 				ddo.setOptionValue(obj.getDescription());
-				categoryList.add(ddo);
+				categoryDropdownList.add(ddo);
 			}
 		}
-		return categoryList;
+		
+		logger.info("Elements in category dropdown list for auditId " + auditId + ": " + categoryDropdownList.size());
+		return categoryDropdownList;
 	}
+	
 	
 	/**
 	 * This method returns nested columns for requested type.

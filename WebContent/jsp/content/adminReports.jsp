@@ -26,13 +26,13 @@ function clearFields(){
    <!--  Audit Period selection -->
     <label class="control-label col-sm-3" >Audit Period:</label>
       <div class="col-sm-9"> 
-      <s:select name="searchVO.auditId" cssClass="form-control" value="%{#session.searchVO.auditId}" list ="auditPeriodList" listKey="optionKey" listValue="optionValue" style="width:590px;" />
+      <s:select name="searchVO.auditId" onChange="onAuditSelected(this.value)" cssClass="form-control" value="%{#session.searchVO.auditId}" list ="auditPeriodList" listKey="optionKey" listValue="optionValue" style="width:590px;" />
      </div>
  </div>   
   <div class="form-group">
       <label class="control-label col-sm-3" >Category:</label>
       <div class="col-sm-9">  
-      <s:select name="searchVO.category" cssClass="form-control" value="%{#session.searchVO.category}" list="categoryList"  listKey="optionKey" listValue="optionValue" style="width:590px;"/>
+      <s:select name="searchVO.category" id="searchCategory" cssClass="form-control" value="%{#session.searchVO.category}" list="categoryList"  listKey="optionKey" listValue="optionValue" style="width:590px;"/>
       </div>																						         
   </div>
     <div class="form-group">        

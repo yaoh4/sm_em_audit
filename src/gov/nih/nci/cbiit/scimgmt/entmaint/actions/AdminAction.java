@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,7 @@ public class AdminAction extends BaseAction {
     			
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
-        
+    	
     	//Enable/disable the UI elements based on the audit state.
     	setupAuditDisplay(emAuditsVO);
         
@@ -112,6 +113,11 @@ public class AdminAction extends BaseAction {
     		fieldErrors = getFieldErrors();
     	}
     	
+    	if(StringUtils.isBlank(emAuditsVO.getCategories())) {
+    		this.addActionError(getText("error.auditCategories.empty"));
+    	}
+    	
+    	   	
     	//If both the audits are false, then error
     	if(emAuditsVO.getImpac2AuditFlag().equals("false")) {
     		this.addActionError(getText("error.audittypes.empty"));
@@ -364,6 +370,19 @@ public class AdminAction extends BaseAction {
 			bread.close();
 			return content;	
 		}
+	}
+
+
+	/**
+	 * @return the category list for checkbox selection
+	 */
+	public List<String> getDisplayCategories() {
+		
+		List<String> categoryCodes = lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+    	List<String> displayCategories = EmAppUtil.formatDisplayList(new ArrayList(categoryCodes));
+    	Collections.sort(displayCategories);
+		
+    	return displayCategories;
 	}
 		
 }

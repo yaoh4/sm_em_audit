@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 
@@ -23,7 +25,7 @@ public class EmAppUtil {
 
 	private static final Logger logger = Logger.getLogger(EmAppUtil.class);
 	
-	
+
 	/**
 	 * Default Constructor
 	 */
@@ -225,6 +227,17 @@ public class EmAppUtil {
 		}
 		return label;
 	}
+	
+	
+	public static List<String> formatDisplayList(List<String> displayList) {
+		List<String> formattedList = new ArrayList<String>();
+		
+		for(String displayElement: displayList) {		
+			formattedList.add(WordUtils.capitalizeFully(displayElement));
+		}
+		return formattedList;
+	}
+	
 
 	public static void logUserID(NciUser nciUser, Logger logger){
 		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());

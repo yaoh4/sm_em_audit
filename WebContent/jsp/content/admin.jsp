@@ -110,7 +110,19 @@ function submitForm(){
    		</div>
     </div>
   
-    
+    <div class="form-group">
+    	<label  for="category" class="col-sm-3 control-label" style="padding-top:0px;">Account Categories:</label>
+    	<div class="col-sm-4">
+			<s:if
+	    		test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
+        		<s:checkboxlist  list="%{displayCategories}"  value="%{emAuditsVO.categoryList}" name="emAuditsVO.categories"/>
+			</s:if>
+       		<s:else>
+       			<s:checkboxlist  list="%{displayCategories}" disabled="true" value="%{emAuditsVO.categoryList}" name="emAuditsVO.categories"/>
+       		</s:else>
+   		</div>
+    </div>
+   
 	<div class="form-group">
 		<label class="control-label col-sm-3" for="rate_range">Accounts Audited Date Range:</label>
       	<div class="col-sm-4">

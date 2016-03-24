@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -30,6 +31,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @SuppressWarnings("serial")
 public class AdminReportsAction extends BaseAction {
+	
+	static Logger logger = Logger.getLogger(AdminReportsAction.class);
+	
 	@Autowired
 	protected AdminService adminService;
 	@Autowired
@@ -69,8 +73,9 @@ public class AdminReportsAction extends BaseAction {
      */
 	public String clearAll(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
-		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
-		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
+		categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
+		searchVO.setAuditId(auditId);
 		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
@@ -160,12 +165,27 @@ public class AdminReportsAction extends BaseAction {
 		return forward;	
 	}
 	
+	
+	/**
+	 * Invoked when user selects an audit in the audit dropdown list
+	 */
+	public String setReportCategories() {
+		String auditId = (String)request.getParameter("pId");
+		if(!StringUtils.isBlank(auditId)) {	
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, Long.parseLong(auditId));			
+		}
+		
+		return SUCCESS;
+	}
+	
+	
 	private void setUpEnvironment(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		this.setFormAction("reportSearch");
-		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
+		Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
+		categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
-			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+			searchVO.setAuditId(auditId);
 			searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
 			setSelectedAuditDescription(auditPeriodList.get(0).getOptionValue());
 		} else {

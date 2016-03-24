@@ -12,11 +12,13 @@ import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,7 +136,7 @@ public class LookupServiceImpl implements LookupService {
 	 * @param listName
 	 * @return List
 	 */
-	private Map<String, ? extends Object> getListMap(String listName) {
+	public Map<String, ? extends Object> getListMap(String listName) {
 	  	List result = null;
 	  	Map resultMap = null;
 		boolean updated = false; // int myRefreshPeriod = 86400; //set refresh period to one day
@@ -209,7 +211,18 @@ public class LookupServiceImpl implements LookupService {
 	public void flushListForSession() {
 		// These two lists are refreshed every session
 	}
-   
+
+	/**
+	 * Get list of AppLookupT codes for the given listname
+	 */
+	public List<String> getCodeList(String listName) {
+		Map<String,? extends Object> appLookupMap = getListMap(listName);
+		List<String> codeList = new ArrayList<String>(appLookupMap.keySet());
+		
+		return codeList;
+	}
+	
+	
 	/**
 	 * Get AppLookupT by list name and code
 	 * 
@@ -255,7 +268,7 @@ public class LookupServiceImpl implements LookupService {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Get Role description for the help pop-up
 	 * 
@@ -305,7 +318,12 @@ public class LookupServiceImpl implements LookupService {
 	 * @return
 	 */
 	private List search(String listName) {
-//		logger.debug("Searching for list by name: " + listName);
-		return propertyListDAO.retrieve(listName);
+
+		List result =  propertyListDAO.retrieve(listName);
+		if(CollectionUtils.isEmpty(result)) {
+			logger.error("Could not retrieve lookupList for " + listName);
+		}
+		
+		return result;
 	}
 }

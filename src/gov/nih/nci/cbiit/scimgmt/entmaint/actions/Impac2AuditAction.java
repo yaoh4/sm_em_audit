@@ -71,7 +71,7 @@ public class Impac2AuditAction extends BaseAction {
 		searchVO.setUserLastname("");
 		searchVO.setOrganization("");
 		setUpDefaultSearch();
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, getCategory()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
 		
@@ -284,7 +284,7 @@ public class Impac2AuditAction extends BaseAction {
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, getCategory()));
 		
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
@@ -306,8 +306,10 @@ public class Impac2AuditAction extends BaseAction {
 	 * @param pageName
 	 */
 	private void initialComponent(String pageName){		
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
-		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, pageName));
+		if(!auditPeriodList.isEmpty()) {
+			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, pageName);
 		sortByCategory(pageName);
