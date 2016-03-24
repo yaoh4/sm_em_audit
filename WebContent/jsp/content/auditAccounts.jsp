@@ -290,7 +290,7 @@
   <h3  class="panel-title">Results - Deleted Accounts</h3>
   </s:if>
   <s:if test="%{#act == 'searchInactiveAuditAccounts'}">
-  <h3  class="panel-title">Results - Inactive > 130 Days Accounts</h3>
+  <h3  class="panel-title">Results - Inactive > 120 Days Accounts</h3>
   </s:if>
   
   </div>

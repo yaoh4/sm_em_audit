@@ -163,7 +163,7 @@ function submitForm(){
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_DISABLED)}">
               	<s:submit value="Enable Audit" cssClass="btn btn-primary" action="enableAudit" onClick="return validateForm()"/>      
            <!--  <s:submit value="Reset Audit" cssClass="btn btn-primary" action="resetAudit" onClick="return validateForm()"/> -->
-           <input type="button" class="btn btn-primary" value="Reset Audit" onclick="openConfirmation();">
+           <input type="button" class="btn btn-primary" value="End Audit" onclick="openConfirmation();">
           	</s:elseif>
       	</div>
      </div>
@@ -177,9 +177,9 @@ function submitForm(){
       	     	 
 </form>
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
-<div id="confirmation" align="center" style="display:none;" title="Reset Audit Confirmation">
+<div id="confirmation" align="center" style="display:none;" title="End Audit Confirmation">
 <br/>
-You have attempted to reset the audit. Are you sure?
+You have attempted to end the audit. Are you sure?
 </div>
 <!--  tab-content -->
 </div>

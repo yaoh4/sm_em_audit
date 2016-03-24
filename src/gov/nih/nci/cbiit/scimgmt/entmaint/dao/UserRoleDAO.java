@@ -132,6 +132,7 @@ public class UserRoleDAO {
 		List<String> result = null;
     	try{
     		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);
+    		criteria.add(Restrictions.eq("activeFlag", "Y"));
     		criteria.createAlias("accountRoles","accountRoles");
     		criteria.add(Restrictions.eq("accountRoles.roleCode", "EMREP"));
     		criteria.setProjection(Projections.property("nihNetworkId"));

@@ -413,4 +413,17 @@ public class Impac2PortfolioDAO {
 			throw e;
 		}
 	}
+
+	/**
+	 * Get the distinct DOC with IC coordinator
+	 * @return List<String>
+	 */
+	public List<String> getOrgsWithIcCoordinator() {
+		Criteria criteria = null;
+		criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+		criteria.setProjection(Projections.projectionList().add(Projections.distinct(Projections.property("parentNedOrgPath"))));
+		criteria.add(Restrictions.ne("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (List<String>)criteria.list();
+	}
 }

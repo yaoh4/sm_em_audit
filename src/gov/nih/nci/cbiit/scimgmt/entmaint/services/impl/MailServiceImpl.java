@@ -84,7 +84,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.cbiit.scimgmt.oar.service.MailService#getVelocityEngine()
+	 * @see gov.nih.nci.cbiit.scimgmt.entmaint.service.MailService#getVelocityEngine()
 	 */
 	@Override
 	public VelocityEngine getVelocityEngine() {
@@ -147,11 +147,13 @@ public class MailServiceImpl implements MailService {
 					final MimeMessageHelper helper = new MimeMessageHelper(mailSender.createMimeMessage(), true,
 							"UTF-8");
 					String subject = subjectWriter.toString();
+					String logTo = null;
 
 					final String env = entMaintProperties.getProperty("ENVIRONMENT", "dev");
 
 					if (env.toLowerCase().startsWith("prod")) {
 						helper.setTo(to);
+						logTo = Arrays.toString(to);
 
 						if (cc != null) {
 							helper.setCc(cc);
@@ -162,9 +164,10 @@ public class MailServiceImpl implements MailService {
 					} else {
 						subject = "[" + env.toUpperCase() + "] " + subject;
 						subject += " {TO: " + StringUtils.join(to, ',') + "} {CC: " + StringUtils.join(cc, ',') + "}";
-						final String[] overrideAddrs = StringUtils.split(entMaintProperties
+						final String[] overrideAddrs = parse(entMaintProperties
 								.getProperty("email.bcc"));						
 						helper.setTo(overrideAddrs);
+						logTo = Arrays.toString(overrideAddrs);
 					}
 
 					helper.setText(body, true);
@@ -173,6 +176,7 @@ public class MailServiceImpl implements MailService {
 					helper.setFrom(from);
 
 					log.info("invoking mailSender");
+					log.info("Sending mail to " + logTo + " subject: " + subject);
 					mailSender.send(helper.getMimeMessage());
 					log.info("done invoking mailSender");
 
@@ -251,7 +255,7 @@ public class MailServiceImpl implements MailService {
 			} catch (Exception e) {
 				continue;
 			}
-			if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+			if(StringUtils.equalsIgnoreCase(nciUser.getCurrentUserRole(), "EMADMIN")) {
 				if(!orgMapEmail.containsKey("EMADMIN")) {
 					orgMapEmail.put("EMADMIN",new ArrayList<String>());
 					orgMapName.put("EMADMIN",new ArrayList<String>());
@@ -273,6 +277,17 @@ public class MailServiceImpl implements MailService {
 		Long auditId = emAuditsVO.getId();
 		HashSet<String> excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
 		HashSet<String> excludedI2eAccounts = i2eAuditService.retrieveExcludedFromAuditAccounts(auditId);
+
+		// Fetch distinct Org regardless of whether IC Coordinator exists and add to the OrgMap.
+		List<String> distinctOrgs = impac2PortfolioService.getOrgsWithIcCoordinator();
+		for(String org: distinctOrgs) {
+			if(!orgMapEmail.containsKey(org)) {
+				orgMapEmail.put(org,new ArrayList<String>());
+				orgMapName.put(org,new ArrayList<String>());
+				orgMapEmail.get(org).add(entMaintProperties.getProperty("email.cc"));
+				orgMapName.get(org).add("NCI IMPACII Primary IC Coordinator");
+			}
+		}
 		
 		// For each Org, send the email
 		for (Map.Entry<String,List<String>> entry : orgMapEmail.entrySet()) {
