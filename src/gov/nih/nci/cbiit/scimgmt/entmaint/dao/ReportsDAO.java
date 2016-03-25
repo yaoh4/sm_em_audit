@@ -180,7 +180,7 @@ public class ReportsDAO {
 		paginatedList.setList(transferredAccountsList);
 		
 		if(!all && paginatedList.getFullListSize() == 0) {
-			SQLQuery resultCountQuery = sessionFactory.getCurrentSession().createSQLQuery("select count(*) from ( "+query+")");
+			SQLQuery resultCountQuery = sessionFactory.getCurrentSession().createSQLQuery("select count(*) from ( "+query.getQueryString()+")");
 			resultCountQuery.setParameter("auditId",auditId);
 			paginatedList.setTotal(getTotalResultCount(resultCountQuery));
 		}
