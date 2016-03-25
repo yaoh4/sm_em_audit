@@ -234,7 +234,7 @@ public class AdminAction extends BaseAction {
     	logger.info("Closing current audit");
     	
     	Long auditId = adminService.closeCurrentAudit(emAuditsVO.getComments());
-    	logger.info("Closed audit with auditId " + emAuditsVO.getId());
+    	logger.info("Closed audit with auditId " + auditId);
     	
     	//Create a blank Audit (in preparation for the next cycle) in reset state
     	//if the existing one was closed correctly. Else, the existing one is 

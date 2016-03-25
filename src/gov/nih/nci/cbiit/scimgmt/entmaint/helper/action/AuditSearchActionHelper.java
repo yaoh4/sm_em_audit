@@ -253,7 +253,6 @@ public class AuditSearchActionHelper {
 		//Iterate through the values in the reportCategoryLookupList. 
 		for(AppLookupT lookup : reportCategoryLookupList){
 			
-			String code = lookup.getCode();
 			if(ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(lookup.getCode())) {
 				//This is the lookup for I2E dropdown element, hence include it
 				//only if I2E Audit was performed
