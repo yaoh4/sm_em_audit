@@ -400,9 +400,10 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	 * Transfers Impac2 account to different organization.
 	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
      * @return DBResult
+	 * @throws Exception 
 	 */
 	@Override
-	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) {
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception {
 		return impac2AuditDAO.transfer(accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer);
 	}
 

@@ -40,9 +40,10 @@ public class ReportsDAO {
 	 * @param searchVO
 	 * @param all
 	 * @return
+	 * @throws Exception 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) {
+	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, final AuditSearchVO searchVO, Boolean all) throws Exception {
 		log.debug("searching for Transferred accounts: " + searchVO);
 		PaginatedListImpl<TransferredAuditAccountsVO> pListImpl = null;
 		
@@ -50,10 +51,10 @@ public class ReportsDAO {
 			//Union of i2eVwLeftJoinAuditVw and auditVwLeftJoinI2eVw
 			StringBuffer transferredAccountsQuery = new StringBuffer();
 			
-			//Left outer join of 2eVw and AuditVw
+			//Left outer join of i2eVw and AuditVw
 			StringBuffer i2eVwLeftJoinAuditVw = new StringBuffer();
 			
-			//Left outer join of AuditVw and 2eVw
+			//Left outer join of AuditVw and i2eVw
 			StringBuffer auditVwLeftJoinI2eVw = new StringBuffer();				
 			
 			i2eVwLeftJoinAuditVw.append("select i2eVw.last_name AS lastName, i2eVw.first_name AS firstName, i2eVw.nih_network_id AS nihNetworkId, i2eVw.ned_org_path AS nedOrgPath, ");
@@ -80,13 +81,13 @@ public class ReportsDAO {
 			pListImpl =  getPaginatedListResult(paginatedList, query, all, searchVO.getAuditId());			
 			return pListImpl;
 
-		} catch (Throwable e) {
-			log.error("Error while searching for Transferred accounts. ", e);
+		} catch (Throwable e) {			
 			EmAppUtil.logUserID(nciUser, log);
 			log.error("Pass-in parameters: paginatedList - " + paginatedList + ", searchVO - " + searchVO + ", all - " + all);
-			log.error("Outgoing parameters: PaginatedList - " + pListImpl);
-			
-			throw e;
+			log.error("Outgoing parameters: pListImpl - " + (pListImpl == null ? "NULL" : "object ID=" + pListImpl.toString()));
+			String errorString = "Error while searching for Transferred accounts. ";
+			log.error(errorString, e);
+			throw new Exception(errorString,e);			
 		}
 	}
 	
@@ -157,9 +158,10 @@ public class ReportsDAO {
 	 * @param criteria
 	 * @param all
 	 * @return
+	 * @throws Exception 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private PaginatedListImpl getPaginatedListResult(PaginatedListImpl paginatedList, SQLQuery query, boolean all, Long auditId) {
+	private PaginatedListImpl getPaginatedListResult(PaginatedListImpl paginatedList, SQLQuery query, boolean all, Long auditId) throws Exception {
 		final int objectsPerPage = paginatedList.getObjectsPerPage();
 		final int firstResult = objectsPerPage * paginatedList.getIndex();
 			
@@ -176,29 +178,30 @@ public class ReportsDAO {
 		}
 		List<TransferredAuditAccountsVO> transferredAccountsList = populateTransferredAccountVOs(results);
 		paginatedList.setList(transferredAccountsList);
+		
 		if(!all && paginatedList.getFullListSize() == 0) {
-			paginatedList.setTotal(getTotalResultCount(query.getQueryString(), auditId));
+			SQLQuery resultCountQuery = sessionFactory.getCurrentSession().createSQLQuery("select count(*) from ( "+query+")");
+			resultCountQuery.setParameter("auditId",auditId);
+			paginatedList.setTotal(getTotalResultCount(resultCountQuery));
 		}
 		return paginatedList;
 	}	
 	
 	/**
-	 * Gets the total result count.
-	 * 
-	 * @param criteria
-	 *            the criteria
+	 * Gets the total result count.	 * 
+	 * @param SQLQuery the resultCountQuery
 	 * @return the total result count
+	 * @throws Exception 
 	 */
-	private int getTotalResultCount(String query, Long auditId) {
-		try{
-			SQLQuery resultCountQuery = sessionFactory.getCurrentSession().createSQLQuery("select count(*) from ( "+query+")");
-			resultCountQuery.setParameter("auditId",auditId);
+	private int getTotalResultCount(SQLQuery resultCountQuery) throws Exception {
+		try{			
 			return  ( (BigDecimal) resultCountQuery.uniqueResult() ).intValue();	
-		} catch (Throwable e) {
-			log.error("Error while getting total result count for Transferred accounts list. ", e);
+		} catch (Throwable e) {			
 			EmAppUtil.logUserID(nciUser, log);	
-			log.error("Pass-in parameters: query - " + query + ", auditId - " + auditId);			
-			throw e;
+			log.error("Pass-in parameters: resultCountQuery - " + resultCountQuery.getQueryString());	
+			String errorString = "Error while getting total result count for Transferred accounts list. ";
+			log.error(errorString, e);
+			throw new Exception(errorString,e);			
 		}
 	}
 	

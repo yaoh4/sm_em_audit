@@ -400,7 +400,7 @@ function refresh(){
 	$('#dashboardFormId').submit();
 }
 
-function onActionChage(action,transferOrg){
+function onActionChange(action,transferOrg){
 	
 	if(action == '50' || action == '51' || action == '52' || action == '53'){
 		$.ajax({
@@ -417,8 +417,7 @@ function onActionChage(action,transferOrg){
 				});
 
 			$('#transferOrgDiv').css("display","inline");
-			}, 
-			error: function(){}	
+			}
 		});		
 	}
 	else{

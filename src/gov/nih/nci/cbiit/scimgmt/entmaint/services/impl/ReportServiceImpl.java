@@ -29,10 +29,11 @@ public class ReportServiceImpl implements ReportService {
 	 * @param searchVO
 	 * @param all
 	 * @return
+	 * @throws Exception 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) {
+	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) throws Exception {
 		paginatedList = reportsDAO.searchTransferredAccounts(paginatedList, searchVO, all);		
 		return paginatedList;
 	}  

@@ -429,8 +429,9 @@ public class I2eAuditDAO {
 	 * Transfers account to different organization.
 	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer
      * @return DBResult
+	 * @throws Exception 
 	 */
-	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) {
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) throws Exception {
 		DBResult result = new DBResult();
 		try {
 			EmI2eAuditAccountsT account = null;
@@ -457,15 +458,15 @@ public class I2eAuditDAO {
 				result.setStatus(DBResult.SUCCESS);
 			}
 			else{
-				log.debug("EmI2eAuditAccountsT doesn't exist for ID: "+accountId);
+				log.error("EmI2eAuditAccountsT doesn't exist for ID: "+accountId);
 			}
 			
-		} catch (Throwable e) {
-			log.error("Transfer Failed for Account with Id=" + accountId + e.getMessage(), e);
+		} catch (Throwable e) {			
 			EmAppUtil.logUserID(nciUser, log);
 			log.error("Pass-in Parameters: id - " + accountId +", nihNetworkId - " + nihNetworkId + ", auditId - " + auditId + ", parentNedOrgPath - " + parentNedOrgPath + ", actionComments - " + actionComments + ", transferOrg" + transferOrg +", isI2eTransfer" + isI2eTransfer);
-			log.error("Outgoing parameters: DBResult - " + result.getStatus());
-			throw e;
+			String errorString = "Transfer Failed for Account with Id= " + accountId + " " + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
 		}
 		return result;
 	}
@@ -475,7 +476,7 @@ public class I2eAuditDAO {
 	 * @param nihNetworkId , auditId
 	 * @return EmI2eAuditAccountsT
 	 */
-	private EmI2eAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) {
+	private EmI2eAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) throws Exception{
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsT.class);
 			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
@@ -483,8 +484,9 @@ public class I2eAuditDAO {
 			EmI2eAuditAccountsT result = (EmI2eAuditAccountsT) crit.uniqueResult();
 			return result;
 		} catch (Throwable e) {
-			log.error("get EmI2eAuditAccountsT failed for nihNetworkId=" + nihNetworkId + " and Auddit Id "+ auditId + e.getMessage(), e);
-			throw e;
+			String errorString = "get EmI2eAuditAccountsT failed for nihNetworkId= " + nihNetworkId + " and Audit Id= "+ auditId + " " +e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
 		}
 	}
 }

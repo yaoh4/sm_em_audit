@@ -162,7 +162,7 @@
 		if(tranferOptionExists){
 			var actionId = $('#hiddenAction'+cellId).val();
 			if(actionId == 50){
-				onActionChage(actionId,'');
+				onActionChange(actionId,'');
 				$('#transferOrgDiv').css("display","inline");
 				$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
 			}

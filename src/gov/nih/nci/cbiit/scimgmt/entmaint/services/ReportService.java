@@ -17,8 +17,9 @@ public interface ReportService {
 	 * @param searchVO
 	 * @param all
 	 * @return
+	 * @throws Exception 
 	 */
     @SuppressWarnings("rawtypes")
-	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);    
+	public PaginatedListImpl<TransferredAuditAccountsVO> searchTransferredAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all) throws Exception;    
     
 }

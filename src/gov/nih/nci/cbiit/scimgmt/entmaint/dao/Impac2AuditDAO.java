@@ -768,8 +768,9 @@ public class Impac2AuditDAO {
 	 * Transfers account to different organization.
 	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
      * @return DBResult
+	 * @throws Exception 
 	 */
-	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) {
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception {
 		DBResult result = new DBResult();
 		try {			
 			EmAuditAccountsT account = null;					
@@ -818,15 +819,15 @@ public class Impac2AuditDAO {
 				result.setStatus(DBResult.SUCCESS);
 			}
 			else{
-				log.debug("EmAuditAccountsT doesn't exist for ID: "+accountId);
+				log.error("EmAuditAccountsT doesn't exist for ID: "+accountId);
 			}
 			
 		} catch (Throwable e) {
-			log.error("Transfer Failed for Account with Id=" + accountId + e.getMessage(), e);
 			EmAppUtil.logUserID(nciUser, log);
-			log.error("Pass-in Parameters: id - " + accountId +", nihNetworkId - " + nihNetworkId + ", auditId - " + auditId + ", parentNedOrgPath - " + parentNedOrgPath + ",actionId" + actionId +", actionComments - " + actionComments  + ", transferOrg" + transferOrg + ", category"+ category + ", isImpac2Transfer"+ isImpac2Transfer);
-			log.error("Outgoing parameters: DBResult - " + result.getStatus());
-			throw e;
+			log.error("Pass-in Parameters: id - " + accountId +", nihNetworkId - " + nihNetworkId + ", auditId - " + auditId + ", parentNedOrgPath - " + parentNedOrgPath + ",actionId" + actionId +", actionComments - " + actionComments  + ", transferOrg" + transferOrg + ", category"+ category + ", isImpac2Transfer"+ isImpac2Transfer);			
+			String errorString = "Transfer Failed for Account with Id= " + accountId + " " + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
 		}
 		return result;
 	}
@@ -835,16 +836,18 @@ public class Impac2AuditDAO {
 	 * Get account using id.
 	 * @param id
 	 * @return EmAuditAccountsT
+	 * @throws Exception 
 	 */
-	private EmAuditAccountsT getAccountsT(Long id) {
+	private EmAuditAccountsT getAccountsT(Long id) throws Exception {
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsT.class);
 			crit.add(Restrictions.eq("id", id));
 			EmAuditAccountsT result = (EmAuditAccountsT) crit.uniqueResult();
 			return result;
 		} catch (Throwable e) {
-			log.error("get EmAuditAccountsT failed for Id=" + id + e.getMessage(), e);
-			throw e;
+			String errorString = "get EmAuditAccountsT failed for Id=" + id + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
 		}
 	}
 	
@@ -852,8 +855,9 @@ public class Impac2AuditDAO {
 	 * Get account using nihNetworkId , auditId.
 	 * @param nihNetworkId , auditId
 	 * @return EmAuditAccountsT
+	 * @throws Exception 
 	 */
-	private EmAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) {
+	private EmAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) throws Exception {
 		try {
 			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsT.class);
 			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
@@ -861,8 +865,9 @@ public class Impac2AuditDAO {
 			EmAuditAccountsT result = (EmAuditAccountsT) crit.uniqueResult();
 			return result;
 		} catch (Throwable e) {
-			log.error("get EmAuditAccountsT failed for nihNetworkId=" + nihNetworkId + " and Auddit Id "+ auditId + e.getMessage(), e);
-			throw e;
+			String errorString = "get EmAuditAccountsT failed for nihNetworkId=" + nihNetworkId + " and Auddit Id "+ auditId + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
 		}
 	}
 	

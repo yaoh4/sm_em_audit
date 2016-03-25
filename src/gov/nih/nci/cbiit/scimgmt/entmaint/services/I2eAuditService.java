@@ -72,6 +72,7 @@ public interface I2eAuditService {
 	 * Transfers account to different organization.
 	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer
      * @return DBResult
+     * @throws Exception 
 	 */
-    public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer);
+    public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) throws Exception;
 }

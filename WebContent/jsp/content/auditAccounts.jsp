@@ -171,7 +171,7 @@
 		if(tranferOptionExists){
 			var actionId = $('#hiddenAction'+cellId).val();
 			if(actionId == 50 || actionId == 51 || actionId == 52 || actionId == 53){
-				onActionChage(actionId,'');
+				onActionChange(actionId,'');
 				$('#transferOrgDiv').css("display","inline");
 				$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
 			}
