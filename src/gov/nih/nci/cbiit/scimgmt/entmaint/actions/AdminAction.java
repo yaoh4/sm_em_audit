@@ -54,7 +54,7 @@ public class AdminAction extends BaseAction {
 	
 	
 	/**
-	 * Invoked when the user clicks the Audit tab. Depending on
+	 * Invoked when the user clicks the Admin tab. Depending on
 	 * the state of the Audit, the appropriate screen elements will be displayed.
 	 *
      * @return String success if no errors.
@@ -381,7 +381,6 @@ public class AdminAction extends BaseAction {
 		
 		List<String> categoryCodes = lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
     	List<String> displayCategories = EmAppUtil.formatDisplayList(new ArrayList(categoryCodes));
-    	//Collections.sort(displayCategories);
 		
     	return displayCategories;
 	}

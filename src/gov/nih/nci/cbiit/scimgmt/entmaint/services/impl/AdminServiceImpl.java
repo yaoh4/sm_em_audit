@@ -138,9 +138,11 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	public EmAuditsVO retrieveCurrentAuditVO() {
 		
-		
+		//Retrieve current (not reset) audit if present
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
+		//Populate derived attributes. If no current audit,
+		//return blank audit in reset state.
 		return setupAuditVO(emAuditsVw, true, false);
 	}
 		

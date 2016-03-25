@@ -3,7 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 
 import java.util.List;
-import java.util.Map;
+
 
 public interface LookupService {
     /**
@@ -14,14 +14,6 @@ public interface LookupService {
      */
     public List getList (String listName);
     
-    
-    /**
-	 * Gets the specified list as a map
-	 * 
-	 * @param listName
-	 * @return Map
-	 */
-	public Map<String, ? extends Object> getListMap(String listName);
     
     /**
      * Lists that are cleared every session (Unused)

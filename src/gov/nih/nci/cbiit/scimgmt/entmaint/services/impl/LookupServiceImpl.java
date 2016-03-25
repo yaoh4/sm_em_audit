@@ -14,6 +14,7 @@ import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +137,7 @@ public class LookupServiceImpl implements LookupService {
 	 * @param listName
 	 * @return List
 	 */
-	public Map<String, ? extends Object> getListMap(String listName) {
+	private Map<String, ? extends Object> getListMap(String listName) {
 	  	List result = null;
 	  	Map resultMap = null;
 		boolean updated = false; // int myRefreshPeriod = 86400; //set refresh period to one day
@@ -173,7 +174,9 @@ public class LookupServiceImpl implements LookupService {
 				// on refreshperiod=-1 dont put into cache.Hit DB always
 				if (refreshPeriod != -1) {
 					cacheAdministrator.putInCache(listName, result);
-					Map<String, Object> map = new HashMap<String, Object>();
+					//LinkedHaspMap is used here instead of HashMap to retain the
+					//order in which the elements were inserted.
+					Map<String, Object> map = new LinkedHashMap<String, Object>();
 					for (Object element: result) {
 						try {
 							String c = BeanUtils.getProperty(element,"code");
@@ -321,7 +324,7 @@ public class LookupServiceImpl implements LookupService {
 
 		List result =  propertyListDAO.retrieve(listName);
 		if(CollectionUtils.isEmpty(result)) {
-			logger.error("Could not retrieve lookupList for " + listName);
+			logger.warn("No lookup data found for " + listName);
 		}
 		
 		return result;
