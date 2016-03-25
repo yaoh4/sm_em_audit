@@ -224,7 +224,8 @@ public class AdminAction extends BaseAction {
     
     /**
      * Invoked when the the Reset button is clicked. Closes the Audit.
-     * If success, takes the user to the Start Audit screen.
+     * If success, takes the user to the Start Audit screen for a
+     * new Audit.
      * @return
      */
     public String resetAudit() {
@@ -235,8 +236,10 @@ public class AdminAction extends BaseAction {
     	Long auditId = adminService.closeCurrentAudit(emAuditsVO.getComments());
     	logger.info("Closed audit with auditId " + emAuditsVO.getId());
     	
-    	//Retrieve the updated emAuditsVO from the DB
-    	emAuditsVO = adminService.retrieveAuditVO(auditId);
+    	//Create a blank Audit (in preparation for the next cycle) in reset state
+    	//if the existing one was closed correctly. Else, the existing one is 
+    	//retrieved.
+    	emAuditsVO = adminService.retrieveCurrentAuditVO();
     	
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);

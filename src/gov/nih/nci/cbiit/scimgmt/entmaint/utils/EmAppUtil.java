@@ -186,9 +186,9 @@ public class EmAppUtil {
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		
-		if(session != null) {
+		if(session != null && auditId != null) {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
-			if(emAuditsVO != null && emAuditsVO.getId().equals(auditId)) {
+			if(emAuditsVO != null && auditId.equals(emAuditsVO.getId())) {
 				if(!ApplicationConstants.AUDIT_STATE_CODE_RESET.equals(emAuditsVO.getAuditState())) {
 					logger.debug("Audit with ID " + auditId + " is current");
 					return true;
