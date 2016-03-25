@@ -232,7 +232,7 @@ function onCategoryChage(category){
 
 function onAuditSelected(auditId) {
 	
-	$.getJSON("reportCategoriesAction.action", {pId: auditId}, 
+	$.getJSON("reportCategoriesAction.action", {auditIdParam: auditId}, 
 		function(response){
 			var options = $("#searchCategory");
 			options.html('');

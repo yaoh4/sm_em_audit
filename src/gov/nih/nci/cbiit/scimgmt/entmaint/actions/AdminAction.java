@@ -187,12 +187,12 @@ public class AdminAction extends BaseAction {
     
     
     /**
-     * Invoked when the End Audit button is clicked. Disables the Audit
+     * Invoked when the Disable Audit button is clicked. Disables the Audit
      * If success, takes the use to the Enable/Reset screen. 
      * 
      * @return String success if no error.
      */
-    public String endAudit() {
+    public String disableAudit() {
     	
     	return updateAudit(ApplicationConstants.AUDIT_STATE_CODE_DISABLED);
     }
@@ -381,7 +381,7 @@ public class AdminAction extends BaseAction {
 		
 		List<String> categoryCodes = lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
     	List<String> displayCategories = EmAppUtil.formatDisplayList(new ArrayList(categoryCodes));
-    	Collections.sort(displayCategories);
+    	//Collections.sort(displayCategories);
 		
     	return displayCategories;
 	}

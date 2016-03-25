@@ -169,8 +169,8 @@ public class AdminReportsAction extends BaseAction {
 	/**
 	 * Invoked when user selects an audit in the audit dropdown list
 	 */
-	public String setReportCategories() {
-		String auditId = (String)request.getParameter("pId");
+	public String getReportCategories() {
+		String auditId = (String)request.getParameter("auditIdParam");
 		if(!StringUtils.isBlank(auditId)) {	
 			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, Long.parseLong(auditId));			
 		}

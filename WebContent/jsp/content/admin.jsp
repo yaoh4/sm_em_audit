@@ -111,7 +111,7 @@ function submitForm(){
     </div>
   
     <div class="form-group">
-    	<label  for="category" class="col-sm-3 control-label" style="padding-top:0px;">Account Categories:</label>
+    	<label  for="category" class="col-sm-3 control-label" style="padding-top:0px;">IMPAC II Account Categories:</label>
     	<div class="col-sm-4">
 			<s:if
 	    		test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_RESET)}">
@@ -157,7 +157,7 @@ function submitForm(){
           	</s:if>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_ENABLED)}">
-            	<s:submit value="Disable Audit" cssClass="btn btn-primary" action="endAudit" onClick="return validateForm()"/>      
+            	<s:submit value="Disable Audit" cssClass="btn btn-primary" action="disableAudit" onClick="return validateForm()"/>      
             </s:elseif>
       
           	<s:elseif test="%{emAuditsVO.auditState.equalsIgnoreCase(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@AUDIT_STATE_CODE_DISABLED)}">

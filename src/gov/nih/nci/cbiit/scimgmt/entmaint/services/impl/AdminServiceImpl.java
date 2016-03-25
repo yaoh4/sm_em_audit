@@ -107,6 +107,7 @@ public class AdminServiceImpl implements AdminService {
 	 * Retrieve the audit info associated with the given audit id
 	 * 
 	 * @param id the audit id of the audit to retrieve
+	 * @return EmAuditsVO
 	 */
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
@@ -144,15 +145,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 		
 	
+	/**
+	 * Retrieves all Audits for all categories
+	 * @return List of Audits
+	 */
 	public List<EmAuditsVO> retrieveAuditVOList() {
 		return retrieveAuditVOList(null);
 	}
 	
 	
 	/**
-	 * Retrieves the attributes of all Audit.
+	 * Retrieves all Audits for a specific category.
 	 * 
-	 * @return EmAuditsVO
+	 * @return List of EmAuditsVO
 	 */
 	public List<EmAuditsVO> retrieveAuditVOList(String category) {
 		
@@ -173,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * Retrieves the attributes of all Audit for Reports.
 	 * 
-	 * @return EmAuditsVO
+	 * @return List of EmAuditsVO
 	 */
 	public List<EmAuditsVO> retrieveReportAuditVOList() {
 		
@@ -194,7 +199,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * Retrieves the attributes of I2E Audit.
 	 * 
-	 * @return EmAuditsVO
+	 * @return List of EmAuditsVO
 	 */
 	public List<EmAuditsVO> retrieveI2eAuditVOList() {
 		

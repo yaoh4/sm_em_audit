@@ -220,33 +220,60 @@ public class AuditSearchActionHelper {
 		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
 	}
 	
-	public List<DropDownOption> getReportCategories(LookupService lookupService, AdminService adminService, Long auditId){
+	
+	/**
+	 * Prepares the list of elements to be displayed in the Category dropdown
+	 * when a specific Audit is choosen from the Audit dropdown in the Reports 
+	 * sub-tab of Admin tab. This list consists of: non IMPAC II only categories + 
+	 * IMPAC II only categories specified for this Audit. 
+	 * 
+	 * @param lookupService
+	 * @param adminService
+	 * @param auditId
+	 * @return
+	 */
+	public List<DropDownOption> getReportCategories(
+			LookupService lookupService, AdminService adminService, Long auditId) {
 		List<DropDownOption> categoryDropdownList = new ArrayList<DropDownOption>();
 		
-		//All possible elements for the dropdown list
-		List<AppLookupT> reportsLookupList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
+		//Retrieve the full List of all supported report categories
+		List<AppLookupT> reportCategoryLookupList = 
+				lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
 		
-		//List of category codes from which elements sre filtered out depending on the specific audit
-		List<String> categoryCodes = lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		//Retrieve the full list of IMPAC II only category codes. This is a subset
+		//of the codes in the reportCategoryLookupList
+		List<String> impac2CategoryLookupCodes = 
+				lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
 		
+		//Retrieve IMPAC II only category codes specific to this Audit
 		EmAuditsVO auditVO = adminService.retrieveAuditVO(auditId);
-		List<String> accountCategories = auditVO.getCategoryList();
-		logger.info("Categories retrieved for auditId " + auditId + ": " + accountCategories.toString());
+		List<String> impac2CategoryCodes = auditVO.getCategoryList();
+		logger.info("Categories retrieved for auditId " + auditId + ": " + impac2CategoryCodes.toString());
 		
-		for(AppLookupT obj : reportsLookupList){
-			//Add an element in the reports lookup list to the dropdown display if this 
-			//is not in the category code list which means that it cannot filtered out,
-			//OR it is in the account category List of this specific Audit
-			if(!categoryCodes.contains(obj.getCode()) ||
-					accountCategories.contains(WordUtils.capitalizeFully(obj.getCode())) ) {
+		//Iterate through the values in the reportCategoryLookupList. 
+		for(AppLookupT lookup : reportCategoryLookupList){
+			
+			String code = lookup.getCode();
+			if(ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(lookup.getCode())) {
+				//This is the lookup for I2E dropdown element, hence include it
+				//only if I2E Audit was performed
+				if(!ApplicationConstants.TRUE.equalsIgnoreCase(auditVO.getI2eAuditFlag())) {
+					continue;
+				}
+			}
+			
+			//Include this value in the dropdown options if it is not present in the
+			//impac2CategoryLookupCodes list (hence is not an IMPAC II only category) 
+			//OR it is an IMPAC II only category specified for this Audit
+			if(!impac2CategoryLookupCodes.contains(lookup.getCode()) ||
+					impac2CategoryCodes.contains(WordUtils.capitalizeFully(lookup.getCode())) ) {
 				DropDownOption ddo = new DropDownOption();
-				ddo.setOptionKey(""+obj.getId());
-				ddo.setOptionValue(obj.getDescription());
+				ddo.setOptionKey(lookup.getId().toString());
+				ddo.setOptionValue(lookup.getDescription());
 				categoryDropdownList.add(ddo);
 			}
 		}
 		
-		logger.info("Elements in category dropdown list for auditId " + auditId + ": " + categoryDropdownList.size());
 		return categoryDropdownList;
 	}
 	
