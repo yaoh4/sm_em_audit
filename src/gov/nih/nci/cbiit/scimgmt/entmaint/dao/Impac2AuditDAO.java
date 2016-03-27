@@ -807,15 +807,19 @@ public class Impac2AuditDAO {
 					activity.setCategory(cat);
 					activity.setCreateUserId(nciUser.getUserId().toUpperCase());
 					activity.setCreateDate(new Date());
-				} else {
+				} else if(isValidForTransfer(activity.getActionId(),activity.getUnsubmittedFlag())){
 					activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
 					activity.setLastChangeDate(new Date());
 				}
-				activity.setActionId(actionId);
-				activity.setNotes(actionComments);
-				activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
+				//If its fresh transfer OR update to transfer OR transfer after Undo
+				if(activity.getActionId() == null || isValidForTransfer(activity.getActionId(),activity.getUnsubmittedFlag())){			
+					activity.setActionId(actionId);
+					activity.setNotes(actionComments);
+					activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
 
-				saveOrUpdateActivity(activity);			
+					saveOrUpdateActivity(activity);	
+				}
+				
 				result.setStatus(DBResult.SUCCESS);
 			}
 			else{
@@ -911,5 +915,18 @@ public class Impac2AuditDAO {
 			category = ApplicationConstants.CATEGORY_INACTIVE;
 		}		
 		return lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
+	}
+	
+	/**
+	 * Returns true if this is a Transfer action.
+	 * @param actId
+	 * @return boolean
+	 */
+	public boolean isValidForTransfer(Long actionId, String unsubmittedFlag){
+		return ((ApplicationConstants.ACTIVE_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.NEW_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.DELETED_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.INACTIVE_ACTION_TRANSFER == actionId) ||
+				(ApplicationConstants.FLAG_YES.equalsIgnoreCase(unsubmittedFlag)));
 	}
 }

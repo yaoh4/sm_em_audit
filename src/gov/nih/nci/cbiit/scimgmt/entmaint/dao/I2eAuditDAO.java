@@ -446,10 +446,14 @@ public class I2eAuditDAO {
 			}			
 			if(account != null){
 				account.setActionLastChangeUserId(nciUser.getUserId().toUpperCase());
-				account.setActionLastChangeDate(new Date());			
-				account.setActionId(ApplicationConstants.ACTIVE_ACTION_TRANSFER);
-				account.setNotes(actionComments);
-				account.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);	
+				account.setActionLastChangeDate(new Date());
+				//If its fresh transfer OR update to transfer OR transfer after Undo
+				if(account.getActionId() == null ||	account.getActionId() == ApplicationConstants.ACTIVE_ACTION_TRANSFER ||
+						ApplicationConstants.FLAG_YES.equalsIgnoreCase(account.getUnsubmittedFlag())){
+					account.setActionId(ApplicationConstants.ACTIVE_ACTION_TRANSFER);
+					account.setNotes(actionComments);
+					account.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);	
+				}
 				account.setTransferFromNedOrgPath(parentNedOrgPath);
 				account.setTransferToNedOrgPath(transferOrg);
 				account.setTransferredDate(new Date());
