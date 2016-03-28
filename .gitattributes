@@ -234,6 +234,7 @@ WebContent/stylesheets/displaytag.css -text
 WebContent/stylesheets/jquery-ui-1.11.3.css -text
 WebContent/stylesheets/jquery.cleditor.css -text
 WebContent/stylesheets/styles.css -text
+WebContent/template/simple/checkboxlist.ftl -text
 WebContent/template/simple/radiomap-nobr.ftl -text
 build/build.xml -text
 build/env.properties -text
