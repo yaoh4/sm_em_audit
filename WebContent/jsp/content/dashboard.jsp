@@ -38,7 +38,7 @@
       <th width="16%">Active Accounts</th>
       <th width="16%">New Accounts</th>
       <th width="16%">Deleted Accounts</th>
-      <th width="16%">Inactive &gt;130 Days Accounts</th>
+      <th width="16%">Inactive &gt;120 Days Accounts</th>
       <th width="16%">I2E Accounts</th>
       </s:if>
       <s:else>
@@ -46,7 +46,7 @@
       <th width="15%">Active Accounts</th>
       <th width="15%">New Accounts</th>
       <th width="15%">Deleted Accounts</th>
-      <th width="15%">Inactive &gt;130 Days Accounts</th>
+      <th width="15%">Inactive &gt;120 Days Accounts</th>
       </s:else>
     </tr>
     <s:set var="orgData" value="orgsData"/>

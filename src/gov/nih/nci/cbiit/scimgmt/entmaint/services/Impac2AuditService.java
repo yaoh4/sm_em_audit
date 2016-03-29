@@ -43,7 +43,7 @@ public interface Impac2AuditService {
     public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
-     * Data retrieval for inactive > 130 days
+     * Data retrieval for inactive > 120 days
      * @param paginatedList
      * @param searchVO
      * @param all

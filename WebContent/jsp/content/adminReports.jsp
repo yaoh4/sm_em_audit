@@ -60,7 +60,7 @@ function clearFields(){
   <label  class="panel-title"><b>Results - All Deleted Accounts</b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
-  <label  class="panel-title"><b>Results - All Inactive > 130 Days Accounts</b></label>
+  <label  class="panel-title"><b>Results - All Inactive > 120 Days Accounts</b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_EXCLUDED}">
   <label  class="panel-title"><b>Results - All Not NCI Purview</b></label>
