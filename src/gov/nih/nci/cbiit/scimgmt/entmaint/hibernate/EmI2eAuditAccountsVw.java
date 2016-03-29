@@ -20,6 +20,8 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	private Date createdDate;
 	private String nedLastName;
 	private String nedFirstName;
+	private String nedPreferredLastName;
+	private String nedPreferredFirstName;
 	private String i2eLastName;
 	private String i2eFirstName;
 	private String nedEmailAddress;
@@ -50,7 +52,8 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 	}
 
 	public EmI2eAuditAccountsVw(Long id, Long auditId, String npnId, String nihNetworkId, String lastName,
-			String firstName, Date createdDate, String nedLastName, String nedFirstName, String i2eLastName, String i2eFirstName,
+			String firstName, Date createdDate, String nedLastName, String nedFirstName, 
+			String nedPreferredLastName, String nedPreferredFirstName, String i2eLastName, String i2eFirstName,
 			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc,
 			String nciDoc, String lastUpdByFullName, AppLookupT action, String notes, String unsubmittedFlag,
 			String submittedBy, Date submittedDate, Boolean i2eOnlyFlag, Boolean sodFlag, Boolean nedInactiveFlag, Boolean noActiveRoleFlag,
@@ -64,6 +67,8 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.createdDate = createdDate;
 		this.nedLastName = nedLastName;
 		this.nedFirstName = nedFirstName;
+		this.nedPreferredLastName = nedPreferredLastName;
+		this.nedPreferredFirstName = nedPreferredFirstName;
 		this.i2eLastName = i2eLastName;
 		this.i2eFirstName = i2eFirstName;
 		this.nedEmailAddress = nedEmailAddress;
@@ -158,6 +163,22 @@ public class EmI2eAuditAccountsVw implements java.io.Serializable {
 		this.nedFirstName = nedFirstName;
 	}
 
+	public String getNedPreferredLastName() {
+		return this.nedPreferredLastName;
+	}
+
+	public void setNedPreferredLastName(String nedPreferredLastName) {
+		this.nedPreferredLastName = nedPreferredLastName;
+	}
+
+	public String getNedPreferredFirstName() {
+		return this.nedPreferredFirstName;
+	}
+
+	public void setNedPreferredFirstName(String nedPreferredFirstName) {
+		this.nedPreferredFirstName = nedPreferredFirstName;
+	}
+	
 	public String getI2eLastName() {
 		return this.i2eLastName;
 	}
