@@ -73,7 +73,7 @@
         <input type="checkbox" name="${parameters.name?html}" value="${itemKeyStr?html}" style="margin-left: 2px; vertical-align: -15%;"
        	 id="${parameters.name?html}-${itemCount}"<#rt/>	
       <#else>	 
-       	 <input type="checkbox" name="${parameters.name?html}" value="${itemKeyStr?html}" style="margin-left: 30px; vertical-align: -15%;"
+       	 <input type="checkbox" name="${parameters.name?html}" value="${itemKeyStr?html}" style="margin-left: 15px; vertical-align: -15%;"
        	 id="${parameters.name?html}-${itemCount}"<#rt/>	
       </#if>
     </#if>

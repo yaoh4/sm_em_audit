@@ -70,7 +70,7 @@ public class EmAppUtil {
 	public static String getCurrentAuditState(EmAuditsVO emAuditsVO) {
 		String currentAuditState = null;	
 		
-		if(emAuditsVO != null) {
+		if(emAuditsVO != null && emAuditsVO.getId() != null) {
 			
 			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();
 			
@@ -96,7 +96,7 @@ public class EmAppUtil {
 	 * 
 	 * @return true if audit is enabled, else false.
 	 */
-	public static boolean isAuditEnabled(Long auditId) {		
+	private static boolean isAuditEnabled(Long auditId) {		
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		

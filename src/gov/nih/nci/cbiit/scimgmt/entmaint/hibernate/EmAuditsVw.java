@@ -12,7 +12,7 @@ public class EmAuditsVw implements java.io.Serializable {
 
 	private Long id;
 	private Date impaciiFromDate;
-	private Date impaciiToDate;
+	private Date impaciiToDate = new Date();
 	private Date startDate;
 	private Date endDate;
 	private String createUserFullName;

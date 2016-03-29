@@ -41,7 +41,6 @@ public class AdminAction extends BaseAction {
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	protected boolean sendAuditNotice = false;	
-	protected boolean disableInput = true;
 	
 	static Logger logger = Logger.getLogger(AdminAction.class);
 	
@@ -67,9 +66,6 @@ public class AdminAction extends BaseAction {
     			
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
-    	
-    	//Enable/disable the UI elements based on the audit state.
-    	setupAuditDisplay(emAuditsVO);
         
         return ApplicationConstants.SUCCESS;
     }
@@ -85,21 +81,16 @@ public class AdminAction extends BaseAction {
     }
     
     
-    private void restoreStateOnError(boolean disableInput) {
+    private void restoreStateOnError() {
     	if(this.hasErrors()) {
-    		setDisableInput(disableInput);
     		setSendAuditNotice(false);
-    		//Temporarily save the comments
-    		String comments = emAuditsVO.getComments();
-    		emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
-    		emAuditsVO.setComments(comments);
     	}
     }
     
     
     public void validate() {
     	validateComments();
-    	restoreStateOnError(true);
+    	restoreStateOnError();
     }
     
     
@@ -125,33 +116,25 @@ public class AdminAction extends BaseAction {
     	}
     
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiToDate")) {
-    	if(emAuditsVO.getImpaciiToDate() == null) {
-    		emAuditsVO.setImpaciiToDate(new Date());
-    	} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
-    		//End date cannot be in future
-    		this.addActionError(getText("error.daterange.enddate.future"));
-    	}
+    		if(emAuditsVO.getImpaciiToDate() == null) {
+    			emAuditsVO.setImpaciiToDate(new Date());
+    		} else if(emAuditsVO.getImpaciiToDate().after(new Date())) {
+    			//End date cannot be in future
+    			this.addActionError(getText("error.daterange.enddate.future"));
+    		}
     	}
     	
     	if(fieldErrors == null || !fieldErrors.containsKey("emAuditsVO.impaciiFromDate")) {
-    	//Start date cannot be null
-    	if(emAuditsVO.getImpaciiFromDate() == null) {
-    		this.addActionError(getText("error.daterange.startdate.empty"));
-    	} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
-    		//Start date cannot be in future	
-			this.addActionError(getText("error.daterange.startdate.future"));
-    	} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
-    		//Start date cannot be after end date
-    		this.addActionError(getText("error.daterange.outofsequence"));
-    	}
-    	}
-    	
-    	validateComments();
-    	
-    	if(this.hasErrors()) {
-    		setDisableInput(false);
-    		setSendAuditNotice(false);
-    		emAuditsVO.setAuditState(ApplicationConstants.AUDIT_STATE_CODE_RESET);
+    		//Start date cannot be null
+    		if(emAuditsVO.getImpaciiFromDate() == null) {
+    			this.addActionError(getText("error.daterange.startdate.empty"));
+    		} else if (emAuditsVO.getImpaciiFromDate().after(new Date())) {
+    			//Start date cannot be in future	
+    			this.addActionError(getText("error.daterange.startdate.future"));
+    		} else if (emAuditsVO.getImpaciiFromDate().after(emAuditsVO.getImpaciiToDate())) {
+    			//Start date cannot be after end date
+    			this.addActionError(getText("error.daterange.outofsequence"));
+    		}
     	}
     }
     
@@ -175,9 +158,6 @@ public class AdminAction extends BaseAction {
     	
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
-    	
-    	//Audit has started, so disable input
-    	setDisableInput(true);
     	
     	//Open mail client
     	setSendAuditNotice(true);
@@ -244,10 +224,9 @@ public class AdminAction extends BaseAction {
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
     	
-    	setDisableInput(false);
-    	
     	return ApplicationConstants.SUCCESS;
     }
+    
     
     private String updateAudit(String auditState) {
     	
@@ -264,32 +243,10 @@ public class AdminAction extends BaseAction {
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
     	
     	setSendAuditNotice(false);
-    	setDisableInput(true);
     	
     	return ApplicationConstants.SUCCESS;
     }
     
-    
-	private void setupAuditDisplay(EmAuditsVO emAuditsVO) {
-		
-		String auditState = EmAppUtil.getCurrentAuditState(emAuditsVO);
-		
-		switch(auditState) {
-			case ApplicationConstants.AUDIT_STATE_CODE_RESET:
-				setDisableInput(false);
-				emAuditsVO.setImpaciiToDate(new Date());
-				break;
-				
-			case ApplicationConstants.AUDIT_STATE_CODE_ENABLED:
-			case ApplicationConstants.AUDIT_STATE_CODE_DISABLED:	
-				setDisableInput(true);
-				break;
-				
-			default:
-				logger.error("Invalid audit state");
-				break;
-		}
-	}
 
 	/**
 	 * Checks to see if the email client should be opened in preparation
@@ -309,26 +266,6 @@ public class AdminAction extends BaseAction {
 	 */
 	public void setSendAuditNotice(boolean sendAuditNotice) {
 		this.sendAuditNotice = sendAuditNotice;
-	}
-
-
-	/**
-	 * Get the disableInput attribute.
-	 * 
-	 * @return the disableInput
-	 */
-	public boolean getDisableInput() {
-		return disableInput;
-	}
-
-	
-	/**
-	 * Set the disableInput attribute.
-	 * 
-	 * @param disableInput the disableInput to set
-	 */
-	public void setDisableInput(boolean disableInput) {
-		this.disableInput = disableInput;
 	}
 
 	
@@ -360,6 +297,7 @@ public class AdminAction extends BaseAction {
 		return entMaintProperties.getPropertyValue(ApplicationConstants.IC_COORDINATOR_EMAIL);
 	}
 
+	
 	private String readEmailContent() throws Exception{
 		String fileName = properties.getPropertyValue("EMAIL_FILE") + File.separator + "email.txt";
 		File f = new File(fileName);
