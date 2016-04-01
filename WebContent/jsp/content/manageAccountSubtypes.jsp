@@ -23,45 +23,45 @@
 			
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_ACTIVE_ACCOUNTS eq #request.selectedSubTab}">
 				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Active Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' />
 				</s:a></li>
 			</s:if>
 			<s:else>
 				<li><s:a href="prepareActiveAuditAccounts.action" cssStyle="text-decoration:none;">
-					Active Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' />
 				</s:a></li>
 			</s:else>
 	
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_NEW_ACCOUNTS eq #request.selectedSubTab}">
 				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					New Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' />
 				</s:a></li>
 			</s:if>
 			<s:else>
 				<li><s:a href="prepareNewAuditAccounts.action" cssStyle="text-decoration:none;">
-					New Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' />
 				</s:a></li>
 			</s:else>
 	
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_DELETED_ACCOUNTS eq #request.selectedSubTab}">
 				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Deleted Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' />
 				</s:a></li>
 			</s:if>
 			<s:else>
 				<li><s:a href="prepareDeletedAuditAccounts.action" cssStyle="text-decoration:none;">
-					Deleted Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' />
 				</s:a></li>
 			</s:else>
 	
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_INACTIVE_ACCOUNTS eq #request.selectedSubTab}">
 				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Inactive > 120 Days Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' />
 				</s:a></li>
 			</s:if>
 			<s:else>
 				<li><s:a href="prepareInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
-					Inactive > 120 Days Accounts
+					<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' />
 				</s:a></li>
 			</s:else>
 

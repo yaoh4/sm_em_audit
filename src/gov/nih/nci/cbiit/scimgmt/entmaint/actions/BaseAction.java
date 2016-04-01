@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.action.AuditSearchActionHelper;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
@@ -431,5 +432,17 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 	public void setTransferOrgList(List<DropDownOption> transferOrgList) {
 		this.transferOrgList = transferOrgList;
+	}
+	
+	/**
+	 * Get AppLookupT description by list name and code
+	 * 
+	 * @param listName
+	 * @param code
+	 * @return
+	 */
+	public String getDescriptionByCode(String listName, String code) {
+		AppLookupT entry = lookupService.getAppLookupByCode(listName, code);
+		return (entry == null ? null: entry.getDescription());
 	}
 }

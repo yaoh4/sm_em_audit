@@ -289,16 +289,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <s:if test="%{#act == 'searchActiveAuditAccounts'}">
-  <h3  class="panel-title">Results - Active Accounts</h3>
+  <h3  class="panel-title">Results - <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' /></h3>
   </s:if>
   <s:if test="%{#act == 'searchNewAuditAccounts'}">
-  <h3  class="panel-title">Results - New Accounts</h3>
+  <h3  class="panel-title">Results - <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' /></h3>
   </s:if>
   <s:if test="%{#act == 'searchDeletedAuditAccounts'}">
-  <h3  class="panel-title">Results - Deleted Accounts</h3>
+  <h3  class="panel-title">Results - <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' /></h3>
   </s:if>
   <s:if test="%{#act == 'searchInactiveAuditAccounts'}">
-  <h3  class="panel-title">Results - Inactive > 120 Days Accounts</h3>
+  <h3  class="panel-title">Results - <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' /></h3>
   </s:if>
   
   </div>
