@@ -10,8 +10,15 @@
 
 <s:include value="/jsp/content/manageAccounts.jsp" />
 <script language="JavaScript" src="../scripts/entMaint_JQuery.js" type="text/javascript"></script>
+<s:set name="eraualink" value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK)}"/>
 
 <s:if test="%{portfolioAccounts.list.size > 0}">
+	<s:if test="%{#eraualink == 'NA'}">
+		<span class="bannerAlign">In order to correct the accounts below, select the <a href="javascript:openEraua();"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK_TEXT)}"/></a> link to correct the discrepancy.</span>
+	</s:if>
+	<s:else>
+		<span class="bannerAlign">In order to correct the accounts below, select the <s:a href="%{#eraualink}" target='_BLANK'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK_TEXT)}"/></s:a> link to correct the discrepancy.</span>
+	</s:else>
 	<div class="table-responsive">
 	<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
 	<display:setProperty name="paging.banner.one_item_found" value="" />
@@ -35,6 +42,7 @@
 <br/><br/>
 <h4>I2E Discrepancies <span style="font-weight: normal;"></span></h4>
 <s:if test="%{i2ePortfolioAccounts.list.size > 0}">
+	<span class="bannerAlign">In order to correct the accounts below, select the <a href="<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@I2E_EM_LINK)}"/>" target='_BLANK'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@I2E_EM_LINK_TEXT)}"/></a> link to correct the discrepancy.</span>
 	<div class="table-responsive">
 	<display:table class="table table-bordered" name="i2ePortfolioAccounts" id="i2ePortfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
 	<display:setProperty name="paging.banner.one_item_found" value="" />
@@ -81,4 +89,10 @@
 <div id="role" style="display: none; overflow:auto;" title="Role Description">
 	<br>
 	<div align="left" id="roleHelpId"></div>
+</div>
+<div id="eraua_na" align="center" style="display:none;" title="Information">
+<br/>
+	<div align="center">
+	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
+	</div>
 </div>
