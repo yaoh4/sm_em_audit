@@ -20,7 +20,9 @@
 <script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js" type="text/javascript"></script>
 <input type="hidden" id="i2eemlinkId" value="<s:text name='i2e_em_link' />"/>
 <input type="hidden" id="eraualinkId" value="<s:text name='era_ua_link' />"/>
- 
+<input type="hidden" id="i2eemlinkTextId" value="<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@I2E_EM_LINK_TEXT)}"/>"/>
+<input type="hidden" id="eraualinkTextId" value="<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK_TEXT)}"/>"/>
+
 <s:if test="%{activeAuditAccounts.list.size > 0}"> 
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>

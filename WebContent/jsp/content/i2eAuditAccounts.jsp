@@ -65,9 +65,9 @@
 				 				}
 				 				if(aId == "3"){
 				 					if($('#eraualinkId').val() == "NA"){
-				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
+				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
 				 					}else{
-				 						actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>eRA UA</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>I2E EM</a>";
+				 						actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
 				 					}
 				 				}
 				 				$('#'+cId).html(actStr);
