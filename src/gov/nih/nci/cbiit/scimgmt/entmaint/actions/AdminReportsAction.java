@@ -182,13 +182,14 @@ public class AdminReportsAction extends BaseAction {
 	private void setUpEnvironment(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		this.setFormAction("reportSearch");
-		Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
-		categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
+			Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
 			searchVO.setAuditId(auditId);
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
 			searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
 			setSelectedAuditDescription(auditPeriodList.get(0).getOptionValue());
 		} else {
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, searchVO.getAuditId());
 			for (DropDownOption option:getAuditPeriodList()) {
 				if(StringUtils.equals(searchVO.getAuditId().toString(), option.getOptionKey()))
 					setSelectedAuditDescription(option.getOptionValue());
