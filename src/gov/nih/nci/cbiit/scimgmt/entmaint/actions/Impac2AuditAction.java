@@ -47,8 +47,6 @@ public class Impac2AuditAction extends BaseAction {
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
-	private String era_ua_link;
-	private String i2e_em_link;
 	/**
 	 * The method is for handling the clean button action. It shared by all categories (active, deleted, new, and inactive)
 	 * @return
@@ -290,9 +288,6 @@ public class Impac2AuditAction extends BaseAction {
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
 		this.setRole(getRole(nciUser));
-		
-		era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
-		i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 	}
 	
 	private void processList(List<Tab> disColumn){
@@ -479,30 +474,6 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public void setRole(String role) {
 		this.role = role;
-	}
-	/**
-	 * @return the era_ua_link
-	 */
-	public String getEra_ua_link() {
-		return era_ua_link;
-	}
-	/**
-	 * @param era_ua_link the era_ua_link to set
-	 */
-	public void setEra_ua_link(String era_ua_link) {
-		this.era_ua_link = era_ua_link;
-	}
-	/**
-	 * @return the i2e_em_link
-	 */
-	public String getI2e_em_link() {
-		return i2e_em_link;
-	}
-	/**
-	 * @param i2e_em_link the i2e_em_link to set
-	 */
-	public void setI2e_em_link(String i2e_em_link) {
-		this.i2e_em_link = i2e_em_link;
 	}
 	/**
 	 * This method is for setting up the default search

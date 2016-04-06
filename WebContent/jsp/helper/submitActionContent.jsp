@@ -22,3 +22,4 @@
 </div>
 <input type="hidden" id="cellId"/>
 <input type="hidden" id="nameId" />
+<input type="hidden" id="userId"/>

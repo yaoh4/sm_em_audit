@@ -62,6 +62,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			name=accountVO.getCleanFullName();
 		}
 		String id = ""+accountVO.getId();
+		String userId = accountVO.getImpaciiUserId();
 		String actionStr = "";
 		String actionId ="";
 		String note = "";
@@ -93,10 +94,11 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id +",'" + userId + "');\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
-			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			String era_ua_link =  (StringUtils.isBlank(userId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + accountVO.getImpaciiUserId());
 			String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
 			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
 				era_ua_link = "<br/><a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
@@ -117,7 +119,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling Aunita's service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id+ "','" + userId + "');\" value=\"Complete\"/>";
 			}
 			actionStr = actionStr + "</div>";
 		}
