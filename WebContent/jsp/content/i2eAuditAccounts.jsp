@@ -23,6 +23,7 @@
 			 		OK: function() {
 			 			var result = "";
 			 			var role = $('#roleId').val();
+			 			var networkId = $('#networkId').val();
 			 			var cId = $('#cellId').val();
 			 			var nId = $('#nameId').val();
 			 			var aId = $('#selectActId').val();
@@ -58,16 +59,22 @@
 				 					actionLabel = actionLabel + "<br/><a href=\"javascript:fetchAuditNote(" + cId + ");\"><img src='../images/commentchecked.gif' alt=\"NOTE\"/></a>";
 				 				}
 				 				if(role == "EMADMIN"){
-				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId +");'/> " + 
+				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId + ",&#39;" + networkId +"&#39;);'/> " + 
 				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' />";
 				 				}else{
 				 					actStr = actionLabel;
 				 				}
 				 				if(aId == "3"){
+				 					var emUrl  = "";
+				 					if(networkId == null || networkId == "null") {
+				 						emUrl = "<a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 					}else {
+				 						emUrl = "<a href='"+ $('#i2eemlinkId').val() + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId + "' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 					}
 				 					if($('#eraualinkId').val() == "NA"){
-				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>" + $('#eraualinkTextId').val() + "</a><br/>"+ emUrl;
 				 					}else{
-				 						actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 						actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/>"+ emUrl;
 				 					}
 				 				}
 				 				$('#'+cId).html(actStr);
@@ -94,6 +101,7 @@
 			 			var result = "";
 			 			var cId = $('#unsubmitCellId').val();
 			 			var nId = $('#unsubmitName').val();
+			 			var networkId = $('#networkId').val();
 			 			$.ajax({
 			 				url: "unsubmitAction.action",
 			 				type: "post",
@@ -108,7 +116,7 @@
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
 			 			}else{
-			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
+			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + networkId + "&#39;);'/>" + 
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
@@ -118,9 +126,10 @@
 			 }
 		});
 	});
-	function submitAct(name, cellId){
+	function submitAct(name, cellId, networkId){
 		$('#errorMessage').html("");
 		$('#nameId').val(name);
+		$('#networkId').val(networkId);
 		if($.trim(name).length < 1){
 			$('#nameValue').html("<label style=padding-left:13px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>");
 		}else{
@@ -132,9 +141,10 @@
 		$('#noteText').val(note);
 		$("#submitAction").dialog( "open" );
 	}	
-	function unsubmitAct(name, cellId){
+	function unsubmitAct(name, cellId, networkId){
 		$('#unsubmitName').val(name);
 		$('#unsubmitCellId').val(cellId);
+		$('#networkId').val(networkId);
 		$("#unsubmitAction").dialog( "open" );
 	}
 	function clearFields(){

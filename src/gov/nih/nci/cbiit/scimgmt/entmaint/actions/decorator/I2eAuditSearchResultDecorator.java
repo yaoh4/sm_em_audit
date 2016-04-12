@@ -148,6 +148,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			name=accountVO.getCleanFullName();
 		}
 		String id = ""+accountVO.getId();
+		String networkId = accountVO.getNihNetworkId();
 		String actionStr = "";
 		String actionId ="";
 		String note = "";
@@ -177,7 +178,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ",'" + networkId + "');\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
@@ -187,7 +188,8 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			}else{
 				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
 			}
-			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
 			String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
 			//if the action is verifiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
@@ -200,7 +202,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id +",'" + networkId + "');\" value=\"Complete\"/>";
 			}
 			actionStr = actionStr + "</div>";
 		}

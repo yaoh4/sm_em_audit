@@ -25,6 +25,7 @@
 			 			var result = "";
 			 			var role = $('#roleId').val();
 			 			var userId = $('#userId').val();
+			 			var networkId = $('#networkId').val();
 			 			var cId = $('#cellId').val();
 			 			var nId = $('#nameId').val();
 			 			var aId = $('#selectActId').val();
@@ -61,19 +62,26 @@
 				 					actionLabel = actionLabel + "<br/><a href=\"javascript:fetchAuditNote(" + cId + ", '" + category + "');\"><img src='../images/commentchecked.gif' alt=\"NOTE\"/></a>";
 				 				}
 				 				if(role == "EMADMIN"){
-				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId + ",&#39;" + userId + "&#39;);'/> " + 
+				 					actStr = actionLabel + "<input type='button' Value='Undo' onclick='unsubmitAct(&#39;"+ nId + "&#39;," + cId + ",&#39;" + userId + "&#39;,&#39;" + networkId + "&#39;);'/> " + 
 				 					"<input type='hidden' id='hiddenAction"+ cId + "' value='" + aId +"' />";
 				 				}else{
 				 					actStr = actionLabel;
 				 				}
 				 				if(aId == "3" || (category == 'INACTIVE' && aId == '13')){
+				 					var emUrl  = "";
+				 					if(networkId == null || networkId == "null") {
+				 						emUrl = "<a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 					}else {
+				 						emUrl = "<a href='"+ $('#i2eemlinkId').val() + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId + "' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 					}
 				 					if($('#eraualinkId').val() == "NA"){
-				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 						
+				 						actStr = actStr + "<br/><a href='javascript:openEraua();'>" + $('#eraualinkTextId').val() + "</a><br/>" + emUrl;
 				 					}else{
-				 						if(userId == null) {
-				 							actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 						if(userId == null || userId == "null") {
+				 							actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/>"+ emUrl;
 				 						}else {
-				 							actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "accounts/manage.era?accountType=NIH&userId=" + userId + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/><a href='"+ $('#i2eemlinkId').val() +"' target='_BLANK'>" + $('#i2eemlinkTextId').val() + "</a>";
+				 							actStr = actStr + "<br/><a href='" + $('#eraualinkId').val() + "accounts/manage.era?accountType=NIH&userId=" + userId + "' target='_BLANK'>" + $('#eraualinkTextId').val() + "</a><br/>"+ emUrl;
 				 						}
 				 					}
 				 				}
@@ -103,6 +111,7 @@
 			 			var nId = $('#unsubmitName').val();
 			 			var category = $('#categoryId').val();
 			 			var userId = $('#userId').val();
+			 			var networkId = $('#networkId').val();
 			 			$.ajax({
 			 				url: "unsubmitAction.action",
 			 				type: "post",
@@ -117,7 +126,7 @@
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
 			 			}else{
-			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + userId + "&#39;);'/>" + 
+			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + userId + "&#39;,&#39;" + networkId + "&#39;);'/>" + 
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
@@ -127,10 +136,11 @@
 			 }
 		});
 	});
-	function submitAct(name, cellId, userId){
+	function submitAct(name, cellId, userId, networkId){
 		$('#errorMessage').html("");
 		$('#nameId').val(name);
 		$('#userId').val(userId);
+		$('#networkId').val(networkId);
 		if($.trim(name).length < 1){
 			$('#nameValue').html("<label style=padding-left:13px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>");
 		}else{
@@ -142,9 +152,10 @@
 		$('#noteText').val(note);
 		$("#submitAction").dialog( "open" );
 	}	
-	function unsubmitAct(name, cellId, userId){
+	function unsubmitAct(name, cellId, userId, networkId){
 		$('#unsubmitName').val(name);
 		$('#userId').val(userId);
+		$('#networkId').val(networkId);
 		$('#unsubmitCellId').val(cellId);
 		$("#unsubmitAction").dialog( "open" );
 	}
