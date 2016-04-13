@@ -138,9 +138,8 @@
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
 			 			}else{
-			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + networkId + "&#39;);'/>" + 
 			 				var isTransferred = $('#'+cId).text().match('(Transferred)');
-			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +");'/>" + 
+			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + networkId + "&#39;);'/>" + 			
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
 			 				if(isTransferred){
 			 					$('#'+cId).append("</br>(Transferred)");
@@ -154,7 +153,6 @@
 		});
 	});
 	function submitAct(name, cellId, networkId, parentNedOrgPath){
-	function submitAct(name, cellId, parentNedOrgPath){
 		$('#errorMessage').html("");
 		$('#nameId').val(name);		
 		$('#networkId').val(networkId);
