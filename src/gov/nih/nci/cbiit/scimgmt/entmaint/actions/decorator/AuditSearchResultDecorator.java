@@ -101,7 +101,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
 			String era_ua_link =  (StringUtils.isBlank(userId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + userId);
 			String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
-			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+			if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
 				era_ua_link = "<br/><a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
 			}else{
 				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
