@@ -28,4 +28,6 @@
 </div>
 <input type="hidden" id="cellId"/>
 <input type="hidden" id="nameId" />
+<input type="hidden" id="userId"/>
+<input type="hidden" id="networkId"/><input type="hidden" id="nameId" />
 <input type="hidden" id="orgId" />

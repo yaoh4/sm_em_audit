@@ -231,11 +231,19 @@ public class Impac2PortfolioDAO {
 	private Criteria addSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org

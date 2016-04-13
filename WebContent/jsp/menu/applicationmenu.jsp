@@ -27,15 +27,19 @@
 			I2E
 		</s:a></li>
 	</s:else> 
-	<s:if
-		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_DISCREPANCY eq #request.selectedTab}">
-		<li><li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-		   	My Discrepancies
+	<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAuditEnabled()}">
+		<li><s:a href="javascript: void(0)" cssStyle="text-decoration:none;color:#555;cursor:default;">
+		   	My DOC Discrepancies
 		</s:a></li>
 	</s:if>
+	<s:elseif test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_DISCREPANCY eq #request.selectedTab}">
+		<li><li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+		   	My DOC Discrepancies
+		</s:a></li>
+	</s:elseif>
 	<s:else>
 		<li><s:a href="/entmaint/discrepancy/Discrepancies.action" cssStyle="text-decoration:none;">
-			My Discrepancies
+			My DOC Discrepancies
 		</s:a></li>
 	</s:else>
 	

@@ -136,7 +136,7 @@ public class EmAppUtil {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 			if(emAuditsVO != null) {
 				String auditState = getCurrentAuditState(emAuditsVO);
-				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState) && isAuditCurrent(emAuditsVO.getId())) {
 					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is current and enabled");
 					return true;
 				} else {

@@ -48,7 +48,7 @@
 	
 	    
   		<ol class="breadcrumb">
-  			<li  class="active">My Discrepancies</li>
+  			<li  class="active">My DOC Discrepancies</li>
   		</ol>
 
 </s:elseif>

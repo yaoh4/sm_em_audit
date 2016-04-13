@@ -21,6 +21,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String impaciiFirstName;
 	private String nedLastName;
 	private String nedFirstName;
+	private String nedPreferredLastName;
+	private String nedPreferredFirstName;
 	private String nedEmailAddress;
 	private String parentNedOrgPath;
 	private String nedOrgPath;
@@ -81,7 +83,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	}
 
 	public EmAuditAccountsVw(Long id, EmAuditsT audit, String impaciiUserId, String nihNetworkId, String lastName, String firstName,
-			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName,
+			String impaciiLastName, String impaciiFirstName, String nedLastName, String nedFirstName, String nedPreferredLastName, String nedPreferredFirstName,
 			String nedEmailAddress, String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean impaciiActiveStatusFlag,
 			String nciDoc, Date createdDate, String createdByUserId, String createdByFullName, Date deletedDate,
 			String deletedByUserId, String deletedByFullName, String deactivationComments, String secondaryOrgText,
@@ -104,6 +106,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.impaciiFirstName = impaciiFirstName;
 		this.nedLastName = nedLastName;
 		this.nedFirstName = nedFirstName;
+		this.nedPreferredLastName = nedPreferredLastName;
+		this.nedPreferredFirstName = nedPreferredFirstName;
 		this.nedEmailAddress = nedEmailAddress;
 		this.nedOrgPath = nedOrgPath;
 		this.parentNedOrgPath = parentNedOrgPath;
@@ -400,6 +404,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public String getNedFirstName() {
 		return nedFirstName;
 	}
+	
+	public String getNedPreferredFirstName() {
+		return nedPreferredFirstName;
+	}
 
 	public String getNedIc() {
 		return nedIc;
@@ -407,6 +415,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public String getNedLastName() {
 		return nedLastName;
+	}
+	
+	public String getNedPreferredLastName() {
+		return nedPreferredLastName;
 	}
 
 	public String getNedOrgPath() {
@@ -566,6 +578,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setNedFirstName(String nedFirstName) {
 		this.nedFirstName = nedFirstName;
 	}
+	
+	public void setNedPreferredFirstName(String nedPreferredFirstName) {
+		this.nedPreferredFirstName = nedPreferredFirstName;
+	}
 
 	public void setNedIc(String nedIc) {
 		this.nedIc = nedIc;
@@ -575,6 +591,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.nedLastName = nedLastName;
 	}
 
+	public void setNedPreferredLastName(String nedPreferredLastName) {
+		this.nedPreferredLastName = nedPreferredLastName;
+	}
+	
 	public void setNedOrgPath(String nedOrgPath) {
 		this.nedOrgPath = nedOrgPath;
 	}

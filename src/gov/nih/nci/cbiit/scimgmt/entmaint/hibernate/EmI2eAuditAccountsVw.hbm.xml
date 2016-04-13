@@ -31,6 +31,12 @@
             <property name="nedFirstName" type="string">
                 <column name="NED_FIRST_NAME" length="576" />
             </property>
+            <property name="nedPreferredLastName" type="string">
+                <column name="NED_PREFERRED_LAST_NAME" length="576" />
+            </property>
+            <property name="nedPreferredFirstName" type="string">
+                <column name="NED_PREFERRED_FIRST_NAME" length="576" />
+            </property>
             <property name="i2eLastName" type="string">
                 <column name="I2E_LAST_NAME" length="30" />
             </property>
