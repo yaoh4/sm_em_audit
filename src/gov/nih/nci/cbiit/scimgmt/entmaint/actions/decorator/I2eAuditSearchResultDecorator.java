@@ -209,7 +209,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id +",'" + networkId + ",'" + parentNedOrgPath + "');\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ",'" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
 			}
 			if(accountVO.getTransferToNedOrgPath() != null){
 				actionStr = actionStr + "<br/> (Transferred)";

@@ -128,7 +128,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling Aunita's service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id+ "','" + userId + "','" + networkId + ",'" + parentNedOrgPath + "');\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id + "','" + userId + "','" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
 			}
 			if(StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())){
 				actionStr = actionStr + "<br/> (Transferred)";
