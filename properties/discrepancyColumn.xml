@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ <Display>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Discrepancy</columnName>
+ 		<property>discrepancy</property>
+ 		<sort>true</sort>
+ 		<export>false</export>
+ 	</Tab> 		
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Secondary Org</columnName>
+ 		<property>secondaryOrgText</property>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Created By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Discrepancy</columnName>
+ 		<property>i2eDiscrepancy</property>
+		<sort>false</sort>
+		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Name</columnName>
+ 		<property>i2eFullName</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Account Created Date</columnName>
+ 		<property>i2eCreatedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Created/Last Updated By</columnName>
+ 		<property>lastUpdByFullName</property>
+ 		<sort>true</sort>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Role Org Path</columnName>
+ 		<property>orgPath</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>Active I2E Role</columnName>
+ 		<property>activeI2eRole</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2eDiscrepancy</type>
+ 		<columnName>I2E Role Created On</columnName>
+ 		<property>i2eRoleCreateOn</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ </Display>   

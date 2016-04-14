@@ -253,6 +253,7 @@ properties/cache.properties -text
 properties/dev/entmaint.properties -text
 properties/dev/ldap.properties -text
 properties/dev/log4j.properties -text
+properties/discrepancyColumn.xml -text
 properties/displayColumn.xml -text
 properties/displaytag.properties -text
 properties/i2eColumn.xml -text
@@ -299,6 +300,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AdminReportTransferredA
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditHistoryTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/AuditSearchResultExportDecorator.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/DiscrepanciesTableDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2eAuditSearchResultDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2eAuditSearchResultExportDecorator.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/actions/decorator/I2ePortfolioSearchResultDecorator.java -text

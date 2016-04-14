@@ -47,5 +47,9 @@ public class CommonContextListener implements ServletContextListener {
         dread = new DisplayReader();
         tabMap = dread.getAllTabsAndColumns(iStream);
         context.setAttribute(ApplicationConstants.I2ECOLATTRIBUTE, tabMap);
+        iStream = this.getClass().getClassLoader().getResourceAsStream("/discrepancyColumn.xml");
+        dread = new DisplayReader();
+        tabMap = dread.getAllTabsAndColumns(iStream);
+        context.setAttribute(ApplicationConstants.DISCREPANCYCOLATTRIBUTE, tabMap);
     }
 }

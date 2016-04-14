@@ -150,6 +150,7 @@ public interface ApplicationConstants {
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
     public static String I2ECOLATTRIBUTE="i2eColAttribute";
+    public static String DISCREPANCYCOLATTRIBUTE="discrepancyColAttribute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
     public static String I2E_PORTFOLIO_SEARCHVO = "i2ePortfolioSearchVO";

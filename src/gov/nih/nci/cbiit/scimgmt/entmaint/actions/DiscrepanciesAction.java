@@ -89,7 +89,7 @@ public class DiscrepanciesAction extends BaseAction {
 		portfolioAccounts.setList(filterDiscrepancyAccounts(portfolioAccounts.getList(), excludedAccounts));
 		
 		//Get displayColumn as per entered category.
-		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.COLUMNSATTRIBUTE);
+		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.DISCREPANCYCOLATTRIBUTE);
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
 		processList(displayColumn);
 				
@@ -97,7 +97,7 @@ public class DiscrepanciesAction extends BaseAction {
 		i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, true);
 		i2ePortfolioAccounts.setList(filterI2eDiscrepancyAccounts(i2ePortfolioAccounts.getList(), excludedI2eAccounts));
 		
-		colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.I2ECOLATTRIBUTE);	
+		colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.DISCREPANCYCOLATTRIBUTE);	
 		displayColumnI2e = auditSearchActionHelper.getI2ePortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());
 		processList(displayColumnI2e);
 		
