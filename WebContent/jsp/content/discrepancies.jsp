@@ -13,14 +13,8 @@
 <s:set name="eraualink" value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK)}"/>
 
 <s:if test="%{portfolioAccounts.list.size > 0}">
-	<s:if test="%{#eraualink == 'NA'}">
-		<span class="bannerAlign">In order to correct the accounts below, select the <a href="javascript:openEraua();"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK_TEXT)}"/></a> link to correct the discrepancy.</span>
-	</s:if>
-	<s:else>
-		<span class="bannerAlign">In order to correct the accounts below, select the <s:a href="%{#eraualink}" target='_BLANK'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERA_US_LINK_TEXT)}"/></s:a> link to correct the discrepancy.</span>
-	</s:else>
 	<div class="table-responsive">
-	<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator">
+	<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
 	<display:setProperty name="paging.banner.one_item_found" value="" />
 	<display:setProperty name="paging.banner.all_items_found" value="" />
 	<s:iterator var="t" value="displayColumn">
@@ -42,9 +36,8 @@
 <br/><br/>
 <h4>I2E Discrepancies <span style="font-weight: normal;"></span></h4>
 <s:if test="%{i2ePortfolioAccounts.list.size > 0}">
-	<span class="bannerAlign">In order to correct the accounts below, select the <a href="<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@I2E_EM_LINK)}"/>" target='_BLANK'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@I2E_EM_LINK_TEXT)}"/></a> link to correct the discrepancy.</span>
 	<div class="table-responsive">
-	<display:table class="table table-bordered" name="i2ePortfolioAccounts" id="i2ePortfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
+	<display:table class="table table-bordered" name="i2ePortfolioAccounts" id="i2ePortfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
 	<display:setProperty name="paging.banner.one_item_found" value="" />
 	<display:setProperty name="paging.banner.all_items_found" value="" />
 
@@ -62,7 +55,7 @@
  				<display:column title="${i2ePortfolioAccountsRolesColumnsNames}" style="width:30%;">
  		
 				<display:table class="table table-bordered nestedTableStyle" name="${i2ePortfolioAccountsRoles}" id="i2ePortfolioAccountsRoles_${i2ePortfolioAccountsRolesId}" 
-						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.I2ePortfolioSearchResultDecorator">
+						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
 						   
 					<display:setProperty name="basic.show.header" value="false" />
 			
