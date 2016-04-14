@@ -134,7 +134,7 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		List<String> discrepancies = portfolioVO.getAccountDiscrepancies();
 		String id = portfolioVO.getImpaciiUserId();
 		StringBuffer sbu = new StringBuffer();
-		sbu.append("<ul>");
+		sbu.append("<ul style='padding-bottom: 0px; margin-bottom: 0px;'>");
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 			if(disVw.getShortDescrip() != null){
@@ -149,7 +149,22 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 			}
 		}
 		sbu.append("</ul>");
-		return sbu.toString();
+		
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		
+		String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+		String era_ua_link =  (StringUtils.isBlank(impaciiId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + impaciiId);
+		String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
+		if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+			era_ua_link = "<a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
+		}else{
+			era_ua_link = "<a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
+		}
+		
+		return sbu.toString() + era_ua_link;
 	}
 	
 	/**
@@ -168,16 +183,7 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 			networkId = "";
 		}
 		
-		String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
-		String era_ua_link =  (StringUtils.isBlank(impaciiId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + impaciiId);
-		String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
-		if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
-			era_ua_link = "<br/><a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
-		}else{
-			era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
-		}
-		
-		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>" + era_ua_link;
+		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
 	}
 	
 	public String getCreatedBy(){
@@ -199,7 +205,7 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 
 		String id = ""+portfolioVO.getNpnId();
 		StringBuffer sbu = new StringBuffer();
-		sbu.append("<ul>");
+		sbu.append("<ul style='padding-bottom: 0px; margin-bottom: 0px;'>");
 		for(String s : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,s);
 			if(disVw.getShortDescrip() != null){
@@ -214,7 +220,17 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 			}
 		}
 		sbu.append("</ul>");
-		return sbu.toString();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+		String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
+		String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
+		
+		return sbu.toString() + "<a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
 	}
 
 	/**
@@ -289,12 +305,7 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		if(networkId == null){
 			networkId = "";
 		}
-		
-		String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
-		String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
-		String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
-		
-		return "<span title='NIH (Network) ID'>" + networkId + "</span>" + "<br/><a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
+		return "<span title='NIH (Network) ID'>" + networkId + "</span>";
 	}
 	
 	/**
