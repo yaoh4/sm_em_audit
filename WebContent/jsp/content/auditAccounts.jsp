@@ -134,6 +134,7 @@
 			 			var category = $('#categoryId').val();
 			 			var userId = $('#userId').val();
 			 			var networkId = $('#networkId').val();
+			 			var parentNedOrgPath = $('#orgId').val();
 			 			$.ajax({
 			 				url: "unsubmitAction.action",
 			 				type: "post",
@@ -150,7 +151,7 @@
 			 			}else{
 			 				
 			 				var isTransferred = $('#'+cId).text().match('(Transferred)');
-			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + userId + "&#39;,&#39;" + networkId + "&#39;);'/>" + 		
+			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + userId + "&#39;,&#39;" + networkId + "&#39;,&#39;" + parentNedOrgPath +"&#39;);'/>" + 		
 			 				"<input type='hidden' id='hiddenAction"+ cId + "' value='" + $('#hiddenAction' +cId).val() +"' /> ");
 			 				if(isTransferred){
 			 					$('#'+cId).append("</br>(Transferred)");
