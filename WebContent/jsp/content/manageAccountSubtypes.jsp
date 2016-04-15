@@ -115,6 +115,6 @@
   
   <!-- We are in discrepancy tab -->
   <s:else>
-  		<h4>IMPAC II Discrepancies <span style="font-weight: normal;"></span></h4>
+  		<h4>IMPAC II and I2E Discrepancies <span style="font-weight: normal;"></span></h4>
   </s:else>
  

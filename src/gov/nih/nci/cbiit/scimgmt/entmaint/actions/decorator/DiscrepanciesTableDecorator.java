@@ -3,12 +3,9 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
-import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
-import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +19,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * This class is responsible for decorating the rows of portfolio accounts search results table.
- * @author tembharend
+ * This class is responsible for decorating the rows of discrepancy accounts table in My DOC Discrepancies.
+ * @author dinhys
  *
  */
 @Configurable
@@ -53,18 +50,22 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return applicationRole string with info icon.
 	 */
 	public String getApplicationRole(){
-		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
+		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
+		if(roleVw == null){
 			return "";
 		}
-		String role = "<table width='100%' border='0'>";
-		for(EmPortfolioRolesVw roleVw : roles){
-			String createdBy = roleVw.getCreatedByFullName();
-			String roleName = roleVw.getRoleName();
-			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+		String createdBy = roleVw.getCreatedByFullName();
+		String roleName = roleVw.getRoleName();
+		String role = "";
+		if(StringUtils.equalsIgnoreCase(roleVw.getImpaciiUserId(),"I2E")) {
+			if(StringUtils.isNotBlank(createdBy) && StringUtils.isNotBlank(roleName)){
+				role = "<span title='" + createdBy + "'>" +  roleName + "</span>&nbsp;";
+			} else if (StringUtils.isNotBlank(roleVw.getRoleName())) {
+				role = roleVw.getRoleName();
+			}
+		} else {
+			role = "<span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/>";
 		}
-		role = role + "</table>";
 		return role;
 	}
 	
@@ -73,17 +74,11 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return orgId
 	 */
 	public String getOrgId(){
-		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
+		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
+		if(roleVw == null){
 			return "";
 		}
-		String orgId = "<table width='100%' border='0'>";
-		for(EmPortfolioRolesVw roleVw : roles){
-			orgId = orgId + "<tr><td>" + roleVw.getOrgId()+"</td></tr>";
-		}
-		orgId = orgId + "</table>";
-		return orgId;
+		return roleVw.getOrgId();
 	}
 	
 	/**
@@ -91,16 +86,14 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return role created date in mm/dd/yyyy format.
 	 */
 	public String getRoleCreateOn(){
-		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
-		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
-		if(roles == null || roles.size() == 0){
+		String createDate = "";
+		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
+		if(roleVw == null){
 			return "";
 		}
-		String createDate = "<table width='100%' border='0'>";
-		for(EmPortfolioRolesVw roleVw : roles){
-			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
-		}
-		createDate = createDate + "</table>";
+		if(roleVw.getCreatedDate() != null){
+			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate());
+		}		
 		return createDate;
 	}
 	
@@ -149,7 +142,7 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 			}
 		}
 		sbu.append("</ul>");
-		
+
 		String impaciiId = portfolioVO.getImpaciiUserId();
 		if(impaciiId == null){
 			impaciiId = "";
@@ -163,6 +156,19 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		}else{
 			era_ua_link = "<a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
 		}
+		
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+		String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
+		String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
+		
+		if(StringUtils.equalsIgnoreCase(portfolioVO.getNotes(), "I2E"))
+			return sbu.toString() + "<a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
 		
 		return sbu.toString() + era_ua_link;
 	}
@@ -183,141 +189,29 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 			networkId = "";
 		}
 		
-		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
+		return (StringUtils.isBlank(impaciiId)? "<span title='NIH (Network) ID'>" + networkId + "</span>": "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>");
 	}
 	
+	/**
+	 * Get the name of the person who created the account.
+	 * 
+	 * @return
+	 */
 	public String getCreatedBy(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
 		String displayStr = "<span title='" + portfolioVO.getCreatedByFullName() + "'>" + portfolioVO.getCreatedByUserId() + "</span>";
-		return displayStr;
+		return (portfolioVO.getCreatedByUserId() == null? portfolioVO.getCreatedByFullName() : displayStr);
 	}
 	
-	/**
-	 * Get Discrepancy and help icon
-	 * @return descrepancy
-	 */
-	public String getI2eDiscrepancy(){
-		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
-		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
-		acbf.autowireBean(this);
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		List<String> discrepancies = portfolioVO.getAccountDiscrepancies();
-
-		String id = ""+portfolioVO.getNpnId();
-		StringBuffer sbu = new StringBuffer();
-		sbu.append("<ul style='padding-bottom: 0px; margin-bottom: 0px;'>");
-		for(String s : discrepancies){
-			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,s);
-			if(disVw.getShortDescrip() != null){
-				//replace all single quote to HTML code
-				String secondId = disVw.getCode();
-				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
-				//replace all single quote to HTML code
-				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
-						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
-						"</li>");
-			}
-		}
-		sbu.append("</ul>");
-		String networkId = portfolioVO.getNihNetworkId();
-		
-		if(networkId == null){
-			networkId = "";
-		}
-		
-		String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
-		String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
-		String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
-		
-		return sbu.toString() + "<a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
-	}
-
-	/**
-	 * Get the full name.
-	 * @return fullName
-	 */
-	public String getI2eFullName() {
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		String fullName = "";
-		if(!StringUtils.isBlank(portfolioVO.getFullName())){
-			if(!StringUtils.isBlank(portfolioVO.getNedEmailAddress())){
-				fullName =  "<a href=\"mailto:" + portfolioVO.getNedEmailAddress() +  "\">" + portfolioVO.getFullName() + "</a>";
-			}
-			else{
-				fullName = portfolioVO.getFullName();
-			}
-		}
-		return fullName;
-	}
 	
 	/**
-	 * Get I2E created date
-	 * @return created Date
-	 */
-	public String getI2eCreatedDate(){
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		Date createDate = portfolioVO.getCreatedDate();
-		if(createDate == null){
-			return "";
-		}
-		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
-	}
-	
-	/**
-	 * This method is for displaying Org path for application roles. It could be multiple.
-	 * @return String
-	 */
-	public String getOrgPath(){
-		String orgPath = "";
-		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();
-		if(StringUtils.isNotBlank(roleVw.getFullOrgPathAbbrev())){
-			int beginIndex = roleVw.getFullOrgPathAbbrev().lastIndexOf("/");
-			String lastOrg = (beginIndex > 0 ?  roleVw.getFullOrgPathAbbrev().substring(beginIndex + 1) : roleVw.getFullOrgPathAbbrev());
-			orgPath = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
-		}
-		return orgPath;
-	}
-	
-	/**
-	 * Get application role for this row.
-	 * @return applicationRole string with info icon.
-	 */
-	public String getActiveI2eRole(){
-		String role = "";
-		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();		
-		if(StringUtils.isNotBlank(roleVw.getRoleCreatedByFullName()) && StringUtils.isNotBlank(roleVw.getRoleName())){
-			role = "<span title='" + roleVw.getRoleCreatedByFullName() + "'>" +  roleVw.getRoleName() + "</span>&nbsp;";
-		} else if (StringUtils.isNotBlank(roleVw.getRoleName())) {
-			role = roleVw.getRoleName();
-		}
-		return role;
-	}
-	
-	/**
-	 * This method displays the impaciiUserId and network id
+	 * Display whether it is an IMPAC II or I2E discrepancy.
+	 * 
 	 * @return
 	 */
-	public String getNihNetworkId(){
-		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
-		String networkId = portfolioVO.getNihNetworkId();
-		
-		if(networkId == null){
-			networkId = "";
-		}
-		return "<span title='NIH (Network) ID'>" + networkId + "</span>";
-	}
-	
-	/**
-	 * Get the date on which this role was created.
-	 * @return role created date in mm/dd/yyyy format.
-	 */
-	public String getI2eRoleCreateOn(){
-		String createDate = "";
-		I2eActiveUserRolesVw roleVw = (I2eActiveUserRolesVw)getCurrentRowObject();
-		if(roleVw.getRoleCreatedDate() != null){
-			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getRoleCreatedDate());
-		}		
-		return createDate;	
+	public String getSystem(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String system = (StringUtils.isBlank(portfolioVO.getNotes()) ? "IMPAC II" : portfolioVO.getNotes());
+		return system;	
 	}
 }

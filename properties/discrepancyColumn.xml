@@ -5,21 +5,14 @@
  <Display>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>IMPAC II Discrepancy</columnName>
- 		<property>discrepancy</property>
- 		<sort>true</sort>
- 		<export>false</export>
- 	</Tab> 		
- 	<Tab>
- 		<type>portfolioDiscrepancy</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>IMPAC II ID / #R NIH (Network) ID</columnName>
+ 		<columnName>IMPAC II ID/NIH (Network) ID</columnName>
  		<property>impaciiUserIdNetworkId</property>
- 	</Tab>	
+ 	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>NED Org Path</columnName>
@@ -27,9 +20,17 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Secondary Org</columnName>
- 		<property>secondaryOrgText</property>
- 	</Tab>	
+ 		<columnName>IMPACII or I2E</columnName>
+ 		<property>system</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Discrepancy</columnName>
+ 		<property>discrepancy</property>
+ 		<sort>true</sort>
+ 		<export>false</export>
+ 	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Account Created Date</columnName>
@@ -37,82 +38,27 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Created By</columnName>
+ 		<columnName>Created/Last Updated By</columnName>
  		<property>createdBy</property>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Org ID</columnName>
+ 		<columnName>Role Org</columnName>
  		<property>orgId</property>
  		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>IMPAC II Application Role</columnName>
+ 		<columnName>Active Role</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
  	</Tab>	
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>IMPAC II Role Created On</columnName>
+ 		<columnName>Role Created On</columnName>
  		<property>roleCreateOn</property>
- 		<sort>false</sort>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>I2E Discrepancy</columnName>
- 		<property>i2eDiscrepancy</property>
-		<sort>false</sort>
-		<export>false</export>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>Name</columnName>
- 		<property>i2eFullName</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>NIH (Network) ID</columnName>
- 		<property>nihNetworkId</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>NED Org Path</columnName>
- 		<property>nedOrgPath</property>
- 		<sort>true</sort>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>I2E Account Created Date</columnName>
- 		<property>i2eCreatedDate</property>
- 		<sort>true</sort>
- 	</Tab>
-  	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>Created/Last Updated By</columnName>
- 		<property>lastUpdByFullName</property>
- 		<sort>true</sort>
- 	</Tab>	
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>Role Org Path</columnName>
- 		<property>orgPath</property>
- 		<sort>false</sort>
- 		<isNestedColumn>true</isNestedColumn>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>Active I2E Role</columnName>
- 		<property>activeI2eRole</property>
- 		<sort>false</sort>
- 		<isNestedColumn>true</isNestedColumn>
- 	</Tab>
- 	<Tab>
- 		<type>i2eDiscrepancy</type>
- 		<columnName>I2E Role Created On</columnName>
- 		<property>i2eRoleCreateOn</property>
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
  	</Tab>
