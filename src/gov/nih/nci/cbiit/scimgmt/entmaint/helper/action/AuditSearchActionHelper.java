@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 
+import org.apache.commons.lang.StringUtils;
 import com.opensymphony.xwork2.ActionContext;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -22,7 +23,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
 	
-	public static final String ROLE_ORG_PATH = "Role Org Path";
+	public static final String ROLE_ORG_PATH = "Role Org";
 	
 	static Logger logger = Logger.getLogger(AuditSearchActionHelper.class);
 
@@ -299,7 +300,7 @@ public class AuditSearchActionHelper {
 		String nestedColumnsNames = "";
 		for(Tab tab : displayColumn){
 			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
-				nestedColumnsNames += "<span class='rolesHeader'>" + (!ROLE_ORG_PATH.equalsIgnoreCase(tab.getColumnName()) ? " | " : "") + tab.getColumnName() + "</span>";
+				nestedColumnsNames += "<span class='rolesHeader'>" + (!StringUtils.contains(tab.getColumnName(), ROLE_ORG_PATH) ? " | " : "") + tab.getColumnName() + "</span>";
 			}
 		}	
 		return nestedColumnsNames;

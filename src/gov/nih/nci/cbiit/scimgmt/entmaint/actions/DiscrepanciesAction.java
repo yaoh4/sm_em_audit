@@ -4,15 +4,20 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
@@ -32,8 +37,7 @@ public class DiscrepanciesAction extends BaseAction {
 	
 	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;	
 	private PaginatedListImpl<PortfolioI2eAccountVO> i2ePortfolioAccounts = null;
-	private List<Tab> displayColumnI2e;
-	
+
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
 	@Autowired
@@ -83,7 +87,7 @@ public class DiscrepanciesAction extends BaseAction {
 		HashSet<String> excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
 		HashSet<String> excludedI2eAccounts = i2eAuditService.retrieveExcludedFromAuditAccounts(auditId);
 						
-		//perform the discrepancy search
+		//perform the IMPAC II discrepancy search
 		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY);
 		portfolioAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioAccounts, searchVO, true);
 		portfolioAccounts.setList(filterDiscrepancyAccounts(portfolioAccounts.getList(), excludedAccounts));
@@ -93,14 +97,37 @@ public class DiscrepanciesAction extends BaseAction {
 		displayColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
 		processList(displayColumn);
 				
+		//perform I2E discrepancy search
 		searchVO.setCategory(ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY);
 		i2ePortfolioAccounts = i2ePortfolioService.searchI2eAccounts(i2ePortfolioAccounts, searchVO, true);
-		i2ePortfolioAccounts.setList(filterI2eDiscrepancyAccounts(i2ePortfolioAccounts.getList(), excludedI2eAccounts));
+		//Convert to IMPAC II and add it to the list to display consolidated table
+		List<PortfolioAccountVO> i2eAccounts = filterI2eDiscrepancyAccounts(i2ePortfolioAccounts.getList(), excludedI2eAccounts);
+		portfolioAccounts.getList().addAll(i2eAccounts);
 		
-		colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.DISCREPANCYCOLATTRIBUTE);	
-		displayColumnI2e = auditSearchActionHelper.getI2ePortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());
-		processList(displayColumnI2e);
+		//Sort the list based on Name
+		if (portfolioAccounts.getList().size() > 0) {
+			Collections.sort(portfolioAccounts.getList(), new Comparator<PortfolioAccountVO>() {
+				@Override
+				public int compare(final PortfolioAccountVO object1, final PortfolioAccountVO object2) {
+					return object1.getFullName().compareTo(object2.getFullName());
+				}
+			});
+		}
 		
+		//Clear the columns for display if more than one rows exists.
+		PortfolioAccountVO prev = null;
+		for(PortfolioAccountVO account :portfolioAccounts.getList()) {
+			if (prev != null && account.getNihNetworkId() != null && StringUtils.equalsIgnoreCase(prev.getNihNetworkId(), account.getNihNetworkId())) {
+				account.setFirstName(null);
+				account.setLastName(null);
+				account.setImpaciiLastName(null);
+				account.setImpaciiFirstName(null);
+				account.setNedEmailAddress(null);
+				account.setNihNetworkId(null);
+				account.setNedOrgPath(null);
+			}
+			prev = account;
+		}
 		return forward;	
 	}
 
@@ -129,9 +156,9 @@ public class DiscrepanciesAction extends BaseAction {
 	 * @param excluded
 	 * @return
 	 */
-	private List<PortfolioI2eAccountVO> filterI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list, HashSet<String> excluded) {
+	private List<PortfolioAccountVO> filterI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list, HashSet<String> excluded) {
 		
-		List<PortfolioI2eAccountVO> accounts = new ArrayList<PortfolioI2eAccountVO>();
+		List<PortfolioAccountVO> accounts = new ArrayList<PortfolioAccountVO>();
 		for (PortfolioI2eAccountVO account : list) {
 			List<String> filteredDiscrepancies = new ArrayList<String>();
 			
@@ -145,8 +172,37 @@ public class DiscrepanciesAction extends BaseAction {
 			}
 			account.getAccountDiscrepancies().clear();
 			account.getAccountDiscrepancies().addAll(filteredDiscrepancies);
-			if(!account.getAccountDiscrepancies().isEmpty() && !excluded.contains(account.getNihNetworkId()))
-				accounts.add(account);
+			if(!account.getAccountDiscrepancies().isEmpty() && !excluded.contains(account.getNihNetworkId())) {
+				PortfolioAccountVO convertedAccount = new PortfolioAccountVO();
+				convertedAccount.setFirstName(account.getFirstName());
+				convertedAccount.setLastName(account.getLastName());
+				convertedAccount.setImpaciiLastName(account.getI2eLastName());
+				convertedAccount.setImpaciiFirstName(account.getI2eFirstName());
+				convertedAccount.setNedEmailAddress(account.getNedEmailAddress());
+				convertedAccount.setNihNetworkId(account.getNihNetworkId());
+				convertedAccount.setNedOrgPath(account.getNedOrgPath());
+				convertedAccount.setNotes("I2E");
+				convertedAccount.setAccountDiscrepancies(new ArrayList<String>());
+				convertedAccount.getAccountDiscrepancies().addAll(account.getAccountDiscrepancies());
+				convertedAccount.setCreatedDate(account.getCreatedDate());
+				convertedAccount.setCreatedByFullName(account.getLastUpdByFullName());
+				convertedAccount.setAccountRoles(new ArrayList<EmPortfolioRolesVw>());
+				for(I2eActiveUserRolesVw roleVw : account.getAccountRoles()) {
+					if(StringUtils.isNotBlank(roleVw.getFullOrgPathAbbrev())){
+						int beginIndex = roleVw.getFullOrgPathAbbrev().lastIndexOf("/");
+						String lastOrg = (beginIndex > 0 ?  roleVw.getFullOrgPathAbbrev().substring(beginIndex + 1) : roleVw.getFullOrgPathAbbrev());
+						String orgPath = "<span title='" + roleVw.getFullOrgPathAbbrev() + "'>" + lastOrg + "</span>";
+						EmPortfolioRolesVw convertedRole = new EmPortfolioRolesVw();
+						convertedRole.setOrgId(orgPath);
+						convertedRole.setCreatedByFullName(roleVw.getRoleCreatedByFullName());
+						convertedRole.setRoleName(roleVw.getRoleName());
+						convertedRole.setCreatedDate(roleVw.getRoleCreatedDate());
+						convertedRole.setImpaciiUserId("I2E");
+						convertedAccount.getAccountRoles().add(convertedRole);
+					}
+				}
+				accounts.add(convertedAccount);
+			}
 		}
 		return accounts;
 	}
@@ -185,16 +241,16 @@ public class DiscrepanciesAction extends BaseAction {
 	 * This method returns rolesColumns.
 	 * @return List<Tab>
 	 */
-	public List<Tab> getI2ePortfolioAccountsRolesColumns(){		
-		return auditSearchActionHelper.getNestedTableColumns(displayColumnI2e, ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY);
+	public List<Tab> getPortfolioAccountsRolesColumns(){		
+		return auditSearchActionHelper.getNestedTableColumns(displayColumn, ApplicationConstants.PORTFOLIO_DISCREPANCY);
 	}
 	
 	/**
 	 * This method returns roles Columns titles.
 	 * @return String
 	 */
-	public String getI2ePortfolioAccountsRolesColumnsNames(){			
-		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumnI2e, ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY);
+	public String getPortfolioAccountsRolesColumnsNames(){			
+		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.PORTFOLIO_DISCREPANCY);
 	}
 
 	/**
@@ -209,28 +265,6 @@ public class DiscrepanciesAction extends BaseAction {
 	 */
 	public void setPortfolioAccounts(PaginatedListImpl<PortfolioAccountVO> portfolioAccounts) {
 		this.portfolioAccounts = portfolioAccounts;
-	}
-
-	/**
-	 * @return the i2ePortfolioAccounts
-	 */
-	public PaginatedListImpl<PortfolioI2eAccountVO> getI2ePortfolioAccounts() {
-		return i2ePortfolioAccounts;
-	}
-
-	/**
-	 * @param i2ePortfolioAccounts the i2ePortfolioAccounts to set
-	 */
-	public void setI2ePortfolioAccounts(PaginatedListImpl<PortfolioI2eAccountVO> i2ePortfolioAccounts) {
-		this.i2ePortfolioAccounts = i2ePortfolioAccounts;
-	}
-
-	public List<Tab> getDisplayColumnI2e() {
-		return displayColumnI2e;
-	}
-
-	public void setDisplayColumnI2e(List<Tab> displayColumnI2e) {
-		this.displayColumnI2e = displayColumnI2e;
 	}
 	
 }
