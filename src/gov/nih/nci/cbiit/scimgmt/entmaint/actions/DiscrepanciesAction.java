@@ -123,7 +123,6 @@ public class DiscrepanciesAction extends BaseAction {
 				account.setImpaciiLastName(null);
 				account.setImpaciiFirstName(null);
 				account.setNedEmailAddress(null);
-				account.setNihNetworkId(null);
 				account.setNedOrgPath(null);
 			}
 			prev = account;
