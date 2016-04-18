@@ -182,6 +182,10 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		String impaciiId = portfolioVO.getImpaciiUserId();
 		String networkId = portfolioVO.getNihNetworkId();
 		
+		//If name is blank, this is the second row for this account.
+		if(StringUtils.isBlank(portfolioVO.getFullName())){
+			return "";
+		}
 		if(impaciiId == null){
 			impaciiId = "";
 		}
