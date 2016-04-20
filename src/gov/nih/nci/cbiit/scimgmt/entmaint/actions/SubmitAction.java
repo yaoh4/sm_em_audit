@@ -44,7 +44,10 @@ public class SubmitAction extends BaseAction {
 		try{
 			if(isTransferAction(actId)){
 				impac2Service.transfer(Long.parseLong(appId), account.getNihNetworkId(), account.getAudit().getId(), account.getParentNedOrgPath(), Long.parseLong(actId), note, transferOrg, cate, true);
-				i2eService.transfer(Long.parseLong(appId), account.getNihNetworkId(), account.getAudit().getId(), account.getParentNedOrgPath(), note, transferOrg , false);
+				//Don't transfer I2e account if Category of the IMPAC2 transferred account is DELETED.
+				if(!ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate)){
+					i2eService.transfer(Long.parseLong(appId), account.getNihNetworkId(), account.getAudit().getId(), account.getParentNedOrgPath(), note, transferOrg , false);
+				}
 			}
 			else{
 				//if category is inactive, need to do validation.

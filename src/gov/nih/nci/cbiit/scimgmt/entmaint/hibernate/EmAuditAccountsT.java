@@ -25,6 +25,8 @@ public class EmAuditAccountsT implements java.io.Serializable {
 	private String inactiveUserFlag;
 	private String transferToNedOrgPath;
 	private String transferFromNedOrgPath;
+	private String deletedTransferToOrgPath;
+	private String deletedTransferFromOrgPath;
 	private Date transferredDate;
 	
 	
@@ -44,7 +46,7 @@ public class EmAuditAccountsT implements java.io.Serializable {
 			Date createdDate, String createdByUserId, Date deletedDate, String deletedByUserId,
 			String deactivationComments, Long eauId, String firstName, String lastName, String createdByFullName,
 			String deletedByFullName, Date lastLoginDate, String inactiveUserFlag, String transferToNedOrgPath,
-			String transferFromNedOrgPath, Date transferredDate) {
+			String transferFromNedOrgPath, Date transferredDate, String deletedTransferToOrgPath, String deletedTransferFromOrgPath) {
 		super();
 		this.id = id;
 		this.impaciiUserId = impaciiUserId;
@@ -65,6 +67,8 @@ public class EmAuditAccountsT implements java.io.Serializable {
 		this.transferToNedOrgPath = transferToNedOrgPath;
 		this.transferFromNedOrgPath = transferFromNedOrgPath;
 		this.transferredDate = transferredDate;
+		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
+		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
 	}
 
 	public Long getId() {
@@ -219,6 +223,22 @@ public class EmAuditAccountsT implements java.io.Serializable {
 
 	public void setTransferredDate(Date transferredDate) {
 		this.transferredDate = transferredDate;
-	}	
+	}
+
+	public String getDeletedTransferToOrgPath() {
+		return deletedTransferToOrgPath;
+	}
+
+	public void setDeletedTransferToOrgPath(String deletedTransferToOrgPath) {
+		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
+	}
+
+	public String getDeletedTransferFromOrgPath() {
+		return deletedTransferFromOrgPath;
+	}
+
+	public void setDeletedTransferFromOrgPath(String deletedTransferFromOrgPath) {
+		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
+	}
 	
 }

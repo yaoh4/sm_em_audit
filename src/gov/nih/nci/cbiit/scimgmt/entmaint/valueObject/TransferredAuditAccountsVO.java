@@ -16,6 +16,8 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 	private Boolean i2eActiveStatusFlag;
 	private String transferToNedOrgPath;
 	private String transferFromNedOrgPath;
+	private String deletedTransferToNedOrgPath;
+	private String deletedTransferFromNedOrgPath;
 	
 	public TransferredAuditAccountsVO() {
 		super();
@@ -28,7 +30,7 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 	}
 	public TransferredAuditAccountsVO(String lastName, String firstName, String nihNetworkId, String nedOrgPath,
 			Boolean impaciiActiveStatusFlag, Boolean i2eActiveStatusFlag, String transferToNedOrgPath,
-			String transferFromNedOrgPath) {
+			String transferFromNedOrgPath, String deletedTransferToNedOrgPath, String deletedTransferFromNedOrgPath) {
 		super();
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -38,7 +40,10 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 		this.i2eActiveStatusFlag = i2eActiveStatusFlag;
 		this.transferToNedOrgPath = transferToNedOrgPath;
 		this.transferFromNedOrgPath = transferFromNedOrgPath;
+		this.deletedTransferToNedOrgPath=deletedTransferToNedOrgPath;
+		this.deletedTransferFromNedOrgPath= deletedTransferFromNedOrgPath;
 	}
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -86,6 +91,18 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 	}
 	public void setTransferFromNedOrgPath(String transferFromNedOrgPath) {
 		this.transferFromNedOrgPath = transferFromNedOrgPath;
+	}
+	public String getDeletedTransferToNedOrgPath() {
+		return deletedTransferToNedOrgPath;
+	}
+	public void setDeletedTransferToNedOrgPath(String deletedTransferToNedOrgPath) {
+		this.deletedTransferToNedOrgPath = deletedTransferToNedOrgPath;
+	}
+	public String getDeletedTransferFromNedOrgPath() {
+		return deletedTransferFromNedOrgPath;
+	}
+	public void setDeletedTransferFromNedOrgPath(String deletedTransferFromNedOrgPath) {
+		this.deletedTransferFromNedOrgPath = deletedTransferFromNedOrgPath;
 	}		
 	
 }

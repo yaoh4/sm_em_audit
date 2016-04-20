@@ -70,6 +70,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	private String transferToNedOrgPath;
 	private String transferFromNedOrgPath;
+	private String deletedTransferToOrgPath;
+	private String deletedTransferFromOrgPath;
 	private Date transferredDate;
 	
 	public EmAuditAccountsVw() {
@@ -95,7 +97,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			String inactiveSubmittedBy, Date inactiveSubmittedDate, String deletedByParentOrgPath, String deletedByNciDoc,
 			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag,
 			Boolean lastNameDiffFlag, List accountRoles, List accountActivities,
-			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies, String transferToNedOrgPath, String transferFromNedOrgPath,Date transferredDate) {
+			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies, String transferToNedOrgPath, String transferFromNedOrgPath,Date transferredDate,
+			String deletedTransferToOrgPath, String deletedTransferFromOrgPath) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
@@ -156,6 +159,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.transferToNedOrgPath = transferToNedOrgPath;
 		this.transferFromNedOrgPath = transferFromNedOrgPath;
 		this.transferredDate = transferredDate;
+		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
+		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
 	}
 
 	@Override
@@ -322,7 +327,13 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 						castOther.getTransferToNedOrgPath())))
 				&& ((this.getTransferredDate() == castOther.getTransferredDate()) || (this.getTransferredDate() != null
 					   && castOther.getTransferredDate() != null && this.getTransferredDate().equals(
-					   castOther.getTransferredDate())));
+					   castOther.getTransferredDate())))
+				&& ((this.getDeletedTransferToOrgPath() == castOther.getDeletedTransferToOrgPath()) || (this.getDeletedTransferToOrgPath() != null
+				   	   && castOther.getDeletedTransferToOrgPath() != null && this.getDeletedTransferToOrgPath().equals(
+				   	   castOther.getDeletedTransferToOrgPath())))
+				&& ((this.getDeletedTransferFromOrgPath() == castOther.getDeletedTransferFromOrgPath()) || (this.getDeletedTransferFromOrgPath() != null
+				   	   && castOther.getDeletedTransferFromOrgPath() != null && this.getDeletedTransferFromOrgPath().equals(
+				       castOther.getDeletedTransferFromOrgPath())));
 	}
 
 	public EmAuditsT getAudit() {
@@ -496,6 +507,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		result = 37 * result + (getTransferFromNedOrgPath() == null ? 0 : this.getTransferFromNedOrgPath().hashCode());
 		result = 37 * result + (getTransferToNedOrgPath() == null ? 0 : this.getTransferToNedOrgPath().hashCode());
 		result = 37 * result + (getTransferredDate() == null ? 0 : this.getTransferredDate().hashCode());
+		result = 37 * result + (getDeletedTransferToOrgPath() == null ? 0 : this.getDeletedTransferToOrgPath().hashCode());
+		result = 37 * result + (getDeletedTransferFromOrgPath() == null ? 0 : this.getDeletedTransferFromOrgPath().hashCode());
 		return result;
 	}
 
@@ -870,5 +883,23 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	public void setTransferredDate(Date transferredDate) {
 		this.transferredDate = transferredDate;
 	}
+
+	public String getDeletedTransferToOrgPath() {
+		return deletedTransferToOrgPath;
+	}
+
+	public void setDeletedTransferToOrgPath(String deletedTransferToOrgPath) {
+		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
+	}
+
+	public String getDeletedTransferFromOrgPath() {
+		return deletedTransferFromOrgPath;
+	}
+
+	public void setDeletedTransferFromOrgPath(String deletedTransferFromOrgPath) {
+		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
+	}
+
+	
 
 }

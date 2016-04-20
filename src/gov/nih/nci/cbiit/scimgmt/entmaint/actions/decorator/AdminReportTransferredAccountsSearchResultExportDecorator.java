@@ -73,4 +73,38 @@ public class AdminReportTransferredAccountsSearchResultExportDecorator extends T
 
 		return status;
 	}	
+	
+	/**
+	 * Get TransferToOrgPath
+	 * return orgPath
+	 */
+	public String getTransferToNedOrgPath(){
+		String orgPath = "";
+		TransferredAuditAccountsVO accountVO = (TransferredAuditAccountsVO)getCurrentRowObject();
+		
+		if("No".equalsIgnoreCase(getImpaciiActiveStatusFlag()) && StringUtils.isNotBlank(accountVO.getDeletedTransferToNedOrgPath())){
+			orgPath = accountVO.getDeletedTransferToNedOrgPath();
+		}
+		else{
+			orgPath = accountVO.getTransferToNedOrgPath();
+		}
+		return orgPath;
+	}
+		
+	/**
+	 * Get TransferFromNedOrgPath
+	 * return orgPath
+	 */
+	public String getTransferFromNedOrgPath(){
+		String orgPath = "";
+		TransferredAuditAccountsVO accountVO = (TransferredAuditAccountsVO)getCurrentRowObject();
+		
+		if("No".equalsIgnoreCase(getImpaciiActiveStatusFlag()) && StringUtils.isNotBlank(accountVO.getDeletedTransferFromNedOrgPath())){
+			orgPath = accountVO.getDeletedTransferFromNedOrgPath();
+		}
+		else{
+			orgPath = accountVO.getTransferFromNedOrgPath();
+		}
+		return orgPath;
+	}
 }

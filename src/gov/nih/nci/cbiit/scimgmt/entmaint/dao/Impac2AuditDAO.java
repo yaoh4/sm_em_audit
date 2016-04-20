@@ -205,7 +205,7 @@ public class Impac2AuditDAO {
 	            criteria.add(dc);
 			}
 			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.DELETED_ACTION_TRANSFER) ) {
-				criteria.add(Restrictions.isNotNull("transferToNedOrgPath"));
+				criteria.add(Restrictions.isNotNull("deletedTransferToOrgPath"));
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("deletedAction.id", new Long(searchVO.getAct())));
@@ -799,11 +799,7 @@ public class Impac2AuditDAO {
 				account = getAccountsT(nihNetworkId, auditId);			
 			}			
 			if(account != null){
-				account.setTransferFromNedOrgPath(parentNedOrgPath);
-				account.setTransferToNedOrgPath(transferOrg);
-				account.setTransferredDate(new Date());
-				saveOrUpdateEmAuditAccountsT(account);
-				
+								
 				AppLookupT cat = null;				
 				if(category != null){
 					//Category is not null because this method is being called from SubmitAction to transfer the Impac2 account.
@@ -815,6 +811,24 @@ public class Impac2AuditDAO {
 					//In this situation, we don't have category. It needs to be computed on the fly for Impac2Account.
 					cat = getCategory(account);
 				}	
+				
+				//If this Impac2 Transfer is triggered after I2E Transfer and the Category is Deleted then don't transfer Impac2 Account.
+				if(!isImpac2Transfer && ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cat.getCode())){
+					log.debug("This Impac2 Transfer is triggered after I2E Transfer and the Category is Deleted then don't transfer Impac2.");
+					return result;
+				}
+				
+				//For deleted accounts populate different columns.
+				if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cat.getCode())){
+					account.setDeletedTransferFromOrgPath(parentNedOrgPath);
+					account.setDeletedTransferToOrgPath(transferOrg);
+				}
+				else{
+					account.setTransferFromNedOrgPath(parentNedOrgPath);
+					account.setTransferToNedOrgPath(transferOrg);
+				}				
+				account.setTransferredDate(new Date());
+				saveOrUpdateEmAuditAccountsT(account);
 								
 				EmAuditAccountActivityT activity = getAccountActivityT(account.getId(), cat.getCode());
 				if(activity == null) {

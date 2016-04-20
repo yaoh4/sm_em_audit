@@ -115,22 +115,25 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			if(actId.equalsIgnoreCase(VERIFIEDACTION) || (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(currentPage) && actId.equalsIgnoreCase(NONEED))){
 				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
 			}
-			if(StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())){
+			if((ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getDeletedTransferToOrgPath())) ||
+					((!ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())))){
 				actionStr = actionStr + "<br/> (Transferred)";
-			}
+			}			
 			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
 			if( eaaVw != null && eaaVw.getAction() != null && ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(eaaVw.getAction().getDescription())){
-				actionStr = actionStr + "<input type='hidden' id='hiddenTransferredNciOrg"+ id +"' value='" + accountVO.getTransferToNedOrgPath() + "'/>";
+				String hiddenTransferToOrgValue = (ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate))? accountVO.getDeletedTransferToOrgPath() : accountVO.getTransferToNedOrgPath();				
+				actionStr = actionStr + "<input type='hidden' id='hiddenTransferredNciOrg"+ id +"' value='" + hiddenTransferToOrgValue + "'/>";
 			}
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling Aunita's service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
 				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id + "','" + userId + "','" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
 			}
-			if(StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())){
+			if((ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getDeletedTransferToOrgPath())) ||
+					((!ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())))){
 				actionStr = actionStr + "<br/> (Transferred)";
 			}
 			actionStr = actionStr + "</div>";

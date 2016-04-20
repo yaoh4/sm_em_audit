@@ -101,10 +101,10 @@
             	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw" />
         	</bag>
         	<property name="transferToNedOrgPath" type="string">
-				<column name="TRANSFER_TO_NED_ORG_PATH" length="255" />
+				<column name="TRANSFER_TO_ORG_PATH" length="255" />
 			</property>
 			<property name="transferFromNedOrgPath" type="string">
-				<column name="TRANSFER_FROM_NED_ORG_PATH" length="255" />
+				<column name="TRANSFER_FROM_ORG_PATH" length="255" />
 			</property>
 			<property name="transferredDate" type="timestamp">
                 <column name="TRANSFERRED_DATE" length="7" />
