@@ -19,6 +19,11 @@
 					if($(this).next().children("td:first").text() != "")
 						$(this).children("td").css("border-bottom", "1px solid black");
 				});
+		$("table.nestedTableStyle").find("tr").each(
+				function(e) {
+					if($(this).children("td:nth-child(2)").find("img").length > 0)
+						$(this).children("td:nth-child(2)").css("word-break", "break-all");
+				});
 	});
 </script>
 
@@ -46,7 +51,7 @@
 					<display:setProperty name="basic.show.header" value="false" />
 			
 					<s:iterator var="t" value="portfolioAccountsRolesColumns">
-						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;word-break: break-all;"/>
+						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
 					</s:iterator>
 				
 				</display:table>
