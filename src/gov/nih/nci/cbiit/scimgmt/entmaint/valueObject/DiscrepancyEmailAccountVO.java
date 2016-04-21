@@ -9,6 +9,7 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 	private String secondaryOrgText;
 	private String createdDate;
 	private String createdByFullName;
+	private String system;
 
 	public DiscrepancyEmailAccountVO() {
 		
@@ -117,6 +118,14 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 	 */
 	public void setCreatedByFullName(String createdByFullName) {
 		this.createdByFullName = createdByFullName;
+	}
+
+	public String getSystem() {
+		return system;
+	}
+
+	public void setSystem(String system) {
+		this.system = system;
 	}
 
 	@Override
