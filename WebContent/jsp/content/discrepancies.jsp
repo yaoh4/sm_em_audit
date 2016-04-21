@@ -27,6 +27,10 @@
 	});
 </script>
 
+<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAuditEnabled()}">
+	<span class="bannerAlign">The audit is currently active and therefore this report will be unavailable during this time.</span>
+</s:if>
+<s:else>
 <s:if test="%{portfolioAccounts.list.size > 0}">
 	<div class="table-responsive">
 	<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
@@ -80,3 +84,4 @@
 	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
 	</div>
 </div>
+</s:else>
