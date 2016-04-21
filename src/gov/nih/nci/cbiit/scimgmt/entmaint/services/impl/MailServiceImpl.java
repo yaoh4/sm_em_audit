@@ -360,6 +360,7 @@ public class MailServiceImpl implements MailService {
 			entry.setCreatedByFullName(account.getCreatedByFullName());
 			entry.setCreatedDate((account.getCreatedDate() == null ? "" : new SimpleDateFormat("MM/dd/yyyy")
 					.format(account.getCreatedDate())));
+			entry.setSystem("IMPAC II");
 			StringBuffer sbu = new StringBuffer();
 			for(String dis : account.getAccountDiscrepancies()){
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
@@ -400,6 +401,7 @@ public class MailServiceImpl implements MailService {
 			entry.setCreatedByFullName(account.getLastUpdByFullName());
 			entry.setCreatedDate((account.getCreatedDate() == null ? "" : new SimpleDateFormat("MM/dd/yyyy")
 					.format(account.getCreatedDate())));
+			entry.setSystem("I2E");
 			StringBuffer sbu = new StringBuffer();
 			for(String dis : account.getAccountDiscrepancies()){
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);

@@ -19,9 +19,18 @@
 					if($(this).next().children("td:first").text() != "")
 						$(this).children("td").css("border-bottom", "1px solid black");
 				});
+		$("table.nestedTableStyle").find("tr").each(
+				function(e) {
+					if($(this).children("td:nth-child(2)").find("img").length > 0)
+						$(this).children("td:nth-child(2)").css("word-break", "break-all");
+				});
 	});
 </script>
 
+<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAuditEnabled()}">
+	<span class="bannerAlign">The audit is currently active and therefore this report will be unavailable during this time.</span>
+</s:if>
+<s:else>
 <s:if test="%{portfolioAccounts.list.size > 0}">
 	<div class="table-responsive">
 	<display:table class="table table-bordered" name="portfolioAccounts" id="portfolioAccountsId" export="false" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
@@ -46,7 +55,7 @@
 					<display:setProperty name="basic.show.header" value="false" />
 			
 					<s:iterator var="t" value="portfolioAccountsRolesColumns">
-						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;word-break: break-all;"/>
+						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
 					</s:iterator>
 				
 				</display:table>
@@ -75,3 +84,4 @@
 	<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERAUA_INFO)}"/>
 	</div>
 </div>
+</s:else>

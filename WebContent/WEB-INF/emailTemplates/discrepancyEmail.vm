@@ -15,6 +15,7 @@
 		<tr bgcolor="#CCCCCC">
 			<th>Name</th>
 			<th>NIH (Network) ID</th>
+			<th>IMPAC II or I2E</th>
 			<th>Discrepancy Type</th>
 		</tr>
 		</thead>
@@ -23,6 +24,7 @@
 		<tr bgcolor="#FFFFFF">
 			<td style="border-bottom:solid 1px #cccccc;">$row.fullName</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.nihNetworkId</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.system</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
 		</tr>
 		#end
