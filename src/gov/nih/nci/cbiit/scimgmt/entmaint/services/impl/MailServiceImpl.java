@@ -354,7 +354,7 @@ public class MailServiceImpl implements MailService {
 		for (PortfolioAccountVO account : list) {
 			DiscrepancyEmailAccountVO entry = new DiscrepancyEmailAccountVO();
 			entry.setFullName(account.getFullName());
-			entry.setNihNetworkId((account.getImpaciiUserId() != null ? account.getImpaciiUserId() : (account.getNihNetworkId() == null ? "" : account.getNihNetworkId())));
+			entry.setNihNetworkId((account.getNihNetworkId() == null ? "" : account.getNihNetworkId()));
 			entry.setNedOrgPath(account.getNedOrgPath());
 			entry.setSecondaryOrgText(account.getSecondaryOrgText());
 			entry.setCreatedByFullName(account.getCreatedByFullName());
