@@ -86,6 +86,7 @@ public interface ApplicationConstants {
     
     /* Organization Drop down */
     public static final String ORG_PATH_NON_NCI = "Non-NCI";
+    public static final String ORG_PATH_NO_NED_ORG = "No NED Org";
     public static final String NED_IC_NCI = "NCI";
     
     //Encoding

@@ -94,6 +94,8 @@ public class LookupServiceImpl implements LookupService {
 				if(listName.equalsIgnoreCase(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)) {
 					EmOrganizationVw org = new EmOrganizationVw(ApplicationConstants.ORG_PATH_NON_NCI);
 					result.add(org);
+					org = new EmOrganizationVw(ApplicationConstants.ORG_PATH_NO_NED_ORG);
+					result.add(org);
 				}
 				
 				// Store in the cache..

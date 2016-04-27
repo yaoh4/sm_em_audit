@@ -51,6 +51,7 @@ public class AuditSearchActionHelper {
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
 		String orgPath = nciUser.getOrgPath();
 		organizationList.add(new DropDownOption(orgPath, orgPath));
+		organizationList.add(new DropDownOption(ApplicationConstants.ORG_PATH_NO_NED_ORG, ApplicationConstants.ORG_PATH_NO_NED_ORG));
 		createActionList(actList, actionList, isSuperUser); 
 	}
 	
@@ -316,7 +317,8 @@ public class AuditSearchActionHelper {
 		DropDownOption emptyOption = new DropDownOption("", "");
 		transferOrganizationList.add(emptyOption);
 		for(EmOrganizationVw org : (List<EmOrganizationVw>) lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)){
-			if(!parentNedOrgPath.equalsIgnoreCase(org.getNihorgpath()) && !ApplicationConstants.ORG_PATH_NON_NCI.equalsIgnoreCase(org.getNihorgpath())){
+			if(!parentNedOrgPath.equalsIgnoreCase(org.getNihorgpath()) && !ApplicationConstants.ORG_PATH_NON_NCI.equalsIgnoreCase(org.getNihorgpath()) 
+					&& !ApplicationConstants.ORG_PATH_NO_NED_ORG.equalsIgnoreCase(org.getNihorgpath())){
 				DropDownOption transferOrgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());
 				transferOrganizationList.add(transferOrgOption);
 			}

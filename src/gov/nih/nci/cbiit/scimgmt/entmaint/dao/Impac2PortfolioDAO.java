@@ -251,8 +251,9 @@ public class Impac2PortfolioDAO {
 				&& !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
 			}
 		}
