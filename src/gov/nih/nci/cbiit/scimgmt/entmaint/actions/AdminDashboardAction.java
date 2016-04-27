@@ -500,6 +500,7 @@ public class AdminDashboardAction extends BaseAction {
     			} else {
     				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
     				classifyOrgCategory(otherOrgsData, org, audit);
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}
     	}
@@ -530,6 +531,7 @@ public class AdminDashboardAction extends BaseAction {
 		} else {
 			org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
 			classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
+			classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
     	}
 	}
 	
@@ -558,6 +560,7 @@ public class AdminDashboardAction extends BaseAction {
     			} else {
     				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
     				classifyOrgCategory(otherOrgsData, org, audit);
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}
     	}
