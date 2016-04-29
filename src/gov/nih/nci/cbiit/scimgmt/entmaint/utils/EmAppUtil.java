@@ -79,10 +79,11 @@ public class EmAppUtil {
 			if(statusHistories != null && statusHistories.size() > 0) {
 				currentAuditState = statusHistories.get(0).getActionCode();
 			}
+			logger.debug("Current state of Audit " + emAuditsVO.getId() + " is " + currentAuditState);
 		} else {
 			currentAuditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
 		}
-		logger.debug("Current state of Audit " + emAuditsVO.getId() + " is " + currentAuditState);
+		
 		return currentAuditState;
 	}
 	
