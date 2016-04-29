@@ -274,10 +274,17 @@ public class MailServiceImpl implements MailService {
 		}
 		
 		// Get accounts that are excluded from last audit
-		Long auditId = emAuditsVO.getId();
-		HashSet<String> excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
-		HashSet<String> excludedI2eAccounts = i2eAuditService.retrieveExcludedFromAuditAccounts(auditId);
-
+		HashSet<String> excludedAccounts = null;
+		HashSet<String> excludedI2eAccounts = null;
+		if(emAuditsVO != null) {
+			Long auditId = emAuditsVO.getId();
+			excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
+			excludedI2eAccounts = i2eAuditService.retrieveExcludedFromAuditAccounts(auditId);
+		} else {
+			excludedAccounts = new HashSet<String>();
+			excludedI2eAccounts = new HashSet<String>();
+		}
+		
 		// Fetch distinct Org regardless of whether IC Coordinator exists and add to the OrgMap.
 		List<String> distinctOrgs = impac2PortfolioService.getOrgsWithIcCoordinator();
 		for(String org: distinctOrgs) {
