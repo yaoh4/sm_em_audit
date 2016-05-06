@@ -103,6 +103,12 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareDeletedAccounts() {
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+
 		setUpDefaultSearch(); //check if default search is needed
 		//force to use nciUser organization when delete account is selected
 		searchVO.setOrganization(nciUser.getOrgPath());
@@ -197,6 +203,12 @@ public class Impac2AuditAction extends BaseAction {
 	
 	public String prepareNewAccounts(){
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+     
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_NEW);
@@ -240,6 +252,12 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareInactiveAccounts(){
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_INACTIVE);

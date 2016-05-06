@@ -214,6 +214,48 @@ public class EmAppUtil {
 		
 		return result;
 	}
+
+	/**
+	 * Checks if the current IMPAC II Audit includes the category specified.
+	 * If Audit is RESET, all categories tabs should be available.
+	 * 
+	 * @return true if sub tab for this category should be available.
+	 */
+	public static boolean isCategoryAvailable(String category) {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		if(session != null && category != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null && emAuditsVO.getEndDate() == null) {
+				switch (category) {
+				case ApplicationConstants.CATEGORY_ACTIVE:
+					if (emAuditsVO.getActiveCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_NEW:
+					if (emAuditsVO.getNewCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_DELETED:
+					if (emAuditsVO.getDeletedCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_INACTIVE:
+					if (emAuditsVO.getInactiveCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_I2E:
+					if (emAuditsVO.getI2eFromDate() == null)
+						return false;
+					break;
+				}
+			} 
+		}
+		
+		logger.debug("Category sub tab, " + category + " should not be displayed");
+		return true;	
+	}
 	
 	public static String getOptionLabelByValue(Long id, List<DropDownOption> categoryList){
 		String label = "";
