@@ -163,10 +163,15 @@
 			$('#nameValue').html("<label style=padding-left:13px>" + name + "</label>");
 		}
 		$('#cellId').val(cellId);
+		if($('#hiddenTransferredNciOrg'+cellId).length > 0){
+			$('#hiddenAction'+cellId).val("");
+			$('#orgId').val($('#hiddenTransferredNciOrg'+cellId).val());
+		} else {
+			$('#orgId').val(parentNedOrgPath);
+		}
 		$('#selectActId').val($('#hiddenAction'+cellId).val());
 		var note = getNote(cellId);
 		$('#noteText').val(note);	
-		$('#orgId').val(parentNedOrgPath);
 		
 		var tranferOptionExists = (0 != $('#selectActId option[value='+50+']').length);
 		if(tranferOptionExists){
