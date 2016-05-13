@@ -28,7 +28,7 @@
 </script>
 
 <s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAuditEnabled()}">
-	<span class="bannerAlign">The audit is currently active and therefore this report will be unavailable during this time.</span>
+	<span class="bannerAlign" style="font-size: 14px;">The audit is currently active and therefore this report will be unavailable during this time.</span>
 </s:if>
 <s:else>
 <s:if test="%{portfolioAccounts.list.size > 0}">
