@@ -220,7 +220,7 @@ public class Impac2AuditAction extends BaseAction {
 	}
 	/**
 	 * Search for accounts that have been inactive for greater than
-	 * 120 days
+	 * 130 days
 	 * 
 	 * @return String
 	 */
