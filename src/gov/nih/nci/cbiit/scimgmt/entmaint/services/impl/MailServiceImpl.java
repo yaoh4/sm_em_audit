@@ -331,7 +331,7 @@ public class MailServiceImpl implements MailService {
 			Collections.sort(accounts);
 			
 			if(accounts.size() > 0) {
-				DateFormat df = new SimpleDateFormat("MM/yyyy");
+				DateFormat df = new SimpleDateFormat("MMMM yyyy");
 				final Map<String, Object> params = new HashMap<String, Object>();
 				params.put("accounts", accounts);
 				params.put("dear", dear);
