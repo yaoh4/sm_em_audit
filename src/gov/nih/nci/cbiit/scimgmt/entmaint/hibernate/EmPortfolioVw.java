@@ -42,6 +42,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 	private Boolean icDiffFlag;
 	private Boolean nedInactiveFlag;
 	private Boolean lastNameDiffFlag;
+	private Boolean activeStatusFlag;
 	private List<EmPortfolioRolesVw> accountRoles = new ArrayList<EmPortfolioRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
@@ -61,7 +62,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 			Date deletedDate, String deletedByUserId, String deletedByFullName, String deactivationComments,
 			String secondaryOrgText, String lastLoginDate, String impaciiOnlyFlag, String notes,
 			String notesSubmittedByFullName, Date notesSubmittedDate,
-			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag, Boolean lastNameDiffFlag,
+			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag, Boolean lastNameDiffFlag, Boolean activeStatusFlag,
 			List accountRoles, List accountDiscrepancies) {
 		this.impaciiUserId = impaciiUserId;
 		this.nihNetworkId = nihNetworkId;
@@ -94,6 +95,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 		this.icDiffFlag = icDiffFlag;
 		this.nedInactiveFlag = nedInactiveFlag;
 		this.lastNameDiffFlag = lastNameDiffFlag;
+		this.activeStatusFlag = activeStatusFlag;
 		this.accountRoles = accountRoles;
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
@@ -190,7 +192,10 @@ public class EmPortfolioVw implements java.io.Serializable {
 						castOther.getNedInactiveFlag())))
 				&& ((this.getLastNameDiffFlag() == castOther.getLastNameDiffFlag()) || (this.getLastNameDiffFlag() != null
 						&& castOther.getLastNameDiffFlag() != null && this.getLastNameDiffFlag().equals(
-						castOther.getLastNameDiffFlag())));
+						castOther.getLastNameDiffFlag())))
+				&& ((this.getActiveStatusFlag() == castOther.getActiveStatusFlag()) || (this.getActiveStatusFlag() != null
+				&& castOther.getActiveStatusFlag() != null && this.getActiveStatusFlag().equals(
+				castOther.getActiveStatusFlag())));
 	}
 
 	public String getCreatedByFullName() {
@@ -336,6 +341,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 		result = 37 * result + (getIcDiffFlag() == null ? 0 : this.getIcDiffFlag().hashCode());
 		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
 		result = 37 * result + (getLastNameDiffFlag() == null ? 0 : this.getLastNameDiffFlag().hashCode());
+		result = 37 * result + (getActiveStatusFlag() == null ? 0 : this.getActiveStatusFlag().hashCode());
 		return result;
 	}
 
@@ -497,5 +503,13 @@ public class EmPortfolioVw implements java.io.Serializable {
 
 	public void setLastNameDiffFlag(Boolean lastNameDiffFlag) {
 		this.lastNameDiffFlag = lastNameDiffFlag;
+	}
+	
+	public Boolean getActiveStatusFlag() {
+		return this.activeStatusFlag;
+	}
+
+	public void setActiveStatusFlag(Boolean activeStatusFlag) {
+		this.activeStatusFlag = activeStatusFlag;
 	}
 }
