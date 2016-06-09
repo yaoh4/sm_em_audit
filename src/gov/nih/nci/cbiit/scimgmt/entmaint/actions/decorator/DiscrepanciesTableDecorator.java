@@ -215,8 +215,22 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
 		String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
 		
-		if(StringUtils.equalsIgnoreCase(portfolioVO.getNotes(), "I2E"))
+		// Check if "Active I2E Account/Inactive IMPAC II Account" discrepancy exists
+		List<String> discrepancies = portfolioVO.getAccountDiscrepancies();
+		boolean showBothUrl = false;
+		for(String dis : discrepancies){
+			if(dis.equalsIgnoreCase("I2EONLY")) {
+				showBothUrl = true;
+				break;
+			}
+		}
+		
+		if(StringUtils.equalsIgnoreCase(portfolioVO.getNotes(), "I2E")) {
+			if(showBothUrl) {
+				return "IMPAC II or I2E<br/>" + "<a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a><br/>" + era_ua_link;
+			}
 			return system + "<a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
+		}
 		
 		return system + era_ua_link;	
 	}
