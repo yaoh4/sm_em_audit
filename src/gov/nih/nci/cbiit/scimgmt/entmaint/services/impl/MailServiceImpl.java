@@ -417,6 +417,9 @@ public class MailServiceImpl implements MailService {
 						sbu.append(",");
 					sbu.append(disVw.getShortDescrip());
 				}
+				if(dis.equalsIgnoreCase("I2EONLY")) {
+					entry.setSystem("IMPAC II or I2E");
+				}
 			}
 			entry.setDiscrepancyText(sbu.toString());
 			if(!excluded.contains(entry.getNihNetworkId()))
