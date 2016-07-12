@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.procedure.ProcedureOutputs;
@@ -75,6 +76,27 @@ public class UserRoleDAO {
 		}
 	}
 	
+	/**
+     * This method retrieves information of logged in user from NciPeopleVw.
+     * @param userId    
+     * @return nciPeopleVw
+     */
+    public NciPeopleVw getNCIUserInformation(String userId){ 
+    	NciPeopleVw nciPeopleVw = null;
+    	Criteria criteria = null;    	
+    	try{
+    		criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);       		
+    		criteria.add(Restrictions.eq("nihNetworkId", userId.toUpperCase()));    		
+    		nciPeopleVw = (NciPeopleVw) criteria.uniqueResult();
+        	
+    	} catch (Throwable ex) {
+    		logger.error("Error occurred while retrieving I2E Account of NCI User with nihNetworkId: "+userId, ex);
+			throw ex;
+		}
+     	
+    	return nciPeopleVw;
+    }	
+    
 	 /**
      * This method checks if logged in user is Valid.
      * @param oracleId
@@ -99,5 +121,29 @@ public class UserRoleDAO {
     	
     	return isI2eAccountValid;
     }
+
+	public List<String> retrieveIcCoordinators() {
+	
+		/*  select npn.nih_network_id
+	    from I2E_ACTIVE_USER_ROLES_VW npe, nci_people_vw npn
+	    where role_code = 'EMREP'
+	    AND npe.npn_id = npn.npn_id;*/
+		
+		List<String> result = null;
+    	try{
+    		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(NciPeopleVw.class);
+    		criteria.add(Restrictions.eq("activeFlag", "Y"));
+    		criteria.createAlias("accountRoles","accountRoles");
+    		criteria.add(Restrictions.eq("accountRoles.roleCode", "EMREP"));
+    		criteria.setProjection(Projections.property("nihNetworkId"));
+    		result = criteria.list();
+        	
+    	} catch (Throwable ex) {
+    		logger.error("Error occurred while retrieving list of ic coordinator nihNetworkIds: ", ex);
+			throw ex;
+		}
+
+		return result;
+	}
 	
 }

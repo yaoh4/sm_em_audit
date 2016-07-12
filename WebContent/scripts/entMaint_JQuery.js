@@ -229,6 +229,23 @@ function onCategoryChage(category){
 	});
 }
 
+
+function onAuditSelected(auditId) {
+	
+	$.getJSON("reportCategoriesAction.action", {auditIdParam: auditId}, 
+		function(response){
+			var options = $("#searchCategory");
+			options.html('');
+			$.each(response, function(index, item) {
+				options.append(
+						$("<option />").attr("value", item.optionKey).text(item.optionValue));
+			});
+		}
+	);
+}
+
+
+
 function getNote(id){
 	var result = "";
 	$.ajax({
@@ -381,4 +398,30 @@ function searchAuditByCategory(cate, org, act){
 function refresh(){
 	$('#dashboardFormId').attr("action", "gotoDashboard");
 	$('#dashboardFormId').submit();
+}
+
+function onActionChange(action,transferOrg){
+	
+	if(action == '50' || action == '51' || action == '52' || action == '53'){
+		$.ajax({
+			url: "getAccountTransferOrgList.action",
+			type: "post",
+			data: {transferOrg: transferOrg},
+			async:   false,
+			datatype:'json',
+			success: function(orgList){				
+				var transferOrgDropDown = $('#transferOrg');
+				transferOrgDropDown.find('option').remove();
+				$.each(orgList, function(index, org) { 
+					$('<option>').val(org.optionKey).text(org.optionValue).appendTo(transferOrgDropDown);
+				});
+
+			$('#transferOrgDiv').css("display","inline");
+			}
+		});		
+	}
+	else{
+		$('#transferOrgDiv').css("display","none");
+	}
+
 }

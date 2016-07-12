@@ -149,4 +149,12 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return impac2PortfolioDAO.getLastRefreshDate();
 	}
 	
+	/**
+	 * Get the distinct DOC with IC coordinator
+	 * @return List<String>
+	 */
+	public List<String> getOrgsWithIcCoordinator(){
+		return impac2PortfolioDAO.getOrgsWithIcCoordinator();
+	}
+	
 }

@@ -4,7 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	
-	<package name="admin"  namespace="/admin" extends="default">
+	<package name="admin"  namespace="/admin" extends="default, json-default">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
@@ -42,6 +42,7 @@
 			<result name="error" type="tiles">entmaint.admin.reports.page</result>
 			<result name="export" type="dispatcher">/jsp/content/adminReportSearchResultExport.jsp</result>
 			<result name="exporti2e" type="dispatcher">/jsp/content/adminReportI2eSearchResultExport.jsp</result>
+			<result name="exportTransferred" type="dispatcher">/jsp/content/adminReportTransferredAccountSearchResultExport.jsp</result>
 		</action>
 		<action name="resetFields" method="clearAll"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
@@ -54,7 +55,7 @@
 			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
-		<action name="endAudit" method="endAudit"
+		<action name="disableAudit" method="disableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
 			<result name="error" type="tiles">entmaint.admin.page</result>
@@ -104,7 +105,13 @@
 				<param name="contentType">text/html</param>     
 				<param name="inputName">inputStream</param>   
 			</result>
-		</action>		
+		</action>	
+		
+		<action name="reportCategoriesAction" method="getReportCategories" class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
+			<result type="json" name="success">     
+				<param name="root">categoryList</param>     				
+			</result>
+		</action>	
 				
 	</package>
 </struts>

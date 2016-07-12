@@ -200,11 +200,19 @@ public class I2ePortfolioDAO {
 	private Criteria addSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org
@@ -212,8 +220,9 @@ public class I2ePortfolioDAO {
 				&& !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
 			}
 		}

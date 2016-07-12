@@ -24,7 +24,7 @@
     </context-param>
     <context-param>
  		<param-name>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
- 		<param-value>/WEB-INF/tiles-impac2.xml, /WEB-INF/tiles-i2e.xml, WEB-INF/tiles-admin.xml</param-value>
+ 		<param-value>/WEB-INF/tiles-impac2.xml, /WEB-INF/tiles-i2e.xml, WEB-INF/tiles-admin.xml, WEB-INF/tiles-discrepancy.xml</param-value>
  </context-param>
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>

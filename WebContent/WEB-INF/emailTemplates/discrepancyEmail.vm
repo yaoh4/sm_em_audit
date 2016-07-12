@@ -1,0 +1,52 @@
+<html>
+<body>
+	<p>
+		Dear $dear:
+	</p>
+	<p>
+		You are receiving this automated courtesy message as an IC Coordinator for NCI's $org.
+	</p>
+	<p>
+		As part of our responsibility to review and approve active IMPAC II and I2E accounts, we have identified that the following $org user accounts contain one or more discrepancy flags:
+	</p>
+
+	<table bgcolor ="#AAAAAA" border="0" cellpadding="2" cellspacing="1">
+		<thead>
+		<tr bgcolor="#CCCCCC">
+			<th>Name</th>
+			<th>NIH (Network) ID</th>
+			<th>IMPAC II or I2E</th>
+			<th>Discrepancy Type</th>
+		</tr>
+		</thead>
+		<tbody>
+		#foreach ($row in $accounts)
+		<tr bgcolor="#FFFFFF">
+			<td style="border-bottom:solid 1px #cccccc;">$row.fullName</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.nihNetworkId</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.system</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
+		</tr>
+		#end
+		</tbody>
+	</table>
+
+	<p>
+		In order to ensure that the accounts are maintained only for persons with a legitimate business 
+		need to conduct official NIH and NCI business and in anticipation of the next NIH eRA annual 
+		audit of user accounts, we encourage you to click <a href="$url">$url</a> 
+		to review these accounts and make any corrections necessary.
+	</p>
+	<p>
+		Thank you!
+	</p>
+	<p>
+		<i style="mso-bidi-font-style:normal">
+			<span style="font-size:10.0pt;font-family:&quot;Cambria&quot;,&quot;serif&quot;">
+				This is an automated email.  If you have any questions, please contact the
+				<a href="mailto:NCIIMPACIIPrimaryICCoordinator@mail.nih.gov">NCI IMPACII Primary IC Coordinator</a>.
+			</span>
+		</i>
+	</p>
+</body>
+</html>

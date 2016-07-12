@@ -143,18 +143,18 @@ public class AdminDashboardAction extends BaseAction {
      */
     private List<Object> moveNonNCIToLast(List<Object> orgKeys){
     	List<Object> sortedList = new ArrayList<Object>();
-    	boolean found = false;
     	for(Object s : orgKeys){
     		String key = (String)s;
-    		if(key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)){
-    			found = true;
+    		if(key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI) || key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG) ){
     			continue;
     		}else{
     			sortedList.add(s);
     		}
     	}
-    	if(found)
+    	if(orgKeys.contains(ApplicationConstants.ORG_PATH_NON_NCI))
     		sortedList.add(ApplicationConstants.ORG_PATH_NON_NCI);
+    	if(orgKeys.contains(ApplicationConstants.ORG_PATH_NO_NED_ORG))
+    		sortedList.add(ApplicationConstants.ORG_PATH_NO_NED_ORG);
     	return sortedList;
     }
     
@@ -295,13 +295,6 @@ public class AdminDashboardAction extends BaseAction {
     		incrementCountByCategory(audit, dashData, NEW);
     		if(!StringUtils.isEmpty(audit.getNewSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, NEW);
-    		}
-    	}
-    	//determine deleted account
-    	if(isDeletedAccount(audit)){
-    		incrementCountByCategory(audit, dashData, DELETED);
-    		if(!StringUtils.isEmpty(audit.getDeletedSubmittedBy())){
-    			incrementCompletedCountByCategory(audit, dashData, DELETED);
     		}
     	}
     	//determine inactive account
@@ -494,7 +487,7 @@ public class AdminDashboardAction extends BaseAction {
     	    	String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
-    			if(org != null){
+    			if(StringUtils.isNotBlank(org)){
     				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
     					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
 							org = ApplicationConstants.ORG_PATH_NON_NCI;
@@ -503,6 +496,10 @@ public class AdminDashboardAction extends BaseAction {
 	    			}else{
 	    				classifyOrgCategory(orgsData, org, audit);
     				}
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			} else {
+    				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+    				classifyOrgCategory(otherOrgsData, org, audit);
     				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}
@@ -521,20 +518,20 @@ public class AdminDashboardAction extends BaseAction {
     	String nciDoc = audit.getDeletedByNciDoc();
     	String nedIc = audit.getNedIc();
     	
-    	if(org == null || org.trim().length() < 1){
-    		return; //do not deal with empty org name, David will fix it later.
-    	}else{
-    		if(org != null){
-				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
-					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
-						org = ApplicationConstants.ORG_PATH_NON_NCI;
-					}
-					classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
-    			}else{
-    				classifyOrgCategoryForDeletedAccounts(orgsData, org, audit);
+    	if(StringUtils.isNotBlank(org)){
+			if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+				if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+					org = ApplicationConstants.ORG_PATH_NON_NCI;
 				}
-				classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
+				classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
+    		}else{
+    			classifyOrgCategoryForDeletedAccounts(orgsData, org, audit);
 			}
+			classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
+		} else {
+			org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+			classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
+			classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
     	}
 	}
 	
@@ -550,7 +547,7 @@ public class AdminDashboardAction extends BaseAction {
     			String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
-    			if(org != null){
+    			if(StringUtils.isNotBlank(org)){
     				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
     					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
 							org = ApplicationConstants.ORG_PATH_NON_NCI;
@@ -559,6 +556,10 @@ public class AdminDashboardAction extends BaseAction {
 	    			}else{
 	    				classifyOrgCategory(orgsData, org, audit);
     				}
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			} else {
+    				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+    				classifyOrgCategory(otherOrgsData, org, audit);
     				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}

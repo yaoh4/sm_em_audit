@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.action.AuditSearchActionHelper;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
@@ -54,6 +55,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected List<Tab> displayColumn;
 	protected AuditSearchActionHelper auditSearchActionHelper = new AuditSearchActionHelper();
 	protected List<DropDownOption> organizationList = new ArrayList<DropDownOption>();
+	protected List<DropDownOption> transferOrgList = new ArrayList<DropDownOption>();
 	protected List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
 	protected InputStream inputStream;
 	protected int changePageSize;
@@ -404,11 +406,43 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 	
 	/**
+	 * This method returns Transfer Org list which doesn't contain user's
+	 * ParentNedOrgPath and Non-NCI.
+	 */
+	public String getAccountTransferOrgList() {			
+		String parentNedOrgPath = request.getParameter("transferOrg");
+		auditSearchActionHelper.createTransferOrgDropDownList(transferOrgList,lookupService,parentNedOrgPath);
+		return SUCCESS;
+	}
+	
+	/**
 	 * Gets the contact us text
 	 * 
 	 * @return
 	 */
 	public String getContactText() {
 		return entMaintProperties.getProperty("CONTACT_TEXT");
+	}
+
+
+	public List<DropDownOption> getTransferOrgList() {
+		return transferOrgList;
+	}
+
+
+	public void setTransferOrgList(List<DropDownOption> transferOrgList) {
+		this.transferOrgList = transferOrgList;
+	}
+	
+	/**
+	 * Get AppLookupT description by list name and code
+	 * 
+	 * @param listName
+	 * @param code
+	 * @return
+	 */
+	public String getDescriptionByCode(String listName, String code) {
+		AppLookupT entry = lookupService.getAppLookupByCode(listName, code);
+		return (entry == null ? null: entry.getDescription());
 	}
 }

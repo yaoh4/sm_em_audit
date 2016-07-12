@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+ <Display>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPAC II ID/NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdNetworkId</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>IMPACII or I2E</columnName>
+ 		<property>system</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Discrepancy</columnName>
+ 		<property>discrepancy</property>
+ 		<sort>true</sort>
+ 		<export>false</export>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Account Created Date</columnName>
+ 		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Created/Last Updated By</columnName>
+ 		<property>createdBy</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Role Org</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Active Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>	
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 		<isNestedColumn>true</isNestedColumn>
+ 	</Tab>
+ </Display>   

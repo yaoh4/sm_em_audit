@@ -2,6 +2,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -21,13 +22,16 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.dao.Impac2AuditDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @Component
 public class Impac2AuditServiceImpl implements Impac2AuditService {
@@ -110,7 +114,7 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 	}
 
     /**
-     * Data retrieval for inactive > 120 days
+     * Data retrieval for inactive > 130 days
      * @param paginatedList
      * @param searchVO
      * @param all
@@ -371,6 +375,36 @@ public class Impac2AuditServiceImpl implements Impac2AuditService {
 		}
 		return discrepancyList;
 	}
-
+ 
+    /**
+     * Retrieve a set of impaciiUserId/nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+	public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId) {
+		// Retrieve list of excluded from audit accounts for IMPAC II
+		PaginatedListImpl<AuditAccountVO> auditAccounts = new PaginatedListImpl<AuditAccountVO>();
+		AuditSearchVO searchVO = new AuditSearchVO();
+		searchVO.setAuditId(auditId);
+		searchVO.setAct(ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT.toString());
+		auditAccounts = searchActiveAccounts(auditAccounts, searchVO, true);
+		HashSet<String> nihNetworkIdList = new HashSet<String>();
+		for (AuditAccountVO account: auditAccounts.getList()) {
+			if(!StringUtils.isEmpty(account.getImpaciiUserId()) || !StringUtils.isEmpty(account.getNihNetworkId()))
+				nihNetworkIdList.add((!StringUtils.isEmpty(account.getImpaciiUserId()) ? account.getImpaciiUserId() : account.getNihNetworkId()));
+		}
+		return nihNetworkIdList;
+	}
+	
+	/**
+	 * Transfers Impac2 account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
+     * @return DBResult
+	 * @throws Exception 
+	 */
+	@Override
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception {
+		return impac2AuditDAO.transfer(accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer);
+	}
 
 }

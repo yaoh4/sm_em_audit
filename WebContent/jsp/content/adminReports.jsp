@@ -26,13 +26,13 @@ function clearFields(){
    <!--  Audit Period selection -->
     <label class="control-label col-sm-3" >Audit Period:</label>
       <div class="col-sm-9"> 
-      <s:select name="searchVO.auditId" cssClass="form-control" value="%{#session.searchVO.auditId}" list ="auditPeriodList" listKey="optionKey" listValue="optionValue" style="width:590px;" />
+      <s:select name="searchVO.auditId" onChange="onAuditSelected(this.value)" cssClass="form-control" value="%{#session.searchVO.auditId}" list ="auditPeriodList" listKey="optionKey" listValue="optionValue" style="width:590px;" />
      </div>
  </div>   
   <div class="form-group">
       <label class="control-label col-sm-3" >Category:</label>
       <div class="col-sm-9">  
-      <s:select name="searchVO.category" cssClass="form-control" value="%{#session.searchVO.category}" list="categoryList"  listKey="optionKey" listValue="optionValue" style="width:590px;"/>
+      <s:select name="searchVO.category" id="searchCategory" cssClass="form-control" value="%{#session.searchVO.category}" list="categoryList"  listKey="optionKey" listValue="optionValue" style="width:590px;"/>
       </div>																						         
   </div>
     <div class="form-group">        
@@ -51,16 +51,16 @@ function clearFields(){
 <div class="panel panel-default">
   <div class="panel-heading">
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE}">
-  <label  class="panel-title"><b>Results - All Active Accounts</b></label>
+  <label  class="panel-title"><b>Results - All <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' /></b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW}">
-  <label  class="panel-title"><b>Results - All New Accounts</b></label>
+  <label  class="panel-title"><b>Results - All <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' /></b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED}">
-  <label  class="panel-title"><b>Results - All Deleted Accounts</b></label>
+  <label  class="panel-title"><b>Results - All <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' /></b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
-  <label  class="panel-title"><b>Results - All Inactive > 120 Days Accounts</b></label>
+  <label  class="panel-title"><b>Results - All <s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' /></b></label>
   </s:if>
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_EXCLUDED}">
   <label  class="panel-title"><b>Results - All Not NCI Purview</b></label>
@@ -68,10 +68,25 @@ function clearFields(){
   <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
   <label  class="panel-title"><b>Results - All I2E Accounts</b></label>
   </s:if>
+  <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_TRANSFER}">
+  <label  class="panel-title"><b>Results - All Transferred Accounts</b></label>
+  </s:if>
   <span style="float:right;"><a href='javascript:openHistory();'>Audit Info</a></span>
   </div>
   
-	<s:if test="%{#type != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
+  
+  	<s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_TRANSFER}">
+  		<s:if test="%{transferredAccounts.list.size > 0}">
+			<div align="center" style="overflow:auto; width: 100%;">
+				<s:include value="/jsp/content/adminReportTransferredAccountsSearchResult.jsp"/>
+			</div>
+		</s:if>
+		<s:else>
+			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
+			<body onload="moveToAnchor();"></body>
+		</s:else> 
+	</s:if>
+	<s:elseif test="%{#type != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E}">
 		<s:if test="%{auditAccounts.list.size > 0}">
 			<div align="center" style="overflow:auto; width: 100%;">
 				<s:include value="/jsp/content/adminReportSearchResult.jsp"/>
@@ -81,7 +96,7 @@ function clearFields(){
 			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
 			<body onload="moveToAnchor();"></body>
 		</s:else> 
-	</s:if>
+	</s:elseif>
 	<s:else>
 		<s:if test="%{auditI2eAccounts.list.size > 0}">
 			<div align="center" style="overflow:auto; width: 100%;">

@@ -31,6 +31,12 @@
             <property name="nedFirstName" type="string">
                 <column name="NED_FIRST_NAME" length="576" />
             </property>
+            <property name="nedPreferredLastName" type="string">
+                <column name="NED_PREFERRED_LAST_NAME" length="576" />
+            </property>
+            <property name="nedPreferredFirstName" type="string">
+                <column name="NED_PREFERRED_FIRST_NAME" length="576" />
+            </property>
             <property name="i2eLastName" type="string">
                 <column name="I2E_LAST_NAME" length="30" />
             </property>
@@ -48,6 +54,9 @@
             </property>
             <property name="nedIc" type="string">
                 <column name="NED_IC" length="576" />
+            </property>
+             <property name="i2eActiveStatusFlag" type="yes_no">
+                <column name="I2E_ACTIVE_STATUS_FLAG" length="1" />
             </property>
             <property name="nciDoc" type="string">
                 <column name="NCI_DOC" length="5" />
@@ -91,5 +100,14 @@
             	</key>
             	<one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw" />
         	</bag>
+        	<property name="transferToNedOrgPath" type="string">
+				<column name="TRANSFER_TO_ORG_PATH" length="255" />
+			</property>
+			<property name="transferFromNedOrgPath" type="string">
+				<column name="TRANSFER_FROM_ORG_PATH" length="255" />
+			</property>
+			<property name="transferredDate" type="timestamp">
+                <column name="TRANSFERRED_DATE" length="7" />
+            </property>
     </class>
 </hibernate-mapping>

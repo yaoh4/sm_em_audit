@@ -231,11 +231,19 @@ public class Impac2PortfolioDAO {
 	private Criteria addSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org
@@ -243,8 +251,9 @@ public class Impac2PortfolioDAO {
 				&& !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
 			}
 		}
@@ -333,6 +342,7 @@ public class Impac2PortfolioDAO {
         disc.add(Restrictions.eq("icDiffFlag", true));
         disc.add(Restrictions.eq("nedInactiveFlag", true));
         disc.add(Restrictions.eq("lastNameDiffFlag", true));
+        disc.add(Restrictions.eq("activeStatusFlag", true));
         criteria.add(disc);
         criteria.add(Restrictions.isNull("deletedDate"));
 		return criteria;
@@ -412,5 +422,18 @@ public class Impac2PortfolioDAO {
 			log.error("getLastRefreshDate() failed", e);
 			throw e;
 		}
+	}
+
+	/**
+	 * Get the distinct DOC with IC coordinator
+	 * @return List<String>
+	 */
+	public List<String> getOrgsWithIcCoordinator() {
+		Criteria criteria = null;
+		criteria = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+		criteria.setProjection(Projections.projectionList().add(Projections.distinct(Projections.property("parentNedOrgPath"))));
+		criteria.add(Restrictions.ne("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (List<String>)criteria.list();
 	}
 }

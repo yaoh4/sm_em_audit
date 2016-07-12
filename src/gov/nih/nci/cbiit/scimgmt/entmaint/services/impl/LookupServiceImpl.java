@@ -12,11 +12,14 @@ import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +93,8 @@ public class LookupServiceImpl implements LookupService {
 				
 				if(listName.equalsIgnoreCase(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)) {
 					EmOrganizationVw org = new EmOrganizationVw(ApplicationConstants.ORG_PATH_NON_NCI);
+					result.add(org);
+					org = new EmOrganizationVw(ApplicationConstants.ORG_PATH_NO_NED_ORG);
 					result.add(org);
 				}
 				
@@ -171,7 +176,9 @@ public class LookupServiceImpl implements LookupService {
 				// on refreshperiod=-1 dont put into cache.Hit DB always
 				if (refreshPeriod != -1) {
 					cacheAdministrator.putInCache(listName, result);
-					Map<String, Object> map = new HashMap<String, Object>();
+					//LinkedHaspMap is used here instead of HashMap to retain the
+					//order in which the elements were inserted.
+					Map<String, Object> map = new LinkedHashMap<String, Object>();
 					for (Object element: result) {
 						try {
 							String c = BeanUtils.getProperty(element,"code");
@@ -209,7 +216,18 @@ public class LookupServiceImpl implements LookupService {
 	public void flushListForSession() {
 		// These two lists are refreshed every session
 	}
-   
+
+	/**
+	 * Get list of AppLookupT codes for the given listname
+	 */
+	public List<String> getCodeList(String listName) {
+		Map<String,? extends Object> appLookupMap = getListMap(listName);
+		List<String> codeList = new ArrayList<String>(appLookupMap.keySet());
+		
+		return codeList;
+	}
+	
+	
 	/**
 	 * Get AppLookupT by list name and code
 	 * 
@@ -255,7 +273,7 @@ public class LookupServiceImpl implements LookupService {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Get Role description for the help pop-up
 	 * 
@@ -305,7 +323,12 @@ public class LookupServiceImpl implements LookupService {
 	 * @return
 	 */
 	private List search(String listName) {
-//		logger.debug("Searching for list by name: " + listName);
-		return propertyListDAO.retrieve(listName);
+
+		List result =  propertyListDAO.retrieve(listName);
+		if(CollectionUtils.isEmpty(result)) {
+			logger.warn("No lookup data found for " + listName);
+		}
+		
+		return result;
 	}
 }

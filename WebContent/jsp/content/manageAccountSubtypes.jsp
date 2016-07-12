@@ -20,50 +20,57 @@
   
   		<s:else>	
   			<h4>IMPAC II Accounts Audit <span style="font-weight: normal;"></span></h4>
-			
-			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_ACTIVE_ACCOUNTS eq #request.selectedSubTab}">
-				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Active Accounts
-				</s:a></li>
+			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}">
+				<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_ACTIVE_ACCOUNTS eq #request.selectedSubTab}">
+					<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' />
+					</s:a></li>
+				</s:if>
+				<s:else>
+					<li><s:a href="prepareActiveAuditAccounts.action" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' />
+					</s:a></li>
+				</s:else>
 			</s:if>
-			<s:else>
-				<li><s:a href="prepareActiveAuditAccounts.action" cssStyle="text-decoration:none;">
-					Active Accounts
-				</s:a></li>
-			</s:else>
 	
-			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_NEW_ACCOUNTS eq #request.selectedSubTab}">
-				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					New Accounts
-				</s:a></li>
+			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}">
+				<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_NEW_ACCOUNTS eq #request.selectedSubTab}">
+					<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' />
+					</s:a></li>
+				</s:if>
+				<s:else>
+					<li><s:a href="prepareNewAuditAccounts.action" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' />
+					</s:a></li>
+				</s:else>
 			</s:if>
-			<s:else>
-				<li><s:a href="prepareNewAuditAccounts.action" cssStyle="text-decoration:none;">
-					New Accounts
-				</s:a></li>
-			</s:else>
 	
-			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_DELETED_ACCOUNTS eq #request.selectedSubTab}">
-				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Deleted Accounts
-				</s:a></li>
+			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}">
+				<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_DELETED_ACCOUNTS eq #request.selectedSubTab}">
+					<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' />
+					</s:a></li>
+				</s:if>
+				<s:else>
+					<li><s:a href="prepareDeletedAuditAccounts.action" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' />
+					</s:a></li>
+				</s:else>
 			</s:if>
-			<s:else>
-				<li><s:a href="prepareDeletedAuditAccounts.action" cssStyle="text-decoration:none;">
-					Deleted Accounts
-				</s:a></li>
-			</s:else>
 	
-			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_INACTIVE_ACCOUNTS eq #request.selectedSubTab}">
-				<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
-					Inactive > 120 Days Accounts
-				</s:a></li>
+			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}">
+				<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_INACTIVE_ACCOUNTS eq #request.selectedSubTab}">
+					<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' />
+					</s:a></li>
+				</s:if>
+				<s:else>
+					<li><s:a href="prepareInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
+						<s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' />
+					</s:a></li>
+				</s:else>
 			</s:if>
-			<s:else>
-				<li><s:a href="prepareInactiveAuditAccounts.action" cssStyle="text-decoration:none;">
-					Inactive > 120 Days Accounts
-				</s:a></li>
-			</s:else>
 
   		</s:else>
   
@@ -97,7 +104,7 @@
   	
   
   <!-- We are in admin tab -->
-  <s:else>
+  <s:elseif test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_ADMIN eq #request.selectedTab}">
   
   	<s:if
 		test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_ADMINISTER eq #request.selectedSubNav}">
@@ -111,5 +118,10 @@
   		<h4>Audit Reports <span style="font-weight: normal;"></span></h4>
   	</s:else>
   
+  </s:elseif>
+  
+  <!-- We are in discrepancy tab -->
+  <s:else>
+  		<h4>IMPAC II and I2E Discrepancies <span style="font-weight: normal;"></span></h4>
   </s:else>
  

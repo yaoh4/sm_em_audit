@@ -8,15 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.TransferredAuditAccountsVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.ReportService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
@@ -28,16 +31,22 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 @SuppressWarnings("serial")
 public class AdminReportsAction extends BaseAction {
+	
+	static Logger logger = Logger.getLogger(AdminReportsAction.class);
+	
 	@Autowired
 	protected AdminService adminService;
 	@Autowired
 	protected Impac2AuditService impac2AuditService;
 	@Autowired
 	protected I2eAuditService i2eAuditService;
+	@Autowired
+	protected ReportService reportService;
 	
 	private String searchType;
 	private PaginatedListImpl<AuditAccountVO> auditAccounts = null;
 	private PaginatedListImpl<AuditI2eAccountVO> auditI2eAccounts = null;
+	private PaginatedListImpl<TransferredAuditAccountsVO> transferredAccounts = null;
 	private List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
 	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	private String selectedAuditDescription;
@@ -64,8 +73,9 @@ public class AdminReportsAction extends BaseAction {
      */
 	public String clearAll(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
-		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
-		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
+		categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
+		searchVO.setAuditId(auditId);
 		searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
@@ -89,7 +99,10 @@ public class AdminReportsAction extends BaseAction {
 	    if(searchType.indexOf("INACTIVE") >=0){
 	    	searchType = ApplicationConstants.CATEGORY_INACTIVE;
 	    }
-	    if(searchType.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
+	    if(searchType.equalsIgnoreCase(ApplicationConstants.CATEGORY_TRANSFER)) {
+	    	transferredAccounts = new PaginatedListImpl<TransferredAuditAccountsVO>(request,changePageSize);
+	    }
+	    else if(searchType.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
 	    	auditI2eAccounts = new PaginatedListImpl<AuditI2eAccountVO>(request,changePageSize);
 	    } else {
 	    	auditAccounts = new PaginatedListImpl<AuditAccountVO>(request,changePageSize);
@@ -105,7 +118,9 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, false);
 			}else if(ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchExcludedAccounts(auditAccounts, searchVO, false);
-			} else {
+			}else if(ApplicationConstants.CATEGORY_TRANSFER.equalsIgnoreCase(searchType) == true){
+				transferredAccounts = reportService.searchTransferredAccounts(transferredAccounts, searchVO, false);
+			}else {
 				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, false);
 			}
 			forward = ApplicationConstants.SUCCESS;
@@ -120,6 +135,8 @@ public class AdminReportsAction extends BaseAction {
 				auditAccounts = impac2AuditService.searchInactiveAccounts(auditAccounts, searchVO, true);
 			}else if(ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(searchType) == true){
 				auditAccounts = impac2AuditService.searchExcludedAccounts(auditAccounts, searchVO, true);
+			}else if(ApplicationConstants.CATEGORY_TRANSFER.equalsIgnoreCase(searchType) == true){
+				transferredAccounts = reportService.searchTransferredAccounts(transferredAccounts, searchVO, true);
 			} else {
 				auditI2eAccounts = i2eAuditService.searchActiveAccounts(auditI2eAccounts, searchVO, true);
 			}
@@ -131,7 +148,9 @@ public class AdminReportsAction extends BaseAction {
 			}else if (ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(searchType) == true) {
 				auditI2eAccounts.setList(getExportAccountVOList(auditI2eAccounts.getList()));
 				forward = ApplicationConstants.EXPORT_I2E;
-			} else {
+			}else if (ApplicationConstants.CATEGORY_TRANSFER.equalsIgnoreCase(searchType) == true) {
+				forward = ApplicationConstants.EXPORT_TRANSFERRED;
+			}else {
 				auditAccounts.setList(getExportAccountVOList(auditAccounts.getList(), true));
 			}
 			
@@ -146,15 +165,31 @@ public class AdminReportsAction extends BaseAction {
 		return forward;	
 	}
 	
+	
+	/**
+	 * Invoked when user selects an audit in the audit dropdown list
+	 */
+	public String getReportCategories() {
+		String auditId = (String)request.getParameter("auditIdParam");
+		if(!StringUtils.isBlank(auditId)) {	
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, Long.parseLong(auditId));			
+		}
+		
+		return SUCCESS;
+	}
+	
+	
 	private void setUpEnvironment(){
 		setAuditPeriodList(auditSearchActionHelper.createReportAuditPeriodDropDownList(adminService));
 		this.setFormAction("reportSearch");
-		categoryList = auditSearchActionHelper.getReportCatrgories(lookupService);
 		if(searchVO.getAuditId() == null && searchVO.getCategory() == null){
-			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+			Long auditId = Long.parseLong(auditPeriodList.get(0).getOptionKey());
+			searchVO.setAuditId(auditId);
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, auditId);
 			searchVO.setCategory(Long.parseLong(categoryList.get(0).getOptionKey()));
 			setSelectedAuditDescription(auditPeriodList.get(0).getOptionValue());
 		} else {
+			categoryList = auditSearchActionHelper.getReportCategories(lookupService, adminService, searchVO.getAuditId());
 			for (DropDownOption option:getAuditPeriodList()) {
 				if(StringUtils.equals(searchVO.getAuditId().toString(), option.getOptionKey()))
 					setSelectedAuditDescription(option.getOptionValue());
@@ -403,6 +438,20 @@ public class AdminReportsAction extends BaseAction {
 	 */
 	public String getI2eAuditAccountsRolesColumnsNames(){		
 		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.I2E_REPORT);
+	}
+	
+	/**
+	 * @return the TransferredAccounts
+	 */
+	public PaginatedListImpl<TransferredAuditAccountsVO> getTransferredAccounts() {
+		return transferredAccounts;
+	}
+
+	/**
+	 * @param transferredAccounts the transferredAccounts to set
+	 */
+	public void setTransferredAccounts(PaginatedListImpl<TransferredAuditAccountsVO> transferredAccounts) {
+		this.transferredAccounts = transferredAccounts;
 	}
 	
 }

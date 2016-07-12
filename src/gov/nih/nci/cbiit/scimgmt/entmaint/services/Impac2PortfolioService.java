@@ -6,6 +6,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -40,4 +41,10 @@ public interface Impac2PortfolioService {
 	 */
 	public Date getLastRefreshDate();
     
+	/**
+	 * Get the distinct DOC with IC coordinator
+	 * @return List<String>
+	 */
+	public List<String> getOrgsWithIcCoordinator();
+	
 }

@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 
@@ -23,7 +25,7 @@ public class EmAppUtil {
 
 	private static final Logger logger = Logger.getLogger(EmAppUtil.class);
 	
-	
+
 	/**
 	 * Default Constructor
 	 */
@@ -68,7 +70,7 @@ public class EmAppUtil {
 	public static String getCurrentAuditState(EmAuditsVO emAuditsVO) {
 		String currentAuditState = null;	
 		
-		if(emAuditsVO != null) {
+		if(emAuditsVO != null && emAuditsVO.getId() != null) {
 			
 			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();
 			
@@ -77,10 +79,10 @@ public class EmAppUtil {
 			if(statusHistories != null && statusHistories.size() > 0) {
 				currentAuditState = statusHistories.get(0).getActionCode();
 			}
+			logger.debug("Current state of Audit " + emAuditsVO.getId() + " is " + currentAuditState);
 		} else {
 			currentAuditState = ApplicationConstants.AUDIT_STATE_CODE_RESET;
 		}
-		logger.debug("Current state of Audit " + emAuditsVO.getId() + " is " + currentAuditState);
 		return currentAuditState;
 	}
 	
@@ -94,7 +96,7 @@ public class EmAppUtil {
 	 * 
 	 * @return true if audit is enabled, else false.
 	 */
-	public static boolean isAuditEnabled(Long auditId) {		
+	private static boolean isAuditEnabled(Long auditId) {		
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		
@@ -134,7 +136,7 @@ public class EmAppUtil {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 			if(emAuditsVO != null) {
 				String auditState = getCurrentAuditState(emAuditsVO);
-				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState)) {
+				if(ApplicationConstants.AUDIT_STATE_CODE_ENABLED.equals(auditState) && isAuditCurrent(emAuditsVO.getId())) {
 					logger.debug("Audit in session with ID " + emAuditsVO.getId() + " is current and enabled");
 					return true;
 				} else {
@@ -184,9 +186,9 @@ public class EmAppUtil {
 		
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		
-		if(session != null) {
+		if(session != null && auditId != null) {
 			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
-			if(emAuditsVO != null && emAuditsVO.getId().equals(auditId)) {
+			if(emAuditsVO != null && auditId.equals(emAuditsVO.getId())) {
 				if(!ApplicationConstants.AUDIT_STATE_CODE_RESET.equals(emAuditsVO.getAuditState())) {
 					logger.debug("Audit with ID " + auditId + " is current");
 					return true;
@@ -204,13 +206,55 @@ public class EmAppUtil {
 		
 		// Results should be editable if any one of the following conditions is satisfied 
 		// - Selected audit is enabled,  or  
-		// - Selected Audit is current/last active, and user is admin.
+		// - Selected Audit is current (not in reset state), and user is admin.
 
 		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrent(auditId))) {
 			result = true;
 		}
 		
 		return result;
+	}
+
+	/**
+	 * Checks if the current IMPAC II Audit includes the category specified.
+	 * If Audit is RESET, all categories tabs should be available.
+	 * 
+	 * @return true if sub tab for this category should be available.
+	 */
+	public static boolean isCategoryAvailable(String category) {
+		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		
+		if(session != null && category != null) {
+			EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+			if(emAuditsVO != null && emAuditsVO.getEndDate() == null) {
+				switch (category) {
+				case ApplicationConstants.CATEGORY_ACTIVE:
+					if (emAuditsVO.getActiveCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_NEW:
+					if (emAuditsVO.getNewCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_DELETED:
+					if (emAuditsVO.getDeletedCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_INACTIVE:
+					if (emAuditsVO.getInactiveCategoryEnabledFlag().equalsIgnoreCase("N"))
+						return false;
+					break;
+				case ApplicationConstants.CATEGORY_I2E:
+					if (emAuditsVO.getI2eFromDate() == null)
+						return false;
+					break;
+				}
+			} 
+		}
+		
+		logger.debug("Category sub tab, " + category + " should not be displayed");
+		return true;	
 	}
 	
 	public static String getOptionLabelByValue(Long id, List<DropDownOption> categoryList){
@@ -226,6 +270,17 @@ public class EmAppUtil {
 		}
 		return label;
 	}
+	
+	
+	public static List<String> formatDisplayList(List<String> displayList) {
+		List<String> formattedList = new ArrayList<String>();
+		
+		for(String displayElement: displayList) {		
+			formattedList.add(WordUtils.capitalizeFully(displayElement));
+		}
+		return formattedList;
+	}
+	
 
 	public static void logUserID(NciUser nciUser, Logger logger){
 		logger.error("user ID: " + nciUser.getOracleId() + "/" + nciUser.getFullName());

@@ -31,6 +31,18 @@
             <property name="i2eToDate" type="timestamp">
                 <column name="I2E_TO_DATE" length="7" />
             </property>
+            <property name="activeCategoryEnabledFlag" type="string">
+            	<column name="ACTIVE_CATEGORY_ENABLED_FLAG" length="1" />
+        	</property>
+        	<property name="newCategoryEnabledFlag" type="string">
+            	<column name="NEW_CATEGORY_ENABLED_FLAG" length="1" />
+        	</property>
+        	<property name="deletedCategoryEnabledFlag" type="string">
+            	<column name="DELETED_CATEGORY_ENABLED_FLAG" length="1" />
+        	</property>
+        	<property name="inactiveCategoryEnabledFlag" type="string">
+            	<column name="INACTIVE_CATEGORY_ENABLED_FLAG" length="1" />
+        	</property>       
              <bag name="statusHistories" cascade="none" inverse="true" lazy="false" order-by="CREATE_DATE desc">
 			    <key column="AUDIT_ID" not-null="true"/>
 			    <one-to-many class="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw"/>

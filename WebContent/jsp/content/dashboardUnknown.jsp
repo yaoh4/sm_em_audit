@@ -14,16 +14,28 @@
 	<tr>
 		<s:if test="emAuditsVO.i2eFromDate != null">
 			<th width="20%">NCI Organizations</th>
-			<th width="16%">Active Accounts</th>
-			<th width="16%">New Accounts</th>
-			<th width="16%">Deleted Accounts</th>
+			<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="16%">Active Accounts</th>
+			</s:if>
+			<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="16%">New Accounts</th>
+			</s:if>
+			<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="16%">Deleted Accounts</th>
+			</s:if>
 			<th width="16%">I2E Accounts</th>
 		</s:if>
 		<s:else>
 			<th width="40%">NCI Organizations</th>
-			<th width="15%">Active Accounts</th>
-			<th width="15%">New Accounts</th>
-			<th width="15%">Deleted Accounts</th>
+			<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="15%">Active Accounts</th>
+			</s:if>
+			<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="15%">New Accounts</th>
+			</s:if>
+			<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+				<th width="15%">Deleted Accounts</th>
+			</s:if>
 		</s:else>
 	</tr>
 	<s:set var="actionKeys" value="actionOrgKeys"/>
@@ -39,9 +51,15 @@
     	<% 
     		HashMap<String, ActionDashboardData> dData = (HashMap<String, ActionDashboardData>)actionOrgData.get(key); 
     	%>
-    	<td><%= dData.get("active").getActiveUnknownDataStr(key) %></td>
-    	<td><%= dData.get("new").getNewUnknownDataStr(key) %></td>
-    	<td><%= dData.get("deleted").getDeletedUnknownDataStr(key) %></td>
+    	<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td><%= dData.get("active").getActiveUnknownDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td><%= dData.get("new").getNewUnknownDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td><%= dData.get("deleted").getDeletedUnknownDataStr(key) %></td>
+    	</s:if>
     	<s:if test="emAuditsVO.i2eFromDate != null">
       		<td><%= dData.get("i2e").getI2eUnknownDataStr(key) %></td>
       	</s:if>

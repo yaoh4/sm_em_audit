@@ -53,6 +53,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		AuditSearchVO searchVO = (AuditSearchVO)this.getPageContext().getSession().getAttribute(ApplicationConstants.SEARCHVO);
 		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String parentNedOrgPath = accountVO.getParentNedOrgPath();
 //		if(accountVO.getDeletedDate() != null){
 //			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
 //		}else{
@@ -62,6 +63,8 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			name=accountVO.getCleanFullName();
 		}
 		String id = ""+accountVO.getId();
+		String userId = accountVO.getImpaciiUserId();
+		String networkId = accountVO.getNihNetworkId();
 		String actionStr = "";
 		String actionId ="";
 		String note = "";
@@ -89,33 +92,49 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			actionStr = actionStr + "</br>";
 		}
 		//if the action record is new or submitted
-		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N"))){
+		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")) && !ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(eaaVw.getAction().getDescription())){
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id +",'" + userId +"','" + networkId + "');\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
-			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
-			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
-				era_ua_link = "<br/><a href='javascript:openEraua();'>eRA UA</a>";
+			String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			String era_ua_link =  (StringUtils.isBlank(userId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + userId);
+			String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
+			if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+				era_ua_link = "<br/><a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
 			}else{
-				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a>";
+				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
 			}
-			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
+			String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
 			String currentPage = (String)this.getPageContext().getSession().getAttribute(ApplicationConstants.CURRENTPAGE);
 			//if the action is verfiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION) || (ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(currentPage) && actId.equalsIgnoreCase(NONEED))){
-				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
+				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
 			}
+			if((ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getDeletedTransferToOrgPath())) ||
+					((!ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())))){
+				actionStr = actionStr + "<br/> (Transferred)";
+			}			
 			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
+			if( eaaVw != null && eaaVw.getAction() != null && ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(eaaVw.getAction().getDescription())){
+				String hiddenTransferToOrgValue = (ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate))? accountVO.getDeletedTransferToOrgPath() : accountVO.getTransferToNedOrgPath();				
+				actionStr = actionStr + "<input type='hidden' id='hiddenTransferredNciOrg"+ id +"' value='" + hiddenTransferToOrgValue + "'/>";
+			}
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling Aunita's service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id + "','" + userId + "','" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
+			}
+			if((ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getDeletedTransferToOrgPath())) ||
+					((!ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getTransferToNedOrgPath())))){
+				actionStr = actionStr + "<br/> (Transferred)";
 			}
 			actionStr = actionStr + "</div>";
 		}
@@ -334,6 +353,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	 */
 	@SuppressWarnings("unchecked")
 	private String getActionId(String label){
+		if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(label)){
+			label = ApplicationConstants.SEARCH_TRANSFERED;
+		}
 		String id = "";
 		List<DropDownOption> actions = (List<DropDownOption>)this.getPageContext().getSession().getAttribute(ApplicationConstants.ACTIONLIST);
 		for(DropDownOption ddo : actions){

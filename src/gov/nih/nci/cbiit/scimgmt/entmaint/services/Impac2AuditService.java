@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -7,6 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -43,7 +45,7 @@ public interface Impac2AuditService {
     public PaginatedListImpl<AuditAccountVO> searchDeletedAccounts(PaginatedListImpl paginatedList, AuditSearchVO searchVO, Boolean all);
     
     /**
-     * Data retrieval for inactive > 120 days
+     * Data retrieval for inactive > 130 days
      * @param paginatedList
      * @param searchVO
      * @param all
@@ -98,4 +100,18 @@ public interface Impac2AuditService {
      */
     public List<AuditAccountVO> getAllAccountsByAuditId(Long auditId);
     
+    /**
+     * Retrieve a set of impaciiUserId/nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+    public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId);
+    
+    /**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
+     * @return DBResult
+     * @throws Exception 
+	 */
+    public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception;
 }

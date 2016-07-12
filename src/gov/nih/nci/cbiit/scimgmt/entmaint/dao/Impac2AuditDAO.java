@@ -5,8 +5,13 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
@@ -46,6 +51,10 @@ public class Impac2AuditDAO {
 	private SessionFactory sessionFactory;
 	@Autowired
 	private NciUser nciUser;
+	@Autowired
+	private LookupService lookupService;
+	@Autowired
+	private AdminService adminService;
 	
 	/**
 	 * Search EmAuditAccountsVw for active accounts
@@ -84,6 +93,10 @@ public class Impac2AuditDAO {
 	            dc.add(Restrictions.eq("activeUnsubmittedFlag", ApplicationConstants.FLAG_YES));
 	            criteria.add(dc);
 			}
+			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.ACTIVE_ACTION_TRANSFER) ) {
+				criteria.add(Restrictions.isNotNull("transferToNedOrgPath"));
+			}
+
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("activeAction.id", new Long(searchVO.getAct())));
 				criteria.add(Restrictions.eq("activeUnsubmittedFlag", ApplicationConstants.FLAG_NO));
@@ -136,10 +149,13 @@ public class Impac2AuditDAO {
 				dc.add(Restrictions.eq("newUnsubmittedFlag", ApplicationConstants.FLAG_YES));
 	            criteria.add(dc);
 			}
+			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.NEW_ACTION_TRANSFER) ) {
+				criteria.add(Restrictions.isNotNull("transferToNedOrgPath"));
+			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.NEW_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("newAction.id", new Long(searchVO.getAct())));
 				criteria.add(Restrictions.eq("newUnsubmittedFlag", ApplicationConstants.FLAG_NO));
-			}
+			}			
 
 			pListImpl = getPaginatedListResult(paginatedList, criteria, all);
 			return pListImpl;
@@ -187,6 +203,9 @@ public class Impac2AuditDAO {
 				dc.add(Restrictions.isNull("deletedAction.id"));
 				dc.add(Restrictions.eq("deletedUnsubmittedFlag", ApplicationConstants.FLAG_YES));
 	            criteria.add(dc);
+			}
+			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.DELETED_ACTION_TRANSFER) ) {
+				criteria.add(Restrictions.isNotNull("deletedTransferToOrgPath"));
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.DELETED_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("deletedAction.id", new Long(searchVO.getAct())));
@@ -238,6 +257,9 @@ public class Impac2AuditDAO {
 				dc.add(Restrictions.isNull("inactiveAction.id"));
 				dc.add(Restrictions.eq("inactiveUnsubmittedFlag", ApplicationConstants.FLAG_YES));
 	            criteria.add(dc);
+			}
+			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.INACTIVE_ACTION_TRANSFER) ) {
+				criteria.add(Restrictions.isNotNull("transferToNedOrgPath"));
 			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.INACTIVE_ACTION_ALL)) {
 				criteria.add(Restrictions.eq("inactiveAction.id", new Long(searchVO.getAct())));
@@ -512,19 +534,28 @@ public class Impac2AuditDAO {
 		
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org
 		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
 			}
 		}
@@ -552,19 +583,28 @@ public class Impac2AuditDAO {
 		
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org
 		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("deletedByParentOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("deletedByParentOrgPath", searchVO.getOrganization().trim()));
 			}
 		}
@@ -740,5 +780,185 @@ public class Impac2AuditDAO {
 			paginatedList.setTotal(getTotalResultCount(criteria));
 		}
 		return paginatedList;
+	}
+	
+	/**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionId, actionComments, transferOrg, category, isImpac2Transfer
+     * @return DBResult
+	 * @throws Exception 
+	 */
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception {
+		DBResult result = new DBResult();
+		try {			
+			EmAuditAccountsT account = null;					
+			if(isImpac2Transfer){
+				//For Impac2 Transfer retrieve EmAuditAccountsT based on id
+				account = getAccountsT(accountId);					
+			}
+			else{
+				//If this Impac2 Transfer is triggered after I2E Transfer, then retrieve EmAuditAccountsT based on nihNetworkId and auditId.
+				account = getAccountsT(nihNetworkId, auditId);			
+			}			
+			if(account != null){
+								
+				AppLookupT cat = null;				
+				if(category != null){
+					//Category is not null because this method is being called from SubmitAction to transfer the Impac2 account.
+					//Category is available for Impac2 accounts.
+					cat = lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
+				}
+				else{
+					//If category is null, that means this method is being called by SubmitI2eAction after transferring the I2e account.
+					//In this situation, we don't have category. It needs to be computed on the fly for Impac2Account.
+					cat = getCategory(account);
+				}	
+				
+				//If this Impac2 Transfer is triggered after I2E Transfer and the Category is Deleted then don't transfer Impac2 Account.
+				if(!isImpac2Transfer && ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cat.getCode())){
+					log.debug("This Impac2 Transfer is triggered after I2E Transfer and the Category is Deleted then don't transfer Impac2.");
+					return result;
+				}
+				
+				//For deleted accounts populate different columns.
+				if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cat.getCode())){
+					account.setDeletedTransferFromOrgPath(parentNedOrgPath);
+					account.setDeletedTransferToOrgPath(transferOrg);
+				}
+				else{
+					account.setTransferFromNedOrgPath(parentNedOrgPath);
+					account.setTransferToNedOrgPath(transferOrg);
+				}				
+				account.setTransferredDate(new Date());
+				saveOrUpdateEmAuditAccountsT(account);
+								
+				EmAuditAccountActivityT activity = getAccountActivityT(account.getId(), cat.getCode());
+				if(activity == null) {
+					activity = new EmAuditAccountActivityT();
+					activity.setEaaId(account.getId());
+					activity.setCategory(cat);
+					activity.setCreateUserId(nciUser.getUserId().toUpperCase());
+					activity.setCreateDate(new Date());
+				} else if(isValidForTransfer(activity.getActionId(),activity.getUnsubmittedFlag())){
+					activity.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+					activity.setLastChangeDate(new Date());
+				}
+				//If its fresh transfer OR update to transfer OR transfer after Undo
+				if(activity.getActionId() == null || isValidForTransfer(activity.getActionId(),activity.getUnsubmittedFlag())){			
+					activity.setActionId(actionId);
+					activity.setNotes(actionComments);
+					activity.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);
+
+					saveOrUpdateActivity(activity);	
+				}
+				
+				result.setStatus(DBResult.SUCCESS);
+			}
+			else{
+				log.error("EmAuditAccountsT doesn't exist for ID: "+accountId);
+			}
+			
+		} catch (Throwable e) {
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: id - " + accountId +", nihNetworkId - " + nihNetworkId + ", auditId - " + auditId + ", parentNedOrgPath - " + parentNedOrgPath + ",actionId" + actionId +", actionComments - " + actionComments  + ", transferOrg" + transferOrg + ", category"+ category + ", isImpac2Transfer"+ isImpac2Transfer);			
+			String errorString = "Transfer Failed for Account with Id= " + accountId + " " + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
+		return result;
+	}
+	
+	/**
+	 * Get account using id.
+	 * @param id
+	 * @return EmAuditAccountsT
+	 * @throws Exception 
+	 */
+	private EmAuditAccountsT getAccountsT(Long id) throws Exception {
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsT.class);
+			crit.add(Restrictions.eq("id", id));
+			EmAuditAccountsT result = (EmAuditAccountsT) crit.uniqueResult();
+			return result;
+		} catch (Throwable e) {
+			String errorString = "get EmAuditAccountsT failed for Id=" + id + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
+	}
+	
+	/**
+	 * Get account using nihNetworkId , auditId.
+	 * @param nihNetworkId , auditId
+	 * @return EmAuditAccountsT
+	 * @throws Exception 
+	 */
+	private EmAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) throws Exception {
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsT.class);
+			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
+			crit.add(Restrictions.eq("eauId", auditId));
+			EmAuditAccountsT result = (EmAuditAccountsT) crit.uniqueResult();
+			return result;
+		} catch (Throwable e) {
+			String errorString = "get EmAuditAccountsT failed for nihNetworkId=" + nihNetworkId + " and Auddit Id "+ auditId + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
+	}
+	
+	/**
+	 * Save or update Action
+	 * 
+	 * @param transientInstance
+	 *            the transient instance
+	 */
+	private void saveOrUpdateEmAuditAccountsT(final EmAuditAccountsT transientInstance) {
+		log.debug("saveOrUpdate EmI2eAuditAccountsT instance");
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(transientInstance);
+			log.debug("saveOrUpdateAction successful");
+		} catch (Throwable e) {
+			log.error("saveOrUpdateAction failed", e);
+			throw e;
+		}
+	}
+	
+	/**
+	 * This method computes category for the Impac2 account.
+	 * @param account
+	 * @return AppLookupT
+	 */
+	public AppLookupT getCategory(EmAuditAccountsT account){
+		String category = "";
+		EmAuditsVw emAudit = adminService.retrieveAuditVO(account.getEauId());	
+		
+		if((account.getDeletedDate() == null || account.getDeletedDate().after(emAudit.getImpaciiToDate())) && (account.getCreatedDate().before(emAudit.getImpaciiToDate()) || account.getCreatedDate().equals(emAudit.getImpaciiToDate()))){
+			category = ApplicationConstants.CATEGORY_ACTIVE;
+		}
+		else if((account.getCreatedDate().after(emAudit.getImpaciiFromDate()) || account.getCreatedDate().equals(emAudit.getImpaciiFromDate())) && (account.getCreatedDate().before(emAudit.getImpaciiToDate()) || account.getCreatedDate().equals(emAudit.getImpaciiToDate()))){
+			category = ApplicationConstants.CATEGORY_NEW;
+		}
+		else if((account.getDeletedDate().after(emAudit.getImpaciiFromDate()) || account.getDeletedDate().equals(emAudit.getImpaciiFromDate())) && (account.getDeletedDate().before(emAudit.getImpaciiToDate()) || account.getDeletedDate().equals(emAudit.getImpaciiToDate()))){
+			category = ApplicationConstants.CATEGORY_DELETED;
+		}
+		else if(ApplicationConstants.FLAG_YES.equalsIgnoreCase(account.getInactiveUserFlag())){
+			category = ApplicationConstants.CATEGORY_INACTIVE;
+		}		
+		return lookupService.getAppLookupByCode(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST, category);
+	}
+	
+	/**
+	 * Returns true if this is a Transfer action.
+	 * @param actId
+	 * @return boolean
+	 */
+	public boolean isValidForTransfer(Long actionId, String unsubmittedFlag){
+		return ((ApplicationConstants.ACTIVE_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.NEW_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.DELETED_ACTION_TRANSFER == actionId ||
+				ApplicationConstants.INACTIVE_ACTION_TRANSFER == actionId) ||
+				(ApplicationConstants.FLAG_YES.equalsIgnoreCase(unsubmittedFlag)));
 	}
 }

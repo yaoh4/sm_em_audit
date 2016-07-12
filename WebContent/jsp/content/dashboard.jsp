@@ -34,19 +34,35 @@
       <caption>IMPAC II Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
     <tr>
        <s:if test="emAuditsVO.i2eFromDate != null">
-      <th width="20%">NCI Organizations</th>
-      <th width="16%">Active Accounts</th>
-      <th width="16%">New Accounts</th>
-      <th width="16%">Deleted Accounts</th>
-      <th width="16%">Inactive &gt;120 Days Accounts</th>
-      <th width="16%">I2E Accounts</th>
+      	<th width="20%">NCI Organizations</th>
+      	<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+      		<th width="16%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' /></th>
+      	</s:if>
+      	<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+      		<th width="16%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' /></th>
+      	</s:if>
+      	<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+      		<th width="16%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' /></th>
+      	</s:if>
+      	<s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+      		<th width="16%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' /></th>
+      	</s:if>
+      	<th width="16%">I2E Accounts</th>
       </s:if>
       <s:else>
-       <th width="40%">NCI Organizations</th>
-      <th width="15%">Active Accounts</th>
-      <th width="15%">New Accounts</th>
-      <th width="15%">Deleted Accounts</th>
-      <th width="15%">Inactive &gt;120 Days Accounts</th>
+        <th width="40%">NCI Organizations</th>
+        <s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+        	<th width="15%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}' /></th>
+        </s:if>
+        <s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+        	<th width="15%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}' /></th>
+        </s:if>
+        <s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+        	<th width="15%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}' /></th>
+        </s:if>
+        <s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+        	<th width="15%"><s:property value='%{getDescriptionByCode(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@APP_LOOKUP_CATEGORY_LIST, @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}' /></th>
+        </s:if>
       </s:else>
     </tr>
     <s:set var="orgData" value="orgsData"/>
@@ -68,10 +84,18 @@
     	<% 
     		HashMap<String, DashboardData> dData = (HashMap<String, DashboardData>)orgData.get(key); 
     	%>
-    	<td class="colorPercent"><%= dData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= dData.get("new").getNewAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= dData.get("active").getActiveAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= dData.get("new").getNewAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= dData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= dData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	</s:if>
     	<s:if test="emAuditsVO.i2eFromDate != null">
       		<td class="colorPercent"><%= dData.get("i2e").getI2eAccountDataStr(key) %></td>
       	</s:if>
@@ -79,10 +103,18 @@
     <% } %>
     <tr class="org">
       <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
-      <td class="colorPercent"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
-      <td class="colorPercent"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
-      <td class="colorPercent"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
-      <td class="colorPercent"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      <s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+      	<td class="colorPercent"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
+      </s:if>
+      <s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+      	<td class="colorPercent"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
+      </s:if>
+      <s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+      	<td class="colorPercent"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
+      </s:if>
+      <s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+      	<td class="colorPercent"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      </s:if>
       <s:if test="emAuditsVO.i2eFromDate != null">
       	<td class="colorPercent"><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
       </s:if>
@@ -96,11 +128,19 @@
       <td class="other"><%= key %></td>
     	<% 
     		HashMap<String, DashboardData> oData = (HashMap<String, DashboardData>)otherOrgData.get(key); 
-    	%>    
-     	<td class="colorPercent"><%= oData.get("active").getActiveAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= oData.get("new").getNewAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
-    	<td class="colorPercent"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	%>
+    	<s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">    
+     		<td class="colorPercent"><%= oData.get("active").getActiveAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= oData.get("new").getNewAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= oData.get("deleted").getDeletedAccountDataStr(key) %></td>
+    	</s:if>
+    	<s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
+    		<td class="colorPercent"><%= oData.get("inactive").getInactiveAccountDataStr(key) %></td>
+    	</s:if>
     	<s:if test="emAuditsVO.i2eFromDate != null">
     		<td class="colorPercent"><%= oData.get("i2e").getI2eAccountDataStr(key) %></td>
     	</s:if>

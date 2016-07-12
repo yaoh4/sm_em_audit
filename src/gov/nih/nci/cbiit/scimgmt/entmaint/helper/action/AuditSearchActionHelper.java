@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.apache.log4j.Logger;
+
+import org.apache.commons.lang.StringUtils;
 import com.opensymphony.xwork2.ActionContext;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
@@ -19,7 +23,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 @SuppressWarnings("unchecked")
 public class AuditSearchActionHelper {
 	
-	public static final String ROLE_ORG_PATH = "Role Org Path";
+	public static final String ROLE_ORG_PATH = "Role Org";
+	
+	static Logger logger = Logger.getLogger(AuditSearchActionHelper.class);
 
 	public void createActiveDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
 		
@@ -45,6 +51,7 @@ public class AuditSearchActionHelper {
 		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
 		String orgPath = nciUser.getOrgPath();
 		organizationList.add(new DropDownOption(orgPath, orgPath));
+		organizationList.add(new DropDownOption(ApplicationConstants.ORG_PATH_NO_NED_ORG, ApplicationConstants.ORG_PATH_NO_NED_ORG));
 		createActionList(actList, actionList, isSuperUser); 
 	}
 	
@@ -61,9 +68,12 @@ public class AuditSearchActionHelper {
 			if(!isSuperUser && (act.getId() == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
 							    act.getId() == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
 							    act.getId() == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
-							    act.getId() == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT )){
+							    act.getId() == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
 					continue;
 			}else{
+				if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(act.getCode())){
+					act.setDescription(ApplicationConstants.SEARCH_TRANSFERED);
+				}
 				DropDownOption ddp1 = new DropDownOption(""+act.getId(), act.getDescription());	
 				actionList.add(ddp1);
 			}
@@ -77,9 +87,9 @@ public class AuditSearchActionHelper {
 		}
 	}
 	
-	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService){
+	public  List<DropDownOption> createAuditPeriodDropDownList(AdminService adminService, String category){
 		List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
-		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList();
+		List<EmAuditsVO> emAuditVOs = adminService.retrieveAuditVOList(category);
 		for(EmAuditsVO emAuditVO : emAuditVOs){
 			DropDownOption ddp = new DropDownOption(""+emAuditVO.getId(), emAuditVO.getDescription());
 			auditPeriodList.add(ddp);
@@ -212,20 +222,62 @@ public class AuditSearchActionHelper {
 		session.put(ApplicationConstants.PAGE_SIZE_LIST, pageSizeList);		
 	}
 	
-	public List<DropDownOption> getReportCatrgories(LookupService lookupService){
-		List<DropDownOption> categoryList = new ArrayList<DropDownOption>();
-		List<AppLookupT> cateList = lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
+	
+	/**
+	 * Prepares the list of elements to be displayed in the Category dropdown
+	 * when a specific Audit is choosen from the Audit dropdown in the Reports 
+	 * sub-tab of Admin tab. This list consists of: non IMPAC II only categories + 
+	 * IMPAC II only categories specified for this Audit. 
+	 * 
+	 * @param lookupService
+	 * @param adminService
+	 * @param auditId
+	 * @return
+	 */
+	public List<DropDownOption> getReportCategories(
+			LookupService lookupService, AdminService adminService, Long auditId) {
+		List<DropDownOption> categoryDropdownList = new ArrayList<DropDownOption>();
 		
-		if(cateList != null){
-			for(AppLookupT obj : cateList){
+		//Retrieve the full List of all supported report categories
+		List<AppLookupT> reportCategoryLookupList = 
+				lookupService.getList(ApplicationConstants.APP_LOOKUP_REPORTS_CATEGORY_LIST);
+		
+		//Retrieve the full list of IMPAC II only category codes. This is a subset
+		//of the codes in the reportCategoryLookupList
+		List<String> impac2CategoryLookupCodes = 
+				lookupService.getCodeList(ApplicationConstants.APP_LOOKUP_CATEGORY_LIST);
+		
+		//Retrieve IMPAC II only category codes specific to this Audit
+		EmAuditsVO auditVO = adminService.retrieveAuditVO(auditId);
+		List<String> impac2CategoryCodes = auditVO.getCategoryList();
+		logger.info("Categories retrieved for auditId " + auditId + ": " + impac2CategoryCodes.toString());
+		
+		//Iterate through the values in the reportCategoryLookupList. 
+		for(AppLookupT lookup : reportCategoryLookupList){
+			
+			if(ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(lookup.getCode())) {
+				//This is the lookup for I2E dropdown element, hence include it
+				//only if I2E Audit was performed
+				if(!ApplicationConstants.TRUE.equalsIgnoreCase(auditVO.getI2eAuditFlag())) {
+					continue;
+				}
+			}
+			
+			//Include this value in the dropdown options if it is not present in the
+			//impac2CategoryLookupCodes list (hence is not an IMPAC II only category) 
+			//OR it is an IMPAC II only category specified for this Audit
+			if(!impac2CategoryLookupCodes.contains(lookup.getCode()) ||
+					impac2CategoryCodes.contains(WordUtils.capitalizeFully(lookup.getCode())) ) {
 				DropDownOption ddo = new DropDownOption();
-				ddo.setOptionKey(""+obj.getId());
-				ddo.setOptionValue(obj.getDescription());
-				categoryList.add(ddo);
+				ddo.setOptionKey(lookup.getId().toString());
+				ddo.setOptionValue(lookup.getDescription());
+				categoryDropdownList.add(ddo);
 			}
 		}
-		return categoryList;
+		
+		return categoryDropdownList;
 	}
+	
 	
 	/**
 	 * This method returns nested columns for requested type.
@@ -249,9 +301,27 @@ public class AuditSearchActionHelper {
 		String nestedColumnsNames = "";
 		for(Tab tab : displayColumn){
 			if(ApplicationConstants.TRUE.equalsIgnoreCase(tab.getIsNestedColumn()) && type.equalsIgnoreCase(tab.getType())){
-				nestedColumnsNames += "<span class='rolesHeader'>" + (!ROLE_ORG_PATH.equalsIgnoreCase(tab.getColumnName()) ? " | " : "") + tab.getColumnName() + "</span>";
+				nestedColumnsNames += "<span class='rolesHeader'>" + (!StringUtils.contains(tab.getColumnName(), ROLE_ORG_PATH) ? " | " : "") + tab.getColumnName() + "</span>";
 			}
 		}	
 		return nestedColumnsNames;
+	}
+	
+	/**
+	 * This method creates Transfer organization drop down list.
+	 * @param transferOrganizationList
+	 * @param lookupService
+	 * @param parentNedOrgPath
+	 */
+	public void createTransferOrgDropDownList(List<DropDownOption> transferOrganizationList, LookupService lookupService, String parentNedOrgPath){
+		DropDownOption emptyOption = new DropDownOption("", "");
+		transferOrganizationList.add(emptyOption);
+		for(EmOrganizationVw org : (List<EmOrganizationVw>) lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST)){
+			if(!parentNedOrgPath.equalsIgnoreCase(org.getNihorgpath()) && !ApplicationConstants.ORG_PATH_NON_NCI.equalsIgnoreCase(org.getNihorgpath()) 
+					&& !ApplicationConstants.ORG_PATH_NO_NED_ORG.equalsIgnoreCase(org.getNihorgpath())){
+				DropDownOption transferOrgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());
+				transferOrganizationList.add(transferOrgOption);
+			}
+		}
 	}
 }

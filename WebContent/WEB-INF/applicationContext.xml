@@ -64,7 +64,8 @@
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsVw.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountsT.hbm.xml</value>
   				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmI2eAuditAccountRolesVw.hbm.xml</value>
-  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/NciPeopleVw.hbm.xml</value>  				
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/NciPeopleVw.hbm.xml</value>  	
+  				<value>gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountsT.hbm.xml</value>  				
 			</list>
   		</property>
   		<property name="hibernateProperties">
@@ -101,9 +102,10 @@
 			<tx:method name="search*" read-only="true" />
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="read*" read-only="true" />
-			<tx:method name="load*" read-only="true" />
+			<tx:method name="load*" propagation="REQUIRES_NEW" />
 			<tx:method name="find*" read-only="true" />
 			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="send*" read-only="true" />
 			<tx:method name="*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
@@ -143,7 +145,36 @@
 		<property name="cacheAdministrator">
 			<ref bean="cacheAdministrator" />
 		</property>
-	</bean> 
+	</bean>
+  
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="resourceLoaderPath">
+			<value>/WEB-INF/emailTemplates/</value>
+		</property>
+	</bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mailfwd.nih.gov" />
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+ 
+	<bean id="mailService" class="gov.nih.nci.cbiit.scimgmt.entmaint.services.impl.MailServiceImpl">
+		<property name="emailTemplates">
+			<props>
+				<prop key="discrepancyEmail">discrepancyEmail.vm</prop>
+			</props>
+		</property>
+	</bean>
 	
+	<bean id="AutomatedEmailTask" class="gov.nih.nci.cbiit.scimgmt.entmaint.utils.AutomatedSendEmailTask">
+	</bean>
+	
+	<task:scheduler id="entmaintTaskScheduler" pool-size="5" />
+
+	<task:scheduled-tasks scheduler="entmaintTaskScheduler">
+		<!--  Run first day of every month at 8:30 AM -->
+		<task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 30 8 1 * *" />
+	</task:scheduled-tasks>
 	
 </beans>

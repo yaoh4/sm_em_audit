@@ -12,6 +12,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.procedure.ProcedureCall;
@@ -52,14 +54,16 @@ public class AdminDAO  {
 	 * 
 	 * @return Long audit id of the new Audit record
 	 */
-	public Long setupNewAudit(Date impaciiFromDate, Date impaciiToDate, String comments, String i2eAuditFlag) {
+	public Long setupNewAudit(EmAuditsVO emAuditsVO) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		Long auditId = null;		
+		Long auditId = null;
+		Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
+		Date impaciiToDate = emAuditsVO.getImpaciiToDate();
 		try {
 			
 			//Setup audit control
-			EmAuditsT emAuditsT = setupAudit(impaciiFromDate, impaciiToDate, i2eAuditFlag);
+			EmAuditsT emAuditsT = setupAudit(emAuditsVO);
 			auditId = (Long)session.save(emAuditsT);	
 			
 			//The freeze_audit_records procedure needs the above record to be present
@@ -71,14 +75,14 @@ public class AdminDAO  {
 			logger.info("freeze audit records invovation completed with start date: " + impaciiFromDate + ", end date: " + impaciiToDate);
 		
 			//Setup audit status
-			EmAuditHistoryT history = setupHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, comments);   
+			EmAuditHistoryT history = setupHistory(auditId, ApplicationConstants.AUDIT_STATE_CODE_ENABLED, emAuditsVO.getComments());   
 			session.save(history);
         				
 		} catch (Throwable e) {		
 			logger.error("Error setting up audit data, new auditId: " + auditId, e);
 			EmAppUtil.logUserID(nciUser, logger);
 			logger.error("Parameters: impaciiFromDate - " + impaciiFromDate + ", " + "impaciiToDate - " + impaciiToDate + ", " + 
-			              "comments - " + comments + ", " + "i2eAuditFlag - " + i2eAuditFlag);
+			              "comments - " + emAuditsVO.getComments() + ", " + "i2eAuditFlag - " + emAuditsVO.getI2eAuditFlag());
 			throw e;		
 		}
 		return auditId;
@@ -166,17 +170,22 @@ public class AdminDAO  {
 	}
 	
 	
-	private EmAuditsT setupAudit(Date impaciiFromDate, Date impaciiToDate, String i2eAuditFlag) {
+	private EmAuditsT setupAudit(EmAuditsVO emAuditsVO) {
 		//Insert a row into the EM_AUDIT_T table
 		EmAuditsT emAuditsT = new EmAuditsT();
 		emAuditsT.setCreateDate(new Date());
 		emAuditsT.setStartDate(new Date());
-		emAuditsT.setImpaciiFromDate(impaciiFromDate);
-		emAuditsT.setImpaciiToDate(impaciiToDate);
-		if(StringUtils.equalsIgnoreCase(i2eAuditFlag, ApplicationConstants.TRUE)) {
-			emAuditsT.setI2eFromDate(impaciiFromDate);
-			emAuditsT.setI2eToDate(impaciiToDate);
+		emAuditsT.setImpaciiFromDate(emAuditsVO.getImpaciiFromDate());
+		emAuditsT.setImpaciiToDate(emAuditsVO.getImpaciiToDate());
+		emAuditsT.setActiveCategoryEnabledFlag(emAuditsVO.getActiveCategoryEnabledFlag());
+		emAuditsT.setDeletedCategoryEnabledFlag(emAuditsVO.getDeletedCategoryEnabledFlag());
+		emAuditsT.setNewCategoryEnabledFlag(emAuditsVO.getNewCategoryEnabledFlag());
+		emAuditsT.setInactiveCategoryEnabledFlag(emAuditsVO.getInactiveCategoryEnabledFlag());
+		if(StringUtils.equalsIgnoreCase(emAuditsVO.getI2eAuditFlag(), ApplicationConstants.TRUE)) {
+			emAuditsT.setI2eFromDate(emAuditsVO.getImpaciiFromDate());
+			emAuditsT.setI2eToDate(emAuditsVO.getImpaciiToDate());
 		}
+		
 		emAuditsT.setCreateUserId(nciUser.getOracleId());
 		
 		return emAuditsT;
@@ -272,14 +281,18 @@ public class AdminDAO  {
 		return emAuditsVw;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
-	public List<EmAuditsVw> retrieveAuditList() {
+	public List<EmAuditsVw> retrieveAuditList(String category) {
 		Session session = sessionFactory.getCurrentSession();
 		List<EmAuditsVw> emAudits = null;
 		
 		try {
-			Criteria criteria = session.createCriteria(EmAuditsVw.class);
+			Criteria criteria = session.createCriteria(EmAuditsVw.class);	
 			criteria.addOrder(Order.desc("id"));
+			if(category != null) {
+				criteria.add(getCategoryCriterion(criteria, category));
+			}
 			Object result =  criteria.list();
 			if (result != null) {
 				emAudits = (List<EmAuditsVw>)result;
@@ -293,13 +306,33 @@ public class AdminDAO  {
 		} catch (Throwable e) {		
 			logger.error("Error retrieving full set from EM_AUDITS_VW ", e);		
 			EmAppUtil.logUserID(nciUser, logger);
-			logger.error("Parameters: None");
-			logger.error("Outgoing Parameters: List<EmAuditsVw - " + (emAudits == null ? "NULL" : "Size of List=" + emAudits.size()));
 			throw e;	
 		}
 		
 		return emAudits;
 	}
+	
+	
+	private Criterion getCategoryCriterion(Criteria criteria, String category) {
+		Criterion criterion = null;
+		
+		switch (category) {
+		case ApplicationConstants.CATEGORY_ACTIVE:
+			criterion =  Restrictions.ilike("activeCategoryEnabledFlag",  'Y');
+			break;
+		case ApplicationConstants.CATEGORY_NEW:
+			criterion = Restrictions.ilike("newCategoryEnabledFlag",  'Y');
+			break;
+		case ApplicationConstants.CATEGORY_DELETED:
+			criterion = Restrictions.ilike("deletedCategoryEnabledFlag",  'Y');
+			break;
+		case ApplicationConstants.CATEGORY_INACTIVE:
+			criterion = Restrictions.ilike("inactiveCategoryEnabledFlag",  'Y');
+			break;	
+		}
+		return criterion;
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<EmAuditsVw> retrieveI2eAuditList() {

@@ -47,8 +47,6 @@ public class Impac2AuditAction extends BaseAction {
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
 	
-	private String era_ua_link;
-	private String i2e_em_link;
 	/**
 	 * The method is for handling the clean button action. It shared by all categories (active, deleted, new, and inactive)
 	 * @return
@@ -71,7 +69,7 @@ public class Impac2AuditAction extends BaseAction {
 		searchVO.setUserLastname("");
 		searchVO.setOrganization("");
 		setUpDefaultSearch();
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, getCategory()));
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		showResult = false;
 		
@@ -105,6 +103,12 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareDeletedAccounts() {
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+
 		setUpDefaultSearch(); //check if default search is needed
 		//force to use nciUser organization when delete account is selected
 		searchVO.setOrganization(nciUser.getOrgPath());
@@ -199,6 +203,12 @@ public class Impac2AuditAction extends BaseAction {
 	
 	public String prepareNewAccounts(){
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+     
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_NEW);
@@ -210,7 +220,7 @@ public class Impac2AuditAction extends BaseAction {
 	}
 	/**
 	 * Search for accounts that have been inactive for greater than
-	 * 120 days
+	 * 130 days
 	 * 
 	 * @return String
 	 */
@@ -242,6 +252,12 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public String prepareInactiveAccounts(){
 		String forward = SUCCESS;
+		
+		// Retrieve and store current audit info in session again in case user navigated from 
+		// Admin page and current audit is not started. (Last audit is RESET.)
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+
 		setUpDefaultSearch(); //check if default search is needed
 		if(this.isSuperUser()){
 			initialComponent(ApplicationConstants.CATEGORY_INACTIVE);
@@ -284,15 +300,12 @@ public class Impac2AuditAction extends BaseAction {
 			this.setFormAction("searchNewAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_NEW);
 		}
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, getCategory()));
 		
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
 		this.setRole(getRole(nciUser));
-		
-		era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
-		i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 	}
 	
 	private void processList(List<Tab> disColumn){
@@ -306,8 +319,10 @@ public class Impac2AuditAction extends BaseAction {
 	 * @param pageName
 	 */
 	private void initialComponent(String pageName){		
-		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService));
-		searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, pageName));
+		if(!auditPeriodList.isEmpty()) {
+			searchVO.setAuditId(Long.parseLong(auditPeriodList.get(0).getOptionKey()));
+		}
 		session.put(ApplicationConstants.SEARCHVO, searchVO);
 		session.put(ApplicationConstants.CURRENTPAGE, pageName);
 		sortByCategory(pageName);
@@ -441,9 +456,13 @@ public class Impac2AuditAction extends BaseAction {
 					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
 					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
-					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					(!this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue()))){
 				continue;
 			}else{
+				if(this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue())){
+					 opt = new DropDownOption(""+opt.getOptionKey(), ApplicationConstants.ACTION_TRANSFER);					
+				}
 				tempList.add(opt);
 			}
 		}
@@ -479,30 +498,6 @@ public class Impac2AuditAction extends BaseAction {
 	 */
 	public void setRole(String role) {
 		this.role = role;
-	}
-	/**
-	 * @return the era_ua_link
-	 */
-	public String getEra_ua_link() {
-		return era_ua_link;
-	}
-	/**
-	 * @param era_ua_link the era_ua_link to set
-	 */
-	public void setEra_ua_link(String era_ua_link) {
-		this.era_ua_link = era_ua_link;
-	}
-	/**
-	 * @return the i2e_em_link
-	 */
-	public String getI2e_em_link() {
-		return i2e_em_link;
-	}
-	/**
-	 * @param i2e_em_link the i2e_em_link to set
-	 */
-	public void setI2e_em_link(String i2e_em_link) {
-		this.i2e_em_link = i2e_em_link;
 	}
 	/**
 	 * This method is for setting up the default search

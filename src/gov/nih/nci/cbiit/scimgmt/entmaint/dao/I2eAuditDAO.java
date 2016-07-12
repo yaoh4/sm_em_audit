@@ -1,12 +1,14 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
 import java.util.Date;
@@ -71,10 +73,13 @@ public class I2eAuditDAO {
 	            dc.add(Restrictions.eq("unsubmittedFlag", ApplicationConstants.FLAG_YES));
 	            criteria.add(dc);
 			}
+			else if(!StringUtils.isBlank(searchVO.getAct()) && (Long.parseLong(searchVO.getAct()) ==  ApplicationConstants.ACTIVE_ACTION_TRANSFER) ) {
+				criteria.add(Restrictions.isNotNull("transferToNedOrgPath"));
+			}
 			else if (!StringUtils.isBlank(searchVO.getAct()) && !StringUtils.equalsIgnoreCase(searchVO.getAct(), ApplicationConstants.ACTIVE_ACTION_ALL) ) {
 				criteria.add(Restrictions.eq("action.id", new Long(searchVO.getAct())));
 				criteria.add(Restrictions.eq("unsubmittedFlag", ApplicationConstants.FLAG_NO));
-			}
+			}			
 
 			paginatedListResult = getPaginatedListResult(paginatedList, criteria, all);
 			
@@ -252,19 +257,28 @@ public class I2eAuditDAO {
 		
 		// firstName partial search
 		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
-			criteria.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 		// lastName partial search
 		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
-			criteria.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
 		}
 
 		// org
 		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
 			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
 				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
-			}
-			else {
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
 				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
 			}
 		}
@@ -418,5 +432,74 @@ public class I2eAuditDAO {
 			paginatedList.setTotal(getTotalResultCount(criteria));
 		}
 		return paginatedList;
+	}
+	
+	/**
+	 * Transfers account to different organization.
+	 * @param accountId, nihNetworkId, auditId, parentNedOrgPath, actionComments, transferOrg, isI2eTransfer
+     * @return DBResult
+	 * @throws Exception 
+	 */
+	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) throws Exception {
+		DBResult result = new DBResult();
+		try {
+			EmI2eAuditAccountsT account = null;
+			
+			if(isI2eTransfer){
+				//For I2e Transfer retrieve EmI2eAuditAccountsT based on id
+				account = getAccountsT(accountId);					
+			}
+			else{
+				//If this I2E Transfer is triggered after Impac2 Transfer, then retrieve EmI2eAuditAccountsT based on nihNetworkId and auditId.
+				account = getAccountsT(nihNetworkId, auditId);			
+			}			
+			if(account != null){
+				account.setActionLastChangeUserId(nciUser.getUserId().toUpperCase());
+				account.setActionLastChangeDate(new Date());
+				//If its fresh transfer OR update to transfer OR transfer after Undo
+				if(account.getActionId() == null ||	account.getActionId() == ApplicationConstants.ACTIVE_ACTION_TRANSFER ||
+						ApplicationConstants.FLAG_YES.equalsIgnoreCase(account.getUnsubmittedFlag())){
+					account.setActionId(ApplicationConstants.ACTIVE_ACTION_TRANSFER);
+					account.setNotes(actionComments);
+					account.setUnsubmittedFlag(ApplicationConstants.FLAG_NO);	
+				}
+				account.setTransferFromNedOrgPath(parentNedOrgPath);
+				account.setTransferToNedOrgPath(transferOrg);
+				account.setTransferredDate(new Date());
+				
+				saveOrUpdateAction(account);
+				result.setStatus(DBResult.SUCCESS);
+			}
+			else{
+				log.error("EmI2eAuditAccountsT doesn't exist for ID: "+accountId);
+			}
+			
+		} catch (Throwable e) {			
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in Parameters: id - " + accountId +", nihNetworkId - " + nihNetworkId + ", auditId - " + auditId + ", parentNedOrgPath - " + parentNedOrgPath + ", actionComments - " + actionComments + ", transferOrg" + transferOrg +", isI2eTransfer" + isI2eTransfer);
+			String errorString = "Transfer Failed for Account with Id= " + accountId + " " + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
+		return result;
+	}
+	
+	/**
+	 * Get account using nihNetworkId , auditId.
+	 * @param nihNetworkId , auditId
+	 * @return EmI2eAuditAccountsT
+	 */
+	private EmI2eAuditAccountsT getAccountsT(String nihNetworkId, Long auditId) throws Exception{
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsT.class);
+			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
+			crit.add(Restrictions.eq("eauId", auditId));
+			EmI2eAuditAccountsT result = (EmI2eAuditAccountsT) crit.uniqueResult();
+			return result;
+		} catch (Throwable e) {
+			String errorString = "get EmI2eAuditAccountsT failed for nihNetworkId= " + nihNetworkId + " and Audit Id= "+ auditId + " " +e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
 	}
 }
