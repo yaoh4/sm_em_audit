@@ -291,7 +291,7 @@ public class MailServiceImpl implements MailService {
 			if(!orgMapEmail.containsKey(org)) {
 				orgMapEmail.put(org,new ArrayList<String>());
 				orgMapName.put(org,new ArrayList<String>());
-				orgMapEmail.get(org).add(entMaintProperties.getProperty("email.cc"));
+				orgMapEmail.get(org).add(entMaintProperties.getProperty("email.discrepancy.cc"));
 				orgMapName.get(org).add("NCI IMPACII Primary IC Coordinator");
 			}
 		}
@@ -339,7 +339,7 @@ public class MailServiceImpl implements MailService {
 				params.put("org", (entry.getKey().equalsIgnoreCase("EMADMIN")? "NCI Orgs without IC Coordinators": entry.getKey()));
 				params.put("monthYear", df.format(new Date()));
 				send(entMaintProperties.getProperty("email.from"), "discrepancyEmail", email,
-					parse(entMaintProperties.getProperty("email.cc")), null,
+					parse(entMaintProperties.getProperty("email.discrepancy.cc")), null,
 					entMaintProperties.getProperty("email.discrepancy.subject"), params); // Pass list of discrepancy accounts
 			}
 		}
@@ -374,13 +374,13 @@ public class MailServiceImpl implements MailService {
 				if(disVw.getShortDescrip() != null){
 					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
 						if (!sbu.toString().isEmpty())
-							sbu.append(",");
+							sbu.append("<br>");
 						sbu.append(disVw.getShortDescrip());
 					}
 				}
 			}
 			entry.setDiscrepancyText(sbu.toString());
-			if(!StringUtils.isEmpty(entry.getDiscrepancyText()) && !excluded.contains(entry.getNihNetworkId()))
+			if(!StringUtils.isEmpty(entry.getDiscrepancyText()) && !excluded.contains(account.getImpaciiUserId()))
 				accounts.add(entry);
 		}
 		return accounts;
@@ -414,7 +414,7 @@ public class MailServiceImpl implements MailService {
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 				if(disVw.getShortDescrip() != null){
 					if (!sbu.toString().isEmpty())
-						sbu.append(",");
+						sbu.append("<br>");
 					sbu.append(disVw.getShortDescrip());
 				}
 				if(dis.equalsIgnoreCase("I2EONLY")) {
