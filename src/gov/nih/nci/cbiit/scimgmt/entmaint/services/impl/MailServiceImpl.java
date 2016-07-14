@@ -338,8 +338,12 @@ public class MailServiceImpl implements MailService {
 				params.put("url", entMaintProperties.getProperty("email.discrepancy.url"));
 				params.put("org", (entry.getKey().equalsIgnoreCase("EMADMIN")? "NCI Orgs without IC Coordinators": entry.getKey()));
 				params.put("monthYear", df.format(new Date()));
+				String cc = entMaintProperties.getProperty("email.discrepancy.cc");
+				if (entry.getKey().equalsIgnoreCase("OD OM OGA")) {
+					cc = cc.concat(";" + entMaintProperties.getProperty("email.oga"));
+				}
 				send(entMaintProperties.getProperty("email.from"), "discrepancyEmail", email,
-					parse(entMaintProperties.getProperty("email.discrepancy.cc")), null,
+					parse(cc), null,
 					entMaintProperties.getProperty("email.discrepancy.subject"), params); // Pass list of discrepancy accounts
 			}
 		}
