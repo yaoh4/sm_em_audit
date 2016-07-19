@@ -56,7 +56,7 @@
                 <column name="LAST_UPD_BY_FULL_NAME" length="62" />
             </property>
             <property name="i2eOnlyFlag" type="yes_no">
-                <column name="I2E_ONLY_FLAG" length="1" />
+                <column name="PD_SPEC_NO_ROLE_FLAG" length="1" />
             </property>
             <property name="notes" type="string">
                 <column name="NOTES" length="600" />
@@ -78,6 +78,9 @@
             </property>
             <property name="activeRoleRemainderFlag" type="yes_no">
                 <column name="ACTIVE_ROLE_REMAINDER_FLAG" length="1" />
+            </property>
+            <property name="icDiffFlag" type="yes_no">
+                <column name="IC_DIFF_FLAG" length="1" />
             </property>
             <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="false" lazy="false" fetch="select">
             	<key>

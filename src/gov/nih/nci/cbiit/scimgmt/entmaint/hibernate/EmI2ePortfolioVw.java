@@ -36,6 +36,7 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 	private Boolean nedInactiveFlag;
 	private Boolean noActiveRoleFlag;
 	private Boolean activeRoleRemainderFlag;
+	private Boolean icDiffFlag;
 	private List<I2eActiveUserRolesVw> accountRoles = new ArrayList<I2eActiveUserRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
@@ -54,7 +55,8 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 			String parentNedOrgPath, String nedOrgPath, String nedIc, Boolean nedActiveFlag, String nciDoc,
 			Date createdDate, String lastUpdByFullName, Boolean i2eOnlyFlag, String notes,
 			String notesSubmittedByFullName, Date notesSubmittedDate, Boolean sodFlag, Boolean nedInactiveFlag,
-			Boolean noActiveRoleFlag, Boolean activeRoleRemainderFlag, List accountRoles, List accountDiscrepancies) {
+			Boolean noActiveRoleFlag, Boolean activeRoleRemainderFlag, Boolean icDiffFlag, List accountRoles, 
+			List accountDiscrepancies) {
 		this.npnId = npnId;
 		this.oracleId = oracleId;
 		this.nihNetworkId = nihNetworkId;
@@ -80,6 +82,7 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 		this.nedInactiveFlag = nedInactiveFlag;
 		this.noActiveRoleFlag = noActiveRoleFlag;
 		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
+		this.icDiffFlag = icDiffFlag;
 		this.accountRoles = accountRoles;
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
@@ -284,6 +287,20 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
 	}
 
+	/**
+	 * @return the icDiffFlag
+	 */
+	public Boolean getIcDiffFlag() {
+		return icDiffFlag;
+	}
+
+	/**
+	 * @param icDiffFlag the icDiffFlag to set
+	 */
+	public void setIcDiffFlag(Boolean icDiffFlag) {
+		this.icDiffFlag = icDiffFlag;
+	}
+
 	public List<I2eActiveUserRolesVw> getAccountRoles() {
 		return accountRoles;
 	}
@@ -378,7 +395,10 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 						castOther.getNoActiveRoleFlag())))
 				&& ((this.getActiveRoleRemainderFlag() == castOther.getActiveRoleRemainderFlag()) || (this
 						.getActiveRoleRemainderFlag() != null && castOther.getActiveRoleRemainderFlag() != null && this
-						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())));
+						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())))
+				&& ((this.getIcDiffFlag() == castOther.getIcDiffFlag()) || (this
+				.getIcDiffFlag() != null && castOther.getIcDiffFlag() != null && this
+				.getIcDiffFlag().equals(castOther.getIcDiffFlag())));
 	}
 
 	public int hashCode() {
@@ -411,6 +431,7 @@ public class EmI2ePortfolioVw implements java.io.Serializable {
 		result = 37 * result + (getNoActiveRoleFlag() == null ? 0 : this.getNoActiveRoleFlag().hashCode());
 		result = 37 * result
 				+ (getActiveRoleRemainderFlag() == null ? 0 : this.getActiveRoleRemainderFlag().hashCode());
+		result = 37 * result + (getIcDiffFlag() == null ? 0: this.getIcDiffFlag().hashCode());
 		return result;
 	}
 

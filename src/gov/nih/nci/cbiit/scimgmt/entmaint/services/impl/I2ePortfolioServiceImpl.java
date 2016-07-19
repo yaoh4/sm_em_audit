@@ -145,6 +145,11 @@ public class I2ePortfolioServiceImpl implements I2ePortfolioService {
 		if (account.getActiveRoleRemainderFlag() != null && account.getActiveRoleRemainderFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
 		}
+		
+		//Check for Non NCI Person with I2E account
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+		}
 				
 		return discrepancyList;
 	}

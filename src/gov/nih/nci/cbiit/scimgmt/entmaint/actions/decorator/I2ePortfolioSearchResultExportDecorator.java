@@ -171,6 +171,17 @@ public class I2ePortfolioSearchResultExportDecorator extends TableDecorator{
 		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
 	}
 	
+	
+	/**
+	 * Checks if I2e IC Diff (Non NCI Person with I2E Account)  discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eIcDiff() {
+		PortfolioI2eAccountVO portfolioVO = (PortfolioI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(portfolioVO, ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+	}
+	
 	/**
 	 * Checks if a discrepancy of the given type exists in the given account.
 	 * Helper method used by the other discrepancy specific methods.
