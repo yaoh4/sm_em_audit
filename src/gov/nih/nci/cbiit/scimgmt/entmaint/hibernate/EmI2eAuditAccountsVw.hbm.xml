@@ -80,7 +80,7 @@
                 <column name="SUBMITTED_DATE" length="7" />
             </property>
             <property name="i2eOnlyFlag" type="yes_no">
-                <column name="I2E_ONLY_FLAG" length="1" />
+                <column name="PD_SPEC_NO_ROLE_FLAG" length="1" />
             </property>
             <property name="sodFlag" type="yes_no">
                 <column name="SOD_FLAG" length="0" />
