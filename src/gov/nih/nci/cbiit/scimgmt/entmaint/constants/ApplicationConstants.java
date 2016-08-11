@@ -83,6 +83,7 @@ public interface ApplicationConstants {
     public static final String DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE = "I2ENOACTIVEROLE";
     public static final String DISCREPANCY_CODE_I2E_ONLY = "I2EONLY";
     public static final String DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER = "I2EACTIVEROLEREM";
+    public static final String DISCREPANCY_CODE_I2E_IC_DIFF = "I2EICDIFF";
     
     /* Organization Drop down */
     public static final String ORG_PATH_NON_NCI = "Non-NCI";
