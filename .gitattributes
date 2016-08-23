@@ -254,12 +254,10 @@ properties/dev/entmaint.properties -text
 properties/dev/ldap.properties -text
 properties/dev/log4j.properties -text
 properties/discrepancyColumn.xml -text
-properties/displayColumn.xml -text
 properties/displaytag.properties -text
 properties/i2eColumn.xml -text
 properties/local/entmaint.properties -text
 properties/local/ldap.properties -text
-properties/local/log4j.properties -text
 properties/messages.properties -text
 properties/production/entmaint.properties -text
 properties/production/ldap.properties -text
