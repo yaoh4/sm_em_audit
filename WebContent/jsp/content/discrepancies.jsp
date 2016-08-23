@@ -70,6 +70,29 @@
 	<span class="bannerAlign"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></span>
 </s:else>
 <br/><br/>
+
+<s:if test="%{portfolioInactiveAccounts.list.size > 0}">
+	<h4>IMPAC II accounts inactivated due to 120 days<span style="font-weight: normal;"></span></h4>
+	<div class="table-responsive">
+	<display:table class="table table-bordered" name="portfolioInactiveAccounts" id="portfolioInactiveAccountsId" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator" >
+	<display:setProperty name="paging.banner.one_item_found" value="" />
+	<display:setProperty name="paging.banner.all_items_found" value="" />
+	
+	<s:iterator var="t" value="displayInactiveColumn">
+	<s:if test="#t.display == 'true'">
+		<s:if test="#t.columnName == 'IMPAC II Application Role'">
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false" style="white-space:nowrap;"/>
+		</s:if>
+		<s:else>
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
+		</s:else>
+	</s:if>
+	</s:iterator>
+	</display:table>
+	</div>
+</s:if>
+<br/><br/>
+
 <div id="help" style="display: none; overflow:auto;" title="Discrepancy Report">
 	<br/>
 	<div align="left" id="helpDiv"></div>

@@ -37,6 +37,10 @@ public class DiscrepanciesAction extends BaseAction {
 	
 	private PaginatedListImpl<PortfolioAccountVO> portfolioAccounts;	
 	private PaginatedListImpl<PortfolioI2eAccountVO> i2ePortfolioAccounts = null;
+	
+	private PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts;
+	
+	protected List<Tab> displayInactiveColumn;
 
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
@@ -58,6 +62,8 @@ public class DiscrepanciesAction extends BaseAction {
 		
 		//default Search
 		String forward = searchReports();
+		
+		forward = searchInactiveAccounts();
 		
         return forward;
     }
@@ -135,6 +141,45 @@ public class DiscrepanciesAction extends BaseAction {
 			prev = account;
 		}
 		return forward;	
+	}
+	
+	/**
+	 * ENTMAINT-274 - retrieves all inactive accounts.
+	 * @return
+	 * @throws Exception
+	 */
+	public String searchInactiveAccounts() throws Exception{
+		String forward = SUCCESS;
+		
+		changePageSize = 2000;
+		portfolioInactiveAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);
+		
+		if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+			searchVO.setExcludeNCIOrgs(true);
+		}
+		else {
+			searchVO.setOrganization(nciUser.getOrgPath());
+		}
+		
+		// Get accounts that are excluded from last audit
+		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
+		HashSet<String> excludedAccounts = null;
+		if(emAuditsVO != null) {
+			Long auditId = emAuditsVO.getId();
+			excludedAccounts = impac2AuditService.retrieveExcludedFromAuditAccounts(auditId);
+		} else {
+			excludedAccounts = new HashSet<String>();
+		}
+		//perform the IMPAC II discrepancy search
+		searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_INACTIVE);
+		portfolioInactiveAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioInactiveAccounts, searchVO, true);
+		
+		//Get displayColumn as per entered category.
+		Map<String, List<Tab>> colMap = (Map<String, List<Tab>>)servletContext.getAttribute(ApplicationConstants.DISCREPANCYCOLATTRIBUTE);
+		displayInactiveColumn = auditSearchActionHelper.getPortfolioDisplayColumn(colMap,searchVO.getCategory().intValue());	
+		processList(displayInactiveColumn);
+		
+		return forward;
 	}
 
 	/**
@@ -258,6 +303,23 @@ public class DiscrepanciesAction extends BaseAction {
 	public String getPortfolioAccountsRolesColumnsNames(){			
 		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.PORTFOLIO_DISCREPANCY);
 	}
+	
+	
+	/**
+	 * This method returns rolesColumns.
+	 * @return List<Tab>
+	 */
+	public List<Tab> getPortfolioInactiveAccountsRolesColumns(){		
+		return auditSearchActionHelper.getNestedTableColumns(displayColumn, ApplicationConstants.PORTFOLIO_INACTIVE);
+	}
+	
+	/**
+	 * This method returns roles Columns titles.
+	 * @return String
+	 */
+	public String getPortfolioInactiveAccountsRolesColumnsNames(){			
+		return auditSearchActionHelper.getNestedTableColumnsNames(displayColumn, ApplicationConstants.PORTFOLIO_INACTIVE);
+	}
 
 	/**
 	 * @return the portfolioAccounts
@@ -271,6 +333,22 @@ public class DiscrepanciesAction extends BaseAction {
 	 */
 	public void setPortfolioAccounts(PaginatedListImpl<PortfolioAccountVO> portfolioAccounts) {
 		this.portfolioAccounts = portfolioAccounts;
+	}
+
+	public List<Tab> getDisplayInactiveColumn() {
+		return displayInactiveColumn;
+	}
+
+	public void setDisplayInactiveColumn(List<Tab> displayInactiveColumn) {
+		this.displayInactiveColumn = displayInactiveColumn;
+	}
+
+	public PaginatedListImpl<PortfolioAccountVO> getPortfolioInactiveAccounts() {
+		return portfolioInactiveAccounts;
+	}
+
+	public void setPortfolioInactiveAccounts(PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts) {
+		this.portfolioInactiveAccounts = portfolioInactiveAccounts;
 	}
 	
 }

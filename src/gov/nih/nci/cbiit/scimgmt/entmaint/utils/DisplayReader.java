@@ -54,6 +54,7 @@ public class DisplayReader {
 		List<Tab> i2ePorfolioDiscrepancy = new ArrayList<Tab>();
 		List<Tab> i2eActive = new ArrayList<Tab>();
 		List<Tab> transfer = new ArrayList<Tab>();
+		List<Tab> portfolioInactive = new ArrayList<Tab>();
 		
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
@@ -99,6 +100,9 @@ public class DisplayReader {
 			if(ApplicationConstants.CATEGORY_TRANSFER.equalsIgnoreCase(t.getType())){
 				transfer.add(t);
 			}
+			if(ApplicationConstants.PORTFOLIO_INACTIVE.equalsIgnoreCase(t.getType())){
+				portfolioInactive.add(t);
+			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
@@ -114,6 +118,7 @@ public class DisplayReader {
 		colMap.put(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY, i2ePorfolioDiscrepancy);
 		colMap.put(ApplicationConstants.I2E_AUDIT_ACTIVE, i2eActive);
 		colMap.put(ApplicationConstants.CATEGORY_TRANSFER, transfer);
+		colMap.put(ApplicationConstants.PORTFOLIO_INACTIVE, portfolioInactive);
 		return colMap;
 	}
 	

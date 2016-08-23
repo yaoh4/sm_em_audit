@@ -188,6 +188,9 @@ public class AuditSearchActionHelper {
 		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_DISCREPANCY:
 			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_DISCREPANCY);
 			 break;
+		case (int)ApplicationConstants.PORTFOLIO_CATEGORY_INACTIVE:
+			 displayColumn = colMap.get(ApplicationConstants.PORTFOLIO_INACTIVE);
+			 break;
 	}
 		return displayColumn;
 	}
