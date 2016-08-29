@@ -42,26 +42,14 @@
 	<s:set var="portfolioAccountsRolesColumnsNames" value="%{getPortfolioAccountsRolesColumnsNames()}" />
 		
 	<s:iterator var="t" value="displayColumn">
- 		<s:if test="#t.display == 'true'">
- 			<s:if test="#t.isNestedColumn == 'false'">
-				<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
-			</s:if>
- 			<s:if test="#t.columnName == 'Created/Last Updated By'">
- 				<display:column title="${portfolioAccountsRolesColumnsNames}" style="width:30%;">
- 		
-				<display:table class="table table-bordered nestedTableStyle" name="${portfolioAccountsRoles}" id="portfolioAccountsRoles_${portfolioAccountsRolesId}" 
-						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
-						   
-					<display:setProperty name="basic.show.header" value="false" />
-			
-					<s:iterator var="t" value="portfolioAccountsRolesColumns">
-						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
-					</s:iterator>
-				
-				</display:table>
-				</display:column>
- 			</s:if> 	
- 		</s:if>
+	<s:if test="#t.display == 'true'">
+		<s:if test="#t.columnName == 'IMPAC II Application Role'">
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false" style="white-space:nowrap;"/>
+		</s:if>
+		<s:else>
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
+		</s:else>
+	</s:if>
 	</s:iterator>
 	</display:table>
 	</div>
