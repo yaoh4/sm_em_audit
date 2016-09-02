@@ -28,7 +28,10 @@ public class EmAuditAccountsT implements java.io.Serializable {
 	private String deletedTransferToOrgPath;
 	private String deletedTransferFromOrgPath;
 	private Date transferredDate;
-	
+	private Boolean activeCategoryFlag;
+	private Boolean newCategoryFlag;
+	private Boolean deletedCategoryFlag;
+	private Boolean inactiveCategoryFlag;
 	
 	public EmAuditAccountsT() {
 	}
@@ -46,7 +49,8 @@ public class EmAuditAccountsT implements java.io.Serializable {
 			Date createdDate, String createdByUserId, Date deletedDate, String deletedByUserId,
 			String deactivationComments, Long eauId, String firstName, String lastName, String createdByFullName,
 			String deletedByFullName, Date lastLoginDate, String inactiveUserFlag, String transferToNedOrgPath,
-			String transferFromNedOrgPath, Date transferredDate, String deletedTransferToOrgPath, String deletedTransferFromOrgPath) {
+			String transferFromNedOrgPath, Date transferredDate, String deletedTransferToOrgPath, String deletedTransferFromOrgPath, Boolean activeCategoryFlag,
+			Boolean newCategoryFlag, Boolean deletedCategoryFlag, Boolean inactiveCategoryFlag) {
 		super();
 		this.id = id;
 		this.impaciiUserId = impaciiUserId;
@@ -69,6 +73,10 @@ public class EmAuditAccountsT implements java.io.Serializable {
 		this.transferredDate = transferredDate;
 		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
 		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
+		this.activeCategoryFlag = activeCategoryFlag;
+		this.newCategoryFlag = newCategoryFlag;
+		this.deletedCategoryFlag = deletedCategoryFlag;
+		this.inactiveCategoryFlag = inactiveCategoryFlag;
 	}
 
 	public Long getId() {
@@ -241,4 +249,35 @@ public class EmAuditAccountsT implements java.io.Serializable {
 		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
 	}
 	
+	public Boolean getActiveCategoryFlag() {
+		return this.activeCategoryFlag;
+	}
+
+	public void setActiveCategoryFlag(Boolean activeCategoryFlag) {
+		this.activeCategoryFlag = activeCategoryFlag;
+	}
+
+	public Boolean getNewCategoryFlag() {
+		return this.newCategoryFlag;
+	}
+
+	public void setNewCategoryFlag(Boolean newCategoryFlag) {
+		this.newCategoryFlag = newCategoryFlag;
+	}
+
+	public Boolean getDeletedCategoryFlag() {
+		return this.deletedCategoryFlag;
+	}
+
+	public void setDeletedCategoryFlag(Boolean deletedCategoryFlag) {
+		this.deletedCategoryFlag = deletedCategoryFlag;
+	}
+
+	public Boolean getInactiveCategoryFlag() {
+		return this.inactiveCategoryFlag;
+	}
+
+	public void setInactiveCategoryFlag(Boolean inactiveCategoryFlag) {
+		this.inactiveCategoryFlag = inactiveCategoryFlag;
+	}
 }

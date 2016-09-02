@@ -73,6 +73,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String deletedTransferToOrgPath;
 	private String deletedTransferFromOrgPath;
 	private Date transferredDate;
+	private Boolean activeCategoryFlag;
+	private Boolean newCategoryFlag;
+	private Boolean deletedCategoryFlag;
+	private Boolean inactiveCategoryFlag;
 	
 	public EmAuditAccountsVw() {
 	}
@@ -98,7 +102,8 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag,
 			Boolean lastNameDiffFlag, List accountRoles, List accountActivities,
 			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies, String transferToNedOrgPath, String transferFromNedOrgPath,Date transferredDate,
-			String deletedTransferToOrgPath, String deletedTransferFromOrgPath) {
+			String deletedTransferToOrgPath, String deletedTransferFromOrgPath, Boolean activeCategoryFlag,
+			Boolean newCategoryFlag, Boolean deletedCategoryFlag, Boolean inactiveCategoryFlag) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
@@ -161,6 +166,10 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.transferredDate = transferredDate;
 		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
 		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
+		this.activeCategoryFlag = activeCategoryFlag;
+		this.newCategoryFlag = newCategoryFlag;
+		this.deletedCategoryFlag = deletedCategoryFlag;
+		this.inactiveCategoryFlag = inactiveCategoryFlag;
 	}
 
 	@Override
@@ -333,7 +342,19 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 				   	   castOther.getDeletedTransferToOrgPath())))
 				&& ((this.getDeletedTransferFromOrgPath() == castOther.getDeletedTransferFromOrgPath()) || (this.getDeletedTransferFromOrgPath() != null
 				   	   && castOther.getDeletedTransferFromOrgPath() != null && this.getDeletedTransferFromOrgPath().equals(
-				       castOther.getDeletedTransferFromOrgPath())));
+				       castOther.getDeletedTransferFromOrgPath())))
+				&& ((this.getActiveCategoryFlag() == castOther.getActiveCategoryFlag())
+						|| (this.getActiveCategoryFlag() != null && castOther.getActiveCategoryFlag() != null
+								&& this.getActiveCategoryFlag().equals(castOther.getActiveCategoryFlag())))
+				&& ((this.getNewCategoryFlag() == castOther.getNewCategoryFlag())
+						|| (this.getNewCategoryFlag() != null && castOther.getNewCategoryFlag() != null
+								&& this.getNewCategoryFlag().equals(castOther.getNewCategoryFlag())))
+				&& ((this.getDeletedCategoryFlag() == castOther.getDeletedCategoryFlag())
+						|| (this.getDeletedCategoryFlag() != null && castOther.getDeletedCategoryFlag() != null
+								&& this.getDeletedCategoryFlag().equals(castOther.getDeletedCategoryFlag())))
+				&& ((this.getInactiveCategoryFlag() == castOther.getInactiveCategoryFlag())
+						|| (this.getInactiveCategoryFlag() != null && castOther.getInactiveCategoryFlag() != null
+								&& this.getInactiveCategoryFlag().equals(castOther.getInactiveCategoryFlag())));
 	}
 
 	public EmAuditsT getAudit() {
@@ -900,6 +921,36 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
 	}
 
-	
+	public Boolean getActiveCategoryFlag() {
+		return this.activeCategoryFlag;
+	}
+
+	public void setActiveCategoryFlag(Boolean activeCategoryFlag) {
+		this.activeCategoryFlag = activeCategoryFlag;
+	}
+
+	public Boolean getNewCategoryFlag() {
+		return this.newCategoryFlag;
+	}
+
+	public void setNewCategoryFlag(Boolean newCategoryFlag) {
+		this.newCategoryFlag = newCategoryFlag;
+	}
+
+	public Boolean getDeletedCategoryFlag() {
+		return this.deletedCategoryFlag;
+	}
+
+	public void setDeletedCategoryFlag(Boolean deletedCategoryFlag) {
+		this.deletedCategoryFlag = deletedCategoryFlag;
+	}
+
+	public Boolean getInactiveCategoryFlag() {
+		return this.inactiveCategoryFlag;
+	}
+
+	public void setInactiveCategoryFlag(Boolean inactiveCategoryFlag) {
+		this.inactiveCategoryFlag = inactiveCategoryFlag;
+	}
 
 }
