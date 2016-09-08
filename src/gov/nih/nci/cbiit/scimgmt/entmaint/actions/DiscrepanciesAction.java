@@ -3,7 +3,10 @@
  */
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -41,6 +44,11 @@ public class DiscrepanciesAction extends BaseAction {
 	private PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts;
 	
 	protected List<Tab> displayInactiveColumn;
+	
+	private String beginDt;
+	private String endDt;
+	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	Calendar cal = Calendar.getInstance();
 
 	@Autowired
 	protected Impac2PortfolioService impac2PortfolioService;
@@ -349,6 +357,26 @@ public class DiscrepanciesAction extends BaseAction {
 
 	public void setPortfolioInactiveAccounts(PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts) {
 		this.portfolioInactiveAccounts = portfolioInactiveAccounts;
+	}
+	
+	public String getEndDt() {
+		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		return dateFormat.format(cal.getTime());
+	}
+
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
+	}
+
+	public String getBeginDt() {
+		cal.set(Calendar.DATE, 1);
+		cal.add(Calendar.MONTH, -1);
+		return dateFormat.format(cal.getTime());
+	}
+
+	public void setBeginDt(String beginDt) {
+		this.beginDt = beginDt;
 	}
 	
 }

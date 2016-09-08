@@ -30,6 +30,36 @@
 		#end
 		</tbody>
 	</table>
+	
+	#if ($displayInactiveTable == "Y")
+		<p>
+			<h4>IMPAC II accounts inactivated due to 120 days between $beginDt and $endDt</h4>
+		</p>
+		<table bgcolor ="#AAAAAA" border="0" cellpadding="2" cellspacing="1">
+			<thead>
+				<tr bgcolor="#CCCCCC">
+					<th>Name</th>
+					<th>IMPAC II ID/NIH (Network) ID</th>
+					<th>NED Org Path</th>
+					<th>Org ID</th>
+					<th>IMPAC II Application Role</th>
+					<th>IMPAC II Role Created On</th>
+				</tr>
+			</thead>
+			<tbody>
+				#foreach ($row in $inActiveAccounts)
+					<tr bgcolor="#FFFFFF">
+						<td style="border-bottom:solid 1px #cccccc;">$row.fullName</td>
+						<td style="border-bottom:solid 1px #cccccc;">$row.impaciiUserIdNetworkId</td>
+						<td style="border-bottom:solid 1px #cccccc;">$row.nedOrgPath</td>
+						<td style="border-bottom:solid 1px #cccccc;">$row.orgId</td>
+						<td style="border-bottom:solid 1px #cccccc;">$row.applicationRole</td>
+						<td style="border-bottom:solid 1px #cccccc;">$row.roleCreateOn</td>
+					</tr>
+				#end
+			</tbody>
+		</table>
+	#end
 
 	<p>
 		In order to ensure that the accounts are maintained only for persons with a legitimate business 

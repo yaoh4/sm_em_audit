@@ -11,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -357,6 +358,15 @@ public class Impac2PortfolioDAO {
 	 */
 	private Criteria addInactiveCriteria(final Criteria criteria) {
 		criteria.add(Restrictions.eq("statusCode", 3l));
+		Calendar cal = Calendar.getInstance();
+		//Check if the DELETED_DATE is greater than 1st of the previous month
+		cal.set(Calendar.DATE, 1);
+		cal.add(Calendar.MONTH, -1);
+		criteria.add(Restrictions.ge("deletedDate", cal.getTime()));
+		//Check if the DELETED_DATE is less than last day of the previous month
+		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		criteria.add(Restrictions.le("deletedDate", cal.getTime()));
 		log.info("debugging logs");
 		return criteria;
 	}

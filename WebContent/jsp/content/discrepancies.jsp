@@ -60,7 +60,7 @@
 <br/><br/>
 
 <s:if test="%{portfolioInactiveAccounts.list.size > 0}">
-	<h4>IMPAC II accounts inactivated due to 120 days<span style="font-weight: normal;"></span></h4>
+	<h4>IMPAC II accounts inactivated due to 120 days between <s:property value="beginDt"/> and <s:property value="endDt"/><span style="font-weight: normal;"></span></h4>
 	<div class="table-responsive">
 	<display:table class="table table-bordered" name="portfolioInactiveAccounts" id="portfolioInactiveAccountsId" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator" >
 	<display:setProperty name="paging.banner.one_item_found" value="" />
