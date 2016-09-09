@@ -41,9 +41,7 @@
 					<th>Name</th>
 					<th>IMPAC II ID/NIH (Network) ID</th>
 					<th>NED Org Path</th>
-					<th>Org ID</th>
 					<th>IMPAC II Application Role</th>
-					<th>IMPAC II Role Created On</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,9 +50,7 @@
 						<td style="border-bottom:solid 1px #cccccc;">$row.fullName</td>
 						<td style="border-bottom:solid 1px #cccccc;">$row.impaciiUserIdNetworkId</td>
 						<td style="border-bottom:solid 1px #cccccc;">$row.nedOrgPath</td>
-						<td style="border-bottom:solid 1px #cccccc;">$row.orgId</td>
 						<td style="border-bottom:solid 1px #cccccc;">$row.applicationRole</td>
-						<td style="border-bottom:solid 1px #cccccc;">$row.roleCreateOn</td>
 					</tr>
 				#end
 			</tbody>

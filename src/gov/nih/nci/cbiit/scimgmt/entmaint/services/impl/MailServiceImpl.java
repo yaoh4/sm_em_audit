@@ -425,21 +425,13 @@ public class MailServiceImpl implements MailService {
 			entry.setNedOrgPath(account.getNedOrgPath());
 			List<EmPortfolioRolesVw> roles = account.getAccountRoles();
 			if(roles == null || roles.size() == 0){
-				entry.setOrgId("");
 				entry.setApplicationRole("");
-				entry.setRoleCreateOn("");
 			} else {
-				String orgId = "";
 				String applicationRole = "";
-				String roleCreateOn = "";
 				for (EmPortfolioRolesVw roleVw : roles) {
-					orgId = orgId + roleVw.getOrgId() + "<br>";
 					applicationRole = applicationRole + roleVw.getRoleName() + "<br>";
-					roleCreateOn = roleCreateOn + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "<br>";
 				}
-				entry.setOrgId(orgId);
 				entry.setApplicationRole(applicationRole);
-				entry.setRoleCreateOn(roleCreateOn);
 			}
 			accounts.add(entry);
 		}

@@ -13,8 +13,6 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 	
 	private String impaciiUserIdNetworkId;
 	private String applicationRole;
-	private String roleCreateOn;
-	private String orgId;
 
 	public DiscrepancyEmailAccountVO() {
 		
@@ -147,22 +145,6 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 
 	public void setApplicationRole(String applicationRole) {
 		this.applicationRole = applicationRole;
-	}
-
-	public String getRoleCreateOn() {
-		return roleCreateOn;
-	}
-
-	public void setRoleCreateOn(String roleCreateOn) {
-		this.roleCreateOn = roleCreateOn;
-	}
-
-	public String getOrgId() {
-		return orgId;
-	}
-
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
 	}
 
 	@Override
