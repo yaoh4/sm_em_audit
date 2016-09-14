@@ -61,14 +61,14 @@ public class ReportsDAO {
 			i2eVwLeftJoinAuditVw.append("auditVw.impacii_active_status_flag AS impaciiActiveStatusFlag, i2eVw.i2e_active_status_flag AS i2eActiveStatusFlag, ");
 			i2eVwLeftJoinAuditVw.append("i2eVw.transfer_to_org_path AS transferToNedOrgPath, i2eVw.transfer_from_org_path AS transferFromNedOrgPath, ");
 			i2eVwLeftJoinAuditVw.append("auditVw.deleted_transfer_to_org_path AS deletedTransferToNedOrgPath, auditVw.deleted_transfer_from_org_path AS deletedTransferFromNedOrgPath, auditVw.status_code AS statusCode ");
-			i2eVwLeftJoinAuditVw.append("from em_i2e_audit_accounts_vw i2eVw left outer join em_audit_accounts_vw auditVw on i2eVw.nih_network_id = auditVw.nih_network_id ");
+			i2eVwLeftJoinAuditVw.append("from em_i2e_audit_accounts_vw i2eVw left outer join em_audit_accounts_vw auditVw on i2eVw.nih_network_id = auditVw.nih_network_id and i2eVw.audit_id = auditVw.audit_id ");
 			i2eVwLeftJoinAuditVw.append("where i2eVw.audit_id = :auditId and i2eVw.transfer_to_org_path is not null ");			
 			
 			auditVwLeftJoinI2eVw.append("select auditVw.last_name AS lastName, auditVw.first_name AS firstName, auditVw.nih_network_id AS nihNetworkId, auditVw.ned_org_path AS nedOrgPath, ");
 			auditVwLeftJoinI2eVw.append("auditVw.impacii_active_status_flag AS impaciiActiveStatusFlag, i2eVw.i2e_active_status_flag AS i2eActiveStatusFlag, ");
 			auditVwLeftJoinI2eVw.append("auditVw.transfer_to_org_path AS transferToNedOrgPath, auditVw.transfer_from_org_path AS transferFromNedOrgPath, ");
 			auditVwLeftJoinI2eVw.append("auditVw.deleted_transfer_to_org_path AS deletedTransferToNedOrgPath, auditVw.deleted_transfer_from_org_path AS deletedTransferFromNedOrgPath, auditVw.status_code AS statusCode ");
-			auditVwLeftJoinI2eVw.append("from em_audit_accounts_vw auditVw left outer join em_i2e_audit_accounts_vw  i2eVw on auditVw.nih_network_id = i2eVw.nih_network_id ");
+			auditVwLeftJoinI2eVw.append("from em_audit_accounts_vw auditVw left outer join em_i2e_audit_accounts_vw  i2eVw on auditVw.nih_network_id = i2eVw.nih_network_id and i2eVw.audit_id = auditVw.audit_id ");
 			auditVwLeftJoinI2eVw.append("where auditVw.audit_id = :auditId and (auditVw.transfer_to_org_path is not null or auditVw.deleted_transfer_to_org_path is not null)");
 			
 			transferredAccountsQuery.append("select lastName, firstName, nihNetworkId, nedOrgPath, impaciiActiveStatusFlag, i2eActiveStatusFlag, transferToNedOrgPath, transferFromNedOrgPath, deletedTransferToNedOrgPath, deletedTransferFromNedOrgPath, statusCode from ( ")	;
@@ -227,7 +227,10 @@ public class ReportsDAO {
 			accountVo.setTransferFromNedOrgPath((String)row.get("TRANSFERFROMNEDORGPATH"));
 			accountVo.setTransferToNedOrgPath((String)row.get("TRANSFERTONEDORGPATH"));	
 			accountVo.setDeletedTransferToNedOrgPath((String)row.get("DELETEDTRANSFERTONEDORGPATH"));	
-			accountVo.setDeletedTransferFromNedOrgPath((String)row.get("DELETEDTRANSFERFROMNEDORGPATH"));				
+			accountVo.setDeletedTransferFromNedOrgPath((String)row.get("DELETEDTRANSFERFROMNEDORGPATH"));
+			if ((BigDecimal) row.get("STATUSCODE") != null) {
+				accountVo.setStatusCode(((BigDecimal) row.get("STATUSCODE")).longValue());
+			}
 			
 			if(row.get("IMPACIIACTIVESTATUSFLAG") == null){
 				accountVo.setImpaciiActiveStatusFlag(null);
