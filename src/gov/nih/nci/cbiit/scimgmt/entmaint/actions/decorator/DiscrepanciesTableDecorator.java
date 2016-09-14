@@ -238,4 +238,20 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		
 		return system + era_ua_link;	
 	}
+	
+	/**
+	 * Get the Current IMPAC II Account Status
+	 * 
+	 * @return
+	 */
+	public String getAccountStatus(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		if (portfolioVO != null && portfolioVO.getStatusCode() != null) {
+			return lookupService.getAppLookupByCode(
+					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(portfolioVO.getStatusCode())).getDescription();
+		}
+		return "";
+		
+	}
+	
 }

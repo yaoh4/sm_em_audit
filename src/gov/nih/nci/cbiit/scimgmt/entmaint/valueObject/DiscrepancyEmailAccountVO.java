@@ -13,6 +13,8 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 	
 	private String impaciiUserIdNetworkId;
 	private String applicationRole;
+	
+	private String accountStatus;
 
 	public DiscrepancyEmailAccountVO() {
 		
@@ -145,6 +147,14 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 
 	public void setApplicationRole(String applicationRole) {
 		this.applicationRole = applicationRole;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 
 	@Override

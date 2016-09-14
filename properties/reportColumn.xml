@@ -36,6 +36,12 @@
  	</Tab>
  	<Tab>
  		<type>active</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
  		<columnName>DATABASE ROLE NAME</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
@@ -69,6 +75,12 @@
  		<columnName>CREATED</columnName>
  		<property>accountCreatedDate</property>
  		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 		<sort>false</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
@@ -357,6 +369,12 @@
  	</Tab>
  	<Tab>
  		<type>excluded</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
  		<columnName>DATABASE ROLE NAME</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
@@ -420,5 +438,11 @@
  		<columnName>To Organization</columnName>
  		<property>transferToNedOrgPath</property>
  		<sort>true</sort> 		
- 	</Tab> 	
+ 	</Tab> 
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 		<sort>false</sort>
+ 	</Tab>	
  </Display>			

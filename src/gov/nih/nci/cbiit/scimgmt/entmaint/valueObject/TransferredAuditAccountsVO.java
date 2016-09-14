@@ -18,6 +18,7 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 	private String transferFromNedOrgPath;
 	private String deletedTransferToNedOrgPath;
 	private String deletedTransferFromNedOrgPath;
+	private Long statusCode; 
 	
 	public TransferredAuditAccountsVO() {
 		super();
@@ -103,6 +104,12 @@ public class TransferredAuditAccountsVO implements java.io.Serializable {
 	}
 	public void setDeletedTransferFromNedOrgPath(String deletedTransferFromNedOrgPath) {
 		this.deletedTransferFromNedOrgPath = deletedTransferFromNedOrgPath;
+	}
+	public Long getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(Long statusCode) {
+		this.statusCode = statusCode;
 	}		
 	
 }

@@ -17,6 +17,7 @@
 			<th>NIH (Network) ID</th>
 			<th>IMPAC II or I2E</th>
 			<th>Discrepancy Type</th>
+			<th>Current IMPAC II Account Status</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -26,6 +27,7 @@
 			<td style="border-bottom:solid 1px #cccccc;">$row.nihNetworkId</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.system</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.accountStatus</td>
 		</tr>
 		#end
 		</tbody>

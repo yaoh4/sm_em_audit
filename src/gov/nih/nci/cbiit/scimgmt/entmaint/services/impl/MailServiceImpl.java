@@ -409,7 +409,14 @@ public class MailServiceImpl implements MailService {
 					}
 				}
 			}
-			entry.setDiscrepancyText(sbu.toString());
+			entry.setDiscrepancyText(sbu.toString()) ;
+			if (account.getStatusCode() != null ) {
+				String accStatus = lookupService.getAppLookupByCode(
+						ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(account.getStatusCode())).getDescription();
+				entry.setAccountStatus(accStatus != null ? accStatus : " ");
+			} else {
+				entry.setAccountStatus(" ");
+			}
 			if(!StringUtils.isEmpty(entry.getDiscrepancyText()) && !excluded.contains(account.getImpaciiUserId()))
 				accounts.add(entry);
 		}
@@ -474,6 +481,9 @@ public class MailServiceImpl implements MailService {
 				}
 			}
 			entry.setDiscrepancyText(sbu.toString());
+			
+			entry.setAccountStatus(" ");
+			
 			if(!excluded.contains(entry.getNihNetworkId()))
 				accounts.add(entry);
 		}

@@ -38,6 +38,11 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
  		<columnName>Created/Last Updated By</columnName>
  		<property>createdBy</property>
  	</Tab>

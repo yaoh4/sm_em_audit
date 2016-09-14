@@ -77,6 +77,11 @@
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
  	</Tab>
+ 	<Tab>
+ 		<type>active</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 	</Tab>
   	<Tab>
  		<type>active</type>
  		<columnName>Created By</columnName>
@@ -181,6 +186,11 @@
  		<type>new</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
  	</Tab>
 	<Tab>
  		<type>new</type>
@@ -482,6 +492,11 @@
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioActive</type>
  		<columnName>Created By</columnName>
  		<property>createdBy</property>
  	</Tab>
@@ -584,6 +599,11 @@
  		<type>portfolioNew</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioNew</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
@@ -819,6 +839,11 @@
  		<type>portfolioDiscrepancy</type>
  		<columnName>Account Created Date</columnName>
  		<property>accountCreatedDate</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioDiscrepancy</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>accountStatus</property>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>

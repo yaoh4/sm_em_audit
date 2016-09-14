@@ -347,6 +347,23 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	
 	/**
+	 * Get the Current IMPAC II Account Status
+	 * 
+	 * @return
+	 */
+	public String getAccountStatus(){
+		startAutowired();
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		if (accountVO != null && accountVO.getStatusCode() != null) {
+			return lookupService.getAppLookupByCode(
+					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(accountVO.getStatusCode())).getDescription();
+		}
+		return "";
+		
+	}
+	
+	
+	/**
 	 * This is help method to convert action label to action ID
 	 * @param label
 	 * @return

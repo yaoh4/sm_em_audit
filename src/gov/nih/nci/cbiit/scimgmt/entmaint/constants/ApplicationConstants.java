@@ -60,6 +60,7 @@ public interface ApplicationConstants {
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
     public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
     public static final String APP_LOOKUP_REPORTS_CATEGORY_LIST = "appLookupReportsCategory";
+    public static final String APP_LOOKUP_STATUS_CODE = "appLookupStatusCode";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";

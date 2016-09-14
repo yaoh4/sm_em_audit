@@ -2,7 +2,13 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.TransferredAuditAccountsVO;
 
 /**
@@ -12,6 +18,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.TransferredAuditAccountsVO
  */
 
 public class AdminReportTransferredAccountsSearchResultExportDecorator extends TableDecorator{
+	
+	@Autowired
+	private LookupService lookupService;
 	
 	/**
 	 * Get the full name.
@@ -106,5 +115,24 @@ public class AdminReportTransferredAccountsSearchResultExportDecorator extends T
 			orgPath = accountVO.getTransferFromNedOrgPath();
 		}
 		return orgPath;
+	}
+	
+	/**
+	 * Get the Current IMPAC II Account Status
+	 * 
+	 * @return
+	 */
+	public String getAccountStatus(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+		TransferredAuditAccountsVO accountVO = (TransferredAuditAccountsVO)getCurrentRowObject();
+		if (accountVO != null && accountVO.getStatusCode() != null) {
+			return lookupService.getAppLookupByCode(
+					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(accountVO.getStatusCode())).getDescription();
+		}
+		return "";
+		
 	}
 }

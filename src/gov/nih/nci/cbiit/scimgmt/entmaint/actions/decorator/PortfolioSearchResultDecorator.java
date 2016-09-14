@@ -232,4 +232,24 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		String displayStr = "<span title='" + portfolioVO.getDeletedByFullName() + "'>" + portfolioVO.getDeletedByUserId() + "</span>";
 		return displayStr;
 	}
+	
+	/**
+	 * Get the Current IMPAC II Account Status
+	 * 
+	 * @return
+	 */
+	public String getAccountStatus(){
+		
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+		
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		if (portfolioVO != null && portfolioVO.getStatusCode() != null) {
+			return lookupService.getAppLookupByCode(
+					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(portfolioVO.getStatusCode())).getDescription();
+		}
+		return "";
+		
+	}
 }
