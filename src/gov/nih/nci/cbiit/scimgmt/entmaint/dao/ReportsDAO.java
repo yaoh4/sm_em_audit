@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -148,6 +149,12 @@ public class ReportsDAO {
 					orderBy = "transferFromNedOrgPath asc";
 				}else{
 					orderBy = "transferFromNedOrgPath desc";
+				}
+			} else if (sortOrderCriterion.equalsIgnoreCase("accountStatus")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					orderBy = "statusCode asc";
+				} else {
+					orderBy = "statusCode desc";
 				}
 			}
 		}

@@ -123,6 +123,12 @@ public class Impac2PortfolioDAO {
 						criteria.addOrder(Order.asc("notes"));
 					else
 						criteria.addOrder(Order.desc("notes"));
+				} else if (sortOrderCriterion.equalsIgnoreCase("accountStatus")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("statusCode"));
+					} else {
+						criteria.addOrder(Order.desc("statusCode"));
+					}
 				} else {
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc(sortOrderCriterion));
