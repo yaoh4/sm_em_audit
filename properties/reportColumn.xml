@@ -38,7 +38,7 @@
  		<type>active</type>
  		<columnName>Current IMPAC II Account Status</columnName>
  		<property>accountStatus</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>active</type>
@@ -80,7 +80,7 @@
  		<type>new</type>
  		<columnName>Current IMPAC II Account Status</columnName>
  		<property>accountStatus</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
   	<Tab>
  		<type>new</type>
@@ -371,7 +371,7 @@
  		<type>excluded</type>
  		<columnName>Current IMPAC II Account Status</columnName>
  		<property>accountStatus</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>
  	<Tab>
  		<type>excluded</type>
@@ -443,6 +443,6 @@
  		<type>transfer</type>
  		<columnName>Current IMPAC II Account Status</columnName>
  		<property>accountStatus</property>
- 		<sort>false</sort>
+ 		<sort>true</sort>
  	</Tab>	
  </Display>			
