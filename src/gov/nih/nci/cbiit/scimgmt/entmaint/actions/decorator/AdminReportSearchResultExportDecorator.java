@@ -15,6 +15,9 @@ import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * 
  * @author zhoujim
@@ -179,6 +182,25 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 	
 	public String getExtSysName(){
 		return "NIH";
+	}
+	
+	/**
+	 * Get the Current IMPAC II Account Status
+	 * 
+	 * @return
+	 */
+	public String getAccountStatus(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		if (accountVO != null && accountVO.getStatusCode() != null) {
+			return lookupService.getAppLookupByCode(
+					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(accountVO.getStatusCode())).getDescription();
+		}
+		return "";
+		
 	}
 
 	/**
