@@ -138,6 +138,9 @@ public class AuditSearchActionHelper {
 		List<AppLookupT> categories = (List<AppLookupT>)lookupService.getList(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST);		
 		if(categories != null && categories.size() >0){
 			for(AppLookupT category : categories){
+				if (category.getCode().equalsIgnoreCase("INACTIVE")) {
+					continue;
+				}
 				DropDownOption categoryOption = new DropDownOption(""+category.getId(), category.getDescription());	
 				categoriesList.add(categoryOption);
 			}
