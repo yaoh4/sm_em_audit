@@ -75,7 +75,7 @@
  	<Tab>
  		<type>portfolioInactive</type>
  		<columnName>IMPAC II ID/NIH (Network) ID</columnName>
- 		<property>impaciiUserIdNetworkId</property>
+ 		<property>impaciiUserIdAmsLinkNetworkId</property>
  	</Tab>
  	<Tab>
  		<type>portfolioInactive</type>

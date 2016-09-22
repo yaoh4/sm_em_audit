@@ -35,7 +35,7 @@
 	
 	#if ($displayInactiveTable == "Y")
 		<p>
-			<h4>IMPAC II accounts inactivated due to 120 days between $beginDt and $endDt</h4>
+			<h4>IMPAC II accounts locked between $beginDt and $endDt due to inactivity</h4>
 		</p>
 		<table bgcolor ="#AAAAAA" border="0" cellpadding="2" cellspacing="1">
 			<thead>
