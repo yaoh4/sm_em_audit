@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2ePortfolioService;
@@ -136,8 +137,16 @@ public class DiscrepanciesAction extends BaseAction {
 		}
 		
 		//Clear the columns for display if more than one rows exists.
+		//Also, fetch and append the roles if "PD or GM Spec without appropriate IMPACII Roles" discrepancy exists and only I2E row is shown
 		PortfolioAccountVO prev = null;
 		for(PortfolioAccountVO account :portfolioAccounts.getList()) {
+			boolean addImpacIIRoles = false;
+			for(String dis : account.getAccountDiscrepancies()){
+				if(dis.equalsIgnoreCase("I2EONLY")) {
+					addImpacIIRoles = true;
+					break;
+				}
+			}
 			if (prev != null && account.getNihNetworkId() != null && StringUtils.equalsIgnoreCase(prev.getNihNetworkId(), account.getNihNetworkId())) {
 				account.setFirstName(null);
 				account.setLastName(null);
@@ -145,12 +154,35 @@ public class DiscrepanciesAction extends BaseAction {
 				account.setImpaciiFirstName(null);
 				account.setNedEmailAddress(null);
 				account.setNedOrgPath(null);
+			} else if (addImpacIIRoles) {
+				account = combineI2eAccountWithImpacIIAccount(account);
 			}
 			prev = account;
 		}
 		return forward;	
 	}
 	
+	private PortfolioAccountVO combineI2eAccountWithImpacIIAccount(PortfolioAccountVO account) throws Exception {
+		EmPortfolioVw impacIIaccount = impac2PortfolioService.getAccountbyNihNetworkId(account.getNihNetworkId());
+		if(impacIIaccount != null) {
+			//save current account roles since we need to append these later
+			List<EmPortfolioRolesVw> i2eRoles = new ArrayList<EmPortfolioRolesVw> (account.getAccountRoles());
+			account.getAccountRoles().clear();
+			for(EmPortfolioRolesVw roles : impacIIaccount.getAccountRoles()) {
+				account.addAccountRole(roles);
+			}
+			account.getAccountRoles().addAll(i2eRoles);
+			String i2eCreatedBy = "<span title='" + account.getCreatedByFullName() + "'>I2E: " + account.getCreatedByUserId() + "</span>";
+			i2eCreatedBy = (account.getCreatedByUserId() == null? "I2E: " + account.getCreatedByFullName() : i2eCreatedBy);
+			String impac2CreatedBy = "<span title='" + impacIIaccount.getCreatedByFullName() + "'>IMPAC II: " + impacIIaccount.getCreatedByUserId() + "</span>";
+			impac2CreatedBy = (impacIIaccount.getCreatedByUserId() == null? "IMPAC II: " + impacIIaccount.getCreatedByFullName() : impac2CreatedBy);
+			account.setCreatedByUserId(impac2CreatedBy + "<br/>" + i2eCreatedBy);
+		} else {
+			//account.setStatusCode(statusCode); -- Should set to "No IMPAC II account"
+		}
+		return account;
+	}
+
 	/**
 	 * ENTMAINT-274 - retrieves all inactive accounts.
 	 * @return

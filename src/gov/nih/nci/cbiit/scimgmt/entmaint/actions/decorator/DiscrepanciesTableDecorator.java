@@ -179,6 +179,16 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 */
 	public String getCreatedBy(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		boolean showBothUrl = false;
+		for(String dis : portfolioVO.getAccountDiscrepancies()){
+			if(dis.equalsIgnoreCase("I2EONLY")) {
+				showBothUrl = true;
+				break;
+			}
+		}
+		if(showBothUrl)
+			return portfolioVO.getCreatedByUserId();
+		
 		String displayStr = "<span title='" + portfolioVO.getCreatedByFullName() + "'>" + portfolioVO.getCreatedByUserId() + "</span>";
 		return (portfolioVO.getCreatedByUserId() == null? portfolioVO.getCreatedByFullName() : displayStr);
 	}

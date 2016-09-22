@@ -33,11 +33,6 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Account Created Date</columnName>
- 		<property>accountCreatedDate</property>
- 	</Tab>
- 	<Tab>
- 		<type>portfolioDiscrepancy</type>
  		<columnName>Current IMPAC II Account Status</columnName>
  		<property>accountStatus</property>
  	</Tab>

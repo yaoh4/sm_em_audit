@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -464,5 +463,24 @@ public class Impac2PortfolioDAO {
 		criteria.add(Restrictions.ne("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<String>)criteria.list();
+	}
+	
+	/**
+	 * Get Impac2 account using nihNetworkId
+	 * @param nihNetworkId
+	 * @return EmPortfolioVw
+	 * @throws Exception 
+	 */
+	public EmPortfolioVw getAccountbyNihNetworkId(String nihNetworkId) throws Exception {
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
+			EmPortfolioVw result = (EmPortfolioVw) crit.uniqueResult();
+			return result;
+		} catch (Throwable e) {
+			String errorString = "get EmPortfolioVw failed for nihNetworkId=" + nihNetworkId + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
 	}
 }
