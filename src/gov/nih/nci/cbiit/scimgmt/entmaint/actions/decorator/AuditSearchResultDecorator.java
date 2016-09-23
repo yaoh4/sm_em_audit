@@ -54,11 +54,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String parentNedOrgPath = accountVO.getParentNedOrgPath();
-//		if(accountVO.getDeletedDate() != null){
-//			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
-//		}else{
-//			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
-//		}
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
 			name=accountVO.getCleanFullName();
 		}
@@ -344,24 +339,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		String displayStr = "<span title='" + accountVO.getDeletedByFullName() + "'>" + accountVO.getDeletedByUserId() + "</span>";
 		return displayStr;
 	}
-	
-	
-	/**
-	 * Get the Current IMPAC II Account Status
-	 * 
-	 * @return
-	 */
-	public String getAccountStatus(){
-		startAutowired();
-		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
-		if (accountVO != null && accountVO.getStatusCode() != null) {
-			return lookupService.getAppLookupByCode(
-					ApplicationConstants.APP_LOOKUP_STATUS_CODE, String.valueOf(accountVO.getStatusCode())).getDescription();
-		}
-		return "";
-		
-	}
-	
 	
 	/**
 	 * This is help method to convert action label to action ID

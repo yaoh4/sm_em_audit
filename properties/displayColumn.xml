@@ -80,7 +80,7 @@
  	<Tab>
  		<type>active</type>
  		<columnName>Current IMPAC II Account Status</columnName>
- 		<property>accountStatus</property>
+ 		<property>statusDescription</property>
  	</Tab>
   	<Tab>
  		<type>active</type>
@@ -190,7 +190,7 @@
  	<Tab>
  		<type>new</type>
  		<columnName>Current IMPAC II Account Status</columnName>
- 		<property>accountStatus</property>
+ 		<property>statusDescription</property>
  	</Tab>
 	<Tab>
  		<type>new</type>
@@ -493,7 +493,7 @@
  	<Tab>
  		<type>portfolioActive</type>
  		<columnName>Current IMPAC II Account Status</columnName>
- 		<property>accountStatus</property>
+ 		<property>statusDescription</property>
  	</Tab>
  	<Tab>
  		<type>portfolioActive</type>
@@ -603,7 +603,7 @@
  	<Tab>
  		<type>portfolioNew</type>
  		<columnName>Current IMPAC II Account Status</columnName>
- 		<property>accountStatus</property>
+ 		<property>statusDescription</property>
  	</Tab>
  	<Tab>
  		<type>portfolioNew</type>
@@ -843,7 +843,7 @@
  	<Tab>
  		<type>portfolioDiscrepancy</type>
  		<columnName>Current IMPAC II Account Status</columnName>
- 		<property>accountStatus</property>
+ 		<property>statusDescription</property>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>

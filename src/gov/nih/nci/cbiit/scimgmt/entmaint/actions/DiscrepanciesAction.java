@@ -177,8 +177,9 @@ public class DiscrepanciesAction extends BaseAction {
 			String impac2CreatedBy = "<span title='" + impacIIaccount.getCreatedByFullName() + "'>IMPAC II: " + impacIIaccount.getCreatedByUserId() + "</span>";
 			impac2CreatedBy = (impacIIaccount.getCreatedByUserId() == null? "IMPAC II: " + impacIIaccount.getCreatedByFullName() : impac2CreatedBy);
 			account.setCreatedByUserId(impac2CreatedBy + "<br/>" + i2eCreatedBy);
+			account.setStatusDescription(impacIIaccount.getStatusDescription());
 		} else {
-			//account.setStatusCode(statusCode); -- Should set to "No IMPAC II account"
+			account.setStatusDescription("No IMPAC II account");
 		}
 		return account;
 	}

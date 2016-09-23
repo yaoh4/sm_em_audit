@@ -15,6 +15,6 @@ public interface MailService {
 	 * Email IC Coordinators with the discrepancy accounts.
 	 * 
 	 */
-	public void sendDiscrepancyEmail();
+	public void sendDiscrepancyEmail() throws Exception;
 
 }

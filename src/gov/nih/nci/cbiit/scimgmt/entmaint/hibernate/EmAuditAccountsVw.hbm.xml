@@ -193,8 +193,11 @@
         	<property name="inactiveCategoryFlag" type="yes_no">
             	<column name="INACTIVE_CATEGORY_FLAG" length="1" />
         	</property>
-        	 <property name="statusCode" type="long">
+        	<property name="statusCode" type="long">
                 <column name="STATUS_CODE" precision="10" scale="0" />
+            </property>
+            <property name="statusDescription" type="string">
+                <column name="STATUS_DESCRIPTION" length="400" />
             </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>

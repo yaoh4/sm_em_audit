@@ -744,12 +744,6 @@ public class Impac2AuditDAO {
 					criteria.addOrder(Order.desc("lastName"));
 					criteria.addOrder(Order.desc("firstName"));
 				}
-			} else if (sortOrderCriterion.equalsIgnoreCase("accountStatus")) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-					criteria.addOrder(Order.asc("statusCode"));
-				} else {
-					criteria.addOrder(Order.desc("statusCode"));
-				}
 			} else {
 				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 					criteria.addOrder(Order.asc(sortOrderCriterion));

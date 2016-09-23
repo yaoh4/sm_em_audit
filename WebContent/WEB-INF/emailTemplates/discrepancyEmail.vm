@@ -27,7 +27,7 @@
 			<td style="border-bottom:solid 1px #cccccc;">$row.nihNetworkId</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.system</td>
 			<td style="border-bottom:solid 1px #cccccc;">$row.discrepancyText</td>
-			<td style="border-bottom:solid 1px #cccccc;">$row.accountStatus</td>
+			<td style="border-bottom:solid 1px #cccccc;">$row.statusDescription</td>
 		</tr>
 		#end
 		</tbody>

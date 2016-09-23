@@ -78,6 +78,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private Boolean deletedCategoryFlag;
 	private Boolean inactiveCategoryFlag;
 	private Long statusCode;
+	private String statusDescription;
 	
 	public EmAuditAccountsVw() {
 	}
@@ -104,7 +105,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 			Boolean lastNameDiffFlag, List accountRoles, List accountActivities,
 			EmAuditAccountActivityVw accountActivity, List accountDiscrepancies, String transferToNedOrgPath, String transferFromNedOrgPath,Date transferredDate,
 			String deletedTransferToOrgPath, String deletedTransferFromOrgPath, Boolean activeCategoryFlag,
-			Boolean newCategoryFlag, Boolean deletedCategoryFlag, Boolean inactiveCategoryFlag, Long statusCode) {
+			Boolean newCategoryFlag, Boolean deletedCategoryFlag, Boolean inactiveCategoryFlag, Long statusCode, String statusDescription) {
 		this.id = id;
 		this.audit = audit;
 		this.impaciiUserId = impaciiUserId;
@@ -172,6 +173,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 		this.deletedCategoryFlag = deletedCategoryFlag;
 		this.inactiveCategoryFlag = inactiveCategoryFlag;
 		this.statusCode = statusCode;
+		this.statusDescription = statusDescription;
 	}
 
 	@Override
@@ -964,6 +966,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setStatusCode(Long statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	public String getStatusDescription() {
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
 	}
 
 }

@@ -44,6 +44,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 	private Boolean lastNameDiffFlag;
 	private Boolean activeStatusFlag;
 	private Long statusCode;
+	private String statusDescription;
 	private List<EmPortfolioRolesVw> accountRoles = new ArrayList<EmPortfolioRolesVw>(0);
 	private List<String> accountDiscrepancies = new ArrayList<String>(0);
 	
@@ -63,7 +64,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 			Date deletedDate, String deletedByUserId, String deletedByFullName, String deactivationComments,
 			String secondaryOrgText, String lastLoginDate, String impaciiOnlyFlag, String notes,
 			String notesSubmittedByFullName, Date notesSubmittedDate,
-			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag, Boolean lastNameDiffFlag, Boolean activeStatusFlag, Long statusCode,
+			Boolean sodFlag, Boolean icDiffFlag, Boolean nedInactiveFlag, Boolean lastNameDiffFlag, Boolean activeStatusFlag, Long statusCode,String statusDescription,
 			List accountRoles, List accountDiscrepancies) {
 		this.impaciiUserId = impaciiUserId;
 		this.nihNetworkId = nihNetworkId;
@@ -98,6 +99,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 		this.lastNameDiffFlag = lastNameDiffFlag;
 		this.activeStatusFlag = activeStatusFlag;
 		this.statusCode = statusCode;
+		this.statusDescription = statusDescription;
 		this.accountRoles = accountRoles;
 		this.accountDiscrepancies = accountDiscrepancies;
 	}
@@ -526,5 +528,13 @@ public class EmPortfolioVw implements java.io.Serializable {
 
 	public void setStatusCode(Long statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	public String getStatusDescription() {
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
 	}
 }

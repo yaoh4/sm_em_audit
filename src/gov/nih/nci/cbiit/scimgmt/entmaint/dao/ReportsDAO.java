@@ -150,12 +150,8 @@ public class ReportsDAO {
 				}else{
 					orderBy = "transferFromNedOrgPath desc";
 				}
-			} else if (sortOrderCriterion.equalsIgnoreCase("accountStatus")) {
-				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
-					orderBy = "statusCode asc";
-				} else {
-					orderBy = "statusCode desc";
-				}
+			} else {
+				orderBy = sortOrderCriterion;
 			}
 		}
 		return orderBy;
