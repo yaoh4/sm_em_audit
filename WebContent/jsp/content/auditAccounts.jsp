@@ -307,9 +307,26 @@
 <br/>
 </div>
 <div id="anchor"></div>
-<div style="text-align:right; width: 100%; padding-right: 10px; padding-bottom: 20px;">
-    <span style="font-size: 0.9em;"><a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">IMPAC II User Roles (.pdf) </a></span>
-</div> 
+
+<div style="padding-right: 10px;float:right;">
+	<span style="font-size: 0.9em">
+		<a href="#" onclick="window.open('<s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@KEY_ROLES_DOC_LINK)}"/>')">
+		IMPAC II User Roles (.pdf) 
+		</a>
+	</span>
+</div>
+<div style="width: 80%; padding-right: 10px; padding-bottom: 30px; padding-left: 20px;">
+	<s:if test="%{showResult && (#act == 'searchActiveAuditAccounts' || #act == 'searchNewAuditAccounts')}">
+		<span style="font-size: 0.9em; font-weight:bold;">
+			<b>NOTE: Below is a snapshot of IMPAC II accounts between <s:date name="emAuditsVO.impaciiFromDate" format="MM/dd/yyyy" />
+			 and <s:date name="emAuditsVO.impaciiToDate" format="MM/dd/yyyy" />. 
+    		Please note, the data for "NED Org Path" and "Current IMPAC II Account Status" are real-time, 
+    		meaning their current NED organization and IMPAC II account status are being displayed.</b>
+		</span>
+	</s:if>
+</div>
+
+
 
 <s:if test="showResult">
 <div class="panel panel-default">
