@@ -295,7 +295,7 @@ public class MailServiceImpl implements MailService {
 			if(!orgMapEmail.containsKey(org)) {
 				orgMapEmail.put(org,new ArrayList<String>());
 				orgMapName.put(org,new ArrayList<String>());
-				orgMapEmail.get(org).add(entMaintProperties.getProperty("email.discrepancy.cc"));
+				orgMapEmail.get(org).add(parse(entMaintProperties.getProperty("email.discrepancy.cc"))[0]);
 				orgMapName.get(org).add("NCI IMPACII Primary IC Coordinator");
 			}
 		}
@@ -315,6 +315,9 @@ public class MailServiceImpl implements MailService {
 			PaginatedListImpl<PortfolioI2eAccountVO> portfolioI2eAccounts = new PaginatedListImpl<PortfolioI2eAccountVO>();	
 			PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts = new PaginatedListImpl<PortfolioAccountVO>();;
 			AuditSearchVO searchVO = new AuditSearchVO();
+			if(entry.getKey() == null) {
+				continue;
+			}
 			if(entry.getKey().equalsIgnoreCase("EMADMIN")) {
 				searchVO.setExcludeNCIOrgs(true);
 			}

@@ -316,7 +316,7 @@
 	</span>
 </div>
 <div style="width: 80%; padding-right: 10px; padding-bottom: 30px; padding-left: 20px;">
-	<s:if test="%{showResult && (#act == 'searchActiveAuditAccounts' || #act == 'searchNewAuditAccounts')}">
+	<s:if test="%{activeAuditAccounts.list.size > 0 && (#act == 'searchActiveAuditAccounts' || #act == 'searchNewAuditAccounts')}">
 		<span style="font-size: 0.9em; font-weight:bold;">
 			<b>NOTE: Below is a snapshot of IMPAC II accounts between <s:date name="emAuditsVO.impaciiFromDate" format="MM/dd/yyyy" />
 			 and <s:date name="emAuditsVO.impaciiToDate" format="MM/dd/yyyy" />. 
