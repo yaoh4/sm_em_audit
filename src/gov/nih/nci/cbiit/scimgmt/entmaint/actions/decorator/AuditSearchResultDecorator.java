@@ -330,6 +330,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	public String getCreatedBy(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		if(StringUtils.isBlank(accountVO.getCreatedByUserId())){
+			return "";
+		}
 		String displayStr = "<span title='" + accountVO.getCreatedByFullName() + "'>" + accountVO.getCreatedByUserId() + "</span>";
 		return displayStr;
 	}
