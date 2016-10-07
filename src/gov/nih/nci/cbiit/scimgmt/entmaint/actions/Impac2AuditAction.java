@@ -46,6 +46,7 @@ public class Impac2AuditAction extends BaseAction {
 	protected AdminService adminService;
 	private String type = "active";
 	private PaginatedListImpl<AuditAccountVO> activeAuditAccounts = null;
+	protected EmAuditsVO emAuditsVO = new EmAuditsVO();
 	
 	/**
 	 * The method is for handling the clean button action. It shared by all categories (active, deleted, new, and inactive)
@@ -302,6 +303,8 @@ public class Impac2AuditAction extends BaseAction {
 		}
 		setAuditPeriodList(auditSearchActionHelper.createAuditPeriodDropDownList(adminService, getCategory()));
 		
+		emAuditsVO = adminService.retrieveAuditVO(searchVO.getAuditId());
+		
 		session.put(ApplicationConstants.ACTIONLIST, actionList);
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
@@ -528,5 +531,19 @@ public class Impac2AuditAction extends BaseAction {
 		}else{
 			session.put(ApplicationConstants.USEDASHBOARD, "");
 		}
+	}
+	
+	/**
+	 * @return the emAuditsVO
+	 */
+	public EmAuditsVO getEmAuditsVO() {
+		return emAuditsVO;
+	}
+
+	/**
+	 * @param emAuditsVO the emAuditsVO to set
+	 */
+	public void setEmAuditsVO(EmAuditsVO emAuditsVO) {
+		this.emAuditsVO = emAuditsVO;
 	}
 }

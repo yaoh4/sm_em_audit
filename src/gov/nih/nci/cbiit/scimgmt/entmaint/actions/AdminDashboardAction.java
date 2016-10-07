@@ -183,29 +183,7 @@ public class AdminDashboardAction extends BaseAction {
      * @return
      */
     private boolean isActiveAccount(AuditAccountVO audit) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	
-	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
-    	Date deletedDate = audit.getDeletedDate();
-    	Date createdDate = audit.getCreatedDate();
-    	
-    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
-    	String createdDateStr = (createdDate == null ? null : dateFormat.format(createdDate));
-    	
-    	try {
-			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
-			createdDate = (createdDateStr == null ? null : dateFormat.parse(createdDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
-    	//determine active account
-    	if(createdDate != null && 
-    		(deletedDate == null || deletedDate.after(impaciiToDate) || deletedDate.equals(impaciiToDate)) &&  
-    		(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
-    		return true;
-    	}
-    	return false;
+    	return audit.getActiveCategoryFlag();
     }
     
     /**
@@ -213,27 +191,7 @@ public class AdminDashboardAction extends BaseAction {
      * @return
      */
     private boolean isNewAccount(AuditAccountVO audit) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	
-	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
-    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
-    	Date createdDate = audit.getCreatedDate();
-    	
-    	String createdDateStr = (createdDate == null ? null : dateFormat.format(createdDate));
-    	
-    	try {
-			createdDate = (createdDateStr == null ? null : dateFormat.parse(createdDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
-    	//determine new account
-    	if(createdDate != null && 
-    			(createdDate.after(impaciiFromDate) || createdDate.equals(impaciiFromDate)) && 
-    			(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
-    		return true;
-    	}
-    	return false;
+    	return audit.getNewCategoryFlag();
     }
     
     /**
@@ -241,27 +199,7 @@ public class AdminDashboardAction extends BaseAction {
      * @return
      */
     private boolean isDeletedAccount(AuditAccountVO audit) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	
-	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
-    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
-    	Date deletedDate = audit.getDeletedDate();
-   	
-    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
-   	
-    	try {
-			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
-    	//determine deleted account
-    	if(deletedDate != null && 
-    			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
-    			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
-    		return true;
-    	}
-    	return false;
+    	return audit.getDeletedCategoryFlag();
     }
     
     /**
@@ -270,10 +208,7 @@ public class AdminDashboardAction extends BaseAction {
      */
     private boolean isInactiveAccount(AuditAccountVO audit) {
     	//determine inactive account
-    	if(audit.getInactiveUserFlag() != null && audit.getInactiveUserFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
-    		return true;
-    	}
-    	return false;
+    	return audit.getInactiveCategoryFlag();
     }
     
     

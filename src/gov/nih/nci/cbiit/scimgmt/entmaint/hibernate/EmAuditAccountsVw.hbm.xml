@@ -181,6 +181,24 @@
              <property name="deletedTransferFromOrgPath" type="string">
                 <column name="DELETED_TRANSFER_FROM_ORG_PATH" length="255" />
             </property>
+            <property name="activeCategoryFlag" type="yes_no">
+            	<column name="ACTIVE_CATEGORY_FLAG" length="1" />
+        	</property>
+            <property name="newCategoryFlag" type="yes_no">
+            	<column name="NEW_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="deletedCategoryFlag" type="yes_no">
+            	<column name="DELETED_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="inactiveCategoryFlag" type="yes_no">
+            	<column name="INACTIVE_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="statusCode" type="long">
+                <column name="STATUS_CODE" precision="10" scale="0" />
+            </property>
+            <property name="statusDescription" type="string">
+                <column name="STATUS_DESCRIPTION" length="400" />
+            </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>
                 	<column name="EAA_ID" />

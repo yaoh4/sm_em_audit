@@ -4,7 +4,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
-import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioAccountVO;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +29,8 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 	
 	@Autowired
 	private LookupService lookupService;
+	@Autowired
+	protected EntMaintProperties entMaintProperties;
 	
 	/**
 	 * Get the submitNotes button.
@@ -219,6 +221,37 @@ public class PortfolioSearchResultDecorator extends TableDecorator{
 		}
 		
 		return "<span title='IMPAC II ID'>" + impaciiId + "</span><br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
+	}
+	
+	/**
+	 * This method displays the impaciiUserId, AMS link and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdAmsLinkNetworkId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String impaciiId = portfolioVO.getImpaciiUserId();
+		String networkId = portfolioVO.getNihNetworkId();
+		
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+		String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+		String era_ua_link =  (StringUtils.isBlank(impaciiId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + impaciiId);
+		String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
+		if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+			era_ua_link = "<a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
+		}else{
+			era_ua_link = "<a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
+		}
+		
+		if(impaciiId == null){
+			impaciiId = "";
+		}
+		if(networkId == null){
+			networkId = "";
+		}
+		
+		return "<span title='IMPAC II ID'>" + impaciiId + "</span>&nbsp;&nbsp;" + era_ua_link + "<br/>" + "<span title='NIH (Network) ID'>" + networkId + "</span>";
 	}
 	
 	public String getCreatedBy(){

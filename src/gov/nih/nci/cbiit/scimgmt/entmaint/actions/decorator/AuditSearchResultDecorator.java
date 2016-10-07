@@ -54,11 +54,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
 		String parentNedOrgPath = accountVO.getParentNedOrgPath();
-//		if(accountVO.getDeletedDate() != null){
-//			name = (accountVO.getImpaciiFirstName()==null? "" : accountVO.getImpaciiFirstName()) + " " + (accountVO.getImpaciiLastName()==null? "" : accountVO.getImpaciiLastName());		
-//		}else{
-//			name = (accountVO.getNedFirstName()==null? "" : accountVO.getNedFirstName()) + " " + (accountVO.getNedLastName()==null? "" : accountVO.getNedLastName());	
-//		}
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
 			name=accountVO.getCleanFullName();
 		}
@@ -335,6 +330,9 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	
 	public String getCreatedBy(){
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		if(StringUtils.isBlank(accountVO.getCreatedByUserId())){
+			return "";
+		}
 		String displayStr = "<span title='" + accountVO.getCreatedByFullName() + "'>" + accountVO.getCreatedByUserId() + "</span>";
 		return displayStr;
 	}
@@ -344,7 +342,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		String displayStr = "<span title='" + accountVO.getDeletedByFullName() + "'>" + accountVO.getDeletedByUserId() + "</span>";
 		return displayStr;
 	}
-	
 	
 	/**
 	 * This is help method to convert action label to action ID

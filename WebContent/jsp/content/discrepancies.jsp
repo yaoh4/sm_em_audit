@@ -42,26 +42,14 @@
 	<s:set var="portfolioAccountsRolesColumnsNames" value="%{getPortfolioAccountsRolesColumnsNames()}" />
 		
 	<s:iterator var="t" value="displayColumn">
- 		<s:if test="#t.display == 'true'">
- 			<s:if test="#t.isNestedColumn == 'false'">
-				<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
-			</s:if>
- 			<s:if test="#t.columnName == 'Created/Last Updated By'">
- 				<display:column title="${portfolioAccountsRolesColumnsNames}" style="width:30%;">
- 		
-				<display:table class="table table-bordered nestedTableStyle" name="${portfolioAccountsRoles}" id="portfolioAccountsRoles_${portfolioAccountsRolesId}" 
-						   decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.DiscrepanciesTableDecorator">
-						   
-					<display:setProperty name="basic.show.header" value="false" />
-			
-					<s:iterator var="t" value="portfolioAccountsRolesColumns">
-						<display:column property="${t.property}" title="${t.columnName}" style="width:10%;"/>
-					</s:iterator>
-				
-				</display:table>
-				</display:column>
- 			</s:if> 	
- 		</s:if>
+	<s:if test="#t.display == 'true'">
+		<s:if test="#t.columnName == 'IMPAC II Application Role'">
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false" style="white-space:nowrap;"/>
+		</s:if>
+		<s:else>
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
+		</s:else>
+	</s:if>
 	</s:iterator>
 	</display:table>
 	</div>
@@ -70,6 +58,29 @@
 	<span class="bannerAlign"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></span>
 </s:else>
 <br/><br/>
+
+<s:if test="%{portfolioInactiveAccounts.list.size > 0}">
+	<h4><span style="font-weight: normal;">IMPAC II accounts locked between <s:property value="beginDt"/> and <s:property value="endDt"/> due to inactivity</span></h4>
+	<div class="table-responsive">
+	<display:table class="table table-bordered" name="portfolioInactiveAccounts" id="portfolioInactiveAccountsId" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.PortfolioSearchResultDecorator" >
+	<display:setProperty name="paging.banner.one_item_found" value="" />
+	<display:setProperty name="paging.banner.all_items_found" value="" />
+	
+	<s:iterator var="t" value="displayInactiveColumn">
+	<s:if test="#t.display == 'true'">
+		<s:if test="#t.columnName == 'IMPAC II Application Role'">
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false" style="white-space:nowrap;"/>
+		</s:if>
+		<s:else>
+			<display:column property="${t.property}" title="${t.columnName}" sortable="false"/>
+		</s:else>
+	</s:if>
+	</s:iterator>
+	</display:table>
+	</div>
+</s:if>
+<br/><br/>
+
 <div id="help" style="display: none; overflow:auto;" title="Discrepancy Report">
 	<br/>
 	<div align="left" id="helpDiv"></div>

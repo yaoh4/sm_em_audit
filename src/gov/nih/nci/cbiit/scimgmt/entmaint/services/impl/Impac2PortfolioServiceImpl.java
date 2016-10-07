@@ -157,4 +157,14 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		return impac2PortfolioDAO.getOrgsWithIcCoordinator();
 	}
 	
+	/**
+	 * Get Impac2 account using nihNetworkId
+	 * @param nihNetworkId
+	 * @return EmPortfolioVw
+	 * @throws Exception 
+	 */
+	public EmPortfolioVw getAccountbyNihNetworkId(String nihNetworkId) throws Exception {
+		return impac2PortfolioDAO.getAccountbyNihNetworkId(nihNetworkId);
+	}
+	
 }

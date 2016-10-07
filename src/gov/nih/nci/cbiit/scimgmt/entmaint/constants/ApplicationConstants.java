@@ -60,6 +60,7 @@ public interface ApplicationConstants {
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
     public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
     public static final String APP_LOOKUP_REPORTS_CATEGORY_LIST = "appLookupReportsCategory";
+    public static final String APP_LOOKUP_STATUS_CODE = "appLookupStatusCode";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
@@ -143,6 +144,7 @@ public interface ApplicationConstants {
     public static String PORTFOLIO_NEW = "portfolioNew";
     public static String PORTFOLIO_DELETED = "portfolioDeleted";
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
+    public static String PORTFOLIO_INACTIVE = "portfolioInactive";
     
     public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
     public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
@@ -164,6 +166,10 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
+	public static final long PORTFOLIO_CATEGORY_INACTIVE = 55;
+	
+	public static final long IMPACT_II_INACTIVE_STATUS = 3;
+	
 	public static final String CURRENTPAGE ="currentPage";
 	
 	public static final long I2E_PORTFOLIO_CATEGORY_ACCOUNT= 37;

@@ -77,11 +77,7 @@ public class Impac2AuditDAO {
 			
 			// Criteria specific to active accounts
 			criteria.createAlias("audit", "audit");
-			Disjunction disc = Restrictions.disjunction();
-            disc.add(Restrictions.isNull("deletedDate"));
-            disc.add(Restrictions.gtProperty("deletedDate", "audit.impaciiToDate"));
-            criteria.add(disc);
-			criteria.add(Restrictions.sqlRestriction("trunc(created_date) <= impacii_to_date"));
+			criteria.add(Restrictions.eq("activeCategoryFlag", true));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -136,8 +132,7 @@ public class Impac2AuditDAO {
 			
 			// Criteria specific to new accounts
 			criteria.createAlias("audit", "audit");
-			criteria.add(Restrictions.geProperty("createdDate", "audit.impaciiFromDate"));
-			criteria.add(Restrictions.sqlRestriction("trunc(created_date) <= impacii_to_date"));
+			criteria.add(Restrictions.eq("newCategoryFlag", true));
 
 			// Add user specific search criteria
 			addSearchCriteria(criteria, searchVO);
@@ -191,8 +186,7 @@ public class Impac2AuditDAO {
 			
 			// Criteria specific to deleted accounts
 			criteria.createAlias("audit", "audit");
-			criteria.add(Restrictions.geProperty("deletedDate", "audit.impaciiFromDate"));
-			criteria.add(Restrictions.sqlRestriction("trunc(deleted_date) <= impacii_to_date"));
+			criteria.add(Restrictions.eq("deletedCategoryFlag", true));
 
 			// Add user specific search criteria
 			addDeletedSearchCriteria(criteria, searchVO);
@@ -245,7 +239,7 @@ public class Impac2AuditDAO {
 			criteria = addSortOrder(criteria, paginatedList);
 			
 			// Criteria specific to inactive accounts
-			criteria.add(Restrictions.eq("inactiveUserFlag", ApplicationConstants.FLAG_YES));
+			criteria.add(Restrictions.eq("inactiveCategoryFlag", true));
 			criteria.createAlias("audit", "audit");
 			
 			// Add user specific search criteria
@@ -502,7 +496,11 @@ public class Impac2AuditDAO {
 					.add(Projections.property("newAction"), "newAction")
 					.add(Projections.property("newUnsubmittedFlag"), "newUnsubmittedFlag")
 					.add(Projections.property("deletedAction"), "deletedAction")
-					.add(Projections.property("deletedUnsubmittedFlag"), "deletedUnsubmittedFlag"));
+					.add(Projections.property("deletedUnsubmittedFlag"), "deletedUnsubmittedFlag")
+					.add(Projections.property("activeCategoryFlag"), "activeCategoryFlag")
+					.add(Projections.property("newCategoryFlag"), "newCategoryFlag")
+					.add(Projections.property("deletedCategoryFlag"), "deletedCategoryFlag")
+					.add(Projections.property("inactiveCategoryFlag"), "inactiveCategoryFlag"));
 
 			
 			auditList = criteria.setResultTransformer(new AliasToBeanResultTransformer(EmAuditAccountsVw.class))

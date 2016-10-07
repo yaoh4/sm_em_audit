@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -47,4 +48,10 @@ public interface Impac2PortfolioService {
 	 */
 	public List<String> getOrgsWithIcCoordinator();
 	
+	/**
+	 * Get Impac2 account using nihNetworkId
+	 * @param nihNetworkId
+	 * @return EmPortfolioVw
+	 */
+	public EmPortfolioVw getAccountbyNihNetworkId(String nihNetworkId) throws Exception;
 }

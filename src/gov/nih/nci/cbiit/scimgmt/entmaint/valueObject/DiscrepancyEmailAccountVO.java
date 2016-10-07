@@ -10,6 +10,11 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 	private String createdDate;
 	private String createdByFullName;
 	private String system;
+	
+	private String impaciiUserIdNetworkId;
+	private String applicationRole;
+	
+	private String statusDescription;
 
 	public DiscrepancyEmailAccountVO() {
 		
@@ -126,6 +131,30 @@ public class DiscrepancyEmailAccountVO implements Comparable<DiscrepancyEmailAcc
 
 	public void setSystem(String system) {
 		this.system = system;
+	}
+
+	public String getImpaciiUserIdNetworkId() {
+		return impaciiUserIdNetworkId;
+	}
+
+	public void setImpaciiUserIdNetworkId(String impaciiUserIdNetworkId) {
+		this.impaciiUserIdNetworkId = impaciiUserIdNetworkId;
+	}
+
+	public String getApplicationRole() {
+		return applicationRole;
+	}
+
+	public void setApplicationRole(String applicationRole) {
+		this.applicationRole = applicationRole;
+	}
+
+	public String getStatusDescription() {
+		return statusDescription;
+	}
+
+	public void setStatusDescription(String statusDescription) {
+		this.statusDescription = statusDescription;
 	}
 
 	@Override

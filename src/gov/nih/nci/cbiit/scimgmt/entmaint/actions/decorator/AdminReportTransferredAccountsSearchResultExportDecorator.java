@@ -2,7 +2,8 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator;
 
 import org.apache.commons.lang.StringUtils;
 import org.displaytag.decorator.TableDecorator;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.TransferredAuditAccountsVO;
 
 /**
@@ -12,6 +13,9 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.TransferredAuditAccountsVO
  */
 
 public class AdminReportTransferredAccountsSearchResultExportDecorator extends TableDecorator{
+	
+	@Autowired
+	private LookupService lookupService;
 	
 	/**
 	 * Get the full name.
@@ -107,4 +111,5 @@ public class AdminReportTransferredAccountsSearchResultExportDecorator extends T
 		}
 		return orgPath;
 	}
+	
 }

@@ -50,22 +50,18 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return applicationRole string with info icon.
 	 */
 	public String getApplicationRole(){
-		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
-		if(roleVw == null){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		String createdBy = roleVw.getCreatedByFullName();
-		String roleName = roleVw.getRoleName();
-		String role = "";
-		if(StringUtils.equalsIgnoreCase(roleVw.getImpaciiUserId(),"I2E")) {
-			if(StringUtils.isNotBlank(createdBy) && StringUtils.isNotBlank(roleName)){
-				role = "<span title='" + createdBy + "'>" +  roleName + "</span>&nbsp;";
-			} else if (StringUtils.isNotBlank(roleVw.getRoleName())) {
-				role = roleVw.getRoleName();
-			}
-		} else {
-			role = "<span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/>";
+		String role = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
+			String roleName = roleVw.getRoleName();
+			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
 		}
+		role = role + "</table>";
 		return role;
 	}
 	
@@ -74,11 +70,17 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return orgId
 	 */
 	public String getOrgId(){
-		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
-		if(roleVw == null){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		return roleVw.getOrgId();
+		String orgId = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			orgId = orgId + "<tr><td>" + roleVw.getOrgId()+"</td></tr>";
+		}
+		orgId = orgId + "</table>";
+		return orgId;
 	}
 	
 	/**
@@ -86,14 +88,16 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 * @return role created date in mm/dd/yyyy format.
 	 */
 	public String getRoleCreateOn(){
-		String createDate = "";
-		EmPortfolioRolesVw roleVw = (EmPortfolioRolesVw)getCurrentRowObject();
-		if(roleVw == null){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
 			return "";
 		}
-		if(roleVw.getCreatedDate() != null){
-			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate());
-		}		
+		String createDate = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
+		}
+		createDate = createDate + "</table>";
 		return createDate;
 	}
 	
@@ -175,6 +179,16 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 	 */
 	public String getCreatedBy(){
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		boolean showBothUrl = false;
+		for(String dis : portfolioVO.getAccountDiscrepancies()){
+			if(dis.equalsIgnoreCase("I2EONLY")) {
+				showBothUrl = true;
+				break;
+			}
+		}
+		if(showBothUrl)
+			return portfolioVO.getCreatedByUserId();
+		
 		String displayStr = "<span title='" + portfolioVO.getCreatedByFullName() + "'>" + portfolioVO.getCreatedByUserId() + "</span>";
 		return (portfolioVO.getCreatedByUserId() == null? portfolioVO.getCreatedByFullName() : displayStr);
 	}
@@ -234,4 +248,5 @@ public class DiscrepanciesTableDecorator extends TableDecorator{
 		
 		return system + era_ua_link;	
 	}
+	
 }

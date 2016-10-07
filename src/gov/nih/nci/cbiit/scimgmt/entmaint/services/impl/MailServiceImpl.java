@@ -2,6 +2,8 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmDiscrepancyTypesT;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
@@ -26,6 +28,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -225,9 +228,10 @@ public class MailServiceImpl implements MailService {
 	
 	/**
 	 * Sends Monthly Discrepancy account email to the IC Coordinators
+	 * @throws Exception 
 	 */
 	@Override
-	public void sendDiscrepancyEmail() {
+	public void sendDiscrepancyEmail() throws Exception {
 		
 		// Check if Audit is active
 		EmAuditsVO emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
@@ -291,7 +295,7 @@ public class MailServiceImpl implements MailService {
 			if(!orgMapEmail.containsKey(org)) {
 				orgMapEmail.put(org,new ArrayList<String>());
 				orgMapName.put(org,new ArrayList<String>());
-				orgMapEmail.get(org).add(entMaintProperties.getProperty("email.discrepancy.cc"));
+				orgMapEmail.get(org).add(parse(entMaintProperties.getProperty("email.discrepancy.cc"))[0]);
 				orgMapName.get(org).add("NCI IMPACII Primary IC Coordinator");
 			}
 		}
@@ -309,7 +313,11 @@ public class MailServiceImpl implements MailService {
 			
 			PaginatedListImpl<PortfolioAccountVO> portfolioAccounts = new PaginatedListImpl<PortfolioAccountVO>();	
 			PaginatedListImpl<PortfolioI2eAccountVO> portfolioI2eAccounts = new PaginatedListImpl<PortfolioI2eAccountVO>();	
+			PaginatedListImpl<PortfolioAccountVO> portfolioInactiveAccounts = new PaginatedListImpl<PortfolioAccountVO>();;
 			AuditSearchVO searchVO = new AuditSearchVO();
+			if(entry.getKey() == null) {
+				continue;
+			}
 			if(entry.getKey().equalsIgnoreCase("EMADMIN")) {
 				searchVO.setExcludeNCIOrgs(true);
 			}
@@ -324,13 +332,18 @@ public class MailServiceImpl implements MailService {
 			// Retrieve list of discrepancy accounts for I2E
 			searchVO.setCategory(ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY);
 			portfolioI2eAccounts = i2ePortfolioService.searchI2eAccounts(portfolioI2eAccounts, searchVO, true);
-		
+			
+			//Retrieve accounts that are deactivated due to 120 days in the previous month.
+			searchVO.setCategory(ApplicationConstants.PORTFOLIO_CATEGORY_INACTIVE);
+			portfolioInactiveAccounts = impac2PortfolioService.searchImpac2Accounts(portfolioInactiveAccounts, searchVO, true);
 			// Populate the account list to pass to email template
 			List<DiscrepancyEmailAccountVO> accounts = populateDiscrepancyAccounts(portfolioAccounts.getList(), excludedAccounts);
 			accounts.addAll(populateI2eDiscrepancyAccounts(portfolioI2eAccounts.getList(), excludedI2eAccounts));
 			Collections.sort(accounts);
 			
-			if(accounts.size() > 0) {
+			List<DiscrepancyEmailAccountVO> inActiveAccounts = populateInActiveAccounts(portfolioInactiveAccounts.getList());
+			
+			if(accounts.size() > 0 ||inActiveAccounts.size() > 0) {
 				DateFormat df = new SimpleDateFormat("MMMM yyyy");
 				final Map<String, Object> params = new HashMap<String, Object>();
 				params.put("accounts", accounts);
@@ -342,9 +355,27 @@ public class MailServiceImpl implements MailService {
 				if (entry.getKey().equalsIgnoreCase("OD OM OGA")) {
 					cc = cc.concat(";" + entMaintProperties.getProperty("email.oga"));
 				}
+				
+				//Adding Inactive accounts list to params
+				params.put("inActiveAccounts", inActiveAccounts);
+				if (portfolioInactiveAccounts.getList() != null && inActiveAccounts.size() > 0) {
+					params.put("displayInactiveTable", "Y");
+				} else {
+					params.put("displayInactiveTable", "N");
+				}
+				Calendar cal = Calendar.getInstance();
+				DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+				cal.set(Calendar.DATE, 1);
+				cal.add(Calendar.MONTH, -1);
+				params.put("beginDt", dateFormat.format(cal.getTime()));
+				cal.add(Calendar.MONTH, 1);
+				cal.add(Calendar.DAY_OF_MONTH, -1);
+				params.put("endDt", dateFormat.format(cal.getTime()));
+				
 				send(entMaintProperties.getProperty("email.from"), "discrepancyEmail", email,
 					parse(cc), null,
 					entMaintProperties.getProperty("email.discrepancy.subject"), params); // Pass list of discrepancy accounts
+				
 			}
 		}
 	}
@@ -383,9 +414,32 @@ public class MailServiceImpl implements MailService {
 					}
 				}
 			}
-			entry.setDiscrepancyText(sbu.toString());
+			entry.setDiscrepancyText(sbu.toString()) ;
+			entry.setStatusDescription(account.getStatusDescription());
 			if(!StringUtils.isEmpty(entry.getDiscrepancyText()) && !excluded.contains(account.getImpaciiUserId()))
 				accounts.add(entry);
+		}
+		return accounts;
+	}
+	
+	private List<DiscrepancyEmailAccountVO> populateInActiveAccounts(List<PortfolioAccountVO> list) {
+		List<DiscrepancyEmailAccountVO> accounts = new ArrayList<DiscrepancyEmailAccountVO>();
+		for (PortfolioAccountVO account : list) {
+			DiscrepancyEmailAccountVO entry = new DiscrepancyEmailAccountVO();
+			entry.setFullName(account.getFullName());
+			entry.setImpaciiUserIdNetworkId(account.getImpaciiUserId() +"<br>"+ account.getNihNetworkId());
+			entry.setNedOrgPath(account.getNedOrgPath());
+			List<EmPortfolioRolesVw> roles = account.getAccountRoles();
+			if(roles == null || roles.size() == 0){
+				entry.setApplicationRole("");
+			} else {
+				String applicationRole = "";
+				for (EmPortfolioRolesVw roleVw : roles) {
+					applicationRole = applicationRole + roleVw.getRoleName() + "<br>";
+				}
+				entry.setApplicationRole(applicationRole);
+			}
+			accounts.add(entry);
 		}
 		return accounts;
 	}
@@ -399,8 +453,9 @@ public class MailServiceImpl implements MailService {
 	 * 
 	 * @param list
 	 * @return
+	 * @throws Exception 
 	 */
-	private List<DiscrepancyEmailAccountVO> populateI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list, HashSet<String> excluded) {
+	private List<DiscrepancyEmailAccountVO> populateI2eDiscrepancyAccounts(List<PortfolioI2eAccountVO> list, HashSet<String> excluded) throws Exception {
 		
 		List<DiscrepancyEmailAccountVO> accounts = new ArrayList<DiscrepancyEmailAccountVO>();
 		for (PortfolioI2eAccountVO account : list) {
@@ -413,6 +468,7 @@ public class MailServiceImpl implements MailService {
 			entry.setCreatedDate((account.getCreatedDate() == null ? "" : new SimpleDateFormat("MM/dd/yyyy")
 					.format(account.getCreatedDate())));
 			entry.setSystem("I2E");
+			entry.setStatusDescription("");
 			StringBuffer sbu = new StringBuffer();
 			for(String dis : account.getAccountDiscrepancies()){
 				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
@@ -423,9 +479,17 @@ public class MailServiceImpl implements MailService {
 				}
 				if(dis.equalsIgnoreCase("I2EONLY")) {
 					entry.setSystem("IMPAC II or I2E");
+					//Fetch IMPAC II Status
+					EmPortfolioVw impacIIaccount = impac2PortfolioService.getAccountbyNihNetworkId(account.getNihNetworkId());
+					if(impacIIaccount != null) {
+						entry.setStatusDescription(impacIIaccount.getStatusDescription());
+					} else {
+						entry.setStatusDescription("No IMPAC II account");
+					}
 				}
 			}
 			entry.setDiscrepancyText(sbu.toString());
+			
 			if(!excluded.contains(entry.getNihNetworkId()))
 				accounts.add(entry);
 		}

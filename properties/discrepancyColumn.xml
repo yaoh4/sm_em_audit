@@ -33,8 +33,8 @@
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
- 		<columnName>Account Created Date</columnName>
- 		<property>accountCreatedDate</property>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>statusDescription</property>
  	</Tab>
  	<Tab>
  		<type>portfolioDiscrepancy</type>
@@ -62,4 +62,37 @@
  		<sort>false</sort>
  		<isNestedColumn>true</isNestedColumn>
  	</Tab>
+ 	<Tab>
+ 		<type>portfolioInactive</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioInactive</type>
+ 		<columnName>IMPAC II ID/NIH (Network) ID</columnName>
+ 		<property>impaciiUserIdAmsLinkNetworkId</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioInactive</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 	</Tab>
+ 	<Tab>
+ 		<type>portfolioInactive</type>
+ 		<columnName>Org ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+	</Tab>
+	<Tab>
+		<type>portfolioInactive</type>
+ 		<columnName>IMPAC II Application Role</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+	</Tab>
+	<Tab>
+		<type>portfolioInactive</type>
+ 		<columnName>IMPAC II Role Created On</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+	</Tab>
  </Display>   

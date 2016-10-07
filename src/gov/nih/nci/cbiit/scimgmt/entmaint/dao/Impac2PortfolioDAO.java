@@ -11,12 +11,12 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Impac2PortfolioDAO {
 
-	private static final Log log = LogFactory.getLog(Impac2PortfolioDAO.class);
+	private static final Logger log = Logger.getLogger(Impac2PortfolioDAO.class);
 	public static final long PORTFOLIO_CATEGORY_ACTIVE = 22;
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
@@ -271,6 +271,8 @@ public class Impac2PortfolioDAO {
 			addDeletedCriteria(criteria, searchVO);
 		} else if (searchVO.getCategory() == PORTFOLIO_CATEGORY_DISCREPANCY) {
 			addDiscrepancyCriteria(criteria);
+		} else if (searchVO.getCategory() == ApplicationConstants.PORTFOLIO_CATEGORY_INACTIVE) {
+			addInactiveCriteria(criteria);
 		}
 
 		return criteria;
@@ -345,6 +347,26 @@ public class Impac2PortfolioDAO {
         criteria.add(disc);
         criteria.add(Restrictions.isNull("deletedDate"));
         criteria.add(Restrictions.eq("activeStatusFlag", true));
+		return criteria;
+	}
+	
+	/**
+	 * 
+	 * @param criteria
+	 * @return
+	 */
+	private Criteria addInactiveCriteria(final Criteria criteria) {
+		criteria.add(Restrictions.eq("statusCode", 3l));
+		Calendar cal = Calendar.getInstance();
+		//Check if the DELETED_DATE is greater than 1st of the previous month
+		cal.set(Calendar.DATE, 1);
+		cal.add(Calendar.MONTH, -1);
+		criteria.add(Restrictions.ge("deletedDate", cal.getTime()));
+		//Check if the DELETED_DATE is less than last day of the previous month
+		cal.add(Calendar.MONTH, 1);
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		criteria.add(Restrictions.le("deletedDate", cal.getTime()));
+		log.info("debugging logs");
 		return criteria;
 	}
 	
@@ -435,5 +457,24 @@ public class Impac2PortfolioDAO {
 		criteria.add(Restrictions.ne("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<String>)criteria.list();
+	}
+	
+	/**
+	 * Get Impac2 account using nihNetworkId
+	 * @param nihNetworkId
+	 * @return EmPortfolioVw
+	 * @throws Exception 
+	 */
+	public EmPortfolioVw getAccountbyNihNetworkId(String nihNetworkId) throws Exception {
+		try {
+			final Criteria crit = sessionFactory.getCurrentSession().createCriteria(EmPortfolioVw.class);
+			crit.add(Restrictions.eq("nihNetworkId", nihNetworkId));
+			EmPortfolioVw result = (EmPortfolioVw) crit.uniqueResult();
+			return result;
+		} catch (Throwable e) {
+			String errorString = "get EmPortfolioVw failed for nihNetworkId=" + nihNetworkId + e.getMessage();
+			log.error(errorString, e);
+			throw new Exception(errorString,e);
+		}
 	}
 }
