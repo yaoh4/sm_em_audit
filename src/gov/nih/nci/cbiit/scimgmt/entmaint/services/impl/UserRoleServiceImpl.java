@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRoleServiceImpl implements UserRoleService {
 	public static Logger logger = Logger.getLogger(UserRoleServiceImpl.class);
-	public static Logger logger = Logger.getLogger(UserRoleServiceImpl.class);
 	
 	@Autowired
 	private UserRoleDAO userRoleDAO;
