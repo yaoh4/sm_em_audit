@@ -44,6 +44,7 @@ public class DisplayReader {
 		List<Tab> newTab = new ArrayList<Tab>();
 		List<Tab> deleteTab = new ArrayList<Tab>();
 		List<Tab> inactiveTab = new ArrayList<Tab>();
+		List<Tab> excludedTab = new ArrayList<Tab>();
 		List<Tab> i2eTab = new ArrayList<Tab>();
 		List<Tab> portfolioActive = new ArrayList<Tab>();
 		List<Tab> portfolioNew = new ArrayList<Tab>();
@@ -52,6 +53,8 @@ public class DisplayReader {
 		List<Tab> i2ePorfolioAccount = new ArrayList<Tab>();
 		List<Tab> i2ePorfolioDiscrepancy = new ArrayList<Tab>();
 		List<Tab> i2eActive = new ArrayList<Tab>();
+		List<Tab> transfer = new ArrayList<Tab>();
+		List<Tab> portfolioInactive = new ArrayList<Tab>();
 		
 		DisplayObject dObj = readXML(ireader);
 		for(Tab t : dObj.getTabs()){
@@ -66,6 +69,9 @@ public class DisplayReader {
 			}			
 			if(ApplicationConstants.CATEGORY_INACTIVE.equalsIgnoreCase(t.getType())){
 				inactiveTab.add(t);
+			}
+			if(ApplicationConstants.CATEGORY_EXCLUDED.equalsIgnoreCase(t.getType())){
+				excludedTab.add(t);
 			}
 			if(ApplicationConstants.CATEGORY_I2E.equalsIgnoreCase(t.getType())){
 				i2eTab.add(t);
@@ -91,11 +97,18 @@ public class DisplayReader {
 			if(ApplicationConstants.I2E_AUDIT_ACTIVE.equalsIgnoreCase(t.getType())){
 				i2eActive.add(t);
 			}
+			if(ApplicationConstants.CATEGORY_TRANSFER.equalsIgnoreCase(t.getType())){
+				transfer.add(t);
+			}
+			if(ApplicationConstants.PORTFOLIO_INACTIVE.equalsIgnoreCase(t.getType())){
+				portfolioInactive.add(t);
+			}
 		}
 		colMap.put(ApplicationConstants.CATEGORY_ACTIVE, activeTab);
 		colMap.put(ApplicationConstants.CATEGORY_NEW, newTab);
 		colMap.put(ApplicationConstants.CATEGORY_DELETED, deleteTab);		
 		colMap.put(ApplicationConstants.CATEGORY_INACTIVE, inactiveTab);
+		colMap.put(ApplicationConstants.CATEGORY_EXCLUDED, excludedTab);
 		colMap.put(ApplicationConstants.CATEGORY_I2E, i2eTab);
 		colMap.put(ApplicationConstants.PORTFOLIO_ACTIVE, portfolioActive);
 		colMap.put(ApplicationConstants.PORTFOLIO_NEW, portfolioNew);
@@ -104,6 +117,8 @@ public class DisplayReader {
 		colMap.put(ApplicationConstants.I2E_PORTFOLIO_ACCOUNT, i2ePorfolioAccount);
 		colMap.put(ApplicationConstants.I2E_PORTFOLIO_DISCREPANCY, i2ePorfolioDiscrepancy);
 		colMap.put(ApplicationConstants.I2E_AUDIT_ACTIVE, i2eActive);
+		colMap.put(ApplicationConstants.CATEGORY_TRANSFER, transfer);
+		colMap.put(ApplicationConstants.PORTFOLIO_INACTIVE, portfolioInactive);
 		return colMap;
 	}
 	

@@ -11,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PortfolioI2eAccountVO;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.displaytag.decorator.TableDecorator;
@@ -216,6 +217,18 @@ public class I2eAuditSearchResultExportDecorator extends TableDecorator{
 		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
 		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
 	}
+	
+	
+	/**
+	 * Checks if I2e IC Diff (Non NCI Person with I2E Account)  discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eIcDiff() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+	}
+	
 	
 	/**
 	 * This method is for displaying Org path for application roles. It could be multiple.

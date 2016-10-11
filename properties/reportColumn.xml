@@ -36,6 +36,12 @@
  	</Tab>
  	<Tab>
  		<type>active</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>statusDescription</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>active</type>
  		<columnName>DATABASE ROLE NAME</columnName>
  		<property>applicationRole</property>
  		<sort>false</sort>
@@ -68,6 +74,12 @@
  		<type>new</type>
  		<columnName>CREATED</columnName>
  		<property>accountCreatedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>new</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>statusDescription</property>
  		<sort>true</sort>
  	</Tab>
   	<Tab>
@@ -234,6 +246,13 @@
  	</Tab>
  	<Tab>
  		<type>i2e</type>
+ 		<columnName>Non NCI Person with I2E Account</columnName>
+ 		<property>discrepancyI2eIcDiff</property>
+ 		<sort>false</sort>
+ 		<display>false</display>
+ 	</Tab>
+ 	<Tab>
+ 		<type>i2e</type>
  		<columnName>Name</columnName>
  		<property>fullName</property>
  		<sort>true</sort>
@@ -318,4 +337,112 @@
  		<sort>false</sort>
  		<display>false</display>
  	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>IC</columnName>
+ 		<property>nedIc</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>IMPACII USER ID</columnName>
+ 		<property>impaciiUserId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>NIH ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>NAME</columnName>
+ 		<property>fullName</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>CREATED</columnName>
+ 		<property>accountCreatedDate</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>statusDescription</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>DATABASE ROLE NAME</columnName>
+ 		<property>applicationRole</property>
+ 		<sort>false</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>ORG ID</columnName>
+ 		<property>orgId</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>ROLE DATE</columnName>
+ 		<property>roleCreateOn</property>
+ 		<sort>false</sort>
+ 	</Tab>
+  	<Tab>
+ 		<type>excluded</type>
+ 		<columnName>SECONDARY</columnName>
+ 		<property>secondaryOrgText</property>
+ 		<sort>true</sort>
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Name</columnName>
+ 		<property>fullName</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>NIH (Network) ID</columnName>
+ 		<property>nihNetworkId</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>NED Org Path</columnName>
+ 		<property>nedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Active IMPAC II Account</columnName>
+ 		<property>impaciiActiveStatusFlag</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Active I2E Account</columnName>
+ 		<property>i2eActiveStatusFlag</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName> From Organization</columnName>
+ 		<property>transferFromNedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab>
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>To Organization</columnName>
+ 		<property>transferToNedOrgPath</property>
+ 		<sort>true</sort> 		
+ 	</Tab> 
+ 	<Tab>
+ 		<type>transfer</type>
+ 		<columnName>Current IMPAC II Account Status</columnName>
+ 		<property>statusDescription</property>
+ 		<sort>true</sort>
+ 	</Tab>	
  </Display>			

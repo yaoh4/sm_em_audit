@@ -5,6 +5,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.NciPeopleVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRoleServiceImpl implements UserRoleService {
 	public static Logger logger = Logger.getLogger(UserRoleServiceImpl.class);
+	public static Logger logger = Logger.getLogger(UserRoleServiceImpl.class);
+	
 	@Autowired
 	private UserRoleDAO userRoleDAO;
 	/**
@@ -56,6 +59,11 @@ public class UserRoleServiceImpl implements UserRoleService {
 		nciUser.setEmail(nciPeopleVw.getEmailAddress());
 		nciUser.setActiveFlag(nciPeopleVw.getActiveFlag());			
 		return nciUser;
+	}
+
+	@Override
+	public List<String> retrieveIcCoordinators() {
+		return userRoleDAO.retrieveIcCoordinators();
 	}
 
 }

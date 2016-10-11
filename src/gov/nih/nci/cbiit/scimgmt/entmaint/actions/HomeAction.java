@@ -59,11 +59,16 @@ public class HomeAction extends BaseAction {
     public String search() throws Exception {
         
         if(EmAppUtil.isAuditEnabled()) {
-        	return ApplicationConstants.AUDIT_ENABLED;
-        	
-        } else {
-        	return ApplicationConstants.AUDIT_DISABLED;
+        	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_ACTIVE))
+        		return ApplicationConstants.SUB_TAB_ACTIVE_ACCOUNTS;
+        	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_NEW))
+        		return ApplicationConstants.SUB_TAB_NEW_ACCOUNTS;
+        	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_DELETED))
+        		return ApplicationConstants.SUB_TAB_DELETED_ACCOUNTS;
+        	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_INACTIVE))
+        		return ApplicationConstants.SUB_TAB_INACTIVE_ACCOUNTS;
         }
+        return ApplicationConstants.AUDIT_DISABLED;
 
     }
     

@@ -70,6 +70,9 @@ td, th {
 	text-align: left;
 	vertical-align: text-top;
 }
+td ul {
+	padding: 0px 10px 10px;
+}
 table ol {
 	margin: 0;
 	padding: 0;
@@ -204,4 +207,13 @@ table.nestedTableStyle{
 	/*Boostrap's table-responsive class has white-space:no-wrap which messes with the Nested table contents when table is enlarged.*/
 	/* To avoid overlapping of nested table columns we are overriding that property here.*/
 	white-space:normal;
+}
+.red {
+    color: #e65c65 !important;
+}
+.green {
+    color: #aae65c !important;
+}
+.black {
+    color: #000000 !important;
 }

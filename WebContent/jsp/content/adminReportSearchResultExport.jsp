@@ -20,6 +20,9 @@
 <s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE}">
 	<display:setProperty name="export.excel.filename" value="Inactive.xls"/>
 </s:if>
+<s:if test="%{#type == @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_EXCLUDED}">
+	<display:setProperty name="export.excel.filename" value="NotNCIPurvue.xls"/>
+</s:if>
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
 	<display:column property="${t.property}" title="${t.columnName}" sortable="${t.sort}"/>

@@ -97,6 +97,15 @@
             <property name="lastNameDiffFlag" type="yes_no">
                 <column name="LAST_NAME_DIFF_FLAG" length="1" />
             </property>
+            <property name="activeStatusFlag" type="yes_no">
+                <column name="ACTIVE_STATUS_FLAG" length="1" />
+            </property>
+            <property name="statusCode" type="long">
+                <column name="STATUS_CODE" precision="10" scale="0" />
+            </property>
+            <property name="statusDescription" type="string">
+                <column name="STATUS_DESCRIPTION" length="400" />
+            </property>
             <bag name="accountRoles" table="EM_PORTFOLIO_ROLES_VW" inverse="true" lazy="true" fetch="select">
             	<key>
                 	<column name="IMPACII_USER_ID" precision="10" scale="0" not-null="true" />

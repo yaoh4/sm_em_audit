@@ -19,6 +19,10 @@ public class EmAuditsT implements java.io.Serializable {
 	private Date createDate;
 	private Date i2eFromDate;
 	private Date i2eToDate;
+	private String activeCategoryEnabledFlag;
+	private String newCategoryEnabledFlag;
+	private String deletedCategoryEnabledFlag;
+	private String inactiveCategoryEnabledFlag;
 	
 	List<EmAuditHistoryT>  statusHistories;
 
@@ -123,6 +127,62 @@ public class EmAuditsT implements java.io.Serializable {
 		this.i2eToDate = i2eToDate;
 	}
 	
+	/**
+	 * @return the activeCategoryEnabledFlag
+	 */
+	public String getActiveCategoryEnabledFlag() {
+		return activeCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param activeCategoryEnabledFlag the activeCategoryEnabledFlag to set
+	 */
+	public void setActiveCategoryEnabledFlag(String activeCategoryEnabledFlag) {
+		this.activeCategoryEnabledFlag = activeCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the newCategoryEnabledFlag
+	 */
+	public String getNewCategoryEnabledFlag() {
+		return newCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param newCategoryEnabledFlag the newCategoryEnabledFlag to set
+	 */
+	public void setNewCategoryEnabledFlag(String newCategoryEnabledFlag) {
+		this.newCategoryEnabledFlag = newCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the deletedCategoryEnabledFlag
+	 */
+	public String getDeletedCategoryEnabledFlag() {
+		return deletedCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param deletedCategoryEnabledFlag the deletedCategoryEnabledFlag to set
+	 */
+	public void setDeletedCategoryEnabledFlag(String deletedCategoryEnabledFlag) {
+		this.deletedCategoryEnabledFlag = deletedCategoryEnabledFlag;
+	}
+
+	/**
+	 * @return the inactiveCategoryDeletedFlag
+	 */
+	public String getInactiveCategoryEnabledFlag() {
+		return inactiveCategoryEnabledFlag;
+	}
+
+	/**
+	 * @param inactiveCategoryDeletedFlag the inactiveCategoryDeletedFlag to set
+	 */
+	public void setInactiveCategoryEnabledFlag(String inactiveCategoryEnabledFlag) {
+		this.inactiveCategoryEnabledFlag = inactiveCategoryEnabledFlag;
+	}
+
 	/**
 	 * @return the statusHistories
 	 */

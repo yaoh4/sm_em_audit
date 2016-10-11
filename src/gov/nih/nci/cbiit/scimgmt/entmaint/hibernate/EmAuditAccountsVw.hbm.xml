@@ -34,6 +34,12 @@
             <property name="nedFirstName" type="string">
                 <column name="NED_FIRST_NAME" length="576" />
             </property>
+            <property name="nedPreferredLastName" type="string">
+                <column name="NED_PREFERRED_LAST_NAME" length="576" />
+            </property>
+            <property name="nedPreferredFirstName" type="string">
+                <column name="NED_PREFERRED_FIRST_NAME" length="576" />
+            </property>
             <property name="nedEmailAddress" type="string">
                 <column name="NED_EMAIL_ADDRESS" length="768" />
             </property>
@@ -46,8 +52,8 @@
             <property name="nedIc" type="string">
                 <column name="NED_IC" length="576" />
             </property>
-            <property name="nedActiveFlag" type="yes_no">
-                <column name="NED_ACTIVE_FLAG" length="1" />
+            <property name="impaciiActiveStatusFlag" type="yes_no">
+                <column name="IMPACII_ACTIVE_STATUS_FLAG" length="1" />
             </property>
             <property name="nciDoc" type="string">
                 <column name="NCI_DOC" length="5" />
@@ -159,6 +165,39 @@
             </property>
             <property name="lastNameDiffFlag" type="yes_no">
                 <column name="LAST_NAME_DIFF_FLAG" length="1" />
+            </property>           
+			<property name="transferToNedOrgPath" type="string">
+				<column name="TRANSFER_TO_ORG_PATH" length="255" />
+			</property>
+			<property name="transferFromNedOrgPath" type="string">
+				<column name="TRANSFER_FROM_ORG_PATH" length="255" />
+			</property>
+			<property name="transferredDate" type="timestamp">
+                <column name="TRANSFERRED_DATE" length="7" />
+            </property>
+             <property name="deletedTransferToOrgPath" type="string">
+                <column name="DELETED_TRANSFER_TO_ORG_PATH" length="255" />
+            </property>
+             <property name="deletedTransferFromOrgPath" type="string">
+                <column name="DELETED_TRANSFER_FROM_ORG_PATH" length="255" />
+            </property>
+            <property name="activeCategoryFlag" type="yes_no">
+            	<column name="ACTIVE_CATEGORY_FLAG" length="1" />
+        	</property>
+            <property name="newCategoryFlag" type="yes_no">
+            	<column name="NEW_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="deletedCategoryFlag" type="yes_no">
+            	<column name="DELETED_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="inactiveCategoryFlag" type="yes_no">
+            	<column name="INACTIVE_CATEGORY_FLAG" length="1" />
+        	</property>
+        	<property name="statusCode" type="long">
+                <column name="STATUS_CODE" precision="10" scale="0" />
+            </property>
+            <property name="statusDescription" type="string">
+                <column name="STATUS_DESCRIPTION" length="400" />
             </property>
             <bag name="accountRoles" table="EM_AUDIT_ACCOUNT_ROLES_VW" lazy="true" fetch="select">
             	<key>

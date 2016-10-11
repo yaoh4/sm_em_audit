@@ -180,14 +180,5 @@ public class AdminReportSearchResultExportDecorator extends TableDecorator{
 	public String getExtSysName(){
 		return "NIH";
 	}
-
-	/**
-	 * start autowired
-	 */
-//	private void startAutowired(){
-//		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
-//				.getServletContext());
-//		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
-//		acbf.autowireBean(this);
-//	}
+	
 }

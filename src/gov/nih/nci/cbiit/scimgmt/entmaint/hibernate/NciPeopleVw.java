@@ -1,6 +1,8 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.hibernate;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -21,6 +23,7 @@ public class NciPeopleVw implements Serializable {
     private java.lang.String emailAddress;
     private java.util.Date inactiveDate;
     private java.lang.String activeFlag;   
+    private List<I2eActiveUserRolesVw> accountRoles = new ArrayList<I2eActiveUserRolesVw>(0);
 
    /**
     * Default Constructor
@@ -196,6 +199,14 @@ public NciPeopleVw(Long npnId, String nihNetworkId, String oracleId, String last
 	}
 
 
+
+	public List<I2eActiveUserRolesVw> getAccountRoles() {
+		return accountRoles;
+	}
+
+	public void setAccountRoles(List<I2eActiveUserRolesVw> accountRoles) {
+		this.accountRoles = accountRoles;
+	}
 
 	public String toString() {
         return new ToStringBuilder(this)

@@ -202,6 +202,7 @@ function onOrgChange(org){
 }
 
 function onCategoryChage(category){
+	org = $('#portfolioOrg option:selected').val();
 	if(category == '22' || category == '25'){
 		$('#dateRangeStartDate').datepicker('disable'); 		
 		$('#dateRangeEndDate').datepicker('disable'); 
@@ -218,7 +219,7 @@ function onCategoryChage(category){
 	$.ajax({
 		url: "orgOptionAction.action",
 		type: "post",
-		data: {cate: category},
+		data: {cate: category, org: org},
 		async:   false,
 		success: function(msg){
 			result = $.trim(msg);
@@ -227,6 +228,23 @@ function onCategoryChage(category){
 		error: function(){}		
 	});
 }
+
+
+function onAuditSelected(auditId) {
+	
+	$.getJSON("reportCategoriesAction.action", {auditIdParam: auditId}, 
+		function(response){
+			var options = $("#searchCategory");
+			options.html('');
+			$.each(response, function(index, item) {
+				options.append(
+						$("<option />").attr("value", item.optionKey).text(item.optionValue));
+			});
+		}
+	);
+}
+
+
 
 function getNote(id){
 	var result = "";
@@ -373,7 +391,37 @@ function searchAuditByCategory(cate, org){
 	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org);
 	$('#dashboardFormId').submit();
 }
+function searchAuditByCategory(cate, org, act){
+	$('#dashboardFormId').attr("action", "searchAudit?cate="+cate+"&orgName=" + org+"&act=" + act);
+	$('#dashboardFormId').submit();
+}
 function refresh(){
 	$('#dashboardFormId').attr("action", "gotoDashboard");
 	$('#dashboardFormId').submit();
+}
+
+function onActionChange(action,transferOrg){
+	
+	if(action == '50' || action == '51' || action == '52' || action == '53'){
+		$.ajax({
+			url: "getAccountTransferOrgList.action",
+			type: "post",
+			data: {transferOrg: transferOrg},
+			async:   false,
+			datatype:'json',
+			success: function(orgList){				
+				var transferOrgDropDown = $('#transferOrg');
+				transferOrgDropDown.find('option').remove();
+				$.each(orgList, function(index, org) { 
+					$('<option>').val(org.optionKey).text(org.optionValue).appendTo(transferOrgDropDown);
+				});
+
+			$('#transferOrgDiv').css("display","inline");
+			}
+		});		
+	}
+	else{
+		$('#transferOrgDiv').css("display","none");
+	}
+
 }

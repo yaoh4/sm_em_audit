@@ -11,6 +11,7 @@ public interface ApplicationConstants {
     public static final String TAB_IMPAC2 = "impac2";
     public static final String TAB_I2E = "i2e";
     public static final String TAB_ADMIN = "admin";
+    public static final String TAB_DISCREPANCY = "discrepancies";
 	
     /* Tab Navigation links for IMPAC II and I2E*/
 	public static final String SUB_NAV_AUDIT = "audit";
@@ -59,6 +60,7 @@ public interface ApplicationConstants {
     public static final String APP_LOOKUP_PORTFOLIO_CATEGORY_LIST = "appLookupPortfolioCategory";
     public static final String APP_LOOKUP_I2E_PORTFOLIO_CATEGORY_LIST = "appLookupI2ePortfolioCategory";
     public static final String APP_LOOKUP_REPORTS_CATEGORY_LIST = "appLookupReportsCategory";
+    public static final String APP_LOOKUP_STATUS_CODE = "appLookupStatusCode";
     public static final String ORGANIZATION_DROPDOWN_LIST = "orgList";
     public static final String CATEGORY_DROPDOWN_LIST = "categoryList";
     public static final String DISCREPANCY_TYPES_LIST = "discrepancyTypesList";
@@ -82,9 +84,11 @@ public interface ApplicationConstants {
     public static final String DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE = "I2ENOACTIVEROLE";
     public static final String DISCREPANCY_CODE_I2E_ONLY = "I2EONLY";
     public static final String DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER = "I2EACTIVEROLEREM";
+    public static final String DISCREPANCY_CODE_I2E_IC_DIFF = "I2EICDIFF";
     
     /* Organization Drop down */
     public static final String ORG_PATH_NON_NCI = "Non-NCI";
+    public static final String ORG_PATH_NO_NED_ORG = "No NED Org";
     public static final String NED_IC_NCI = "NCI";
     
     //Encoding
@@ -104,6 +108,7 @@ public interface ApplicationConstants {
     public static String INPUT = "input";
     public static String EXPORT = "export";
     public static String EXPORT_I2E = "exporti2e";
+    public static String EXPORT_TRANSFERRED = "exportTransferred";
     public static String AUDIT_ENABLED = "audit_enabled";
     public static String AUDIT_DISABLED = "audit_disabled";
     
@@ -112,6 +117,8 @@ public interface ApplicationConstants {
 	public static final String CATEGORY_DELETED = "DELETED";
 	public static final String CATEGORY_INACTIVE = "INACTIVE";
 	public static final String CATEGORY_I2E = "I2E";
+	public static final String CATEGORY_EXCLUDED = "EXCLUDED";
+	public static final String CATEGORY_TRANSFER = "TRANSFER";
 	
 	public static final String ACTIVE_ACTION_ALL = "1";
 	public static final String NEW_ACTION_ALL = "5";
@@ -129,11 +136,15 @@ public interface ApplicationConstants {
 	public static final Long NEW_EXCLUDE_FROM_AUDIT = 30L;
 	public static final Long DELETED_EXCLUDE_FROM_AUDIT = 31L;
 	public static final Long INACTIVE_EXCLUDE_FROM_AUDIT = 32L;
+	public static final String ACTIVE_ACTION_UNKNOWN = "4";
+	public static final String NEW_ACTION_UNKNOWN = "7";
+	public static final String DELETED_ACTION_UNKNOWN = "10";
 	
     public static String PORTFOLIO_ACTIVE = "portfolioActive";
     public static String PORTFOLIO_NEW = "portfolioNew";
     public static String PORTFOLIO_DELETED = "portfolioDeleted";
     public static String PORTFOLIO_DISCREPANCY = "portfolioDiscrepancy";
+    public static String PORTFOLIO_INACTIVE = "portfolioInactive";
     
     public static String I2E_PORTFOLIO_ACCOUNT = "i2e";
     public static String I2E_PORTFOLIO_DISCREPANCY = "i2eDiscrepancy";
@@ -143,6 +154,7 @@ public interface ApplicationConstants {
     public static String COLUMNSATTRIBUTE = "colAttribute";
     public static String REPORTCOLATTRIBUTE = "reportAttibute";
     public static String I2ECOLATTRIBUTE="i2eColAttribute";
+    public static String DISCREPANCYCOLATTRIBUTE="discrepancyColAttribute";
     public static String SEARCHVO = "searchVO";
     public static String PORTFOLIO_SEARCHVO = "portfolioSearchVO";
     public static String I2E_PORTFOLIO_SEARCHVO = "i2ePortfolioSearchVO";
@@ -154,6 +166,10 @@ public interface ApplicationConstants {
 	public static final long PORTFOLIO_CATEGORY_NEW = 23;
 	public static final long PORTFOLIO_CATEGORY_DELETED = 24;
 	public static final long PORTFOLIO_CATEGORY_DISCREPANCY = 25;
+	public static final long PORTFOLIO_CATEGORY_INACTIVE = 55;
+	
+	public static final long IMPACT_II_INACTIVE_STATUS = 3;
+	
 	public static final String CURRENTPAGE ="currentPage";
 	
 	public static final long I2E_PORTFOLIO_CATEGORY_ACCOUNT= 37;
@@ -170,6 +186,8 @@ public interface ApplicationConstants {
 	
 	public static final String ERA_US_LINK = "ERA_UA_LINK";
 	public static final String I2E_EM_LINK = "I2E_EM_LINK";
+	public static final String ERA_US_LINK_TEXT = "ERA_UA_LINK_TEXT";
+	public static final String I2E_EM_LINK_TEXT = "I2E_EM_LINK_TEXT";
 	
 	public static final String UNDO_COMFIRMATION="undo.confirmation.message";
 	public static final String ERROR_SAVE_TO_DATABASE="error.database.save";
@@ -177,6 +195,7 @@ public interface ApplicationConstants {
 	public static final String EMPTY_NOTE="error.empty.note";
 	public static final String MISSING_NOTE="error.missing.note";
 	public static final String ACTION_SELECTION="error.action.selection";
+	public static final String TRANSFER_ORG_NOT_SELECTED="transfer.org.not.selected";
 	
 	public static final String DATE_RANGE_HELP="date.range.help";
 	
@@ -186,4 +205,14 @@ public interface ApplicationConstants {
 	
 	public static final String DASHBOARD = "Y";
 	public static final String USEDASHBOARD="dashboard";
+	
+	//Transfer action constants.
+	public static final String ACTION_TRANSFER = "Transfer";
+	public static final String SEARCH_TRANSFERED = "Transferred";
+	public static final Long ACTIVE_ACTION_TRANSFER = 50L;
+	public static final Long NEW_ACTION_TRANSFER = 51L;
+	public static final Long DELETED_ACTION_TRANSFER = 52L;
+	public static final Long INACTIVE_ACTION_TRANSFER = 53L;
+	
+	
 }

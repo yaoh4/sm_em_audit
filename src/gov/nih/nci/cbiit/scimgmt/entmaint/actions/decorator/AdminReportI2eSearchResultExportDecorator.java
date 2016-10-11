@@ -214,6 +214,18 @@ public class AdminReportI2eSearchResultExportDecorator extends TableDecorator{
 		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
 	}
 	
+	
+	/**
+	 * Checks if I2e IC Diff (Non NCI Person with I2E Account)  discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eIcDiff() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+	}
+	
+	
 	/**
 	 * This method is for displaying Org path for application roles. It could be multiple.
 	 * @return String

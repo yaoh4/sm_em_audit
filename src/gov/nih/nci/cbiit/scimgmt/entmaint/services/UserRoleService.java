@@ -29,4 +29,6 @@ public interface UserRoleService {
     * @return nciPeopleVw
     */
 	public NciUser getNCIUser(String userId);  
+
+	public List<String> retrieveIcCoordinators();
 }

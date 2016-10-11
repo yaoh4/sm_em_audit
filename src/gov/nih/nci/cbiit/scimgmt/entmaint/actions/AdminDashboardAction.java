@@ -13,6 +13,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.ActionDashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -42,8 +43,10 @@ public class AdminDashboardAction extends BaseAction {
 	//-----------------------------------
 	private List<Object> orgKeys;
 	private List<Object> otherOrgKeys;
+	private List<Object> actionOrgKeys;
 	private HashMap<String, HashMap<String, DashboardData>> orgsData;
 	private HashMap<String, HashMap<String, DashboardData>> otherOrgsData;
+	private HashMap<String, HashMap<String, ActionDashboardData>> actionOrgsData;
 	private DashboardData others;
 	private Long auditId;
 	
@@ -66,6 +69,7 @@ public class AdminDashboardAction extends BaseAction {
     	auditId = null;
     	orgsData = new HashMap<String, HashMap<String,DashboardData>>();
     	otherOrgsData = new HashMap<String, HashMap<String, DashboardData>>();
+    	actionOrgsData = new HashMap<String, HashMap<String, ActionDashboardData>>();
     	
     	//set up all environment for displaying dashboard page.
     	emAuditsVO = adminService.retrieveCurrentOrLastAuditVO();
@@ -89,11 +93,17 @@ public class AdminDashboardAction extends BaseAction {
     	Object[] otherKeys = otherKeySet.toArray();
     	Arrays.sort(otherKeys);
     	
+    	Set<String> actionKeySet = actionOrgsData.keySet();
+    	Object[] actionKeys = actionKeySet.toArray();
+    	Arrays.sort(actionKeys);
+    	
     	//set arrays for displaying
     	orgKeys = Arrays.asList(keys);
     	otherOrgKeys = Arrays.asList(otherKeys);
+    	actionOrgKeys = Arrays.asList(actionKeys);
     	//move NON-NCI to the last element
-    	otherOrgKeys = moveNonNCIToLast();
+    	otherOrgKeys = moveNonNCIToLast(otherOrgKeys);
+    	actionOrgKeys = moveNonNCIToLast(actionOrgKeys);
     	return ApplicationConstants.SUCCESS;
     }
     
@@ -105,8 +115,11 @@ public class AdminDashboardAction extends BaseAction {
     	String forward = "";
     	String cate = request.getParameter("cate");
     	String orgName = request.getParameter("orgName");
+    	String action = request.getParameter("act");
     	searchVO.setOrganization(orgName);
     	searchVO.setExcludeNCIOrgs(false);
+    	if(!StringUtils.isEmpty(action) && !StringUtils.equalsIgnoreCase(action, "undefined"))
+    		searchVO.setAct(action);
     	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
     	searchVO.setAuditId(emAuditsVO.getId());
     	session.put(ApplicationConstants.SEARCHVO, searchVO);
@@ -128,17 +141,20 @@ public class AdminDashboardAction extends BaseAction {
     /**
      * Move NON NCI to be last element
      */
-    private List<Object> moveNonNCIToLast(){
+    private List<Object> moveNonNCIToLast(List<Object> orgKeys){
     	List<Object> sortedList = new ArrayList<Object>();
-    	for(Object s : otherOrgKeys){
+    	for(Object s : orgKeys){
     		String key = (String)s;
-    		if(key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)){
+    		if(key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI) || key.equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG) ){
     			continue;
     		}else{
     			sortedList.add(s);
     		}
     	}
-    	sortedList.add(ApplicationConstants.ORG_PATH_NON_NCI);
+    	if(orgKeys.contains(ApplicationConstants.ORG_PATH_NON_NCI))
+    		sortedList.add(ApplicationConstants.ORG_PATH_NON_NCI);
+    	if(orgKeys.contains(ApplicationConstants.ORG_PATH_NO_NED_ORG))
+    		sortedList.add(ApplicationConstants.ORG_PATH_NO_NED_ORG);
     	return sortedList;
     }
     
@@ -151,58 +167,73 @@ public class AdminDashboardAction extends BaseAction {
     private boolean containsKey(HashMap<String, HashMap<String, DashboardData>> orgData, String key){
     	return orgData.containsKey(key);
     }
+    
+    /**
+     * Find out if the hashmap has the organization initialized.
+     * @param orgData
+     * @param key
+     * @return
+     */
+    private boolean containsActionKey(HashMap<String, HashMap<String, ActionDashboardData>> orgData, String key){
+    	return orgData.containsKey(key);
+    }
+    
+    /**
+     * Check to see if this account should be in the active category
+     * @return
+     */
+    private boolean isActiveAccount(AuditAccountVO audit) {
+    	return audit.getActiveCategoryFlag();
+    }
+    
+    /**
+     * Check to see if this account should be in the new category
+     * @return
+     */
+    private boolean isNewAccount(AuditAccountVO audit) {
+    	return audit.getNewCategoryFlag();
+    }
+    
+    /**
+     * Check to see if this account should be in the deleted category
+     * @return
+     */
+    private boolean isDeletedAccount(AuditAccountVO audit) {
+    	return audit.getDeletedCategoryFlag();
+    }
+    
+    /**
+     * Check to see if this account should be in the inactive category
+     * @return
+     */
+    private boolean isInactiveAccount(AuditAccountVO audit) {
+    	//determine inactive account
+    	return audit.getInactiveCategoryFlag();
+    }
+    
+    
     /** 
      * Calculate counts, including total, uncompleted numbers sorted by organization names. The other organization needs to computer seperately.
      * @param audit
      * @param dashData
      */
     private void setCountForEachCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	
-	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
-    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
-    	Date deletedDate = audit.getDeletedDate();
-    	Date createdDate = audit.getCreatedDate();
-    	
-    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
-    	String createdDateStr = (createdDate == null ? null : dateFormat.format(createdDate));
-    	
-    	try {
-			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
-			createdDate = (createdDateStr == null ? null : dateFormat.parse(createdDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
     	//determine active account
-    	if(createdDate != null && 
-    		(deletedDate == null || deletedDate.after(impaciiToDate) || deletedDate.equals(impaciiToDate)) &&  
-    		(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
+    	if(isActiveAccount(audit)){
     		incrementCountByCategory(audit, dashData, ACTIVE);
     		if(!StringUtils.isEmpty(audit.getActiveSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, ACTIVE);
     		}
     	}
     	//determine new account
-    	if(createdDate != null && 
-    			(createdDate.after(impaciiFromDate) || createdDate.equals(impaciiFromDate)) && 
-    			(createdDate.before(impaciiToDate) || createdDate.equals(impaciiToDate))){
+    	if(isNewAccount(audit)){
     		incrementCountByCategory(audit, dashData, NEW);
     		if(!StringUtils.isEmpty(audit.getNewSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, NEW);
     		}
     	}
-    	//determine deleted account
-    	if(deletedDate != null && 
-    			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
-    			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
-    		incrementCountByCategory(audit, dashData, DELETED);
-    		if(!StringUtils.isEmpty(audit.getDeletedSubmittedBy())){
-    			incrementCompletedCountByCategory(audit, dashData, DELETED);
-    		}
-    	}
     	//determine inactive account
-    	if(audit.getInactiveUserFlag() != null && audit.getInactiveUserFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES)){
+    	if(isInactiveAccount(audit)){
     		incrementCountByCategory(audit, dashData, INACTIVE);
     		if(!StringUtils.isEmpty(audit.getInactiveSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, INACTIVE);
@@ -216,24 +247,8 @@ public class AdminDashboardAction extends BaseAction {
      * @param dashData
      */
     private void setCountForDeletedCategory(AuditAccountVO audit, HashMap<String,DashboardData> dashData){
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    	
-	   	Date impaciiToDate = emAuditsVO.getImpaciiToDate();
-    	Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
-    	Date deletedDate = audit.getDeletedDate();
-   	
-    	String deletedDateStr = (deletedDate == null ? null : dateFormat.format(deletedDate));
-   	
-    	try {
-			deletedDate = (deletedDateStr == null ? null : dateFormat.parse(deletedDateStr));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
     	//determine deleted account
-    	if(deletedDate != null && 
-    			(deletedDate.after(impaciiFromDate) || deletedDate.equals(impaciiFromDate)) && 
-    			(deletedDate.before(impaciiToDate) || deletedDate.equals(impaciiToDate))){
+    	if(isDeletedAccount(audit)){
     		incrementCountByCategory(audit, dashData, DELETED);
     		if(!StringUtils.isEmpty(audit.getDeletedSubmittedBy())){
     			incrementCompletedCountByCategory(audit, dashData, DELETED);
@@ -407,7 +422,7 @@ public class AdminDashboardAction extends BaseAction {
     	    	String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
-    			if(org != null){
+    			if(StringUtils.isNotBlank(org)){
     				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
     					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
 							org = ApplicationConstants.ORG_PATH_NON_NCI;
@@ -416,6 +431,11 @@ public class AdminDashboardAction extends BaseAction {
 	    			}else{
 	    				classifyOrgCategory(orgsData, org, audit);
     				}
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			} else {
+    				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+    				classifyOrgCategory(otherOrgsData, org, audit);
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}
     	}
@@ -433,19 +453,20 @@ public class AdminDashboardAction extends BaseAction {
     	String nciDoc = audit.getDeletedByNciDoc();
     	String nedIc = audit.getNedIc();
     	
-    	if(org == null || org.trim().length() < 1){
-    		return; //do not deal with empty org name, David will fix it later.
-    	}else{
-    		if(org != null){
-				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
-					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
-						org = ApplicationConstants.ORG_PATH_NON_NCI;
-					}
-					classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
-    			}else{
-    				classifyOrgCategoryForDeletedAccounts(orgsData, org, audit);
+    	if(StringUtils.isNotBlank(org)){
+			if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+				if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+					org = ApplicationConstants.ORG_PATH_NON_NCI;
 				}
+				classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
+    		}else{
+    			classifyOrgCategoryForDeletedAccounts(orgsData, org, audit);
 			}
+			classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
+		} else {
+			org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+			classifyOrgCategoryForDeletedAccounts(otherOrgsData, org, audit);
+			classifyActionOrgCategoryForDeletedAccounts(actionOrgsData, org, audit);
     	}
 	}
 	
@@ -461,7 +482,7 @@ public class AdminDashboardAction extends BaseAction {
     			String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
-    			if(org != null){
+    			if(StringUtils.isNotBlank(org)){
     				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
     					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
 							org = ApplicationConstants.ORG_PATH_NON_NCI;
@@ -470,6 +491,11 @@ public class AdminDashboardAction extends BaseAction {
 	    			}else{
 	    				classifyOrgCategory(orgsData, org, audit);
     				}
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			} else {
+    				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+    				classifyOrgCategory(otherOrgsData, org, audit);
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
     			}
     		}
     	}
@@ -526,6 +552,96 @@ public class AdminDashboardAction extends BaseAction {
 	 * @param org
 	 * @param audit
 	 */
+	private void classifyActionOrgCategory(HashMap<String, HashMap<String, ActionDashboardData>> orgHashmap, String org, AuditAccountVO audit) {
+		
+    		
+		if (isActiveAccount(audit) && audit.getActiveAction() != null
+				&& !StringUtils.equalsIgnoreCase(audit.getActiveUnsubmittedFlag(), "Y")
+				&& StringUtils.equalsIgnoreCase(audit.getActiveAction().getCode(), "Unknown")) {
+			if (!containsActionKey(orgHashmap, org)) {
+				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
+				ActionDashboardData ddata = new ActionDashboardData();
+				dashData.put(ACTIVE, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(NEW, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(DELETED, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(I2E, ddata);
+				orgHashmap.put(org, dashData);
+			}
+			HashMap<String, ActionDashboardData> dashData = orgHashmap.get(org);
+			ActionDashboardData ddata = dashData.get(ACTIVE);
+			int count = ddata.getActiveUnknownCount();
+			ddata.setActiveUnknownCount(++count);
+			dashData.put(ACTIVE, ddata);
+			orgHashmap.put(org, dashData);
+		}
+		if (isNewAccount(audit) && audit.getNewAction() != null
+				&& !StringUtils.equalsIgnoreCase(audit.getNewUnsubmittedFlag(), "Y")
+				&& StringUtils.equalsIgnoreCase(audit.getNewAction().getCode(), "Unknown")) {
+			if (!containsActionKey(orgHashmap, org)) {
+				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
+				ActionDashboardData ddata = new ActionDashboardData();
+				dashData.put(ACTIVE, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(NEW, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(DELETED, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(I2E, ddata);
+				orgHashmap.put(org, dashData);
+			}
+			HashMap<String, ActionDashboardData> dashData = orgHashmap.get(org);
+			ActionDashboardData ddata = dashData.get(NEW);
+			int count = ddata.getNewUnknownCount();
+			ddata.setNewUnknownCount(++count);
+			dashData.put(NEW, ddata);
+			orgHashmap.put(org, dashData);
+		}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
+	private void classifyActionOrgCategoryForDeletedAccounts(HashMap<String, HashMap<String, ActionDashboardData>> orgHashmap, String org, AuditAccountVO audit) {
+		
+		if(isDeletedAccount(audit) && audit.getDeletedAction() != null &&
+				!StringUtils.equalsIgnoreCase(audit.getDeletedUnsubmittedFlag(),"Y") &&
+				StringUtils.equalsIgnoreCase(audit.getDeletedAction().getCode(), "Unknown")) {
+			if(!containsActionKey(orgHashmap, org)){
+				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
+				ActionDashboardData ddata = new ActionDashboardData();
+	    		dashData.put(ACTIVE, ddata);
+	    		ddata = new ActionDashboardData();
+	        	dashData.put(NEW, ddata);
+	        	ddata = new ActionDashboardData();
+	        	dashData.put(DELETED, ddata);
+	        	ddata = new ActionDashboardData();
+	        	dashData.put(I2E, ddata);
+	    		orgHashmap.put(org, dashData);
+				
+			}
+			HashMap<String,ActionDashboardData> dashData = orgHashmap.get(org);
+			ActionDashboardData ddata = dashData.get(DELETED);
+    		int count = ddata.getDeletedUnknownCount();
+    		ddata.setDeletedUnknownCount(++count);
+    		dashData.put(DELETED, ddata);
+    		orgHashmap.put(org, dashData);
+		}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
 	private void classifyOrgCategory(HashMap<String, HashMap<String, DashboardData>> orgHashmap, String org, AuditI2eAccountVO audit) {
 		if(containsKey(orgHashmap, org)){
 			HashMap<String,DashboardData> dashData = orgHashmap.get(org);
@@ -538,6 +654,39 @@ public class AdminDashboardAction extends BaseAction {
 			setFirstElementCountForEachCategory(audit, dashData);
 			setCountForEachCategory(audit, dashData);
 			orgHashmap.put(org, dashData);
+		}
+	}
+	
+	/**
+	 * Add a new Org into hashmap or increment count
+	 * 
+	 * @param orgHashmap
+	 * @param org
+	 * @param audit
+	 */
+	private void classifyActionOrgCategory(HashMap<String, HashMap<String, ActionDashboardData>> orgHashmap, String org, AuditI2eAccountVO audit) {
+		if(audit.getAction() != null &&
+				!StringUtils.equalsIgnoreCase(audit.getUnsubmittedFlag(),"Y") &&
+				StringUtils.equalsIgnoreCase(audit.getAction().getCode(), "Unknown")) {
+			if(!containsActionKey(orgHashmap, org)){
+				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
+				ActionDashboardData ddata = new ActionDashboardData();
+	    		dashData.put(ACTIVE, ddata);
+	    		ddata = new ActionDashboardData();
+	        	dashData.put(NEW, ddata);
+	        	ddata = new ActionDashboardData();
+	        	dashData.put(DELETED, ddata);
+	        	ddata = new ActionDashboardData();
+	        	dashData.put(I2E, ddata);
+	    		orgHashmap.put(org, dashData);
+				
+			}
+			HashMap<String,ActionDashboardData> dashData = orgHashmap.get(org);
+			ActionDashboardData ddata = dashData.get(I2E);
+    		int count = ddata.getI2eUnknownCount();
+    		ddata.setI2eUnknownCount(++count);
+    		dashData.put(I2E, ddata);
+    		orgHashmap.put(org, dashData);
 		}
 	}
 	
@@ -590,7 +739,22 @@ public class AdminDashboardAction extends BaseAction {
 		this.otherOrgsData = otherOrgsData;
 	}
 
+	/**
+	 * @return the actionOrgsData
+	 */
+	public HashMap<String, HashMap<String, ActionDashboardData>> getActionOrgsData() {
+		return actionOrgsData;
+	}
 
+
+	/**
+	 * @param actionOrgsData the actionOrgsData to set
+	 */
+	public void setActionOrgsData(
+			HashMap<String, HashMap<String, ActionDashboardData>> actionOrgsData) {
+		this.actionOrgsData = actionOrgsData;
+	}
+	
 	/**
 	 * @return the others
 	 */
@@ -620,6 +784,21 @@ public class AdminDashboardAction extends BaseAction {
 	 */
 	public void setOtherOrgKeys(List<Object> otherOrgKeys) {
 		this.otherOrgKeys = otherOrgKeys;
+	}
+
+	/**
+	 * @return the actionOrgKeys
+	 */
+	public List<Object> getActionOrgKeys() {
+		return actionOrgKeys;
+	}
+
+
+	/**
+	 * @param actionOrgKeys the actionOrgKeys to set
+	 */
+	public void setActionOrgKeys(List<Object> actionOrgKeys) {
+		this.actionOrgKeys = actionOrgKeys;
 	}
 
 

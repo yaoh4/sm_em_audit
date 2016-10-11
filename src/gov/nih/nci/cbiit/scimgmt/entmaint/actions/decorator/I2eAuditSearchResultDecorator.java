@@ -85,6 +85,7 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 
 		String id = ""+auditVO.getNpnId();
 		StringBuffer sbu = new StringBuffer();
+		sbu.append("<ul>");
 		for(String s : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,s);
 			if(disVw.getShortDescrip() != null){
@@ -93,11 +94,12 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
 				//replace all single quote to HTML code
 				String resolution = disVw.getResolutionText().replace("'", "&#39;");
-				sbu.append(disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
 						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
-						"<br/>");
+						"</li>");
 			}
 		}
+		sbu.append("</ul>");
 		
 		return sbu.toString();
 	}
@@ -145,7 +147,9 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 		if(accountVO.getFullName() != null && accountVO.getFullName().length() > 0){
 			name=accountVO.getCleanFullName();
 		}
+		String parentNedOrgPath = accountVO.getParentNedOrgPath();
 		String id = ""+accountVO.getId();
+		String networkId = accountVO.getNihNetworkId();
 		String actionStr = "";
 		String actionId ="";
 		String note = "";
@@ -171,32 +175,44 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 			actionStr = actionStr + "</br>";
 		}
 		//if the action record is new or submitted
-		if(accountVO.getAction() != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N"))){
+		if(accountVO.getAction() != null && !ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(accountVO.getAction().getDescription()) && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N"))){
 			//check if the user is primary coordinator
 			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
 				//if yes, show undo button
-				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ");\" value=\"Undo\"/>" + 
+				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id + ",'" + networkId + "');\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
 			}
 			String era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+			String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
 			if(era_ua_link.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
-				era_ua_link = "<br/><a href='javascript:openEraua();'>eRA UA</a>";
+				era_ua_link = "<br/><a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
 			}else{
-				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>eRA UA</a>";
+				era_ua_link = "<br/><a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
 			}
-			String i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_url = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
+			String i2e_em_link = (StringUtils.isBlank(networkId) ? i2e_em_url : i2e_em_url + "?personPageAction=Find&SEARCH_AGENCY_ID=" + networkId);
+			String i2e_em_link_text = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK_TEXT);
 			//if the action is verifiedaction,show two links
 			if(actId.equalsIgnoreCase(VERIFIEDACTION)){
-				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>I2E EM</a>";
+				actionStr = actionStr + era_ua_link +"<br/><a href='" + i2e_em_link + "' target='_BLANK'>" + i2e_em_link_text + "</a>";
+			}
+			if(accountVO.getTransferToNedOrgPath() != null){
+				actionStr = actionStr + "<br/> (Transferred)";
 			}
 			actionStr = actionStr + "</div>";
 		}else{
 			//check if the auditing is end or not. If yes, do not show buttons
 			actionStr = "<input type='hidden' id='hiddenAction"+ id +"' value='" + actId + "'/>";
+			if( accountVO.getAction() != null &&  ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(accountVO.getAction().getDescription())){
+				actionStr = actionStr + "<input type='hidden' id='hiddenTransferredNciOrg"+ id +"' value='" + accountVO.getTransferToNedOrgPath() + "'/>";
+			}
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling service call to determine if we need to show button or not.
 			if(EmAppUtil.isAuditActionEditable(auditId)){
-				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ");\" value=\"Complete\"/>";
+				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"'," + id + ",'" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
+			}
+			if(accountVO.getTransferToNedOrgPath() != null){
+				actionStr = actionStr + "<br/> (Transferred)";
 			}
 			actionStr = actionStr + "</div>";
 		}
@@ -293,6 +309,9 @@ public class I2eAuditSearchResultDecorator extends TableDecorator{
 	 */
 	@SuppressWarnings("unchecked")
 	private String getActionId(String label){
+		if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(label)){
+			label = ApplicationConstants.SEARCH_TRANSFERED;
+		}
 		String id = "";
 		List<DropDownOption> actions = (List<DropDownOption>)this.getPageContext().getSession().getAttribute(ApplicationConstants.ACTIONLIST);
 		for(DropDownOption ddo : actions){

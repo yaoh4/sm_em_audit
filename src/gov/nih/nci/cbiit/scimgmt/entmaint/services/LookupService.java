@@ -4,20 +4,29 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 
 import java.util.List;
 
+
 public interface LookupService {
     /**
      * Gets the specified list 
      * 
      * @param listName
-     * @return
+     * @return List
      */
     public List getList (String listName);
+    
     
     /**
      * Lists that are cleared every session (Unused)
      */
     public void flushListForSession();
     
+    
+    /**
+	 * Get list of appLookupT codes for the given listname
+	 */
+	public List<String> getCodeList(String listName);
+	
+	
     /**
      * Get list element (AppLookup) by code
      * 

@@ -58,8 +58,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		//Setup a new audit
-		Long auditId = adminDAO.setupNewAudit(
-			emAuditsVO.getImpaciiFromDate(), emAuditsVO.getImpaciiToDate(), emAuditsVO.getComments(), emAuditsVO.getI2eAuditFlag());
+		Long auditId = adminDAO.setupNewAudit(emAuditsVO);
 		
 		return auditId;
 	}
@@ -108,6 +107,7 @@ public class AdminServiceImpl implements AdminService {
 	 * Retrieve the audit info associated with the given audit id
 	 * 
 	 * @param id the audit id of the audit to retrieve
+	 * @return EmAuditsVO
 	 */
 	public EmAuditsVO retrieveAuditVO(Long id) {
 		EmAuditsVw emAuditsVw = adminDAO.retrieveAudit(id);
@@ -122,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @return EmAuditsVO
 	 */
 	public EmAuditsVO retrieveCurrentOrLastAuditVO() {
-		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> auditList = adminDAO.retrieveAuditList(null);
 		if(!CollectionUtils.isEmpty(auditList)) {
 			return setupAuditVO(auditList.get(0), true, false);
 		}
@@ -138,23 +138,34 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	public EmAuditsVO retrieveCurrentAuditVO() {
 		
-		
+		//Retrieve current (not reset) audit if present
 		EmAuditsVw emAuditsVw = adminDAO.retrieveCurrentAudit();
 		
+		//Populate derived attributes. If no current audit,
+		//return blank audit in reset state.
 		return setupAuditVO(emAuditsVw, true, false);
 	}
 		
 	
 	/**
-	 * Retrieves the attributes of all Audit.
-	 * 
-	 * @return EmAuditsVO
+	 * Retrieves all Audits for all categories
+	 * @return List of Audits
 	 */
 	public List<EmAuditsVO> retrieveAuditVOList() {
+		return retrieveAuditVOList(null);
+	}
+	
+	
+	/**
+	 * Retrieves all Audits for a specific category.
+	 * 
+	 * @return List of EmAuditsVO
+	 */
+	public List<EmAuditsVO> retrieveAuditVOList(String category) {
 		
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
-		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList(category);
 		boolean latest = true;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
@@ -169,13 +180,13 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * Retrieves the attributes of all Audit for Reports.
 	 * 
-	 * @return EmAuditsVO
+	 * @return List of EmAuditsVO
 	 */
 	public List<EmAuditsVO> retrieveReportAuditVOList() {
 		
 		List<EmAuditsVO>emAuditVOList = new ArrayList<EmAuditsVO>();
 		
-		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList();
+		List<EmAuditsVw> emAuditsList = adminDAO.retrieveAuditList(null);
 		boolean latest = true;
 		if(CollectionUtils.isNotEmpty(emAuditsList)) {
 			for(EmAuditsVw audit: emAuditsList) {	
@@ -190,7 +201,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * Retrieves the attributes of I2E Audit.
 	 * 
-	 * @return EmAuditsVO
+	 * @return List of EmAuditsVO
 	 */
 	public List<EmAuditsVO> retrieveI2eAuditVOList() {
 		
@@ -219,7 +230,7 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	public boolean isAuditPresent() {
 		
-		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList()));
+		return(CollectionUtils.isNotEmpty(adminDAO.retrieveAuditList(null)));
 		
 	}
 	
@@ -237,6 +248,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	private EmAuditsVO setupAuditVO(EmAuditsVw emAuditsVw, boolean latest, boolean report) {
 		EmAuditsVO emAuditsVO = null;
+		String currentAuditState = null;
 		
 		if(emAuditsVw != null) {
 			emAuditsVO = populateEmAuditsVO(emAuditsVw);
@@ -255,7 +267,7 @@ public class AdminServiceImpl implements AdminService {
 			//Set current action
 			List<EmAuditHistoryVw> statusHistories = emAuditsVO.getStatusHistories();	
 			if(statusHistories != null && statusHistories.size() > 0) {
-				String currentAuditState = statusHistories.get(0).getActionCode();
+				currentAuditState = statusHistories.get(0).getActionCode();
 				emAuditsVO.setAuditState(currentAuditState);
 			}
 			
@@ -264,7 +276,7 @@ public class AdminServiceImpl implements AdminService {
 				final StringBuffer sb = new StringBuffer();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
-				if(latest) {
+				if(latest && !ApplicationConstants.AUDIT_STATE_CODE_RESET.equalsIgnoreCase(currentAuditState)) {
 					// Add (Current) to description
 					if(report)
 						sb.append(" (Current - IMPAC II and I2E)");
@@ -280,7 +292,7 @@ public class AdminServiceImpl implements AdminService {
 				final StringBuffer sb = new StringBuffer();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				sb.append(df.format(emAuditsVO.getImpaciiFromDate()) + " to " + df.format(emAuditsVO.getImpaciiToDate()));
-				if(latest) {
+				if(latest && !ApplicationConstants.AUDIT_STATE_CODE_RESET.equalsIgnoreCase(currentAuditState)) {
 					// Add (Current) to description
 					if(report)
 						sb.append(" (Current - IMPAC II)");

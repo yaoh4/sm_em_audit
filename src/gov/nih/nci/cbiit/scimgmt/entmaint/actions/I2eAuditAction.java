@@ -34,9 +34,6 @@ public class I2eAuditAction extends BaseAction {
 	protected AdminService adminService;
 	private PaginatedListImpl<AuditI2eAccountVO> activeAuditAccounts = null;
 	
-	private String era_ua_link;
-	private String i2e_em_link;
-	
 	/**
 	 * The method is for handling the clear button action.
 	 * @return
@@ -153,9 +150,6 @@ public class I2eAuditAction extends BaseAction {
 		showResult = true;
 		actionWithoutAllList = getActionListWithAll();
 		this.setRole(getRole(nciUser));
-		
-		era_ua_link =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
-		i2e_em_link = entMaintProperties.getPropertyValue(ApplicationConstants.I2E_EM_LINK);
 	}
 	
 	private void processList(List<Tab> disColumn){
@@ -270,9 +264,13 @@ public class I2eAuditAction extends BaseAction {
 					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
 					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
 					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
-					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey())){
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					(!this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue()))){
 				continue;
 			}else{
+				if(this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue())){
+					opt = new DropDownOption(""+opt.getOptionKey(), ApplicationConstants.ACTION_TRANSFER);			
+				}
 				tempList.add(opt);
 			}
 		}
@@ -295,34 +293,6 @@ public class I2eAuditAction extends BaseAction {
 	 */
 	public void setRole(String role) {
 		this.role = role;
-	}
-	
-	/**
-	 * @return the era_ua_link
-	 */
-	public String getEra_ua_link() {
-		return era_ua_link;
-	}
-	
-	/**
-	 * @param era_ua_link the era_ua_link to set
-	 */
-	public void setEra_ua_link(String era_ua_link) {
-		this.era_ua_link = era_ua_link;
-	}
-	
-	/**
-	 * @return the i2e_em_link
-	 */
-	public String getI2e_em_link() {
-		return i2e_em_link;
-	}
-	
-	/**
-	 * @param i2e_em_link the i2e_em_link to set
-	 */
-	public void setI2e_em_link(String i2e_em_link) {
-		this.i2e_em_link = i2e_em_link;
 	}
 	
 	/**

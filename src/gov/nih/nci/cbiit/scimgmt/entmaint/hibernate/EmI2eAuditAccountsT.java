@@ -29,6 +29,9 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 	private Date actionLastChangeDate;
 	private String oracleId;
 	private Date inactiveDate;
+	private String transferToNedOrgPath;
+	private String transferFromNedOrgPath;
+	private Date transferredDate;
 
 	public EmI2eAuditAccountsT() {
 	}
@@ -45,7 +48,7 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 			Date createdDate, String createdByUserId, String lastChangeUserId, Long eauId, Long actionId,
 			String lastSubmittedByUserId, Date lastSubmittedDate, String notes, String unsubmittedFlag,
 			String actionCreateUserId, Date actionCreateDate, String oracleId, Date inactiveDate,
-			String actionLastChangeUserId, Date actionLastChangeDate) {
+			String actionLastChangeUserId, Date actionLastChangeDate, Date transferredDate) {
 		this.id = id;
 		this.npnId = npnId;
 		this.lastName = lastName;
@@ -66,6 +69,7 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 		this.inactiveDate = inactiveDate;
 		this.actionLastChangeUserId = actionLastChangeUserId;
 		this.actionLastChangeDate = actionLastChangeDate;
+		this.transferredDate = transferredDate;
 	}
 
 	public Long getId() {
@@ -227,4 +231,28 @@ public class EmI2eAuditAccountsT implements java.io.Serializable {
 	public void setActionLastChangeDate(Date actionLastChangeDate) {
 		this.actionLastChangeDate = actionLastChangeDate;
 	}
+
+	public String getTransferToNedOrgPath() {
+		return transferToNedOrgPath;
+	}
+
+	public void setTransferToNedOrgPath(String transferToNedOrgPath) {
+		this.transferToNedOrgPath = transferToNedOrgPath;
+	}
+
+	public String getTransferFromNedOrgPath() {
+		return transferFromNedOrgPath;
+	}
+
+	public void setTransferFromNedOrgPath(String transferFromNedOrgPath) {
+		this.transferFromNedOrgPath = transferFromNedOrgPath;
+	}
+
+	public Date getTransferredDate() {
+		return transferredDate;
+	}
+
+	public void setTransferredDate(Date transferredDate) {
+		this.transferredDate = transferredDate;
+	}	
 }
