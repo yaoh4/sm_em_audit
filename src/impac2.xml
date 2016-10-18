@@ -31,6 +31,7 @@
 			<result name="newAccounts" type="redirect-action">prepareNewAuditAccounts</result>
 			<result name="deletedAccounts" type="redirect-action">prepareDeletedAuditAccounts</result>
 			<result name="inactiveAccounts" type="redirect-action">prepareInactiveAuditAccounts</result>
+			<result name="audit_enabled" type="redirect-action">../admin/gotoDashboard</result>
 			<result name="audit_disabled" type="redirect-action">execute</result>
 			<result name="input" type="tiles">tiles.error.details</result>
 		</action>

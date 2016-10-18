@@ -59,6 +59,9 @@ public class HomeAction extends BaseAction {
     public String search() throws Exception {
         
         if(EmAppUtil.isAuditEnabled()) {
+        	if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+        		return ApplicationConstants.AUDIT_ENABLED;
+        	}
         	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_ACTIVE))
         		return ApplicationConstants.SUB_TAB_ACTIVE_ACCOUNTS;
         	if (EmAppUtil.isCategoryAvailable(ApplicationConstants.CATEGORY_NEW))
