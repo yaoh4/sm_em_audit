@@ -19,6 +19,9 @@ public class UserRoleServiceImpl implements UserRoleService {
 	
 	@Autowired
 	private UserRoleDAO userRoleDAO;
+	
+	@Autowired
+	private NciUser nciUser;
 	/**
 	 * Get NCI User information such as Roles and Organization
 	 * 
@@ -49,7 +52,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 			logger.info("I2E Account with userId : "+userId + " doesn't exist.");
 			return null;
 		}	
-		NciUser nciUser = new NciUser();
+		
 		nciUser.setUserId(nciPeopleVw.getNihNetworkId());
 		nciUser.setOracleId(nciPeopleVw.getOracleId());
 		nciUser.setFirstName(nciPeopleVw.getFirstName());

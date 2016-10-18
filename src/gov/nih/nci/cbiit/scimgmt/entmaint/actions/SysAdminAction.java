@@ -13,6 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.ActionContext;
+
 /**
  * EM System Administration Utility
  */
@@ -76,7 +78,7 @@ public class SysAdminAction extends BaseAction {
     		return "notauthorized";
     	}
               
-        session.put(ApplicationConstants.SESSION_USER, nciUser);
+        ActionContext.getContext().getSession().put(ApplicationConstants.SESSION_USER, nciUser);
         return forward;
     }
     
