@@ -45,11 +45,6 @@ public class HomeAction extends BaseAction {
         //Store this in the session
         setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);             
   
-        if(EmAppUtil.isAuditEnabled()) {
-        	if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
-        		return ApplicationConstants.AUDIT_ENABLED;
-        	}
-        }
         
         return forward;
 	}
