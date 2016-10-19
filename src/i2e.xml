@@ -23,7 +23,6 @@
 		
 		<action name="home" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
-			<result name="audit_enabled" type="redirect-action">../admin/gotoDashboard</result>
 			<result name="success" type="redirect-action">../impac2/impac2Home</result>
 		</action>
 		
