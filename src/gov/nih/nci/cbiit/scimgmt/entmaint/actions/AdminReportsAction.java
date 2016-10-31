@@ -239,8 +239,8 @@ public class AdminReportsAction extends BaseAction {
 					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
 					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
 					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
-					auditAccountVOItem.setImpaciiLastName(auditAccountVO.getImpaciiLastName());
-					auditAccountVOItem.setImpaciiFirstName(auditAccountVO.getImpaciiFirstName());
+					auditAccountVOItem.setLastName(auditAccountVO.getLastName());
+					auditAccountVOItem.setFirstName(auditAccountVO.getFirstName());
 					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
 					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
@@ -318,8 +318,8 @@ public class AdminReportsAction extends BaseAction {
 					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
 					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
 					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
-					auditAccountVOItem.setImpaciiLastName(auditAccountVO.getImpaciiLastName());
-					auditAccountVOItem.setImpaciiFirstName(auditAccountVO.getImpaciiFirstName());
+					auditAccountVOItem.setLastName(auditAccountVO.getLastName());
+					auditAccountVOItem.setFirstName(auditAccountVO.getFirstName());
 					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
 					auditAccountVOItem.addAccountRole(accountRoles.get(index));
 					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
