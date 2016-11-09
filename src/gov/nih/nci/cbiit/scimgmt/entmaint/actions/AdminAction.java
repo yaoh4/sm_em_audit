@@ -67,9 +67,31 @@ public class AdminAction extends BaseAction {
     	//Store it into the session
     	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
         
+        if(EmAppUtil.isAuditEnabled()) {
+        	if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+        		return ApplicationConstants.AUDIT_ENABLED;
+        	}
+        }
+        
         return ApplicationConstants.SUCCESS;
     }
     
+	/**
+	 * Invoked when the user clicks the Administer Audit link.
+	 *
+     * @return String success if no errors.
+     */
+    public String administer() throws Exception {
+        
+    	//Retrieve current audit info from the DB. If none exists,
+    	//then a new empty one will be created.
+    	emAuditsVO = adminService.retrieveCurrentAuditVO();
+    			
+    	//Store it into the session
+    	setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);
+        
+        return ApplicationConstants.SUCCESS;
+    }
     
     private void validateComments() {
     	//Comments cannot be longer than 1000 characters.

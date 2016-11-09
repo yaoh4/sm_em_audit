@@ -63,7 +63,7 @@
 		<li class="active">Administer Audit</li>
 	</s:if>
 	<s:else>
-		<li><a href="adminHome.action">Administer Audit</a></li>
+		<li><a href="adminAdmin.action">Administer Audit</a></li>
 	</s:else> 
 	
 	<s:if test="isAuditPresent()">
