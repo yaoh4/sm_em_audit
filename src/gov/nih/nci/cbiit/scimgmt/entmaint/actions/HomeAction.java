@@ -45,6 +45,7 @@ public class HomeAction extends BaseAction {
         //Store this in the session
         setAttributeInSession(ApplicationConstants.CURRENT_AUDIT, emAuditsVO);             
   
+        
         return forward;
 	}
 	

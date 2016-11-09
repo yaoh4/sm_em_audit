@@ -403,6 +403,9 @@ function refresh(){
 function onActionChange(action,transferOrg){
 	
 	if(action == '50' || action == '51' || action == '52' || action == '53'){
+		if(action == '52') {
+			transferOrg = '';
+		}
 		$.ajax({
 			url: "getAccountTransferOrgList.action",
 			type: "post",

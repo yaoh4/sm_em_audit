@@ -197,7 +197,12 @@
 			if(actionId == 50 || actionId == 51 || actionId == 52 || actionId == 53){
 				onActionChange(actionId,'');
 				$('#transferOrgDiv').css("display","inline");
-				$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+				if(action == '52') {
+					$('#transferOrg').val('');
+				}
+				else {
+					$('#transferOrg').val($('#hiddenTransferredNciOrg'+cellId).val());
+				}
 			}
 			else{
 				$('#transferOrgDiv').css("display","none");
