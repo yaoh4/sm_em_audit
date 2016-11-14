@@ -6,6 +6,8 @@
 	<p>
 		You are receiving this automated courtesy message as an IC Coordinator for NCI's $org.
 	</p>
+	
+	#if ($displayDiscrepancyTable == "Y")
 	<p>
 		As part of our responsibility to review and approve active IMPAC II and I2E accounts, we have identified that the following $org user accounts contain one or more discrepancy flags:
 	</p>
@@ -32,6 +34,7 @@
 		#end
 		</tbody>
 	</table>
+	#end
 	
 	#if ($displayInactiveTable == "Y")
 		<p>

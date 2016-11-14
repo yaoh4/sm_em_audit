@@ -346,6 +346,11 @@ public class MailServiceImpl implements MailService {
 			if(accounts.size() > 0 ||inActiveAccounts.size() > 0) {
 				DateFormat df = new SimpleDateFormat("MMMM yyyy");
 				final Map<String, Object> params = new HashMap<String, Object>();
+				if (accounts.size() > 0) {
+					params.put("displayDiscrepancyTable", "Y");
+				} else {
+					params.put("displayDiscrepancyTable", "N");
+				}
 				params.put("accounts", accounts);
 				params.put("dear", dear);
 				params.put("url", entMaintProperties.getProperty("email.discrepancy.url"));
