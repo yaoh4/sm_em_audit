@@ -172,16 +172,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 	
 	/**
-	 * Gets the user information.
-	 * 
-	 * @return the user information
-	 */
-	public NciUser getUserInformation() {
-		return (NciUser) session.get(ApplicationConstants.SESSION_USER);
-	}
-	
-	
-	/**
 	 * Set the session
 	 * 
 	 * @see org.apache.struts2.interceptor.SessionAware#setSession(java.util.Map)

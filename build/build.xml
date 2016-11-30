@@ -144,8 +144,7 @@
 	 <copy todir="${conf.dir}/${app.name}">
             <fileset dir="${common.properties.dir}">
              <include name="${app.name}.properties"/>
-			 <include name="log4j.properties"/>
-             <include name="ldap.properties"/>
+			 <include name="log4j.properties"/>           
             </fileset>
      </copy>
      <copy todir="${java.classes.dir}">

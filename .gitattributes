@@ -12,7 +12,6 @@ WebContent/WEB-INF/lib/bipres.jar -text
 WebContent/WEB-INF/lib/c3p0-0.9.1.jar -text
 WebContent/WEB-INF/lib/cglib-nodep-2.1_3.jar -text
 WebContent/WEB-INF/lib/classworlds-1.1.jar -text
-WebContent/WEB-INF/lib/commons-1.2.jar -text
 WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar -text
 WebContent/WEB-INF/lib/commons-chain-1.2.jar -text
 WebContent/WEB-INF/lib/commons-codec-1.3.jar -text
@@ -25,7 +24,6 @@ WebContent/WEB-INF/lib/commons-lang-2.4.jar -text
 WebContent/WEB-INF/lib/commons-lang3-3.1.jar -text
 WebContent/WEB-INF/lib/commons-logging-api-1.1.jar -text
 WebContent/WEB-INF/lib/commons-validator-1.3.1.jar -text
-WebContent/WEB-INF/lib/dirctxdispenser.jar -text
 WebContent/WEB-INF/lib/displaytag-1.2.jar -text
 WebContent/WEB-INF/lib/dom4j-1.6.1.jar -text
 WebContent/WEB-INF/lib/dwr-1.1.1.jar -text
@@ -251,25 +249,20 @@ properties/EMEmailTemplate.vm -text
 properties/application.properties -text
 properties/cache.properties -text
 properties/dev/entmaint.properties -text
-properties/dev/ldap.properties -text
 properties/dev/log4j.properties -text
 properties/discrepancyColumn.xml -text
 properties/displayColumn.xml -text
 properties/displaytag.properties -text
 properties/i2eColumn.xml -text
 properties/local/entmaint.properties -text
-properties/local/ldap.properties -text
 properties/local/log4j.properties -text
 properties/messages.properties -text
 properties/production/entmaint.properties -text
-properties/production/ldap.properties -text
 properties/production/log4j.properties -text
 properties/reportColumn.xml -text
 properties/stage/entmaint.properties -text
-properties/stage/ldap.properties -text
 properties/stage/log4j.properties -text
 properties/test/entmaint.properties -text
-properties/test/ldap.properties -text
 properties/test/log4j.properties -text
 src/admin.xml -text
 src/discrepancy.xml -text
@@ -317,7 +310,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/PropertyListDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/ReportsDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/dao/UserRoleDAO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/HibernateDAOException.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/JdbcDAOException.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/exceptions/UserLoginException.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/helper/DisplayTagHelper.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/helper/action/AuditSearchActionHelper.java -text
@@ -379,7 +371,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/I2eAuditService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/I2ePortfolioService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2AuditService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/Impac2PortfolioService.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LdapServices.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/LookupService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/MailService.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/ReportService.java -text
@@ -389,7 +380,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/I2eAuditServiceImpl.java -t
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/I2ePortfolioServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2AuditServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/Impac2PortfolioServiceImpl.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LdapServicesImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/LookupServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/MailServiceImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/services/impl/ReportServiceImpl.java -text
@@ -405,7 +395,6 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/DropDownOption.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EmAppInitializer.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EmAppUtil.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/EntMaintProperties.java -text
-src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/LdapUtil.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/PaginatedListImpl.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/utils/Tab.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditAccountVO.java -text

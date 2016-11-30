@@ -65,7 +65,7 @@
 		<action name="disableAudit" method="disableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
 		<action name="gotoDashboard" method="gotoDashboard"
@@ -85,13 +85,13 @@
 		<action name="enableAudit" method="enableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
 		<action name="resetAudit" method="resetAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.page</result>
+			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>
 		
 		<action name="openEmail" method="openEmail"

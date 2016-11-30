@@ -137,13 +137,6 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="ldapUtil" class="gov.nih.nci.cbiit.scimgmt.entmaint.utils.LdapUtil">
-  		<property name="stBaseSearchDN" value="OU=nci,O=nih"/>
-  		<property name="stSearchAttribute" value="cn"/>
-  		<property name="configEnvironment" value="oracle"/>
-	 </bean>
-	
- 
     <bean id="lookupService" 
 		class="gov.nih.nci.cbiit.scimgmt.entmaint.services.impl.LookupServiceImpl">
 		<property name="propertyListDAO">
