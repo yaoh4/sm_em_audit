@@ -1,7 +1,5 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.services.impl;
 
-import java.util.List;
-
 import gov.nih.nci.cbiit.scimgmt.entmaint.dao.UserRoleDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.NciPeopleVw;
@@ -9,16 +7,21 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRoleServiceImpl implements UserRoleService {
-
 	public static Logger logger = Logger.getLogger(UserRoleServiceImpl.class);
 	
 	@Autowired
 	private UserRoleDAO userRoleDAO;
+	
+	@Autowired
+	private NciUser nciUser;
 	/**
 	 * Get NCI User information such as Roles and Organization
 	 * 
@@ -49,7 +52,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 			logger.info("I2E Account with userId : "+userId + " doesn't exist.");
 			return null;
 		}	
-		NciUser nciUser = new NciUser();
+		
 		nciUser.setUserId(nciPeopleVw.getNihNetworkId());
 		nciUser.setOracleId(nciPeopleVw.getOracleId());
 		nciUser.setFirstName(nciPeopleVw.getFirstName());
@@ -59,15 +62,6 @@ public class UserRoleServiceImpl implements UserRoleService {
 		nciUser.setActiveFlag(nciPeopleVw.getActiveFlag());			
 		return nciUser;
 	}
-	
-	 /**
-     * This method checks if logged in user is Valid.
-     * @param oracleId
-     * @return boolean
-     */
-    public boolean isI2eAccountValid(String oracleId){
-    	return userRoleDAO.isI2eAccountValid(oracleId);
-    }
 
 	@Override
 	public List<String> retrieveIcCoordinators() {

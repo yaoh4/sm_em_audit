@@ -49,10 +49,10 @@ public class EmAppUtil {
 		if (nciUser != null) {
 			String currentUserRole = nciUser.getCurrentUserRole();
 			if(currentUserRole != null && currentUserRole.equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER)) {
-				logger.debug("User " + nciUser.getLdapId() + " is primary IC Cordinator");
+				logger.debug("User " + nciUser.getUserId() + " is primary IC Cordinator");
 				return true;
 			}  else {
-				logger.debug("User " + nciUser.getLdapId() + " is not primary IC Cordinator");
+				logger.debug("User " + nciUser.getUserId() + " is not primary IC Cordinator");
 			}
 		} else {
 			logger.warn("Could not retrieve nciUser from session");
