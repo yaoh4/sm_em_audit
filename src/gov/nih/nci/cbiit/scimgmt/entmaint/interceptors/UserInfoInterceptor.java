@@ -83,7 +83,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
-            	nciUser = userRoleService.getNCIUser(remoteUser);  
+            	nciUser = userRoleService.getLoggedOnUserInfo(remoteUser);  
 
             	String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
         		String errorReason = "";

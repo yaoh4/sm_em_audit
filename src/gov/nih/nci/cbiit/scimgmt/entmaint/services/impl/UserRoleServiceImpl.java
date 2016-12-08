@@ -46,7 +46,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @param userId    
      * @return nciPeopleVw
      */
-	public NciUser getNCIUser(String userId) {
+	private NciUser populateNciUser(NciUser nciUser, String userId) {
 		NciPeopleVw nciPeopleVw =  userRoleDAO.getNCIUserInformation(userId);
 		if(nciPeopleVw == null){
 			logger.info("I2E Account with userId : "+userId + " doesn't exist.");
@@ -59,10 +59,24 @@ public class UserRoleServiceImpl implements UserRoleService {
 		nciUser.setLastName(nciPeopleVw.getLastName());
 		nciUser.setFullName(nciPeopleVw.getLastName() + " " + nciPeopleVw.getFirstName());		
 		nciUser.setEmail(nciPeopleVw.getEmailAddress());
-		nciUser.setActiveFlag(nciPeopleVw.getActiveFlag());			
+		nciUser.setActiveFlag(nciPeopleVw.getActiveFlag());
+		
 		return nciUser;
+		
+	}
+	
+	
+	public NciUser getNCIUser(String userId) {
+		NciUser nciUser = new NciUser();
+		return populateNciUser(nciUser, userId);
+	}
+	
+	
+	public NciUser getLoggedOnUserInfo(String userId) {
+		return populateNciUser(nciUser, userId);
 	}
 
+	
 	@Override
 	public List<String> retrieveIcCoordinators() {
 		return userRoleDAO.retrieveIcCoordinators();

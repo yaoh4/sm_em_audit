@@ -24,11 +24,20 @@ public interface UserRoleService {
 	public List<AppPropertiesT> getAppPropertiesList();
 	
 	/**
-    * This method retrieves information of logged in user from NciPeopleVw and populates NCIUser.
+    * This method retrieves information of logged in user from 
+    * NciPeopleVw and populates NCIUser.
     * @param userId    
     * @return nciPeopleVw
     */
-	public NciUser getNCIUser(String userId);  
+	public NciUser getLoggedOnUserInfo(String userId);  
+	
+	/**
+	 * This method retrieves information of the requested user from 
+	 * NciPeopleVw and populates NCIUser.
+	 * @param userId    
+	 * @return nciPeopleVw
+	 */
+	public NciUser getNCIUser(String userId);
 
 	public List<String> retrieveIcCoordinators();
 }

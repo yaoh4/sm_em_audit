@@ -65,7 +65,7 @@ public class SysAdminAction extends BaseAction {
         	return forward;
         }
         
-        nciUser = userRoleService.getNCIUser(user);  
+        nciUser = userRoleService.getLoggedOnUserInfo(user);  
 
     	//If User is Inactive then navigate the user to Login Error page.
     	if(nciUser == null || StringUtils.isEmpty(nciUser.getOracleId()) || "N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
