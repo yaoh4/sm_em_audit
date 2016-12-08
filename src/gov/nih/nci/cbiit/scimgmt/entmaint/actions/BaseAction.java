@@ -440,4 +440,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	public boolean isAdminUser() {
 		return EmAppUtil.isAdminUser(nciUser);
 	}
+
+
+	public NciUser getNciUser() {
+		return nciUser;
+	}
 }
