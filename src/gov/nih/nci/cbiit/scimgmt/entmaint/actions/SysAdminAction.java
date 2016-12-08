@@ -11,9 +11,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.opensymphony.xwork2.ActionContext;
 
 /**
  * EM System Administration Utility
@@ -30,8 +29,6 @@ public class SysAdminAction extends BaseAction {
     
    	@Autowired
     private UserRoleService userRoleService;
-	@Autowired
-	private NciUser nciUser;
 	@Autowired
 	private EntMaintProperties entMaintProperties;
 	@Autowired
@@ -65,20 +62,21 @@ public class SysAdminAction extends BaseAction {
         	return forward;
         }
         
-        nciUser = userRoleService.getNCIUser(user);  
+        NciUser newNciUser = userRoleService.getNCIUser(user);  
 
     	//If User is Inactive then navigate the user to Login Error page.
-    	if(nciUser == null || StringUtils.isEmpty(nciUser.getOracleId()) || "N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+    	if(newNciUser == null || StringUtils.isEmpty(newNciUser.getOracleId()) || "N".equalsIgnoreCase(newNciUser.getActiveFlag()) ){
     		return "notauthorized";
     	} 
-    	populateNCIUserRoles(nciUser);
+    	populateNCIUserRoles(newNciUser);
     	
     	//If user doesn't have required role to access this application then navigate the user to Login Error page.
-    	if(!verifyAuthorization(nciUser)){
+    	if(!verifyAuthorization(newNciUser)){
     		return "notauthorized";
     	}
               
-        ActionContext.getContext().getSession().put(ApplicationConstants.SESSION_USER, nciUser);
+    	BeanUtils.copyProperties(newNciUser, nciUser);
+    	
         return forward;
     }
     

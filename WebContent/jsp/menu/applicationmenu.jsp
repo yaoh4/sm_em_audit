@@ -38,7 +38,7 @@
 		</s:a></li>
 	</s:else>
 	
-	<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAdminUser()}">
+	<s:if test="isAdminUser()">
 
     	<s:if
 			test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_ADMIN eq #request.selectedTab}">

@@ -36,6 +36,8 @@ public class AuditSearchResultDecorator extends TableDecorator{
 	private LookupService lookupService;
 	@Autowired
 	protected EntMaintProperties entMaintProperties;
+	@Autowired
+	protected NciUser nciUser;
 	
 	public static final String VERIFIEDACTION = "3";
 	public static final String NONEED = "13";
@@ -49,7 +51,6 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		String name = "";
 	
 		startAutowired();
-		NciUser nciUser = (NciUser)this.getPageContext().getSession().getAttribute(ApplicationConstants.SESSION_USER);
 		AuditSearchVO searchVO = (AuditSearchVO)this.getPageContext().getSession().getAttribute(ApplicationConstants.SEARCHVO);
 		Long auditId = searchVO.getAuditId();
 		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
@@ -89,7 +90,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 		//if the action record is new or submitted
 		if(eaaVw != null && (eaaVw.getUnsubmittedFlag() == null || eaaVw.getUnsubmittedFlag().equalsIgnoreCase("N")) && !ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(eaaVw.getAction().getDescription())){
 			//check if the user is primary coordinator
-			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId)){
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER) && EmAppUtil.isAuditActionEditable(auditId, nciUser)){
 				//if yes, show undo button
 				actionStr = "<div id='"+ id +"'>" + actionStr + "<input type=\"button\" onclick=\"unsubmitAct('" + name +"'," + id +",'" + userId +"','" + networkId + "');\" value=\"Undo\"/>" + 
 						    "<input type='hidden' id='hiddenAction"+ id + "' value='" + actionId +"' />";
@@ -124,7 +125,7 @@ public class AuditSearchResultDecorator extends TableDecorator{
 			}
 			actionStr = "<div id='"+ id +"'>" + actionStr;
 			//Calling Aunita's service call to determine if we need to show button or not.
-			if(EmAppUtil.isAuditActionEditable(auditId)){
+			if(EmAppUtil.isAuditActionEditable(auditId, nciUser)){
 				actionStr = actionStr + "\n<input type=\"button\" onclick=\"submitAct('" + name +"','" + id + "','" + userId + "','" + networkId + "','" + parentNedOrgPath + "');\" value=\"Complete\"/>";
 			}
 			if((ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(cate) && StringUtils.isNotBlank(accountVO.getDeletedTransferToOrgPath())) ||

@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -32,6 +33,9 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
     private UserRoleService userRoleService; 	
 	@Autowired
     private EntMaintProperties entMaintProperties;	
+	@Autowired
+	private NciUser nciUser;
+	
     public static Logger logger = Logger.getLogger(UserInfoInterceptor.class);
 
     public UserInfoInterceptor() {
@@ -47,10 +51,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             (HttpServletRequest)context.get(HTTP_REQUEST);
         
         Object action = invocation.getAction();
-        logger.debug("Inside User Interceptor.intercept");
-        // Is there a "user" object stored in the user's HttpSession?
-        NciUser nciUser = 
-            (NciUser)session.get(ApplicationConstants.SESSION_USER);        
+        logger.debug("Inside User Interceptor.intercept");   
 
     	//Check if this is a change user action
         String changeUser = request.getParameter("user");
@@ -58,9 +59,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
        //Check if this is a sys admin action
         String sysAdminAction = request.getParameter("task");
         
-        if (nciUser == null && StringUtils.isEmpty(changeUser) && StringUtils.isEmpty(sysAdminAction)) {
-                ServletContext sc = request.getSession().getServletContext();
-                
+        if ((nciUser == null || nciUser.getUserId() == null) && StringUtils.isEmpty(changeUser) && StringUtils.isEmpty(sysAdminAction)) {               
             // get the User header from Site Minder
             String remoteUser = request.getHeader("SM_USER");
             logger.info("User login from Site Minder SM_USER = "+remoteUser);
@@ -83,26 +82,26 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
-            	nciUser = userRoleService.getNCIUser(remoteUser);  
+            	NciUser newNciUser = userRoleService.getNCIUser(remoteUser);  
 
             	String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
         		String errorReason = "";
         		
-        		if(nciUser == null){
+        		if(newNciUser == null){
 					logger.error(accessError);
     				return "notauthorized";
 				}
 				
 				//If OracleId is Null
-				if(StringUtils.isEmpty(nciUser.getOracleId())){
+				if(StringUtils.isEmpty(newNciUser.getOracleId())){
 					errorReason = "OracleId is Null.";
 				}
 				//If Email is Null
-				if(StringUtils.isEmpty(nciUser.getEmail())){
+				if(StringUtils.isEmpty(newNciUser.getEmail())){
 					errorReason = "Email is Null.";
 				}
 				//If User is Inactive
-				else if("N".equalsIgnoreCase(nciUser.getActiveFlag()) ){
+				else if("N".equalsIgnoreCase(newNciUser.getActiveFlag()) ){
 					errorReason = "I2E Account is not Active.";
 				}
 				
@@ -111,13 +110,13 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 					return "notauthorized";
 				} 
 				
-            	populateNCIUserRoles(nciUser);
+            	populateNCIUserRoles(newNciUser);
             	
             	//If user doesn't have required role to access this application then navigate the user to Login Error page.
-            	if(!verifyAuthorization(nciUser)){
+            	if(!verifyAuthorization(newNciUser)){
             		return "notauthorized";
             	}
-            	session.put(ApplicationConstants.SESSION_USER, nciUser);
+            	BeanUtils.copyProperties(newNciUser, nciUser);
             	logger.debug("NCI user retrive  fm session:" + nciUser);
             	return invocation.invoke();
             } else {

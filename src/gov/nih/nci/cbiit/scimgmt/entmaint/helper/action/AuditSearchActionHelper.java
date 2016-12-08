@@ -43,12 +43,11 @@ public class AuditSearchActionHelper {
 		createActionList(actList, actionList, isSuperUser);
 	}
 	
-	public void createDeletedDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser){
+	public void createDeletedDropDownList(List<DropDownOption> organizationList, List<DropDownOption> actionList, LookupService lookupService, boolean isSuperUser, NciUser nciUser){
 		List<AppLookupT> actList = lookupService.getList(ApplicationConstants.APP_LOOKUP_DELETED_ACTION_LIST);
 		//List<EmOrganizationVw> orglist = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
 		//createOrgList(orglist, organizationList);
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
 		String orgPath = nciUser.getOrgPath();
 		organizationList.add(new DropDownOption(orgPath, orgPath));
 		organizationList.add(new DropDownOption(ApplicationConstants.ORG_PATH_NO_NED_ORG, ApplicationConstants.ORG_PATH_NO_NED_ORG));
