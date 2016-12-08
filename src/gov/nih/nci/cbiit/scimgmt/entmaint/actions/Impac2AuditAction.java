@@ -292,7 +292,7 @@ public class Impac2AuditAction extends BaseAction {
 			this.setCategory(ApplicationConstants.CATEGORY_ACTIVE);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)){
 			session.put(ApplicationConstants.CURRENTPAGE, ApplicationConstants.CATEGORY_DELETED);
-			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
+			auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser(), nciUser);
 			this.setFormAction("searchDeletedAuditAccounts");
 			this.setCategory(ApplicationConstants.CATEGORY_DELETED);
 		}else if(pageName.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)){
@@ -347,7 +347,7 @@ public class Impac2AuditAction extends BaseAction {
 				this.setCategory(pageName);
 				forward = FORWARD_NEW;
 		}else if(ApplicationConstants.CATEGORY_DELETED.equalsIgnoreCase(pageName)){
-				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser());
+				auditSearchActionHelper.createDeletedDropDownList(organizationList, actionList, lookupService, this.isSuperUser(), nciUser);
 				this.setFormAction("searchDeletedAuditAccounts");
 				this.setCategory(pageName);
 				forward = FORWARD_DELETE;

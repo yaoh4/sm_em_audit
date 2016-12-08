@@ -40,11 +40,8 @@ public class EmAppUtil {
 	 * @param session Session object from the ActionContext or jsp
 	 * @return
 	 */
-	public static boolean isAdminUser() {
-		
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		NciUser nciUser = (NciUser)session.get(ApplicationConstants.SESSION_USER);
-		
+	public static boolean isAdminUser(NciUser nciUser) {
+				
 		
 		if (nciUser != null) {
 			String currentUserRole = nciUser.getCurrentUserRole();
@@ -201,14 +198,14 @@ public class EmAppUtil {
 	}
 	
 	
-	public static boolean isAuditActionEditable(Long auditId) {
+	public static boolean isAuditActionEditable(Long auditId, NciUser nciUser) {
 		boolean result = false;
 		
 		// Results should be editable if any one of the following conditions is satisfied 
 		// - Selected audit is enabled,  or  
 		// - Selected Audit is current (not in reset state), and user is admin.
 
-		if(isAuditEnabled(auditId) || (isAdminUser() && isAuditCurrent(auditId))) {
+		if(isAuditEnabled(auditId) || (isAdminUser(nciUser) && isAuditCurrent(auditId))) {
 			result = true;
 		}
 		
