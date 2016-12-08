@@ -167,7 +167,7 @@
 
 	<task:scheduled-tasks scheduler="entmaintTaskScheduler">
 		<!--  Run first Tuesday of every month at 12 PM -->
-		<task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 0 12 1-7 * TUE" />
+		<task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 30 11 8 * *" />
 	</task:scheduled-tasks>
 	
 </beans>
