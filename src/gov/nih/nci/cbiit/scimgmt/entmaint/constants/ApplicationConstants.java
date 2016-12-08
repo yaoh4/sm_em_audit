@@ -96,8 +96,6 @@ public interface ApplicationConstants {
     
     public static final String LOOKUP_SERVICE = "lookupService";
     
-    public static final String SESSION_USER = "nciUser";
-    
     public static final String NCI_ORACLE_ID = "nciOracleId";
   	
     public static String TRUE = "true";

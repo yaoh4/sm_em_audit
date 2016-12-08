@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +19,6 @@ public class UserRoleServiceImpl implements UserRoleService {
 	@Autowired
 	private UserRoleDAO userRoleDAO;
 	
-	@Autowired
-	private NciUser nciUser;
 	/**
 	 * Get NCI User information such as Roles and Organization
 	 * 
@@ -53,6 +50,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 			return null;
 		}	
 		
+		NciUser nciUser = new NciUser();
 		nciUser.setUserId(nciPeopleVw.getNihNetworkId());
 		nciUser.setOracleId(nciPeopleVw.getOracleId());
 		nciUser.setFirstName(nciPeopleVw.getFirstName());

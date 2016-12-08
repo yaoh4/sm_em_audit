@@ -8,6 +8,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
@@ -434,5 +435,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	public String getDescriptionByCode(String listName, String code) {
 		AppLookupT entry = lookupService.getAppLookupByCode(listName, code);
 		return (entry == null ? null: entry.getDescription());
+	}
+	
+	public boolean isAdminUser() {
+		return EmAppUtil.isAdminUser(nciUser);
+	}
+
+
+	public NciUser getNciUser() {
+		return nciUser;
 	}
 }

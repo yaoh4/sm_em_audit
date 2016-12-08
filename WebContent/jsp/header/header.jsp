@@ -35,10 +35,10 @@
             </ul>
             
             <ul>
-            	<s:if test="#session.nciUser != null">
+            	<s:if test="nciUser != null">
 	                <li>
 	                    User:
-	                    <strong><s:property value="%{#session.nciUser.fullName}"/></strong>
+	                    <strong><s:property value="%{nciUser.fullName}"/></strong>
 	                </li>
                 </s:if>
                 <li>

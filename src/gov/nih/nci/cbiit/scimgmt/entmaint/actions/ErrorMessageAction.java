@@ -1,8 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
-import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
-
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -12,8 +10,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,8 +31,6 @@ public class ErrorMessageAction extends BaseAction {
 	@Autowired
 	private EntMaintProperties properties;
 	
-	@Autowired
-	private NciUser nciUser;
     
 	Logger logger = Logger.getLogger(getClass());
 
