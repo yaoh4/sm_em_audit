@@ -104,19 +104,19 @@
     <tr class="org">
       <td id="otherAnchor"><strong><a href="javascript:toggleOther('nameit');"><img src="../images/CriteriaClosed.gif" alt="Plus"></a>OTHER</strong></td>
       <s:if test="emAuditsVO.activeCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
-      	<td class="colorPercent"><b><%= otherTotal.getActiveAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getActiveAccountDataStr("all") %></b></td>
       </s:if>
       <s:if test="emAuditsVO.newCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
-      	<td class="colorPercent"><b><%= otherTotal.getNewAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getNewAccountDataStr("all") %></b></td>
       </s:if>
       <s:if test="emAuditsVO.deletedCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
-      	<td class="colorPercent"><b><%= otherTotal.getDeletedAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getDeletedAccountDataStr("all") %></b></td>
       </s:if>
       <s:if test="emAuditsVO.inactiveCategoryEnabledFlag != @gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@FLAG_NO">
-      	<td class="colorPercent"><b><%= otherTotal.getInactiveAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getInactiveAccountDataStr("all") %></b></td>
       </s:if>
       <s:if test="emAuditsVO.i2eFromDate != null">
-      	<td class="colorPercent"><b><%= otherTotal.getI2eAccountDataStr() %></b></td>
+      	<td class="colorPercent"><b><%= otherTotal.getI2eAccountDataStr("all") %></b></td>
       </s:if>
     </tr>
    

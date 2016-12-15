@@ -116,8 +116,12 @@ public class AdminDashboardAction extends BaseAction {
     	String cate = request.getParameter("cate");
     	String orgName = request.getParameter("orgName");
     	String action = request.getParameter("act");
-    	searchVO.setOrganization(orgName);
-    	searchVO.setExcludeNCIOrgs(false);
+    	if(StringUtils.equalsIgnoreCase(orgName, "all")) {
+    		searchVO.setExcludeNCIOrgs(true);
+    	} else {
+    		searchVO.setOrganization(orgName);
+    		searchVO.setExcludeNCIOrgs(false);
+    	}
     	if(!StringUtils.isEmpty(action) && !StringUtils.equalsIgnoreCase(action, "undefined"))
     		searchVO.setAct(action);
     	emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
