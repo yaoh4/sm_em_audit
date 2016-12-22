@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.services;
 import java.util.List;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 /**
@@ -105,4 +106,11 @@ public interface AdminService {
 	 * @return true if an I2E audit is present, false otherwise.
 	 */
 	public boolean isI2eAuditPresent();
+	
+	/**
+	 * Retrieves the ic dashboard data based on org
+	 * 
+	 * @return DashboardData
+	 */
+	public DashboardData retrieveIcDashboardData(Long auditId, String orgPath);
 }

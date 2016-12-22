@@ -7,11 +7,13 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	protected List<DropDownOption> auditPeriodList = new ArrayList<DropDownOption>();
 	protected InputStream inputStream;
 	protected int changePageSize;
+	private DashboardData icDashboard;
 	
 	@Autowired
 	protected LookupService lookupService;	
@@ -444,5 +447,20 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 	public NciUser getNciUser() {
 		return nciUser;
+	}
+
+	public DashboardData getIcDashboardCountReload() {
+		EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
+		icDashboard = adminService.retrieveIcDashboardData(emAuditsVO.getId(), nciUser.getOrgPath());
+		return icDashboard;
+	}
+
+	public DashboardData getIcDashboard() {
+		return icDashboard;
+	}
+
+
+	public void setIcDashboard(DashboardData icDashboard) {
+		this.icDashboard = icDashboard;
 	}
 }

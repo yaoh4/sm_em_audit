@@ -1,6 +1,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
+<s:include value="/jsp/helper/icDash.jsp"/>
 
 <ul class="nav nav-tabs">
 	<!-- Landing Tab: -->
