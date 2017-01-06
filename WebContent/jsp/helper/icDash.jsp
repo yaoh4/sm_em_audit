@@ -1,26 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <script language="JavaScript" src="../../scripts/entMaint_JQuery.js" type="text/javascript"></script>
 
-<script>
-	$(function() {
-		$("table.icDash tbody tr td.percent").each(function(e) {
-			if ($(this).text().indexOf("(0%)") != -1) {
-				if($(this).prev().children("a").text().indexOf("0/0") == -1) {
-					$(this).addClass('red');
-				} else {
-					$(this).addClass('grey');
-				}
-			}
-			else if ($(this).text().indexOf("(100%)") != -1) {
-				$(this).addClass('green');
-			}
-			else {
-				$(this).addClass('black');
-			}
-		});
-	});
-	
-</script>
 <s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isAuditEnabled()}">
 <s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_DASHBOARD != #request.selectedSubNav}">
 <form id="dashboardFormId" action="" method="post">
@@ -47,7 +27,18 @@
 				</s:a>
 			</s:else>
 			</td>
-			<td class="percent">(<s:property value="icDashboard.activePercent"/>%)</td>
+			<s:if test="%{icDashboard.activeAccountCount == 0}">
+				<td class="percent grey">(<s:property value="icDashboard.activePercent"/>%)</td>
+			</s:if>
+			<s:elseif test="%{icDashboard.activePercent == 0}">
+				<td class="percent red">(<s:property value="icDashboard.activePercent"/>%)</td>
+			</s:elseif>
+			<s:elseif test="%{icDashboard.activePercent == 100}">
+				<td class="percent green">(<s:property value="icDashboard.activePercent"/>%)</td>
+			</s:elseif>
+			<s:else>
+				<td class="percent black">(<s:property value="icDashboard.activePercent"/>%)</td>
+			</s:else>
 		</tr>
 		</s:if>
 		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}">
@@ -64,7 +55,18 @@
 				</s:a>
 			</s:else>
 			</td>
-			<td class="percent">(<s:property value="icDashboard.newPercent"/>%)</td>
+			<s:if test="%{icDashboard.newAccountCount == 0}">
+				<td class="percent grey">(<s:property value="icDashboard.newPercent"/>%)</td>
+			</s:if>
+			<s:elseif test="%{icDashboard.newPercent == 0}">
+				<td class="percent red">(<s:property value="icDashboard.newPercent"/>%)</td>
+			</s:elseif>
+			<s:elseif test="%{icDashboard.newPercent == 100}">
+				<td class="percent green">(<s:property value="icDashboard.newPercent"/>%)</td>
+			</s:elseif>
+			<s:else>
+				<td class="percent black">(<s:property value="icDashboard.newPercent"/>%)</td>
+			</s:else>
 		</tr>
 		</s:if>
 		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}">
@@ -81,7 +83,18 @@
 				</s:a>
 			</s:else>
 			</td>
-			<td class="percent">(<s:property value="icDashboard.deletedPercent"/>%)</td>
+			<s:if test="%{icDashboard.deletedAccountCount == 0}">
+				<td class="percent grey">(<s:property value="icDashboard.deletedPercent"/>%)</td>
+			</s:if>
+			<s:elseif test="%{icDashboard.deletedPercent == 0}">
+				<td class="percent red">(<s:property value="icDashboard.deletedPercent"/>%)</td>
+			</s:elseif>
+			<s:elseif test="%{icDashboard.deletedPercent == 100}">
+				<td class="percent green">(<s:property value="icDashboard.deletedPercent"/>%)</td>
+			</s:elseif>
+			<s:else>
+				<td class="percent black">(<s:property value="icDashboard.deletedPercent"/>%)</td>
+			</s:else>
 		</tr>
 		</s:if>
 		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}">
@@ -98,7 +111,18 @@
 				</s:a>
 			</s:else>
 			</td>
-			<td class="percent">(<s:property value="icDashboard.inactivePercent"/>%)</td>
+			<s:if test="%{icDashboard.inactiveAccountCount == 0}">
+				<td class="percent grey">(<s:property value="icDashboard.inactivePercent"/>%)</td>
+			</s:if>
+			<s:elseif test="%{icDashboard.inactivePercent == 0}">
+				<td class="percent red">(<s:property value="icDashboard.inactivePercent"/>%)</td>
+			</s:elseif>
+			<s:elseif test="%{icDashboard.inactivePercent == 100}">
+				<td class="percent green">(<s:property value="icDashboard.inactivePercent"/>%)</td>
+			</s:elseif>
+			<s:else>
+				<td class="percent black">(<s:property value="icDashboard.inactivePercent"/>%)</td>
+			</s:else>
 		</tr>
 		</s:if>
 		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E)}">
@@ -115,7 +139,18 @@
 				</s:a>
 			</s:else>
 			</td>
-			<td class="percent">(<s:property value="icDashboard.i2ePercent"/>%)</td>
+			<s:if test="%{icDashboard.i2eAccountCount == 0}">
+				<td class="percent grey">(<s:property value="icDashboard.i2ePercent"/>%)</td>
+			</s:if>
+			<s:elseif test="%{icDashboard.i2ePercent == 0}">
+				<td class="percent red">(<s:property value="icDashboard.i2ePercent"/>%)</td>
+			</s:elseif>
+			<s:elseif test="%{icDashboard.i2ePercent == 100}">
+				<td class="percent green">(<s:property value="icDashboard.i2ePercent"/>%)</td>
+			</s:elseif>
+			<s:else>
+				<td class="percent black">(<s:property value="icDashboard.i2ePercent"/>%)</td>
+			</s:else>
 		</tr>
 		</s:if>
 	</tbody>

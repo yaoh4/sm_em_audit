@@ -400,6 +400,19 @@ function refresh(){
 	$('#dashboardFormId').submit();
 }
 
+function refreshIcDash() {
+	$.ajax({
+		url: "refreshIcDashboardCount.action",
+		type: "post",
+		async:   true,
+		success: function(msg){
+			result = $.trim(msg);
+			$('div#icDashDiv').html(result);
+		}, 
+		error: function(){}		
+	});
+}
+
 function onActionChange(action,transferOrg){
 	
 	if(action == '50' || action == '51' || action == '52' || action == '53'){

@@ -69,6 +69,7 @@
 				 					$('#hiddenAction'+cId).val(aId);
 				 				}	
 				 				$( this ).dialog( "close" );
+				 				refreshIcDash();
 				 			}
 				 			else{
 				 				var isTransferred = $('#'+cId).text().match('(Transferred)');
@@ -104,6 +105,7 @@
 				 				var submitted = "Submitted on " + elements[0] + " by " + elements[1];
 				 				$('#submittedby'+cId).html(submitted);
 				 				$( this ).dialog( "close" );
+				 				refreshIcDash();
 				 			}
 			 			}
 			 		},
@@ -147,6 +149,7 @@
 			 				}
 			 				$('#submittedby'+cId).html("");
 				 			$( this ).dialog( "close" ); 	
+				 			refreshIcDash();
 			 			}
 			 		},
 			 		Cancel: function() {$( this ).dialog( "close" );}

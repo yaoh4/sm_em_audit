@@ -449,6 +449,10 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 		return nciUser;
 	}
 
+	public String refreshIcDashboardCount() {
+		return SUCCESS;
+	}
+	
 	public DashboardData getIcDashboardCountReload() {
 		EmAuditsVO emAuditsVO = (EmAuditsVO)session.get(ApplicationConstants.CURRENT_AUDIT);
 		icDashboard = adminService.retrieveIcDashboardData(emAuditsVO.getId(), nciUser.getOrgPath());
