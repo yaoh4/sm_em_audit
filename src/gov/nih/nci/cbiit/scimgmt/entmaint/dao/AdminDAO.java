@@ -385,7 +385,10 @@ public class AdminDAO  {
 		icDashboard.setInactiveCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_INACTIVE, true)));
 		icDashboard.setI2eAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_I2E, false)));
 		icDashboard.setI2eCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_I2E, true)));
-		icDashboard.setOrgName(orgPath);
+		if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+			icDashboard.setOrgName("all");
+		else
+			icDashboard.setOrgName(orgPath);
 		
 		return icDashboard;
 	}
@@ -400,39 +403,46 @@ public class AdminDAO  {
 			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
 			criteria.add(Restrictions.eq("audit.id", auditId));
 		}
-		
-		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)) {
-			criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
-			criteria.add(Restrictions.eq("activeCategoryFlag", true));
-			if(completed) {
-				criteria.add(Restrictions.isNotNull("activeSubmittedBy"));
-			}
-		}
-		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)) {
-			criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
-			criteria.add(Restrictions.eq("newCategoryFlag", true));
-			if(completed) {
-				criteria.add(Restrictions.isNotNull("newSubmittedBy"));
-			}
-		}
+
 		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)) {
-			criteria.add(Restrictions.eq("deletedByParentOrgPath", orgPath));
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+				criteria.add(Restrictions.eq("deletedByNciDoc", ApplicationConstants.NCI_DOC_OTHER));
+			else
+				criteria.add(Restrictions.eq("deletedByParentOrgPath", orgPath));
 			criteria.add(Restrictions.eq("deletedCategoryFlag", true));
 			if(completed) {
 				criteria.add(Restrictions.isNotNull("deletedSubmittedBy"));
 			}
 		}
-		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)) {
-			criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
-			criteria.add(Restrictions.eq("inactiveCategoryFlag", true));
-			if(completed) {
-				criteria.add(Restrictions.isNotNull("inactiveSubmittedBy"));
+		else {
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+				criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+			else
+				criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
+			
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)) {
+
+				criteria.add(Restrictions.eq("activeCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("activeSubmittedBy"));
+				}
 			}
-		}
-		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
-			criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
-			if(completed) {
-				criteria.add(Restrictions.isNotNull("submittedBy"));
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)) {
+				criteria.add(Restrictions.eq("newCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("newSubmittedBy"));
+				}
+			}
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)) {
+				criteria.add(Restrictions.eq("inactiveCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("inactiveSubmittedBy"));
+				}
+			}
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("submittedBy"));
+				}
 			}
 		}
 		return criteria;
