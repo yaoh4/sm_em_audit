@@ -55,7 +55,7 @@
 
 
 <!-- Admin tab selected -->
- <s:else>
+<s:else>
  <ol class="breadcrumb">
  
  	<s:if
@@ -84,15 +84,18 @@
 		</s:else> 
 	</s:if>
  </ol>
- </s:else> 
+</s:else> 
 
 
-  <!-- for row class from application menu -->
- </nav>
- 
+<!-- for row class from application menu -->
+</nav>
 
-  <s:include value="/jsp/content/manageAccountSubtypes.jsp" /> 
+<div id="icDashDiv">
+	<s:include value="/jsp/helper/icDash.jsp"/>
+</div> 
 
- <s:include value="/jsp/error/errorMessages.jsp" />
+<s:include value="/jsp/content/manageAccountSubtypes.jsp" /> 
+
+<s:include value="/jsp/error/errorMessages.jsp" />
 
  

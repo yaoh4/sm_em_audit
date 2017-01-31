@@ -222,22 +222,11 @@ table.nestedTableStyle{
 }
 table.icDash 
 {
-	border:1px solid #000;
-	width: 15%;
+	width: 40%;
 	margin-left: 40px;
-}
-table.icDash tbody tr th 
-{
-	border:none;
-	font-size: 0.9em;
-	background: white; 
-	color: black;
-	width: 30%
 }
 table.icDash tbody tr td
 {
-	border:none;
-	font-size: 0.9em;
-	background: white; 
-	color: black;
+	background: white;
+	font-weight: bold;
 }
