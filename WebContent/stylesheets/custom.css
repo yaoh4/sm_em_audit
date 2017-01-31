@@ -220,11 +220,6 @@ table.nestedTableStyle{
 .grey {
     color: #999 !important;
 }
-table.icDash 
-{
-	width: 40%;
-	margin-left: 40px;
-}
 table.icDash tbody tr td
 {
 	background: white;

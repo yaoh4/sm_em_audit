@@ -90,9 +90,11 @@
 <!-- for row class from application menu -->
 </nav>
 
-<div id="icDashDiv">
-	<s:include value="/jsp/helper/icDash.jsp"/>
-</div> 
+<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_AUDIT eq #request.selectedSubNav}">
+	<div id="icDashDiv">
+		<s:include value="/jsp/helper/icDash.jsp"/>
+	</div> 
+</s:if>
 
 <s:include value="/jsp/content/manageAccountSubtypes.jsp" /> 
 
