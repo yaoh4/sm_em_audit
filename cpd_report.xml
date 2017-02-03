@@ -1,0 +1,2443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+   <duplication lines="282" tokens="1016">
+      <file line="22"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
+      <file line="26"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
+      <codefragment><![CDATA[public class AdminReportI2eSearchResultExportDecorator extends TableDecorator{
+	
+	/**
+	 * Get the full name.
+	 * @return fullName
+	 */
+	public String getFullName() {
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return auditVO.getFullName();
+	}
+	
+	/**
+	 * get created date	
+	 * @return created date in string
+	 */
+	public String getI2eCreatedDate(){
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		Date createDate = auditVO.getCreatedDate();
+		if(createDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+	}
+	
+	/**
+	 * Get the action performed on this account
+	 * 
+	 * String action info
+	 */
+	public String getAction() {
+		String actionStr = "";
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		
+		if (accountVO.getAction() != null) {
+			AppLookupT action = accountVO.getAction();
+			if (action != null && action.getDescription() != null) {
+				if(accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N")){
+					actionStr = action.getDescription();
+				}
+			}
+		}
+		return actionStr;
+	}
+	
+	/**
+	 * Get Submitted by user and Submitted on date.
+	 * @return string representing submitted by + submitted on date.
+	 */
+	public String getLastUpdated(){
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy 'at' h:mm a");
+		String lastUpdated = "";
+		if( auditVO.getNpnId() != null && auditVO.getLastUpdByFullName() !=null){
+			lastUpdated =  "Updated on " +dateFormat.format(auditVO.getSubmittedDate()) + " by "  +auditVO.getLastUpdByFullName();
+		}
+		else{
+			lastUpdated = "";
+		}
+		return lastUpdated;
+	}
+	
+	/**
+	 * This method is for account submitted on and submitted by.
+	 * @return
+	 */
+	public String getAccountSubmitted(){
+		String submittedBy = "";
+		Date submittedDate = null;
+		
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		String id = ""+accountVO.getId();
+		
+		if(accountVO.getAction() == null){
+			return "<div id='submittedby"+ id +"'></div>";
+		}else{
+			submittedBy = accountVO.getSubmittedBy();
+			submittedDate = accountVO.getSubmittedDate();
+		}
+		if(submittedBy == null){
+			submittedBy = "<div id='submittedby"+ id +"'></div>";
+		}else{
+			String dateStr = "";
+			if(submittedDate != null){
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
+			} 
+			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES))){
+				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
+			}else{
+				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";
+			}
+		}
+		return  submittedBy;
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getActiveI2eRole(){
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> roles = auditVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String role = "";
+		EmI2eAuditAccountRolesVw roleVw = roles.get(0);
+		role = roleVw.getRoleDescription();
+
+		return role;
+	}
+	
+	/**
+	 * Get the date on which this role was created.
+	 * @return role created date in mm/dd/yyyy format.
+	 */
+	public String getRoleCreateOn(){
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> roles = auditVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String createDate = "";
+		EmI2eAuditAccountRolesVw roleVw = roles.get(0);
+		createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate());
+
+		return createDate;
+	}
+	
+	/**
+	 * Get the notes information entered for the action performed on this account.
+	 * 
+	 * @return the notes info.
+	 */
+	public String getActionNote(){
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		String note = "";
+		if(accountVO.getAction() != null) {
+			if(accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase("N")){
+				note = accountVO.getNotes();
+			}
+		}
+		
+		return note;
+	}
+	
+	/**
+	 * Checks if SOD discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancySod() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_SOD);
+	}
+	
+	/**
+	 * Checks if NED Inactive discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyNedInactive() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_NED_INACTIVE);
+	}
+	
+	/**
+	 * Checks if Inactive I2E Role(s) discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyInactiveI2eRole() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE);
+	}
+	
+	/**
+	 * Checks if Inactive IMPAC II discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eOnly() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ONLY);
+	}
+	
+	/**
+	 * Checks if I2e Inactive discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eInactive() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
+	}
+	
+	
+	/**
+	 * Checks if I2e IC Diff (Non NCI Person with I2E Account)  discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyI2eIcDiff() {
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+	}
+	
+	
+	/**
+	 * This method is for displaying Org path for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgPath(){
+		String orgPath = "";
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			orgPath = accountRoles.get(0).getFullOrgPathAbbrev();
+		}
+		
+		return orgPath;
+	}
+	
+	/**
+	 * Checks if a discrepancy of the given type exists in the given account.
+	 * Helper method used by the other discrepancy specific methods.
+	 * 
+	 * @param accountVO the account in which to look for discrepancy
+	 * @param type the discrepancy type to check for.
+	 * 
+	 * @return String 'Y' if discrepancy exists, else return empty String.
+	 */
+	private String isDiscrepancy(AuditI2eAccountVO accountVO, String type) {
+		String isDiscrepancy = "";
+		
+		List<String> discrepancies = accountVO.getAccountDiscrepancies();
+		if(!CollectionUtils.isEmpty(discrepancies)) {
+			for(String discrepancy: discrepancies) {
+				if(discrepancy.equals(type)) {
+					return ApplicationConstants.FLAG_YES;
+				}
+			}
+		}
+		return isDiscrepancy;
+	}
+	
+	/**
+	 * Get the last submitted date.
+	 * 
+	 * @return String the update date
+	 */
+	public String getSubmittedDate(){
+		
+		String dateStr = "";
+		
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		
+		if(accountVO != null){		
+			Date submittedDate = accountVO.getSubmittedDate();
+			if(submittedDate != null){
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);		
+			}
+		}
+							
+		return dateStr;
+	}
+	
+	/**
+	 * This method is for exporting roleCreatedBy for application roles.
+	 * @return String
+	 */
+	public String getRoleCreatedBy(){
+		String createdBy = "";
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		List<EmI2eAuditAccountRolesVw> accountRoles = accountVO.getAccountRoles();
+		if(!CollectionUtils.isEmpty(accountRoles)) {
+			createdBy = accountRoles.get(0).getCreatedByFullName();
+		}
+		
+		return createdBy;
+	}
+	
+}]]></codefragment>
+   </duplication>
+   <duplication lines="32" tokens="469">
+      <file line="196"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="120"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[				&& (getImpaciiUserId() == castOther.getImpaciiUserId() || getImpaciiUserId() != null
+						&& castOther.getImpaciiUserId() != null
+						&& getImpaciiUserId().equals(castOther.getImpaciiUserId()))
+				&& (getNihNetworkId() == castOther.getNihNetworkId() || getNihNetworkId() != null
+						&& castOther.getNihNetworkId() != null
+						&& getNihNetworkId().equals(castOther.getNihNetworkId()))
+				&& (getLastName() == castOther.getLastName() || getLastName() != null
+						&& castOther.getLastName() != null && getLastName().equals(castOther.getLastName()))
+				&& (getFirstName() == castOther.getFirstName() || getFirstName() != null
+						&& castOther.getFirstName() != null && getFirstName().equals(castOther.getFirstName()))
+				&& (getImpaciiLastName() == castOther.getImpaciiLastName() || getImpaciiLastName() != null
+						&& castOther.getImpaciiLastName() != null
+						&& getImpaciiLastName().equals(castOther.getImpaciiLastName()))
+				&& (getImpaciiFirstName() == castOther.getImpaciiFirstName() || getImpaciiFirstName() != null
+						&& castOther.getImpaciiFirstName() != null
+						&& getImpaciiFirstName().equals(castOther.getImpaciiFirstName()))
+				&& (getNedLastName() == castOther.getNedLastName() || getNedLastName() != null
+						&& castOther.getNedLastName() != null && getNedLastName().equals(castOther.getNedLastName()))
+				&& (getNedFirstName() == castOther.getNedFirstName() || getNedFirstName() != null
+						&& castOther.getNedFirstName() != null
+						&& getNedFirstName().equals(castOther.getNedFirstName()))
+				&& (getNedEmailAddress() == castOther.getNedEmailAddress() || getNedEmailAddress() != null
+						&& castOther.getNedEmailAddress() != null
+						&& getNedEmailAddress().equals(castOther.getNedEmailAddress()))
+				&& (getNedOrgPath() == castOther.getNedOrgPath() || getNedOrgPath() != null
+						&& castOther.getNedOrgPath() != null && getNedOrgPath().equals(castOther.getNedOrgPath()))
+				&& (getParentNedOrgPath() == castOther.getParentNedOrgPath() || getParentNedOrgPath() != null
+						&& castOther.getParentNedOrgPath() != null
+						&& getParentNedOrgPath().equals(castOther.getParentNedOrgPath()))
+				&& (getNedIc() == castOther.getNedIc() || getNedIc() != null && castOther.getNedIc() != null
+						&& getNedIc().equals(castOther.getNedIc()))
+				&& (getImpaciiActiveStatusFlag() == castOther.getImpaciiActiveStatusFlag() || getImpaciiActiveStatusFlag() != null]]></codefragment>
+   </duplication>
+   <duplication lines="89" tokens="398">
+      <file line="38"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+      <file line="60"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+      <codefragment><![CDATA[	public String getAccountCreatedDate(){
+		String dateString = "";
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		Date createDate = portfolioVO.getCreatedDate();
+		if(createDate != null) {
+			dateString = new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+		}		
+		return dateString;
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getApplicationRole(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String role = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			String createdBy = roleVw.getCreatedByFullName();
+			String roleName = roleVw.getRoleName();
+			role = role + "<tr><td><span title='" + createdBy + "'>" + roleName + "</span>&nbsp;<img src='../images/info.png' alt='info' onclick=\"getRoleDescription('" + roleName + "');\"/></td></tr>";
+		}
+		role = role + "</table>";
+		return role;
+	}
+	
+	/**
+	 * Get the organization ID for this row.
+	 * @return orgId
+	 */
+	public String getOrgId(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String orgId = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			orgId = orgId + "<tr><td>" + roleVw.getOrgId()+"</td></tr>";
+		}
+		orgId = orgId + "</table>";
+		return orgId;
+	}
+	
+	/**
+	 * Get the date on which this role was created.
+	 * @return role created date in mm/dd/yyyy format.
+	 */
+	public String getRoleCreateOn(){
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		List<EmPortfolioRolesVw> roles = portfolioVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String createDate = "<table width='100%' border='0'>";
+		for(EmPortfolioRolesVw roleVw : roles){
+			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
+		}
+		createDate = createDate + "</table>";
+		return createDate;
+	}
+	
+	/**
+	 * Get the full name.
+	 * @return fullName
+	 */
+	public String getFullName() {
+		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
+		String fullName = "";
+		if(!StringUtils.isBlank(portfolioVO.getFullName())){
+			if(!StringUtils.isBlank(portfolioVO.getNedEmailAddress())){
+				fullName =  "<a href=\"mailto:" + portfolioVO.getNedEmailAddress() +  "\">" + portfolioVO.getFullName() + "</a>";
+			}
+			else{
+				fullName = portfolioVO.getFullName();
+			}
+		}
+		return fullName;
+	}
+	
+	/**
+	 * Get discrepancy for this account.
+	 * @return discrepancy text with info icon.
+	 */
+	public String getDiscrepancy(){]]></codefragment>
+   </duplication>
+   <duplication lines="29" tokens="396">
+      <file line="229"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="151"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[						&& getImpaciiActiveStatusFlag().equals(castOther.getImpaciiActiveStatusFlag()))
+				&& (getNciDoc() == castOther.getNciDoc() || getNciDoc() != null && castOther.getNciDoc() != null
+						&& getNciDoc().equals(castOther.getNciDoc()))
+				&& (getCreatedDate() == castOther.getCreatedDate() || getCreatedDate() != null
+						&& castOther.getCreatedDate() != null && getCreatedDate().equals(castOther.getCreatedDate()))
+				&& (getCreatedByUserId() == castOther.getCreatedByUserId() || getCreatedByUserId() != null
+						&& castOther.getCreatedByUserId() != null
+						&& getCreatedByUserId().equals(castOther.getCreatedByUserId()))
+				&& (getCreatedByFullName() == castOther.getCreatedByFullName() || getCreatedByFullName() != null
+						&& castOther.getCreatedByFullName() != null
+						&& getCreatedByFullName().equals(castOther.getCreatedByFullName()))
+				&& (getDeletedDate() == castOther.getDeletedDate() || getDeletedDate() != null
+						&& castOther.getDeletedDate() != null && getDeletedDate().equals(castOther.getDeletedDate()))
+				&& (getDeletedByUserId() == castOther.getDeletedByUserId() || getDeletedByUserId() != null
+						&& castOther.getDeletedByUserId() != null
+						&& getDeletedByUserId().equals(castOther.getDeletedByUserId()))
+				&& (getDeletedByFullName() == castOther.getDeletedByFullName() || getDeletedByFullName() != null
+						&& castOther.getDeletedByFullName() != null
+						&& getDeletedByFullName().equals(castOther.getDeletedByFullName()))
+				&& (getDeactivationComments() == castOther.getDeactivationComments() || getDeactivationComments() != null
+						&& castOther.getDeactivationComments() != null
+						&& getDeactivationComments().equals(castOther.getDeactivationComments()))
+				&& (getSecondaryOrgText() == castOther.getSecondaryOrgText() || getSecondaryOrgText() != null
+						&& castOther.getSecondaryOrgText() != null
+						&& getSecondaryOrgText().equals(castOther.getSecondaryOrgText()))
+				&& (getLastLoginDate() == castOther.getLastLoginDate() || getLastLoginDate() != null
+						&& castOther.getLastLoginDate() != null
+						&& getLastLoginDate().equals(castOther.getLastLoginDate()))
+				&& (getInactiveUserFlag() == castOther.getInactiveUserFlag() || getInactiveUserFlag() != null]]></codefragment>
+   </duplication>
+   <duplication lines="31" tokens="352">
+      <file line="257"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="202"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="31" tokens="352">
+      <file line="534"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="233"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="28" tokens="318">
+      <file line="528"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="577"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[		log.debug("adding search criteria for IMPAC II account query in audit view: " + searchVO);
+
+		// audit id
+		criteria.add(Restrictions.eq("audit.id", searchVO.getAuditId()));
+		
+		// firstName partial search
+		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));]]></codefragment>
+   </duplication>
+   <duplication lines="22" tokens="298">
+      <file line="583"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="233"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("impaciiLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("deletedByParentOrgPath"));]]></codefragment>
+   </duplication>
+   <duplication lines="13" tokens="283">
+      <file line="485"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="320"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[		result = 37 * result + (getImpaciiUserId() == null ? 0 : getImpaciiUserId().hashCode());
+		result = 37 * result + (getNihNetworkId() == null ? 0 : getNihNetworkId().hashCode());
+		result = 37 * result + (getLastName() == null ? 0 : getLastName().hashCode());
+		result = 37 * result + (getFirstName() == null ? 0 : getFirstName().hashCode());
+		result = 37 * result + (getImpaciiLastName() == null ? 0 : getImpaciiLastName().hashCode());
+		result = 37 * result + (getImpaciiFirstName() == null ? 0 : getImpaciiFirstName().hashCode());
+		result = 37 * result + (getNedLastName() == null ? 0 : getNedLastName().hashCode());
+		result = 37 * result + (getNedFirstName() == null ? 0 : getNedFirstName().hashCode());
+		result = 37 * result + (getNedEmailAddress() == null ? 0 : getNedEmailAddress().hashCode());
+		result = 37 * result + (getNedOrgPath() == null ? 0 : getNedOrgPath().hashCode());
+		result = 37 * result + (getParentNedOrgPath() == null ? 0 : getParentNedOrgPath().hashCode());
+		result = 37 * result + (getNedIc() == null ? 0 : getNedIc().hashCode());
+		result = 37 * result + (getImpaciiActiveStatusFlag() == null ? 0 : getImpaciiActiveStatusFlag().hashCode());]]></codefragment>
+   </duplication>
+   <duplication lines="47" tokens="261">
+      <file line="241"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
+      <file line="436"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
+      <codefragment><![CDATA[	}
+	
+	/**
+	 * @return the actionWithoutAllList
+	 */
+	public List<DropDownOption> getActionWithoutAllList() {
+		return actionWithoutAllList;
+	}
+
+	/**
+	 * @param actionWithoutAllList the actionWithoutAllList to set
+	 */
+	public void setActionWithoutAllList(List<DropDownOption> actionWithoutAllList) {
+		this.actionWithoutAllList = actionWithoutAllList;
+	}
+	
+	private List<DropDownOption> getActionListWithAll(){
+		List<DropDownOption> tempList = new ArrayList<DropDownOption>();
+		for(DropDownOption opt : actionList){
+			if(ApplicationConstants.ACTIVE_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.DELETED_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.INACTIVE_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.NEW_ACTION_ALL.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.ACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.NEW_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) || 
+					ApplicationConstants.DELETED_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					ApplicationConstants.INACTIVE_ACTION_NOACTION.equalsIgnoreCase(opt.getOptionKey()) ||
+					(!this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue()))){
+				continue;
+			}else{
+				if(this.isSuperUser() && ApplicationConstants.SEARCH_TRANSFERED.equalsIgnoreCase(opt.getOptionValue())){
+					opt = new DropDownOption(""+opt.getOptionKey(), ApplicationConstants.ACTION_TRANSFER);			
+				}
+				tempList.add(opt);
+			}
+		}
+		return tempList;
+	}
+
+	private String getRole(NciUser nciUser){
+		return nciUser.getCurrentUserRole();
+	}
+	
+	/**
+	 * @return the role
+	 */
+	public String getRole() {]]></codefragment>
+   </duplication>
+   <duplication lines="15" tokens="250">
+      <file line="468"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="387"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[						castOther.getI2eOnlyFlag())))
+				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
+						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
+				&& ((this.getNedInactiveFlag() == castOther.getNedInactiveFlag()) || (this.getNedInactiveFlag() != null
+						&& castOther.getNedInactiveFlag() != null && this.getNedInactiveFlag().equals(
+						castOther.getNedInactiveFlag())))
+				&& ((this.getNoActiveRoleFlag() == castOther.getNoActiveRoleFlag()) || (this.getNoActiveRoleFlag() != null
+						&& castOther.getNoActiveRoleFlag() != null && this.getNoActiveRoleFlag().equals(
+						castOther.getNoActiveRoleFlag())))
+				&& ((this.getActiveRoleRemainderFlag() == castOther.getActiveRoleRemainderFlag()) || (this
+						.getActiveRoleRemainderFlag() != null && castOther.getActiveRoleRemainderFlag() != null && this
+						.getActiveRoleRemainderFlag().equals(castOther.getActiveRoleRemainderFlag())))
+				&& ((this.getIcDiffFlag() == castOther.getIcDiffFlag()) || (this
+						.getIcDiffFlag() != null && castOther.getIcDiffFlag() != null && this
+						.getIcDiffFlag().equals(castOther.getIcDiffFlag())))]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="244">
+      <file line="497"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="332"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[		result = 37 * result + (getImpaciiActiveStatusFlag() == null ? 0 : getImpaciiActiveStatusFlag().hashCode());
+		result = 37 * result + (getNciDoc() == null ? 0 : getNciDoc().hashCode());
+		result = 37 * result + (getCreatedDate() == null ? 0 : getCreatedDate().hashCode());
+		result = 37 * result + (getCreatedByUserId() == null ? 0 : getCreatedByUserId().hashCode());
+		result = 37 * result + (getCreatedByFullName() == null ? 0 : getCreatedByFullName().hashCode());
+		result = 37 * result + (getDeletedDate() == null ? 0 : getDeletedDate().hashCode());
+		result = 37 * result + (getDeletedByUserId() == null ? 0 : getDeletedByUserId().hashCode());
+		result = 37 * result + (getDeletedByFullName() == null ? 0 : getDeletedByFullName().hashCode());
+		result = 37 * result + (getDeactivationComments() == null ? 0 : getDeactivationComments().hashCode());
+		result = 37 * result + (getSecondaryOrgText() == null ? 0 : getSecondaryOrgText().hashCode());
+		result = 37 * result + (getLastLoginDate() == null ? 0 : getLastLoginDate().hashCode());
+		result = 37 * result + (getInactiveUserFlag() == null ? 0 : getInactiveUserFlag().hashCode());]]></codefragment>
+   </duplication>
+   <duplication lines="28" tokens="226">
+      <file line="353"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="66"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <codefragment><![CDATA[		String sortOrder = paginatedList.getSqlSortDirection();
+		
+		if (!StringUtils.isBlank(sortOrderCriterion)) {
+			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
+				} else {
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
+				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("createdByUserId"));
+				}else{
+					criteria.addOrder(Order.desc("createdByUserId"));
+				}
+			}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc("createdDate"));
+				else
+					criteria.addOrder(Order.desc("createdDate"));
+			}else if(sortOrderCriterion.equalsIgnoreCase("action")){
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc("notes"));
+				else
+					criteria.addOrder(Order.desc("notes"));
+			}else if (sortOrderCriterion.equalsIgnoreCase("discrepancy")) {]]></codefragment>
+   </duplication>
+   <duplication lines="73" tokens="216">
+      <file line="210"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsT.java"/>
+      <file line="889"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <codefragment><![CDATA[	}
+
+	public String getTransferToNedOrgPath() {
+		return transferToNedOrgPath;
+	}
+
+	public void setTransferToNedOrgPath(String transferToNedOrgPath) {
+		this.transferToNedOrgPath = transferToNedOrgPath;
+	}
+
+	public String getTransferFromNedOrgPath() {
+		return transferFromNedOrgPath;
+	}
+
+	public void setTransferFromNedOrgPath(String transferFromNedOrgPath) {
+		this.transferFromNedOrgPath = transferFromNedOrgPath;
+	}
+
+	public Date getTransferredDate() {
+		return transferredDate;
+	}
+
+	public void setTransferredDate(Date transferredDate) {
+		this.transferredDate = transferredDate;
+	}
+
+	public String getDeletedTransferToOrgPath() {
+		return deletedTransferToOrgPath;
+	}
+
+	public void setDeletedTransferToOrgPath(String deletedTransferToOrgPath) {
+		this.deletedTransferToOrgPath = deletedTransferToOrgPath;
+	}
+
+	public String getDeletedTransferFromOrgPath() {
+		return deletedTransferFromOrgPath;
+	}
+
+	public void setDeletedTransferFromOrgPath(String deletedTransferFromOrgPath) {
+		this.deletedTransferFromOrgPath = deletedTransferFromOrgPath;
+	}
+	
+	public Boolean getActiveCategoryFlag() {
+		return this.activeCategoryFlag;
+	}
+
+	public void setActiveCategoryFlag(Boolean activeCategoryFlag) {
+		this.activeCategoryFlag = activeCategoryFlag;
+	}
+
+	public Boolean getNewCategoryFlag() {
+		return this.newCategoryFlag;
+	}
+
+	public void setNewCategoryFlag(Boolean newCategoryFlag) {
+		this.newCategoryFlag = newCategoryFlag;
+	}
+
+	public Boolean getDeletedCategoryFlag() {
+		return this.deletedCategoryFlag;
+	}
+
+	public void setDeletedCategoryFlag(Boolean deletedCategoryFlag) {
+		this.deletedCategoryFlag = deletedCategoryFlag;
+	}
+
+	public Boolean getInactiveCategoryFlag() {
+		return this.inactiveCategoryFlag;
+	}
+
+	public void setInactiveCategoryFlag(Boolean inactiveCategoryFlag) {
+		this.inactiveCategoryFlag = inactiveCategoryFlag;
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="47" tokens="209">
+      <file line="324"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="653"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[			log.error("saveOrUpdateAction failed", e);
+			throw e;
+		}
+	}
+	
+	/**
+	 * Gets the total result count.
+	 * 
+	 * @param criteria
+	 *            the criteria
+	 * @return the total result count
+	 */
+	private int getTotalResultCount(Criteria criteria) {
+
+		criteria.setProjection(Projections.rowCount());
+		Long rowCount = (Long) criteria.uniqueResult();
+		return rowCount.intValue();
+
+	}
+	
+	/**
+	 * Add Sort Order
+	 * 
+	 * @param criteria
+	 * @param paginatedList
+	 * @return
+	 */
+	private Criteria addSortOrder(Criteria criteria, PaginatedListImpl paginatedList) {
+		String sortOrderCriterion = paginatedList.getSortCriterion();
+		String sortOrder = paginatedList.getSqlSortDirection();
+		
+		if (!StringUtils.isBlank(sortOrderCriterion)) {
+			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
+				} else {
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
+				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("createdByUserId"));
+				}else{
+					criteria.addOrder(Order.desc("createdByUserId"));
+				}
+			}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="206">
+      <file line="434"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="355"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[						castOther.getI2eFirstName())))
+				&& ((this.getNedEmailAddress() == castOther.getNedEmailAddress()) || (this.getNedEmailAddress() != null
+						&& castOther.getNedEmailAddress() != null && this.getNedEmailAddress().equals(
+						castOther.getNedEmailAddress())))
+				&& ((this.getParentNedOrgPath() == castOther.getParentNedOrgPath()) || (this.getParentNedOrgPath() != null
+						&& castOther.getParentNedOrgPath() != null && this.getParentNedOrgPath().equals(
+						castOther.getParentNedOrgPath())))
+				&& ((this.getNedOrgPath() == castOther.getNedOrgPath()) || (this.getNedOrgPath() != null
+						&& castOther.getNedOrgPath() != null && this.getNedOrgPath().equals(castOther.getNedOrgPath())))
+				&& ((this.getNedIc() == castOther.getNedIc()) || (this.getNedIc() != null
+						&& castOther.getNedIc() != null && this.getNedIc().equals(castOther.getNedIc())))
+				&& ((this.getI2eActiveStatusFlag() == castOther.getI2eActiveStatusFlag()) || (this.getI2eActiveStatusFlag() != null]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="204">
+      <file line="324"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="189"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[						.getDeletedByNciDoc().equals(castOther.getDeletedByNciDoc())))
+				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
+						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
+				&& ((this.getIcDiffFlag() == castOther.getIcDiffFlag()) || (this.getIcDiffFlag() != null
+						&& castOther.getIcDiffFlag() != null && this.getIcDiffFlag().equals(castOther.getIcDiffFlag())))
+				&& ((this.getNedInactiveFlag() == castOther.getNedInactiveFlag()) || (this.getNedInactiveFlag() != null
+						&& castOther.getNedInactiveFlag() != null && this.getNedInactiveFlag().equals(
+						castOther.getNedInactiveFlag())))
+				&& ((this.getLastNameDiffFlag() == castOther.getLastNameDiffFlag()) || (this.getLastNameDiffFlag() != null
+						&& castOther.getLastNameDiffFlag() != null && this.getLastNameDiffFlag().equals(
+						castOther.getLastNameDiffFlag())))
+				&& ((this.getTransferFromNedOrgPath() == castOther.getTransferFromNedOrgPath()) || (this.getTransferFromNedOrgPath() != null]]></codefragment>
+   </duplication>
+   <duplication lines="35" tokens="199">
+      <file line="224"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+      <file line="303"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+      <codefragment><![CDATA[			String nedIc = auditAccountVO.getNedIc();
+			
+			exportAccountVOList.add(auditAccountVO);
+			List<EmAuditAccountRolesVw> accountRoles = auditAccountVO.getAccountRoles();
+			
+			if(!accountRoles.isEmpty() && accountRoles.size() > 0) {
+				//Exclude the first role, because it is already present in auditAccountVO
+				for(int index = 1; index < accountRoles.size(); index++) {
+					//For the remaining ones, create a new AuditAccountVO, and 
+					//add the role to it, so that each role shows up in a separate
+					//row in excel.
+					AuditAccountVO auditAccountVOItem = new AuditAccountVO();
+					
+					auditAccountVOItem.setNedIc(nedIc);
+					auditAccountVOItem.setImpaciiUserId(auditAccountVO.getImpaciiUserId());
+					auditAccountVOItem.setNihNetworkId(auditAccountVO.getNihNetworkId());
+					auditAccountVOItem.setNedLastName(auditAccountVO.getNedLastName());
+					auditAccountVOItem.setNedFirstName(auditAccountVO.getNedFirstName());
+					auditAccountVOItem.setLastName(auditAccountVO.getLastName());
+					auditAccountVOItem.setFirstName(auditAccountVO.getFirstName());
+					auditAccountVOItem.setSecondaryOrgText(auditAccountVO.getSecondaryOrgText());
+					auditAccountVOItem.addAccountRole(accountRoles.get(index));
+					auditAccountVOItem.setCreatedDate(auditAccountVO.getCreatedDate());
+					auditAccountVOItem.setCreatedByUserId(auditAccountVO.getCreatedByUserId());
+					auditAccountVOItem.setCreatedByFullName(auditAccountVO.getCreatedByFullName());
+					
+					exportAccountVOList.add(auditAccountVOItem);				
+				}
+			}
+		}
+		
+		return exportAccountVOList;
+	}
+	
+	private List<AuditI2eAccountVO> getExportAccountVOList(List<AuditI2eAccountVO> auditAccounts) {]]></codefragment>
+   </duplication>
+   <duplication lines="33" tokens="199">
+      <file line="157"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
+      <file line="122"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
+      <codefragment><![CDATA[	private List<String> populateAccountDiscrepancy(EmI2eAuditAccountsVw account) {
+		List<String> discrepancyList = new ArrayList<String>();
+		// Check if there is a violation in roles given to the user
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_SOD);
+		}
+
+		// Check if NED_ACTIVE_FLAG is N
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NED_INACTIVE);
+		}
+		
+		// Check for Active I2E Account/Inactive I2E Role(s)
+		if (account.getNoActiveRoleFlag() != null && account.getNoActiveRoleFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_NO_ACTIVE_ROLE);
+		}
+
+		// Check for Active I2E Account/Inactive IMPAC II Account
+		if (account.getI2eOnlyFlag() != null && account.getI2eOnlyFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ONLY);
+		}
+		
+		// Check for Inactive I2E Account/Active I2E Role(s)
+		if (account.getActiveRoleRemainderFlag() != null && account.getActiveRoleRemainderFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_ACTIVE_ROLE_REMAINDER);
+		}
+		
+		//Check for Non NCI Person with I2E account
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_I2E_IC_DIFF);
+		}
+		return discrepancyList;
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="42" tokens="191">
+      <file line="79"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
+      <file line="254"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <file line="83"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
+      <codefragment><![CDATA[		}
+		return lastUpdated;
+	}
+	
+	/**
+	 * This method is for account submitted on and submitted by.
+	 * @return
+	 */
+	public String getAccountSubmitted(){
+		String submittedBy = "";
+		Date submittedDate = null;
+		
+		AuditI2eAccountVO accountVO = (AuditI2eAccountVO)getCurrentRowObject();
+		String id = ""+accountVO.getId();
+		
+		if(accountVO.getAction() == null){
+			return "<div id='submittedby"+ id +"'></div>";
+		}else{
+			submittedBy = accountVO.getSubmittedBy();
+			submittedDate = accountVO.getSubmittedDate();
+		}
+		if(submittedBy == null){
+			submittedBy = "<div id='submittedby"+ id +"'></div>";
+		}else{
+			String dateStr = "";
+			if(submittedDate != null){
+				dateStr = new SimpleDateFormat("MM/dd/yyyy 'at' h:mm a").format(submittedDate);
+			} 
+			if(accountVO != null && (accountVO.getUnsubmittedFlag() == null || accountVO.getUnsubmittedFlag().equalsIgnoreCase(ApplicationConstants.FLAG_YES))){
+				submittedBy = "<div id='submittedby" + id + "'></div>" + "<input type='hidden' id='hiddenSubmittedby" + id +"' value='Submitted on " + dateStr + " by " + submittedBy + "'/>";
+			}else{
+				submittedBy = "<div id='submittedby"+ id +"'>" + "Submitted on " + dateStr + " by " + submittedBy + "</div>";
+			}
+		}
+		return  submittedBy;
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getActiveI2eRole(){]]></codefragment>
+   </duplication>
+   <duplication lines="39" tokens="174">
+      <file line="140"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+      <file line="261"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
+      <codefragment><![CDATA[		}
+		role = role + "</table>";
+		return role;
+	}
+	
+	/**
+	 * This method is for displaying organization ID for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgId(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String orgId = "<table width='100%' border='0'>";
+		for(EmAuditAccountRolesVw roleVw : roles){
+			orgId = orgId + "<tr><td>" + roleVw.getOrgId()+"</td></tr>";
+		}
+		orgId = orgId + "</table>";
+		return orgId;
+	}
+	/**
+	 * This method id for displaying role created time. It could be multiple
+	 * @return
+	 */
+	public String getRoleCreateOn(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		List<EmAuditAccountRolesVw> roles = accountVO.getAccountRoles();
+		if(roles == null || roles.size() == 0){
+			return "";
+		}
+		String createDate = "<table width='100%' border='0'>";
+		for(EmAuditAccountRolesVw roleVw : roles){
+			createDate = createDate + "<tr><td>" + new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate()) + "</td></tr>";
+		}
+		createDate = createDate + "</table>";
+		return createDate;
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="22" tokens="172">
+      <file line="214"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="245"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization())
+				&& !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}
+
+		if (searchVO.getCategory().longValue() == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY) {]]></codefragment>
+   </duplication>
+   <duplication lines="31" tokens="169">
+      <file line="269"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="546"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}
+
+		return criteria;
+	}
+
+	/**
+	 * Get account activity using id and category
+	 * 
+	 * @param eaaId
+	 * @param category
+	 * @return
+	 */
+	private EmI2eAuditAccountsT getAccountsT(Long id) {]]></codefragment>
+   </duplication>
+   <duplication lines="19" tokens="165">
+      <file line="269"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="245"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+		
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="20" tokens="165">
+      <file line="214"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="546"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization())
+				&& !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));
+			} else {
+				criteria.add(Restrictions.eq("parentNedOrgPath", searchVO.getOrganization().trim()));
+			}
+		}
+
+		// excludeNCIOrgs
+		if (searchVO.isExcludeNCIOrgs()) {
+			criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="157">
+      <file line="413"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="336"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[						&& castOther.getNpnId() != null && this.getNpnId().equals(castOther.getNpnId())))
+				&& ((this.getNihNetworkId() == castOther.getNihNetworkId()) || (this.getNihNetworkId() != null
+						&& castOther.getNihNetworkId() != null && this.getNihNetworkId().equals(
+						castOther.getNihNetworkId())))
+				&& ((this.getLastName() == castOther.getLastName()) || (this.getLastName() != null
+						&& castOther.getLastName() != null && this.getLastName().equals(castOther.getLastName())))
+				&& ((this.getFirstName() == castOther.getFirstName()) || (this.getFirstName() != null
+						&& castOther.getFirstName() != null && this.getFirstName().equals(castOther.getFirstName())))
+				&& ((this.getCreatedDate() == castOther.getCreatedDate()) || (this.getCreatedDate() != null]]></codefragment>
+   </duplication>
+   <duplication lines="14" tokens="155">
+      <file line="103"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryT.java"/>
+      <file line="103"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryVw.java"/>
+      <codefragment><![CDATA[				&& (this.getEauId() == castOther.getEauId())
+				&& ((this.getActionCode() == castOther.getActionCode()) || (this
+						.getActionCode() != null
+						&& castOther.getActionCode() != null && this
+						.getActionCode().equals(castOther.getActionCode())))
+				&& ((this.getComments() == castOther.getComments()) || (this
+						.getComments() != null
+						&& castOther.getComments() != null && this
+						.getComments().equals(castOther.getComments())))
+				&& ((this.getCreateDate() == castOther.getCreateDate()) || (this
+						.getCreateDate() != null
+						&& castOther.getCreateDate() != null && this
+						.getCreateDate().equals(castOther.getCreateDate())))
+				&& ((this.getCreateUserId() == castOther.getCreateUserId()) || (this]]></codefragment>
+   </duplication>
+   <duplication lines="47" tokens="153">
+      <file line="251"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="382"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			crit.add(Restrictions.eq("npnId", id));
+			EmPortfolioNotesT instance = (EmPortfolioNotesT) crit.uniqueResult();
+			if (instance == null) {
+				log.debug("get EmPortfolioNotesT successful, no instance found");
+			} else {
+				log.debug("get EmPortfolioNotesT successful, instance found");
+			}
+			return instance;
+		} catch (Throwable e) {
+			log.error("findNotesById failed for id=" + id, e);
+			throw e;
+		}
+	}
+
+	/**
+	 * Save or update notes
+	 * 
+	 * @param transientInstance
+	 *            the transient instance
+	 */
+	private void saveOrUpdateNotes(final EmPortfolioNotesT transientInstance) {
+		log.debug("saveOrUpdate EmPortfolioNotesT instance");
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(transientInstance);
+			log.debug("saveOrUpdateNotes successful");
+		} catch (Throwable e) {
+			log.error("saveOrUpdateNotes failed", e);
+			throw e;
+		}
+	}
+	
+	
+	/**
+	 * Gets the total result count.
+	 * 
+	 * @param criteria
+	 *            the criteria
+	 * @return the total result count
+	 */
+	private int getTotalResultCount(Criteria criteria) {
+
+		criteria.setProjection(Projections.rowCount());
+		Long rowCount = (Long) criteria.uniqueResult();
+		return rowCount.intValue();
+
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="10" tokens="152">
+      <file line="334"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="482"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <codefragment><![CDATA[						castOther.getLastNameDiffFlag())))
+				&& ((this.getTransferFromNedOrgPath() == castOther.getTransferFromNedOrgPath()) || (this.getTransferFromNedOrgPath() != null
+						&& castOther.getTransferFromNedOrgPath() != null && this.getTransferFromNedOrgPath().equals(
+						castOther.getTransferFromNedOrgPath())))
+				&& ((this.getTransferToNedOrgPath() == castOther.getTransferToNedOrgPath()) || (this.getTransferToNedOrgPath() != null
+						&& castOther.getTransferToNedOrgPath() != null && this.getTransferToNedOrgPath().equals(
+						castOther.getTransferToNedOrgPath())))
+				&& ((this.getTransferredDate() == castOther.getTransferredDate()) || (this.getTransferredDate() != null
+					   && castOther.getTransferredDate() != null && this.getTransferredDate().equals(
+					   castOther.getTransferredDate())))]]></codefragment>
+   </duplication>
+   <duplication lines="27" tokens="151">
+      <file line="88"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <file line="79"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
+      <codefragment><![CDATA[		String id = ""+auditVO.getNpnId();
+		StringBuffer sbu = new StringBuffer();
+		sbu.append("<ul>");
+		for(String s : discrepancies){
+			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,s);
+			if(disVw.getShortDescrip() != null){
+				//replace all single quote to HTML code
+				String secondId = disVw.getCode();
+				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				//replace all single quote to HTML code
+				String resolution = disVw.getResolutionText().replace("'", "&#39;");
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
+						"</li>");
+			}
+		}
+		sbu.append("</ul>");
+		
+		return sbu.toString();
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getActiveI2eRole(){
+		String role = "";]]></codefragment>
+   </duplication>
+   <duplication lines="36" tokens="144">
+      <file line="53"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
+      <file line="106"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <codefragment><![CDATA[		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getActiveI2eRole(){
+		String role = "";
+		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();	
+		if(StringUtils.isNotBlank(roleVw.getCreatedByFullName()) && StringUtils.isNotBlank(roleVw.getRoleDescription())){
+			role = "<span title='" + roleVw.getCreatedByFullName() + "'>" +  roleVw.getRoleDescription() + "</span>&nbsp;";
+		} else if(StringUtils.isNotBlank(roleVw.getRoleDescription())) {
+			role = roleVw.getRoleDescription();
+		}
+		return role;
+	}
+	
+	/**
+	 * Get the date on which this role was created.
+	 * @return role created date in mm/dd/yyyy format.
+	 */
+	public String getRoleCreateOn(){
+		String createDate = "";
+		EmI2eAuditAccountRolesVw roleVw = (EmI2eAuditAccountRolesVw)getCurrentRowObject();
+		if(roleVw.getCreatedDate() != null){
+			createDate = new SimpleDateFormat("MM/dd/yyyy").format(roleVw.getCreatedDate());
+		}		
+		return createDate;	
+	}
+	
+	/**
+	 * This method is for displaying Org path for application roles. It could be multiple.
+	 * @return String
+	 */
+	public String getOrgPath(){]]></codefragment>
+   </duplication>
+   <duplication lines="33" tokens="144">
+      <file line="345"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
+      <file line="304"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <codefragment><![CDATA[	}
+	
+	/**
+	 * This is help method to convert action label to action ID
+	 * @param label
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private String getActionId(String label){
+		if(ApplicationConstants.ACTION_TRANSFER.equalsIgnoreCase(label)){
+			label = ApplicationConstants.SEARCH_TRANSFERED;
+		}
+		String id = "";
+		List<DropDownOption> actions = (List<DropDownOption>)this.getPageContext().getSession().getAttribute(ApplicationConstants.ACTIONLIST);
+		for(DropDownOption ddo : actions){
+			if (ddo.getOptionValue() != null && ddo.getOptionValue().equalsIgnoreCase(label)){
+				id = ddo.getOptionKey();
+				break;
+			}
+		}
+		return id;
+	}
+
+	/**
+	 * start autowired
+	 */
+	private void startAutowired(){
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext()
+				.getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+	}
+}]]></codefragment>
+   </duplication>
+   <duplication lines="39" tokens="143">
+      <file line="25"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+      <file line="25"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
+      <codefragment><![CDATA[public class AdminReportSearchResultDecorator extends TableDecorator{
+	
+	@Autowired
+	private LookupService lookupService;
+	@Autowired
+	protected EntMaintProperties entMaintProperties;
+	
+	
+	/**
+	 * This method is for account create date. It make date display as MM/dd/yyyy
+	 * @return
+	 */
+	public String getAccountCreatedDate(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		Date createDate = accountVO.getCreatedDate();
+		if(createDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+	}
+	
+	public String getMaxLastloginDate(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		Date loginDate = accountVO.getLastLoginDate();
+		if(loginDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(loginDate);
+	}
+	/**
+	 * This method is for displaying the user full. The name is hyper link for the email.
+	 * @return
+	 */
+	public String getFullName(){
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		String lastName = accountVO.getLastName();
+		String firstName = accountVO.getFirstName();
+		String fullName = "";
+		if(lastName != null && lastName.length() > 0){]]></codefragment>
+   </duplication>
+   <duplication lines="19" tokens="142">
+      <file line="66"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="70"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
+
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("lastName"));
+						criteria.addOrder(Order.asc("firstName"));
+					} else {
+						criteria.addOrder(Order.desc("lastName"));
+						criteria.addOrder(Order.desc("firstName"));
+					}
+				}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("createdByUserId"));
+					}else{
+						criteria.addOrder(Order.desc("createdByUserId"));
+					}
+				}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
+   </duplication>
+   <duplication lines="18" tokens="140">
+      <file line="353"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="70"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[		String sortOrder = paginatedList.getSqlSortDirection();
+		
+		if (!StringUtils.isBlank(sortOrderCriterion)) {
+			if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+					criteria.addOrder(Order.asc("lastName"));
+					criteria.addOrder(Order.asc("firstName"));
+				} else {
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
+				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("createdByUserId"));
+				}else{
+					criteria.addOrder(Order.desc("createdByUserId"));
+				}
+			}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
+   </duplication>
+   <duplication lines="19" tokens="140">
+      <file line="66"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="682"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
+
+			// Sort order
+			if (!StringUtils.isBlank(sortOrderCriterion)) {
+				if (sortOrderCriterion.equalsIgnoreCase("fullName")) {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")) {
+						criteria.addOrder(Order.asc("lastName"));
+						criteria.addOrder(Order.asc("firstName"));
+					} else {
+						criteria.addOrder(Order.desc("lastName"));
+						criteria.addOrder(Order.desc("firstName"));
+					}
+				}else if(sortOrderCriterion.equalsIgnoreCase("createdBy")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+						criteria.addOrder(Order.asc("createdByUserId"));
+					}else{
+						criteria.addOrder(Order.desc("createdByUserId"));
+					}
+				}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
+   </duplication>
+   <duplication lines="30" tokens="140">
+      <file line="351"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
+      <file line="120"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
+      <codefragment><![CDATA[	private List<String> populateAccountDiscrepancy(EmAuditAccountsVw account) {
+		List<String> discrepancyList = new ArrayList<String>();
+		// Check if there is a violation in roles given to the user
+		if(account.getSodFlag() != null && account.getSodFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_SOD);
+		}
+
+		// Check if NED_IC is not NCI
+		if (account.getIcDiffFlag() != null && account.getIcDiffFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_IC);
+		}
+
+		// Check if NED_ACTIVE_FLAG is N
+		if (account.getNedInactiveFlag() != null && account.getNedInactiveFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_NED_INACTIVE);
+		}
+
+		// Check if last name is different between IMPACII and NED
+		if (account.getLastNameDiffFlag() != null && account.getLastNameDiffFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
+		}
+		return discrepancyList;
+	}
+ 
+    /**
+     * Retrieve a set of impaciiUserId/nihNetworkId from audit which were marked Exclude from Audit
+     * @param auditId
+     * @return
+     */
+	public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId) {]]></codefragment>
+   </duplication>
+   <duplication lines="24" tokens="135">
+      <file line="152"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="183"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[				notes.setNpnId(id);
+				notes.setCreateUserId(nciUser.getUserId().toUpperCase());
+				notes.setCreateDate(date);
+			}
+			// save notes
+			notes.setLastChangeUserId(nciUser.getUserId().toUpperCase());
+			notes.setLastChangeDate(date);
+			notes.setNotes(text);
+			saveOrUpdateNotes(notes);
+		} catch (Throwable e) {
+			log.error("Save notes failed for id=" + id + " text=" + text + e.getMessage(), e);
+			EmAppUtil.logUserID(nciUser, log);
+			log.error("Pass-in parameters: id - " + id +", text - " + text +", date - " + date);
+			log.error("Outgoing parameters: DBResult - " + result.getStatus());
+			throw e;
+		}
+		result.setStatus(DBResult.SUCCESS);
+		return result;
+	}
+	
+	/**
+	 * get Audit Note by id
+	 */
+	public String getPortfolioNoteById(Long id){]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="132">
+      <file line="520"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="428"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[		result = 37 * result + (getI2eOnlyFlag() == null ? 0 : this.getI2eOnlyFlag().hashCode());
+		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
+		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
+		result = 37 * result + (getNoActiveRoleFlag() == null ? 0 : this.getNoActiveRoleFlag().hashCode());
+		result = 37 * result + (getActiveRoleRemainderFlag() == null ? 0 : this.getActiveRoleRemainderFlag().hashCode());
+		result = 37 * result + (getIcDiffFlag() == null ? 0 : this.getIcDiffFlag().hashCode());]]></codefragment>
+   </duplication>
+   <duplication lines="43" tokens="131">
+      <file line="849"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="475"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[	}
+
+	public List<String> getAccountDiscrepancies() {
+		return accountDiscrepancies;
+	}
+
+	public void setAccountDiscrepancies(List<String> accountDiscrepancies) {
+		this.accountDiscrepancies = accountDiscrepancies;
+	}
+	
+	public Boolean getSodFlag() {
+		return this.sodFlag;
+	}
+
+	public void setSodFlag(Boolean sodFlag) {
+		this.sodFlag = sodFlag;
+	}
+
+	public Boolean getIcDiffFlag() {
+		return this.icDiffFlag;
+	}
+
+	public void setIcDiffFlag(Boolean icDiffFlag) {
+		this.icDiffFlag = icDiffFlag;
+	}
+
+	public Boolean getNedInactiveFlag() {
+		return this.nedInactiveFlag;
+	}
+
+	public void setNedInactiveFlag(Boolean nedInactiveFlag) {
+		this.nedInactiveFlag = nedInactiveFlag;
+	}
+
+	public Boolean getLastNameDiffFlag() {
+		return this.lastNameDiffFlag;
+	}
+
+	public void setLastNameDiffFlag(Boolean lastNameDiffFlag) {
+		this.lastNameDiffFlag = lastNameDiffFlag;
+	}
+
+	public String getTransferToNedOrgPath() {]]></codefragment>
+   </duplication>
+   <duplication lines="32" tokens="130">
+      <file line="29"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
+      <file line="50"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <codefragment><![CDATA[	public String getFullName() {
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		String fullName = "";
+		if(!StringUtils.isBlank(auditVO.getFullName())){
+			if(!StringUtils.isBlank(auditVO.getNedEmailAddress())){
+				fullName =  "<a href=\"mailto:" + auditVO.getNedEmailAddress() +  "\">" + auditVO.getFullName() + "</a>";
+			}
+			else{
+				fullName = auditVO.getFullName();
+			}
+		}
+		return fullName;
+	}
+	
+	/**
+	 * Get I2E created date
+	 * @return created Date
+	 */
+	public String getI2eCreatedDate(){
+		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
+		Date createDate = auditVO.getCreatedDate();
+		if(createDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
+	}
+	
+	/**
+	 * Get application role for this row.
+	 * @return applicationRole string with info icon.
+	 */
+	public String getActiveI2eRole(){]]></codefragment>
+   </duplication>
+   <duplication lines="20" tokens="129">
+      <file line="426"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <file line="486"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <codefragment><![CDATA[    	    	String org = audit.getParentNedOrgPath();
+    			String nciDoc = audit.getNciDoc();
+    			String nedIc = audit.getNedIc();
+    			if(StringUtils.isNotBlank(org)){
+    				if(nciDoc != null && nciDoc.equalsIgnoreCase(ApplicationConstants.NCI_DOC_OTHER)){
+    					if(nedIc != null && ApplicationConstants.NED_IC_NCI.equalsIgnoreCase(nedIc) == false){
+							org = ApplicationConstants.ORG_PATH_NON_NCI;
+						}
+    					classifyOrgCategory(otherOrgsData, org, audit);
+	    			}else{
+	    				classifyOrgCategory(orgsData, org, audit);
+    				}
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			} else {
+    				org = ApplicationConstants.ORG_PATH_NO_NED_ORG;
+    				classifyOrgCategory(otherOrgsData, org, audit);
+    				classifyActionOrgCategory(actionOrgsData, org, audit);
+    			}
+    		}
+    	}]]></codefragment>
+   </duplication>
+   <duplication lines="31" tokens="129">
+      <file line="80"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+      <file line="76"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
+      <codefragment><![CDATA[		}
+	}
+	
+	/**
+	 * This is method is for deleted account. It display the deleted date with the format "MM/dd/yyyy"
+	 * @return String
+	 */
+	public String getAccountDeletedDate(){
+		Date deletedDate = null;
+		
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		deletedDate = accountVO.getDeletedDate();
+		if(deletedDate == null){
+			return "";
+		}
+		return new SimpleDateFormat("MM/dd/yyyy").format(deletedDate);
+		
+	}
+	public String getResult(){
+		String result = "";
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		EmAuditAccountActivityVw eaaVw = accountVO.getAccountActivity();
+		if(eaaVw != null && eaaVw.getAction() != null){
+			if(accountVO.getAccountActivity().getAction() != null){
+				result = accountVO.getAccountActivity().getAction().getDescription();
+			}
+		}
+		return result;
+	}
+	
+	public String getMaxLastLoginDate(){]]></codefragment>
+   </duplication>
+   <duplication lines="17" tokens="129">
+      <file line="709"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="86"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[					criteria.addOrder(Order.desc("lastLoginDate"));
+				}
+			}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
+				if(StringUtils.equalsIgnoreCase(sortOrder, "asc")){
+					criteria.addOrder(Order.asc("impaciiUserId"));
+					criteria.addOrder(Order.asc("nihNetworkId"));
+				}else{
+					criteria.addOrder(Order.desc("impaciiUserId"));
+					criteria.addOrder(Order.desc("nihNetworkId"));
+				}
+				
+			} else if (sortOrderCriterion.equalsIgnoreCase("accountCreatedDate")) {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc("createdDate"));
+				else
+					criteria.addOrder(Order.desc("createdDate"));
+			} else if (sortOrderCriterion.equalsIgnoreCase("accountDeletedDate")) {]]></codefragment>
+   </duplication>
+   <duplication lines="28" tokens="129">
+      <file line="95"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
+      <file line="93"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
+      <codefragment><![CDATA[		final PortfolioI2eAccountVO portfolioAccountVO = new PortfolioI2eAccountVO();
+		try {
+			ConvertUtils.register(new BigDecimalConverter(null),
+									java.math.BigDecimal.class);
+			ConvertUtils.register(new LongConverter(null),
+									java.lang.Long.class);
+			ConvertUtils.register(new IntegerConverter(null),
+									java.lang.Integer.class);
+			ConvertUtils.register(new ShortConverter(null),
+									java.lang.Short.class);
+			ConvertUtils.register(new DateConverter(null),java.util.Date.class);
+			BeanUtils.copyProperties(portfolioAccountVO, emPortfolioVw);
+
+		} catch (final Exception e) {
+			log.error("Error occured creating portfolio account object",
+							e);
+		}
+		return portfolioAccountVO;
+	}
+	
+	/**
+	 * Add account discrepancies if DB flag is set to the list of discrepancies
+	 * 
+	 * @param account
+	 * @param category
+	 * @return
+	 */
+	private List<String> populateAccountDiscrepancy(EmI2ePortfolioVw account) {]]></codefragment>
+   </duplication>
+   <duplication lines="24" tokens="128">
+      <file line="395"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="743"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[					criteria.addOrder(Order.desc("activeRoleRemainderFlag"));
+					criteria.addOrder(Order.desc("lastName"));
+					criteria.addOrder(Order.desc("firstName"));
+				}
+			}else {
+				if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+					criteria.addOrder(Order.asc(sortOrderCriterion));
+				else
+					criteria.addOrder(Order.desc(sortOrderCriterion));
+			}
+		}
+		else {
+			// Default sort, add lastname, firstname asc
+			criteria.addOrder(Order.asc("lastName"));
+			criteria.addOrder(Order.asc("firstName"));
+		}
+		return criteria;
+	}
+
+	private PaginatedListImpl getPaginatedListResult(PaginatedListImpl paginatedList, Criteria criteria, boolean all) {
+		final int objectsPerPage = paginatedList.getObjectsPerPage();
+		final int firstResult = objectsPerPage * paginatedList.getIndex();
+			
+		List<EmI2eAuditAccountsVw> auditList = null;]]></codefragment>
+   </duplication>
+   <duplication lines="23" tokens="127">
+      <file line="134"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+      <file line="174"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+      <codefragment><![CDATA[		sbu.append("<ul style='padding-bottom: 0px; margin-bottom: 0px;'>");
+		for(String dis : discrepancies){
+			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
+			if(disVw.getShortDescrip() != null){
+				//replace all single quote to HTML code
+				String secondId = disVw.getCode();
+				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				//replace all single quote to HTML code
+				String resolution = disVw.getResolutionText().replace("'", "&#39;");
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
+						"</li>");
+			}
+		}
+		sbu.append("</ul>");
+		return sbu.toString();
+	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){]]></codefragment>
+   </duplication>
+   <duplication lines="49" tokens="127">
+      <file line="311"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="256"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[	}
+
+	public Boolean getSodFlag() {
+		return this.sodFlag;
+	}
+
+	public void setSodFlag(Boolean sodFlag) {
+		this.sodFlag = sodFlag;
+	}
+
+	public Boolean getNedInactiveFlag() {
+		return this.nedInactiveFlag;
+	}
+
+	public void setNedInactiveFlag(Boolean nedInactiveFlag) {
+		this.nedInactiveFlag = nedInactiveFlag;
+	}
+
+	public Boolean getNoActiveRoleFlag() {
+		return this.noActiveRoleFlag;
+	}
+
+	public void setNoActiveRoleFlag(Boolean noActiveRoleFlag) {
+		this.noActiveRoleFlag = noActiveRoleFlag;
+	}
+
+	public Boolean getActiveRoleRemainderFlag() {
+		return this.activeRoleRemainderFlag;
+	}
+
+	public void setActiveRoleRemainderFlag(Boolean activeRoleRemainderFlag) {
+		this.activeRoleRemainderFlag = activeRoleRemainderFlag;
+	}
+	
+	/**
+	 * @return the icDiffFlag
+	 */
+	public Boolean getIcDiffFlag() {
+		return icDiffFlag;
+	}
+
+	/**
+	 * @param icDiffFlag the icDiffFlag to set
+	 */
+	public void setIcDiffFlag(Boolean icDiffFlag) {
+		this.icDiffFlag = icDiffFlag;
+	}
+
+	public List<EmI2eAuditAccountRolesVw> getAccountRoles() {]]></codefragment>
+   </duplication>
+   <duplication lines="25" tokens="127">
+      <file line="8"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditAccountVO.java"/>
+      <file line="9"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditI2eAccountVO.java"/>
+      <codefragment><![CDATA[public class AuditAccountVO extends EmAuditAccountsVw{
+	
+	public String getFullName() {
+		final StringBuffer sb = new StringBuffer("");
+		
+		if(!StringUtils.isBlank(this.getLastName())){
+			sb.append(this.getLastName());
+		}
+		if(!StringUtils.isBlank(this.getLastName()) && !StringUtils.isBlank(this.getFirstName())){
+			sb.append(", ");
+		}
+		if(!StringUtils.isBlank(this.getFirstName())){
+			sb.append(this.getFirstName());
+		}
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * Returns full name without single quotes.
+	 * @return String
+	 */
+	public String getCleanFullName() {
+		return StringUtils.remove(getFullName(), "'");
+	}]]></codefragment>
+   </duplication>
+   <duplication lines="15" tokens="126">
+      <file line="564"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <file line="586"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <file line="619"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <file line="674"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+      <codefragment><![CDATA[				&& StringUtils.equalsIgnoreCase(audit.getActiveAction().getCode(), "Unknown")) {
+			if (!containsActionKey(orgHashmap, org)) {
+				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
+				ActionDashboardData ddata = new ActionDashboardData();
+				dashData.put(ACTIVE, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(NEW, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(DELETED, ddata);
+				ddata = new ActionDashboardData();
+				dashData.put(I2E, ddata);
+				orgHashmap.put(org, dashData);
+			}
+			HashMap<String, ActionDashboardData> dashData = orgHashmap.get(org);
+			ActionDashboardData ddata = dashData.get(ACTIVE);]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="121">
+      <file line="63"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountRolesVw.java"/>
+      <file line="231"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="153"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[						&& getOrgId().equals(castOther.getOrgId()))
+				&& (getCreatedDate() == castOther.getCreatedDate() || getCreatedDate() != null
+						&& castOther.getCreatedDate() != null && getCreatedDate().equals(castOther.getCreatedDate()))
+				&& (getCreatedByUserId() == castOther.getCreatedByUserId() || getCreatedByUserId() != null
+						&& castOther.getCreatedByUserId() != null
+						&& getCreatedByUserId().equals(castOther.getCreatedByUserId()))
+				&& (getCreatedByFullName() == castOther.getCreatedByFullName() || getCreatedByFullName() != null
+						&& castOther.getCreatedByFullName() != null
+						&& getCreatedByFullName().equals(castOther.getCreatedByFullName()));]]></codefragment>
+   </duplication>
+   <duplication lines="13" tokens="119">
+      <file line="211"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+      <file line="338"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+      <codefragment><![CDATA[		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
+		
+		for(AuditAccountVO auditAccountVO: auditAccounts) {
+			Long actionId = null;
+			if(auditAccountVO != null && auditAccountVO.getAccountActivity() != null && auditAccountVO.getAccountActivity().getAction() != null && auditAccountVO.getAccountActivity().getAction().getId() != null){
+				actionId = auditAccountVO.getAccountActivity().getAction().getId();
+			}
+			if(actionId != null && (actionId == ApplicationConstants.ACTIVE_EXCLUDE_FROM_AUDIT || 
+			   actionId == ApplicationConstants.NEW_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.DELETED_EXCLUDE_FROM_AUDIT ||
+			   actionId == ApplicationConstants.INACTIVE_EXCLUDE_FROM_AUDIT)){
+				continue;
+			}]]></codefragment>
+   </duplication>
+   <duplication lines="22" tokens="118">
+      <file line="89"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="120"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[				}else if(sortOrderCriterion.equalsIgnoreCase("action")){
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+						criteria.addOrder(Order.asc("notes"));
+					else
+						criteria.addOrder(Order.desc("notes"));
+				}else {
+					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
+						criteria.addOrder(Order.asc(sortOrderCriterion));
+					else
+						criteria.addOrder(Order.desc(sortOrderCriterion));
+				}
+			}
+			else {
+				// Default sort, add lastname, firstname asc
+				criteria.addOrder(Order.asc("lastName"));
+				criteria.addOrder(Order.asc("firstName"));
+			}
+						
+			// Add user specific search criteria
+			addSearchCriteria(criteria, searchVO);
+
+			List<EmI2ePortfolioVw> portfolioList = null;]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="116">
+      <file line="126"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
+      <file line="154"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
+      <codefragment><![CDATA[	public void  createPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService, Map<String, Object> session){
+
+		List<EmOrganizationVw> orgs = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
+		if(orgs != null && orgs.size() >0){
+			for(EmOrganizationVw org : orgs){
+				DropDownOption orgOption = new DropDownOption(org.getNihorgpath(), org.getNihorgpath());	
+				organizationList.add(orgOption);	
+			}
+			session.put(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST, organizationList);	
+		}
+
+		List<AppLookupT> categories = (List<AppLookupT>)lookupService.getList(ApplicationConstants.APP_LOOKUP_PORTFOLIO_CATEGORY_LIST);		]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="114">
+      <file line="530"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="346"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[		result = 37 * result + (getDeletedByNciDoc() == null ? 0 : getDeletedByNciDoc().hashCode());
+		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
+		result = 37 * result + (getIcDiffFlag() == null ? 0 : this.getIcDiffFlag().hashCode());
+		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
+		result = 37 * result + (getLastNameDiffFlag() == null ? 0 : this.getLastNameDiffFlag().hashCode());
+		result = 37 * result + (getTransferFromNedOrgPath() == null ? 0 : this.getTransferFromNedOrgPath().hashCode());]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="114">
+      <file line="507"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="415"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[		result = 37 * result + (getI2eFirstName() == null ? 0 : this.getI2eFirstName().hashCode());
+		result = 37 * result + (getNedEmailAddress() == null ? 0 : this.getNedEmailAddress().hashCode());
+		result = 37 * result + (getParentNedOrgPath() == null ? 0 : this.getParentNedOrgPath().hashCode());
+		result = 37 * result + (getNedOrgPath() == null ? 0 : this.getNedOrgPath().hashCode());
+		result = 37 * result + (getNedIc() == null ? 0 : this.getNedIc().hashCode());
+		result = 37 * result + (getI2eActiveStatusFlag() == null ? 0 : this.getI2eActiveStatusFlag().hashCode());]]></codefragment>
+   </duplication>
+   <duplication lines="21" tokens="114">
+      <file line="141"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\Address.java"/>
+      <file line="286"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\NciPerson.java"/>
+      <codefragment><![CDATA[        Address bean = (Address)obj;
+        int nil = (this.getId() == null) ? 1 : 0;
+        nil += (bean.getId() == null) ? 1 : 0;
+
+        if (nil == 2) {
+            return true;
+        } else if (nil == 1) {
+            return false;
+        } else {
+            return this.getId().equals(bean.getId());
+        }
+
+    }
+
+
+    public int hashCode() {
+        return (this.getId() == null) ? 17 : this.getId().hashCode();
+    }
+
+    public boolean isEmpty() {
+        if (id == null && address == null && address2 == null && ]]></codefragment>
+   </duplication>
+   <duplication lines="15" tokens="114">
+      <file line="131"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
+      <file line="223"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
+      <codefragment><![CDATA[		final AuditI2eAccountVO auditAccountVO = new AuditI2eAccountVO();
+		try {
+			ConvertUtils.register(new BigDecimalConverter(null),
+									java.math.BigDecimal.class);
+			ConvertUtils.register(new LongConverter(null),
+									java.lang.Long.class);
+			ConvertUtils.register(new IntegerConverter(null),
+									java.lang.Integer.class);
+			ConvertUtils.register(new ShortConverter(null),
+									java.lang.Short.class);
+			ConvertUtils.register(new DateConverter(null),java.util.Date.class);
+			BeanUtils.copyProperties(auditAccountVO, emAuditAccountsVw);
+
+		} catch (final Exception e) {
+			log.error("Error occured creating I2e audit account object",]]></codefragment>
+   </duplication>
+   <duplication lines="19" tokens="113">
+      <file line="188"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="219"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			log.error("Outgoing paramters: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
+			throw e;
+		}
+	}
+	
+	/**
+	 * Add user entered search criteria
+	 * 
+	 * @param criteria
+	 * @param searchVO
+	 * @return
+	 */
+	private Criteria addSearchCriteria(final Criteria criteria, final AuditSearchVO searchVO) {
+		// firstName partial search
+		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));]]></codefragment>
+   </duplication>
+   <duplication lines="10" tokens="111">
+      <file line="269"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="214"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="595"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+
+		// org
+		if (!StringUtils.isBlank(searchVO.getOrganization()) && !StringUtils.equalsIgnoreCase(searchVO.getOrganization(), ApplicationConstants.NCI_DOC_ALL)) {
+			if(searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NON_NCI)) {
+				criteria.add(Restrictions.ne("nedIc", ApplicationConstants.NED_IC_NCI));
+			} else if (searchVO.getOrganization().equalsIgnoreCase(ApplicationConstants.ORG_PATH_NO_NED_ORG)) {
+				criteria.add(Restrictions.isNull("parentNedOrgPath"));]]></codefragment>
+   </duplication>
+   <duplication lines="29" tokens="110">
+      <file line="108"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
+      <file line="504"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
+      <codefragment><![CDATA[	}
+	
+	/**
+	 * This method is for setting up the default search
+	 */
+	private void setUpDefaultSearch(){
+		//Default search
+		if(searchVO == null){
+			searchVO = new AuditSearchVO();
+		}
+    	if(nciUser != null && !StringUtils.isBlank(nciUser.getOrgPath()) && StringUtils.isBlank(searchVO.getOrganization())){    	
+    		
+    		boolean superUser = this.isSuperUser();
+    		if(superUser){
+    			searchVO.setOrganization("All");
+    		}else{
+    			searchVO.setOrganization(nciUser.getOrgPath());
+    		}
+    	}
+    	
+    	EmAuditsVO emAuditsVO = (EmAuditsVO)getAttributeFromSession(ApplicationConstants.CURRENT_AUDIT);
+    	searchVO.setAuditId(emAuditsVO.getId());
+   }
+	
+	/**
+	 * This method is shared method for all tabs to initial components after search
+	 * @param pageName
+	 */
+	private void setUpEnvironmentAfterSearch(){]]></codefragment>
+   </duplication>
+   <duplication lines="6" tokens="108">
+      <file line="126"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
+      <file line="196"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
+      <codefragment><![CDATA[				&& castOther.getEiaaId() != null && this.getEiaaId().equals(castOther.getEiaaId())))
+				&& ((this.getNpeId() == castOther.getNpeId()) || (this.getNpeId() != null
+						&& castOther.getNpeId() != null && this.getNpeId().equals(castOther.getNpeId())))
+				&& ((this.getRoleCode() == castOther.getRoleCode()) || (this.getRoleCode() != null
+						&& castOther.getRoleCode() != null && this.getRoleCode().equals(castOther.getRoleCode())))
+				&& ((this.getRoleDescription() == castOther.getRoleDescription()) || (this.getRoleDescription() != null]]></codefragment>
+   </duplication>
+   <duplication lines="8" tokens="108">
+      <file line="135"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
+      <file line="214"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
+      <codefragment><![CDATA[						&& castOther.getOrgId() != null && this.getOrgId().equals(castOther.getOrgId())))
+				&& ((this.getFullOrgPathAbbrev() == castOther.getFullOrgPathAbbrev()) || (this.getFullOrgPathAbbrev() != null
+						&& castOther.getFullOrgPathAbbrev() != null && this.getFullOrgPathAbbrev().equals(
+						castOther.getFullOrgPathAbbrev())))
+				&& ((this.getFullOrgPathDescription() == castOther.getFullOrgPathDescription()) || (this
+						.getFullOrgPathDescription() != null && castOther.getFullOrgPathDescription() != null && this
+						.getFullOrgPathDescription().equals(castOther.getFullOrgPathDescription())))
+				&& ((this.getCreatedDate() == castOther.getCreatedDate()) || (this.getCreatedDate() != null]]></codefragment>
+   </duplication>
+   <duplication lines="8" tokens="108">
+      <file line="422"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="349"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[						&& castOther.getCreatedDate() != null && this.getCreatedDate().equals(castOther.getCreatedDate())))
+				&& ((this.getNedLastName() == castOther.getNedLastName()) || (this.getNedLastName() != null
+						&& castOther.getNedLastName() != null && this.getNedLastName().equals(
+						castOther.getNedLastName())))
+				&& ((this.getNedFirstName() == castOther.getNedFirstName()) || (this.getNedFirstName() != null
+						&& castOther.getNedFirstName() != null && this.getNedFirstName().equals(
+						castOther.getNedFirstName())))
+				&& ((this.getI2eLastName() == castOther.getI2eLastName()) || (this.getI2eLastName() != null]]></codefragment>
+   </duplication>
+   <duplication lines="8" tokens="108">
+      <file line="428"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="343"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[						castOther.getNedFirstName())))
+				&& ((this.getI2eLastName() == castOther.getI2eLastName()) || (this.getI2eLastName() != null
+						&& castOther.getI2eLastName() != null && this.getI2eLastName().equals(
+						castOther.getI2eLastName())))
+				&& ((this.getI2eFirstName() == castOther.getI2eFirstName()) || (this.getI2eFirstName() != null
+						&& castOther.getI2eFirstName() != null && this.getI2eFirstName().equals(
+						castOther.getI2eFirstName())))
+				&& ((this.getNedEmailAddress() == castOther.getNedEmailAddress()) || (this.getNedEmailAddress() != null]]></codefragment>
+   </duplication>
+   <duplication lines="11" tokens="104">
+      <file line="210"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+      <file line="235"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+      <codefragment><![CDATA[		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
+		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
+		acbf.autowireBean(this);
+		String era_ua_url = entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK);
+		String era_ua_link =  (StringUtils.isBlank(impaciiId) ? era_ua_url : era_ua_url + "accounts/manage.era?accountType=NIH&userId=" + impaciiId);
+		String era_ua_link_text =  entMaintProperties.getPropertyValue(ApplicationConstants.ERA_US_LINK_TEXT);
+		if(era_ua_url.equalsIgnoreCase(ApplicationConstants.ERAUA_NA)){
+			era_ua_link = "<a href='javascript:openEraua();'>" + era_ua_link_text + "</a>";
+		}else{
+			era_ua_link = "<a href='" + era_ua_link + "' target='_BLANK'>" + era_ua_link_text + "</a>";
+		}]]></codefragment>
+   </duplication>
+   <duplication lines="9" tokens="104">
+      <file line="261"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="206"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="538"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="587"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="237"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
+			criteria.add(dc);
+		}
+		// lastName partial search
+		if (!StringUtils.isBlank(searchVO.getUserLastname())) {
+			Disjunction dc = Restrictions.disjunction();
+			dc.add(Restrictions.ilike("lastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("nedLastName", searchVO.getUserLastname().trim(), MatchMode.START));
+			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));]]></codefragment>
+   </duplication>
+   <duplication lines="21" tokens="103">
+      <file line="136"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+      <file line="92"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+      <file line="83"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
+      <file line="176"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+      <codefragment><![CDATA[			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
+			if(disVw.getShortDescrip() != null){
+				//replace all single quote to HTML code
+				String secondId = disVw.getCode();
+				String longDesc = disVw.getLongDescrip().replace("'", "&#39;");
+				//replace all single quote to HTML code
+				String resolution = disVw.getResolutionText().replace("'", "&#39;");
+				sbu.append("<li>" + disVw.getShortDescrip() + "&nbsp;<img src='../images/info.png' alt='info' onclick=\"openHelp('help" + id + secondId + "');\"/>" + 
+						"<input type='hidden' id='help" + id + secondId + "' value='" + longDesc + resolution + "'/>" +
+						"</li>");
+			}
+		}
+		sbu.append("</ul>");
+		return sbu.toString();
+	}
+	
+	/**
+	 * This method displays the impaciiUserId and network id
+	 * @return
+	 */
+	public String getImpaciiUserIdNetworkId(){]]></codefragment>
+   </duplication>
+   <duplication lines="35" tokens="103">
+      <file line="207"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+      <file line="160"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+      <codefragment><![CDATA[	}
+
+	public String getNedEmailAddress() {
+		return this.nedEmailAddress;
+	}
+
+	public void setNedEmailAddress(String nedEmailAddress) {
+		this.nedEmailAddress = nedEmailAddress;
+	}
+
+	public String getParentNedOrgPath() {
+		return this.parentNedOrgPath;
+	}
+
+	public void setParentNedOrgPath(String parentNedOrgPath) {
+		this.parentNedOrgPath = parentNedOrgPath;
+	}
+
+	public String getNedOrgPath() {
+		return this.nedOrgPath;
+	}
+
+	public void setNedOrgPath(String nedOrgPath) {
+		this.nedOrgPath = nedOrgPath;
+	}
+
+	public String getNedIc() {
+		return this.nedIc;
+	}
+
+	public void setNedIc(String nedIc) {
+		this.nedIc = nedIc;
+	}
+
+	public Boolean getI2eActiveStatusFlag() {]]></codefragment>
+   </duplication>
+   <duplication lines="31" tokens="101">
+      <file line="545"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+      <file line="355"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+      <codefragment><![CDATA[	}
+
+	public void setCreatedByFullName(String createdByFullName) {
+		this.createdByFullName = createdByFullName;
+	}
+
+	public void setCreatedByUserId(String createdByUserId) {
+		this.createdByUserId = createdByUserId;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public void setDeactivationComments(String deactivationComments) {
+		this.deactivationComments = deactivationComments;
+	}
+
+	public void setDeletedByFullName(String deletedByFullName) {
+		this.deletedByFullName = deletedByFullName;
+	}
+
+	public void setDeletedByUserId(String deletedByUserId) {
+		this.deletedByUserId = deletedByUserId;
+	}
+
+	public void setDeletedDate(Date deletedDate) {
+		this.deletedDate = deletedDate;
+	}
+
+	public void setId(Long id) {]]></codefragment>
+   </duplication>
+   <duplication lines="13" tokens="100">
+      <file line="254"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
+      <file line="312"
+            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
+      <codefragment><![CDATA[		for (PortfolioI2eAccountVO account : list) {
+			List<String> filteredDiscrepancies = new ArrayList<String>();
+			
+			for(String dis : account.getAccountDiscrepancies()){
+				EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
+				if(disVw.getShortDescrip() != null){
+					if(!disVw.getCode().equalsIgnoreCase("LNAMEDIFF")) {
+						filteredDiscrepancies.add(dis);
+					}
+				}
+			}
+			account.getAccountDiscrepancies().clear();
+			account.getAccountDiscrepancies().addAll(filteredDiscrepancies);]]></codefragment>
+   </duplication>
+</pmd-cpd>
