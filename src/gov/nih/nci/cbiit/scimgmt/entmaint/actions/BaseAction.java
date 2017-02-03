@@ -464,6 +464,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	}
 
 
+	public String getTooltipText(String key) {
+		
+		return getText(key);
+	}
+	
 	public void setIcDashboard(DashboardData icDashboard) {
 		this.icDashboard = icDashboard;
 	}

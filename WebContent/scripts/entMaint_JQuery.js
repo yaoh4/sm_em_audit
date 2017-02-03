@@ -132,6 +132,19 @@ $(function() {
    });
 
 
+$(document).ready(function(){
+	
+    $('[data-toggle="tooltip"]').tooltip({
+    	content: function () {
+            return this.getAttribute("title");
+        },
+    	position:{
+            at:"right top",
+            my:"left bottom"
+        }
+    });
+});
+
 function openHelp(id){
 	$('#helpDiv').html($('#' + id).val());
 	$('#help').dialog("open");
