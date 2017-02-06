@@ -320,7 +320,7 @@
 			<executiondata>
 				<file file="${result.exec.file}"/>
 			</executiondata>
-			<structure name="JaCoCo Ant ENTMAINT Request">
+			<structure name="JaCoCo Ant ENTMAINT Audit">
 				<classfiles>
 					<fileset dir="${java.classes.dir}" >
 						<include name="gov/nih/nci/cbiit/scimgmt/entmaint/actions/**/*"/>

@@ -420,7 +420,17 @@ function refreshIcDash() {
 		async:   true,
 		success: function(msg){
 			result = $.trim(msg);
-			$('div#icDashDiv').html(result);
+			var html = $.parseHTML( result );
+			$("div#icDashDiv").empty().append(html);
+			$('[data-toggle="tooltip"]').tooltip({
+		    	content: function () {
+		            return this.getAttribute("title");
+		        },
+		    	position:{
+		            at:"right top",
+		            my:"left bottom"
+		        }
+		    });
 		}, 
 		error: function(){}		
 	});

@@ -10,9 +10,7 @@
 		<s:if test="%{!icDashboard.orgName.equals('all')}">
 			<s:property value="%{icDashboard.orgName}" />
 		</s:if>
-		Account Audit Dashboard <img style="vertical-align: initial;"
-			src="/entmaint/images/info.png" alt="info" onclick="openHelp('icDashTooltip')"/>
-			<s:hidden id="icDashTooltip" value="%{getTooltipText('ic.dash.tooltip')}" />
+		Account Audit Dashboard
 			<s:a class="hoverOver" data-toggle="tooltip" data-placement="top" data-html="true" title="%{getTooltipText('ic.dash.tooltip')}"
 			style="font-size: 12px;"><img style="vertical-align: initial;"
 			src="/entmaint/images/info.png"/></s:a>
@@ -167,10 +165,6 @@
 		</tr>
 	</tbody>
 </table>
-<div id="help" style="display: none; overflow:auto;" title="Account Audit Dashboard">
-	<br/>
-	<div align="left" id="helpDiv"></div>
-</div>
 <s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_DASHBOARD != #request.selectedSubNav}">
 </form>
 </s:if>
