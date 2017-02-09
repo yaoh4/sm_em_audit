@@ -18,7 +18,6 @@
 	<table class="table table-condensed icDash">
 	<tbody>
 		<tr>
-			<th>Category</th>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}">
 				<th>IMPAC II Active</th>
 			</s:if>
@@ -36,7 +35,6 @@
 			</s:if>
 		</tr>
 		<tr class="org">
-			<td><strong>Accounts</strong></td>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}">
 				<td>
 				<s:if test="%{icDashboard.activeAccountCount == 0}">
