@@ -12,14 +12,14 @@
   	<ul class="nav nav-tabs">
   
   		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">
-			<h4>IMPAC II Accounts Portfolio Analysis <span style="font-weight: normal;"></span></h4>
+			<h4>IMPAC II Portfolio Analysis Accounts Search <span style="font-weight: normal;"></span></h4>
 			<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
 				Search Criteria
 			</s:a></li>
   		</s:if>
   
   		<s:else>	
-  			<h4>IMPAC II Accounts Audit <span style="font-weight: normal;"></span></h4>
+  			<h4>IMPAC II Audit Accounts Search <span style="font-weight: normal;"></span></h4>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}">
 				<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_TAB_ACTIVE_ACCOUNTS eq #request.selectedSubTab}">
 					<li class="active"><s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
@@ -82,7 +82,7 @@
 	test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@TAB_I2E eq #request.selectedTab}">
   	<ul class="nav nav-tabs">
   		<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_PORTFOLIO eq #request.selectedSubNav}">
-			<h4>I2E Accounts Portfolio Analysis <span style="font-weight: normal;"></span></h4>
+			<h4>I2E Portfolio Analysis Accounts Search <span style="font-weight: normal;"></span></h4>
 			<li class="active">
 				<s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
 					Search Criteria
@@ -91,7 +91,7 @@
  	 	</s:if>
   
   		<s:else>	
-  			<h4>I2E Accounts Audit <span style="font-weight: normal;"></span></h4>
+  			<h4>I2E Audit Accounts Search <span style="font-weight: normal;"></span></h4>
 			<li class="active">
 				<s:a href="javascript: void(0)" cssStyle="text-decoration:none;">
 					Active Accounts

@@ -10,7 +10,7 @@
 		<s:if test="%{!icDashboard.orgName.equals('all')}">
 			<s:property value="%{icDashboard.orgName}" />
 		</s:if>
-		Account Audit Dashboard
+		Audit Dashboard
 			<s:a class="hoverOver" data-toggle="tooltip" data-placement="top" data-html="true" title="%{getTooltipText('ic.dash.tooltip')}"
 			style="font-size: 12px;"><img style="vertical-align: initial;"
 			src="/entmaint/images/info.png"/></s:a>
@@ -19,19 +19,19 @@
 	<tbody>
 		<tr>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_ACTIVE)}">
-				<th>IMPAC II Active</th>
+				<th>IMPAC II Active Accounts</th>
 			</s:if>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_NEW)}">
-				<th>IMPAC II New</th>
+				<th>IMPAC II New Accounts</th>
 			</s:if>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_DELETED)}">
-				<th>IMPAC II Deleted</th>
+				<th>IMPAC II Deleted Accounts</th>
 			</s:if>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_INACTIVE)}">
-				<th>IMPAC II Inactive</th>
+				<th>IMPAC II Inactive Accounts</th>
 			</s:if>
 			<s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil@isCategoryAvailable(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@CATEGORY_I2E)}">
-				<th>I2E Active</th>
+				<th>I2E Active Accounts</th>
 			</s:if>
 		</tr>
 		<tr class="org">

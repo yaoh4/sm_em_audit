@@ -31,7 +31,7 @@
 <div class="table-responsive">
   <form id="dashboardFormId" action="gotoDashboard" method="post">
   <table class="table table-condensed table-striped">
-      <caption>IMPAC II Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
+      <caption>IMPAC II/I2E Account Audit Status</caption><span style="float:right;"><a href="javascript:refresh();">Refresh Page</a></span>
     <tr>
        <s:if test="emAuditsVO.i2eFromDate != null">
       	<th width="20%">NCI Organizations</th>
