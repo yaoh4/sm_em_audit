@@ -361,6 +361,10 @@ function moveToAnchor(){
 	$(document).scrollTop( $("#anchor").offset().top );  
 }
 
+function moveToDash(){
+	$(document).scrollTop( $("#dash").offset().top );  
+}
+
 function openHistory(){
 	$('#auditHistory').dialog("open");
 }

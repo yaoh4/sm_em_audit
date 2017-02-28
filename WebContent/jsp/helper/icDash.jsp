@@ -5,6 +5,7 @@
 <s:if test="%{@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@SUB_NAV_DASHBOARD != #request.selectedSubNav}">
 <form id="dashboardFormId" action="" method="post">
 </s:if>
+<div id="dash"></div>
 <s:hidden id="orgPath" value="%{icDashboardCountReload.orgName}"/>
 	<h4>
 		<s:if test="%{!icDashboard.orgName.equals('all')}">

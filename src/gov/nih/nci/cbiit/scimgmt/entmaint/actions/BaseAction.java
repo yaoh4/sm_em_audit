@@ -54,6 +54,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 
 	protected AuditSearchVO searchVO;		
 	protected boolean showResult;
+	protected boolean anchorDash = false;
 	protected String formAction;
 	protected List<Tab> displayColumn;
 	protected AuditSearchActionHelper auditSearchActionHelper = new AuditSearchActionHelper();
@@ -471,5 +472,15 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	
 	public void setIcDashboard(DashboardData icDashboard) {
 		this.icDashboard = icDashboard;
+	}
+
+
+	public boolean isAnchorDash() {
+		return anchorDash;
+	}
+
+
+	public void setAnchorDash(boolean anchorDash) {
+		this.anchorDash = anchorDash;
 	}
 }

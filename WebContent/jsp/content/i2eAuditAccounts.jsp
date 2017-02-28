@@ -304,7 +304,12 @@
 		</s:if>
 		<s:else>
 			<div style="text-align:left; width: 100%; padding-left: 10px; padding-top: 10px; padding-bottom:10px;"><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@NOTHING_DISPLAY)}"/></div>
-			<body onload="moveToAnchor();"></body>
+			<s:if test="anchorDash">
+				<body onload="moveToDash();"></body>
+			</s:if>
+			<s:else>
+				<body onload="moveToAnchor();"></body>
+			</s:else>
 		</s:else>
 	</div>
 </s:if>

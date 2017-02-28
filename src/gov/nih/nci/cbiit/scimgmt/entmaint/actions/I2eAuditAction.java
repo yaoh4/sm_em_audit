@@ -11,6 +11,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditI2eAccountVO;
@@ -79,6 +80,8 @@ public class I2eAuditAction extends BaseAction {
 			initialComponent(ApplicationConstants.CATEGORY_ACTIVE);
 		}else{
 			forward = searchActiveAccounts();
+			if(EmAppUtil.isAuditEnabled())
+				anchorDash = true;
 		}
 		return forward;
 	}
