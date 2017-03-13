@@ -217,3 +217,11 @@ table.nestedTableStyle{
 .black {
     color: #000000 !important;
 }
+.grey {
+    color: #999 !important;
+}
+table.icDash tbody tr td
+{
+	background: white;
+	font-weight: bold;
+}

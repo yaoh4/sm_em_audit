@@ -132,6 +132,19 @@ $(function() {
    });
 
 
+$(document).ready(function(){
+	
+    $('[data-toggle="tooltip"]').tooltip({
+    	content: function () {
+            return this.getAttribute("title");
+        },
+    	position:{
+            at:"right top",
+            my:"left bottom"
+        }
+    });
+});
+
 function openHelp(id){
 	$('#helpDiv').html($('#' + id).val());
 	$('#help').dialog("open");
@@ -348,6 +361,10 @@ function moveToAnchor(){
 	$(document).scrollTop( $("#anchor").offset().top );  
 }
 
+function moveToDash(){
+	$(document).scrollTop( $("#dash").offset().top );  
+}
+
 function openHistory(){
 	$('#auditHistory').dialog("open");
 }
@@ -398,6 +415,29 @@ function searchAuditByCategory(cate, org, act){
 function refresh(){
 	$('#dashboardFormId').attr("action", "gotoDashboard");
 	$('#dashboardFormId').submit();
+}
+
+function refreshIcDash() {
+	$.ajax({
+		url: "refreshIcDashboardCount.action",
+		type: "post",
+		async:   true,
+		success: function(msg){
+			result = $.trim(msg);
+			var html = $.parseHTML( result );
+			$("div#icDashDiv").empty().append(html);
+			$('[data-toggle="tooltip"]').tooltip({
+		    	content: function () {
+		            return this.getAttribute("title");
+		        },
+		    	position:{
+		            at:"right top",
+		            my:"left bottom"
+		        }
+		    });
+		}, 
+		error: function(){}		
+	});
 }
 
 function onActionChange(action,transferOrg){

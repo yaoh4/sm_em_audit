@@ -8,9 +8,11 @@ import javax.persistence.ParameterMode;
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsVw;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
-import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DBResult;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
@@ -22,6 +24,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.procedure.ProcedureCall;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -362,6 +365,102 @@ public class AdminDAO  {
 		
 		return emAudits;
 	}
+
+	/**
+	 * Retrieves the ic dashboard data based on org
+	 * 
+	 * @return DashboardData
+	 */
+	public DashboardData retrieveIcDashboardData(Long auditId, String orgPath) {
+		
+		DashboardData icDashboard = new DashboardData();
+		
+		icDashboard.setActiveAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_ACTIVE, false)));
+		icDashboard.setActiveCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_ACTIVE, true)));
+		icDashboard.setNewAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_NEW, false)));
+		icDashboard.setNewCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_NEW, true)));
+		icDashboard.setDeletedAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_DELETED, false)));
+		icDashboard.setDeletedCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_DELETED, true)));
+		icDashboard.setInactiveAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_INACTIVE, false)));
+		icDashboard.setInactiveCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_INACTIVE, true)));
+		icDashboard.setI2eAccountCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_I2E, false)));
+		icDashboard.setI2eCompleteCount(getTotalResultCount(getIcDashCriteria(auditId, orgPath, ApplicationConstants.CATEGORY_I2E, true)));
+		if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+			icDashboard.setOrgName("all");
+		else
+			icDashboard.setOrgName(orgPath);
+		
+		return icDashboard;
+	}
 	
+	private Criteria getIcDashCriteria(Long auditId, String orgPath, String category, boolean completed) {
+		Criteria criteria = null;
+		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2eAuditAccountsVw.class);
+			criteria.add(Restrictions.eq("auditId", auditId));
+		}
+		else {
+			criteria = sessionFactory.getCurrentSession().createCriteria(EmAuditAccountsVw.class);
+			criteria.add(Restrictions.eq("audit.id", auditId));
+		}
+
+		if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_DELETED)) {
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+				criteria.add(Restrictions.eq("deletedByNciDoc", ApplicationConstants.NCI_DOC_OTHER));
+			else
+				criteria.add(Restrictions.eq("deletedByParentOrgPath", orgPath));
+			criteria.add(Restrictions.eq("deletedCategoryFlag", true));
+			if(completed) {
+				criteria.add(Restrictions.isNotNull("deletedSubmittedBy"));
+			}
+		}
+		else {
+			if(nciUser.getCurrentUserRole().equalsIgnoreCase(ApplicationConstants.USER_ROLE_SUPER_USER))
+				criteria.add(Restrictions.eq("nciDoc", ApplicationConstants.NCI_DOC_OTHER));
+			else
+				criteria.add(Restrictions.eq("parentNedOrgPath", orgPath));
+			
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_ACTIVE)) {
+
+				criteria.add(Restrictions.eq("activeCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("activeSubmittedBy"));
+				}
+			}
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_NEW)) {
+				criteria.add(Restrictions.eq("newCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("newSubmittedBy"));
+				}
+			}
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_INACTIVE)) {
+				criteria.add(Restrictions.eq("inactiveCategoryFlag", true));
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("inactiveSubmittedBy"));
+				}
+			}
+			if(category.equalsIgnoreCase(ApplicationConstants.CATEGORY_I2E)) {
+				if(completed) {
+					criteria.add(Restrictions.isNotNull("submittedBy"));
+				}
+			}
+		}
+		return criteria;
+	}
+
+	/**
+	 * Gets the total result count.
+	 * 
+	 * @param criteria
+	 *            the criteria
+	 * @return the total result count
+	 */
+	private int getTotalResultCount(Criteria criteria) {
+
+		criteria.setProjection(Projections.rowCount());
+		Long rowCount = (Long) criteria.uniqueResult();
+		return rowCount.intValue();
+
+	}
 
 }

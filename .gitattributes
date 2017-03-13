@@ -211,6 +211,7 @@ WebContent/jsp/error/notAuthorized.jsp -text
 WebContent/jsp/footer/footer.jsp -text
 WebContent/jsp/header/header.jsp -text
 WebContent/jsp/helper/changePageSizeHelper.jsp -text
+WebContent/jsp/helper/icDash.jsp -text
 WebContent/jsp/helper/submitActionContent.jsp -text
 WebContent/jsp/helper/submitNotesContent.jsp -text
 WebContent/jsp/layout/baselayout.jsp -text
@@ -237,7 +238,11 @@ WebContent/template/simple/radiomap-nobr.ftl -text
 build/build.xml -text
 build/env.properties -text
 build/user.properties -text
+/cpd_report.xml -text
+/findbugs-report.html -text
 lib/tomcat/catalina-ant.jar -text
+lib/tomcat/findbugs-ant.jar -text
+lib/tomcat/jacocoant.jar -text
 lib/tomcat/jasper.jar -text
 lib/tomcat/jsp-api.jar -text
 lib/tomcat/ojdbc6.jar -text
@@ -245,6 +250,7 @@ lib/tomcat/servlet-api.jar -text
 lib/tomcat/tomcat-coyote.jar -text
 lib/tomcat/tomcat-juli.jar -text
 lib/tomcat/tomcat-util.jar -text
+/pmd_report.html -text
 properties/EMEmailTemplate.vm -text
 properties/application.properties -text
 properties/cache.properties -text

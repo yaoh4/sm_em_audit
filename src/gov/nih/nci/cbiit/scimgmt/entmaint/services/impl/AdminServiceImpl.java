@@ -22,6 +22,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.dao.AdminDAO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditHistoryVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
 
 
@@ -221,6 +222,16 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		return emAuditVOList;
+	}
+	
+	/**
+	 * Retrieves the ic dashboard data based on org
+	 * 
+	 * @return DashboardData
+	 */
+	public DashboardData retrieveIcDashboardData(Long auditId, String orgPath) {
+		
+		return adminDAO.retrieveIcDashboardData(auditId, orgPath);
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
+import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.PaginatedListImpl;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 
@@ -118,6 +119,8 @@ public class Impac2AuditAction extends BaseAction {
 			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchDeletedAccounts();
+			if(EmAppUtil.isAuditEnabled())
+				anchorDash = true;
 		}
 		return forward;
 	}
@@ -167,6 +170,8 @@ public class Impac2AuditAction extends BaseAction {
 			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchActiveAccounts();
+			if(EmAppUtil.isAuditEnabled())
+				anchorDash = true;
 		}
 		return forward;
 	}
@@ -216,6 +221,8 @@ public class Impac2AuditAction extends BaseAction {
 			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchNewAccounts();
+			if(EmAppUtil.isAuditEnabled())
+				anchorDash = true;
 		}
 		return forward;
 	}
@@ -265,6 +272,8 @@ public class Impac2AuditAction extends BaseAction {
 			forward = ApplicationConstants.PRIMARY;
 		}else{
 			forward = searchInactiveAccounts();
+			if(EmAppUtil.isAuditEnabled())
+				anchorDash = true;
 		}
 		return forward;
 	}

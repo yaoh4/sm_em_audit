@@ -27,7 +27,12 @@
 <s:include value="/jsp/helper/changePageSizeHelper.jsp"/>
 </s:if>
  
+<s:if test="anchorDash">
+ <body onload="moveToDash();"></body>
+</s:if>
+<s:else>
  <body onload="moveToAnchor();"></body>
+</s:else>
 <display:table style="width: 100%;" name="activeAuditAccounts" id="auditAccountsId" pagesize="${pageSize}" export="true" requestURI="<%=action%>" excludedParams="act size" decorator="gov.nih.nci.cbiit.scimgmt.entmaint.actions.decorator.AuditSearchResultDecorator">
 <s:iterator var="t" value="displayColumn">
 <s:if test="#t.display == 'true'">
