@@ -228,4 +228,10 @@ public NciPeopleVw(Long npnId, String nihNetworkId, String oracleId, String last
             .toHashCode();
     }
 
+    public String getLabel() {
+        return lastName + ", " + firstName;
+    }
+    public String getValue() {
+        return nihNetworkId;
+    }
 }

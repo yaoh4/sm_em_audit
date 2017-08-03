@@ -328,6 +328,8 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppLookupT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppLookupT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppPropertiesT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/AppPropertiesT.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/DbaRolePrivs.hbm.xml -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/DbaRolePrivs.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.hbm.xml -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityT.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/hibernate/EmAuditAccountActivityVw.hbm.xml -text
@@ -413,6 +415,7 @@ src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditI2eAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/AuditSearchVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/DiscrepancyEmailAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/EmAuditsVO.java -text
+src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PersonSearchCriteria.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PortfolioAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/PortfolioI2eAccountVO.java -text
 src/gov/nih/nci/cbiit/scimgmt/entmaint/valueObject/TransferredAuditAccountsVO.java -text

@@ -19,7 +19,6 @@
 	<link rel="stylesheet" type="text/css" href="<s:url value="/stylesheets/custom.css" />"/>
 	<script language="JavaScript" src="<s:url value="/scripts/jquery-2.1.3.min.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/jquery-ui-1.11.3.js" />" type="text/javascript"></script>
-	<script language="JavaScript" src="<s:url value="/scripts/bootstrap.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/bootstrap.min.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/respond.min.js" />" type="text/javascript"></script>
 	<script language="JavaScript" src="<s:url value="/scripts/entMaint.js" />" type="text/javascript"></script>

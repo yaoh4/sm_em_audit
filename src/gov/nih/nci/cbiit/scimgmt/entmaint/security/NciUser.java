@@ -1,6 +1,9 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.security;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 
 public class NciUser extends NciPerson {
 
@@ -18,6 +21,10 @@ public class NciUser extends NciPerson {
    
     private String activeFlag;
 
+    private List<I2eActiveUserRolesVw> appRoles = new ArrayList<I2eActiveUserRolesVw>();
+
+	private boolean readOnly = false;
+	
     public NciUser() {
         super();
     }
@@ -72,5 +79,21 @@ public class NciUser extends NciPerson {
 	 */
 	public void setActiveFlag(String activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+
+	public List<I2eActiveUserRolesVw> getAppRoles() {
+		return appRoles;
+	}
+
+	public void setAppRoles(List<I2eActiveUserRolesVw> appRoles) {
+		this.appRoles = appRoles;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 }

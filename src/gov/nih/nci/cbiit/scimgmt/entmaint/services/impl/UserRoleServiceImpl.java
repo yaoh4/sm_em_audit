@@ -5,6 +5,8 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppPropertiesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.NciPeopleVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
+
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -65,5 +67,24 @@ public class UserRoleServiceImpl implements UserRoleService {
 	public List<String> retrieveIcCoordinators() {
 		return userRoleDAO.retrieveIcCoordinators();
 	}
-
+	
+	/**
+     * This method checks if logged in user is RestrictedUser.
+     * @param  oracleId
+     * @return boolean
+     */   
+    public boolean isRestrictedUser(String oracleId){ 
+    	return userRoleDAO.isRestrictedUser(oracleId);
+    }
+    
+	public List<I2eActiveUserRolesVw> getUserAppRoles(String userId) {
+   	 List<I2eActiveUserRolesVw> roles= userRoleDAO.retrieveRoleInfo(userId);
+   	 return roles;
+    }
+	
+	@Override
+    public List<NciPeopleVw> searchPerson(String term) throws Exception {
+        String term1 = "%" + term + "%";
+        return userRoleDAO.findByFirstNameLikeIgnoreCaseOrLastNameLikeIgnoreCase(term1, term1);
+    }
 }

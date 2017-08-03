@@ -39,14 +39,17 @@ public interface ApplicationConstants {
     /*User roles*/
     public static final String USER_ROLE_IC_COORDINATOR = "EMREP";
     public static final String USER_ROLE_SUPER_USER = "EMADMIN";
+    public static final String I2E_DEV_ROLE ="TECHSUPP";
+    public static final String I2E_RESTRICTED_USER = "i2e_restricted_user";
     
     /*NCI Doc */
     public static final String NCI_DOC_OTHER = "OTHER";
     public static final String NCI_DOC_ALL = "All";
     
-    /* Session key for current audit*/
+    /* Session key */
     public static final String CURRENT_AUDIT = "currentAudit";
-    
+    public static final String DEVELOPER_ROLE ="devRole";
+    public static final String REMOTE_USER = "remote_user";
     
     /*Lists */
     public static final String APP_LINK_LIST = "applinklist";

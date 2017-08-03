@@ -58,9 +58,19 @@
 			<result name="success" type="redirect-action">impac2/impac2Home</result>
 		</action>
 		
-		<action name="ChangeUser" method="changeUser"
+		<action name="changeUser" method="changeUser"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
 			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="restoreUser" method="restoreUser"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="searchPerson" method="searchPerson"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.BaseAction">
+			<result type="json" name="success"><param name="root">searchCriteria</param></result> 
 		</action>
 		
 		<action name="SysAdmin" method="execute"
