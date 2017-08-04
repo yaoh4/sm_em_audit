@@ -55,7 +55,11 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
         logger.debug("Inside User Interceptor.intercept");   
 
     	//Check if this is a change user action
-        String changeUser = request.getParameter("user");
+        String changeUser = request.getParameter("changeUser");
+        String actionName = action.getClass().getName();
+        if(StringUtils.isEmpty(changeUser) && actionName.contains("SysAdminAction")) {
+        	changeUser = request.getParameter("user");
+        }
         
        //Check if this is a sys admin action
         String sysAdminAction = request.getParameter("task");
@@ -114,10 +118,15 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 	     	            		}
 	    	            		newChangeUser.setAppRoles(userRoleService.getUserAppRoles(newChangeUser.getUserId()));                
 	        	            	BeanUtils.copyProperties(newChangeUser, nciUser);
+								logger.info("Change User - Original Default/Logged in user: " + newNciUser.getUserId()
+										+ "(" + newNciUser.getFullName() + ") Changed User: "
+										+ newChangeUser.getUserId() + "(" + newChangeUser.getFullName() + ")");
 	            			} else {
 	            				return "notauthorized";
 	            			}
 	            		}
+	            	} else if (!StringUtils.isEmpty(changeUser)) {
+	            		return "notauthorized";
 	            	}
 	            	
             		return invocation.invoke();

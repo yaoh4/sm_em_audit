@@ -23,6 +23,7 @@ public class NciPeopleVw implements Serializable {
     private java.lang.String emailAddress;
     private java.util.Date inactiveDate;
     private java.lang.String activeFlag;   
+    private java.lang.String parentNedOrgPath;
     private List<I2eActiveUserRolesVw> accountRoles = new ArrayList<I2eActiveUserRolesVw>(0);
 
    /**
@@ -229,9 +230,17 @@ public NciPeopleVw(Long npnId, String nihNetworkId, String oracleId, String last
     }
 
     public String getLabel() {
-        return lastName + ", " + firstName;
+        return lastName + ", " + firstName + " / " + parentNedOrgPath;
     }
     public String getValue() {
         return nihNetworkId;
     }
+
+	public java.lang.String getParentNedOrgPath() {
+		return parentNedOrgPath;
+	}
+
+	public void setParentNedOrgPath(java.lang.String parentNedOrgPath) {
+		this.parentNedOrgPath = parentNedOrgPath;
+	}
 }

@@ -117,6 +117,20 @@
             length="1"           
         </meta>    
     </property>
+    
+   <property
+        name="parentNedOrgPath"
+        type="java.lang.String"
+        column="PARENT_NED_ORG_PATH"       
+        length="1004"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="PARENT_NED_ORG_PATH"
+            length="1004"           
+        </meta>    
+    </property> 
+    
     <bag name="accountRoles" table="I2E_ACTIVE_USER_ROLES_VW" inverse="true" lazy="true" fetch="select">
             	<key>
                 	<column name="NPN_ID" precision="10" scale="0" not-null="true" />
