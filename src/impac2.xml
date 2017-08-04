@@ -5,20 +5,6 @@
 <struts>
 	
 	<package name="impac2" namespace="/impac2" extends="default">
-		<result-types>
-			<result-type name="tiles"
-				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
-			<result-type name="redirect-action"
-				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
-		</result-types>
-       	
-       	<global-results>
-			<result name="error" type="tiles">tiles.error.details</result>
-		</global-results>
-   
-		<global-exception-mappings>
-			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
-		</global-exception-mappings>
 		
 		<action name="home" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">

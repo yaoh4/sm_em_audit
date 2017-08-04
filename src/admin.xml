@@ -5,20 +5,6 @@
 <struts>
 	
 	<package name="admin"  namespace="/admin" extends="default">
-		<result-types>
-			<result-type name="tiles"
-				class="org.apache.struts2.views.tiles.TilesResult" default="true" />
-			<result-type name="redirect-action"
-				class="org.apache.struts2.dispatcher.ServletActionRedirectResult" />
-		</result-types>
-	
-        <global-results>
-			<result name="error" type="tiles">tiles.error.details</result>
-		</global-results>
-     		
-		<global-exception-mappings>
-			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
-		</global-exception-mappings>
 		
 		<action name="home" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.HomeAction">
@@ -29,24 +15,20 @@
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="audit_enabled" type="redirect-action">../admin/gotoDashboard</result>
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>
 		
 		<action name="adminAdmin" method="administer"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>
 		
 		<action name="adminReports" method="execute"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
 			<result name="success" type="tiles">entmaint.admin.reports.page</result>
-			<result name="error" type="tiles">entmaint.admin.reports.page</result>
 		</action>
 		<action name="reportSearch" method="searchReports"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminReportsAction">
 			<result name="success" type="tiles">entmaint.admin.reports.page</result>
-			<result name="error" type="tiles">entmaint.admin.reports.page</result>
 			<result name="export" type="dispatcher">/jsp/content/adminReportSearchResultExport.jsp</result>
 			<result name="exporti2e" type="dispatcher">/jsp/content/adminReportI2eSearchResultExport.jsp</result>
 			<result name="exportTransferred" type="dispatcher">/jsp/content/adminReportTransferredAccountSearchResultExport.jsp</result>
@@ -59,13 +41,11 @@
 		<action name="startAudit" method="startAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
 		<action name="disableAudit" method="disableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
 		<action name="gotoDashboard" method="gotoDashboard"
@@ -85,13 +65,11 @@
 		<action name="enableAudit" method="enableAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>	
 		
 		<action name="resetAudit" method="resetAudit"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.AdminAction">
 			<result name="success" type="tiles">entmaint.admin.administer.page</result>
-			<result name="error" type="tiles">entmaint.admin.administer.page</result>
 		</action>
 		
 		<action name="openEmail" method="openEmail"

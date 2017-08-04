@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
@@ -53,6 +54,9 @@ public class SubmitI2eAction extends BaseAction {
 
 				inputStream = new StringBufferInputStream(timeStr + ";" + fullName);
 			}
+		}catch(ServiceDeniedException e){
+			log.error(e.getMessage());
+			inputStream = new StringBufferInputStream("permission");
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");
@@ -76,6 +80,9 @@ public class SubmitI2eAction extends BaseAction {
 			i2eService.unsubmit(Long.parseLong(appId));
 
 			inputStream = new StringBufferInputStream("success");
+		}catch(ServiceDeniedException e){
+			log.error(e.getMessage());
+			inputStream = new StringBufferInputStream("permission");
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");

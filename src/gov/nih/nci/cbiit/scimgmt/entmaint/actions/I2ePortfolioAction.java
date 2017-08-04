@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.helper.DisplayTagHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioRolesVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
@@ -224,9 +225,12 @@ public class I2ePortfolioAction extends BaseAction {
 		String notes = (String)request.getParameter("notes");
 		PrintWriter pw = null;
 		try{
-			i2ePortfolioService.saveNotes(i2eId,notes,new Date());
 			pw = response.getWriter();
+			i2ePortfolioService.saveNotes(i2eId,notes,new Date());
 			pw.print(decorateResponse(notes));
+		}catch(ServiceDeniedException e){
+			log.error("Exception occurred while saving I2E portfolio notes.",e);
+			pw.print(ApplicationConstants.STATUS_PERMISSION);
 		}catch(Exception e){
 			log.error("Exception occurred while saving I2E portfolio notes.",e);
 			pw.print(ApplicationConstants.STATUS_FAIL);

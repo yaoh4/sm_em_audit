@@ -1,5 +1,6 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 
 import java.io.File;
@@ -29,6 +30,9 @@ public class SaveEmailAction extends BaseAction {
 		try{
 				saveFile(content);
 				inputStream = new StringBufferInputStream("success");
+		}catch(ServiceDeniedException e){
+			log.error(e.getMessage());
+			inputStream = new StringBufferInputStream("permission");
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");
@@ -38,6 +42,9 @@ public class SaveEmailAction extends BaseAction {
 	}
 
 	private void saveFile(String content) throws Exception{
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
 		String path = properties.getPropertyValue("EMAIL_FILE");
 		String fileName = path + File.separator + "email.txt";
 		PrintWriter pw = new PrintWriter(new FileWriter(new File(fileName)));

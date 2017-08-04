@@ -184,6 +184,7 @@ public interface ApplicationConstants {
 	public static final String DEFAULT_PAGE_SIZE = "defaultPageSize";
 	
 	public static final String STATUS_FAIL = "fail";
+	public static final String STATUS_PERMISSION = "permission";
 	
 	public static final String ERA_US_LINK = "ERA_UA_LINK";
 	public static final String I2E_EM_LINK = "I2E_EM_LINK";
@@ -192,6 +193,7 @@ public interface ApplicationConstants {
 	
 	public static final String UNDO_COMFIRMATION="undo.confirmation.message";
 	public static final String ERROR_SAVE_TO_DATABASE="error.database.save";
+	public static final String ERROR_PERMISSION="error.permission";
 	public static final String NOTHING_DISPLAY="nothing.display";
 	public static final String EMPTY_NOTE="error.empty.note";
 	public static final String MISSING_NOTE="error.missing.note";

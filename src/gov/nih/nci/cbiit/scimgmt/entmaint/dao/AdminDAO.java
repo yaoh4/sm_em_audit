@@ -15,6 +15,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EmAppUtil;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -59,6 +60,10 @@ public class AdminDAO  {
 	 */
 	public Long setupNewAudit(EmAuditsVO emAuditsVO) {
 		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		Session session = sessionFactory.getCurrentSession();
 		Long auditId = null;
 		Date impaciiFromDate = emAuditsVO.getImpaciiFromDate();
@@ -99,6 +104,10 @@ public class AdminDAO  {
 	 */
 	public void closeAudit(Long auditId, String comments) {
 		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		Session session = sessionFactory.getCurrentSession();
 		
 		try {
@@ -134,6 +143,10 @@ public class AdminDAO  {
 	 */
 	public Long updateAuditHistory(Long auditId, String actionCode, String comments) {
 				
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		Session session = sessionFactory.getCurrentSession();
 		Long id = null;
 		

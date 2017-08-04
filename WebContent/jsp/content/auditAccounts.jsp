@@ -56,6 +56,8 @@
 				 			var items = result.split(";");
 				 			if(items[0] == 'validationError'){
 				 				$('#errorMessage').html("<font color='red'>" + items[1] + "</font>");
+				 			}else if(items[0] == "permission"){
+				 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_PERMISSION)}'/></font>");
 				 			}else if(items[0] == "fail"){
 				 				$('#errorMessage').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}'/></font>");
 				 			}

@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmI2eAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -102,6 +103,11 @@ public class I2eAuditDAO {
 	 * @return
 	 */
 	public DBResult submit(Long id, Long actionId, String actionComments, Date date) {
+		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {
 			EmI2eAuditAccountsT account = getAccountsT(id);
@@ -137,6 +143,11 @@ public class I2eAuditDAO {
 	 * @return
 	 */
 	public DBResult unsubmit(Long id) {
+		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {
 			EmI2eAuditAccountsT account = getAccountsT(id);
@@ -439,6 +450,11 @@ public class I2eAuditDAO {
 	 * @throws Exception 
 	 */
 	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, String actionComments, String transferOrg, boolean isI2eTransfer) throws Exception {
+
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {
 			EmI2eAuditAccountsT account = null;
