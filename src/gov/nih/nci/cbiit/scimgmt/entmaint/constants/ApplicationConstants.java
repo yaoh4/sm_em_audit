@@ -49,7 +49,6 @@ public interface ApplicationConstants {
     /* Session key */
     public static final String CURRENT_AUDIT = "currentAudit";
     public static final String DEVELOPER_ROLE ="devRole";
-    public static final String REMOTE_USER = "remote_user";
     
     /*Lists */
     public static final String APP_LINK_LIST = "applinklist";

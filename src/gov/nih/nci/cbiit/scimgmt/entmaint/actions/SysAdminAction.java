@@ -60,22 +60,6 @@ public class SysAdminAction extends BaseAction {
     }
     
     
-    /**
-     * This method restores to the logged in users profile
-     * and navigates to the home page
-     * 
-     * @return String
-     */
-    public String restoreUser() {
-    	
-    	NciUser remote_user = (NciUser) session.get(ApplicationConstants.REMOTE_USER);
-
-    	//Set the Remote User back and populate the roles
-    	BeanUtils.copyProperties(remote_user, nciUser);
-        
-    	return SUCCESS;
-    }
-    
     /* (non-Javadoc)
      * @see com.opensymphony.xwork2.ActionSupport#execute()
      */

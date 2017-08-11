@@ -88,24 +88,32 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
             if (StringUtils.isNotEmpty(remoteUser)) {
 
             	NciUser newNciUser = userRoleService.getNCIUser(remoteUser);  
-            	if(isUserValid(request, remoteUser)) {
+            	if(isUserValid(newNciUser)) {
             		populateNCIUserRoles(newNciUser);
             	
+            		newNciUser.setAppRoles(userRoleService.getUserAppRoles(newNciUser.getUserId()));  
+            		
             		//If user doesn't have required role to access this application then navigate the user to Login Error page.
-            		if(!verifyAuthorization(newNciUser)){
+            		if(!isI2eDeveloper(newNciUser.getAppRoles()) && !verifyAuthorization(newNciUser)){
             			return "notauthorized";
             		}
-            		newNciUser.setAppRoles(userRoleService.getUserAppRoles(newNciUser.getUserId()));                
+            		              
 	            	BeanUtils.copyProperties(newNciUser, nciUser);
-	            	session.put(ApplicationConstants.REMOTE_USER, newNciUser);
 	            	
             		//If logged on user is I2E developer
-	            	if(isI2eDeveloper(remoteUser)) {
+	            	if(isI2eDeveloper(newNciUser.getAppRoles())) {
+	            		if (StringUtils.equalsIgnoreCase(changeUser, remoteUser)) {
+							changeUser = ""; // restore original user
+						}
+	            		//If this is a prod env, then I2E users will have only read only privileges
+	            		if(isProdEnv()) {
+	            			newNciUser.setReadOnly(true);
+ 	            		}
     	            	session.put(ApplicationConstants.DEVELOPER_ROLE, ApplicationConstants.FLAG_YES);
 	            		//If changeUser is set, validate and replace new user in session
 	            		  if(!StringUtils.isEmpty(changeUser)) {
 	            			    NciUser newChangeUser = userRoleService.getNCIUser(changeUser);
-	            			  	if(isUserValid(request, changeUser)) {
+	            			  	if(isUserValid(newChangeUser)) {
 	            				populateNCIUserRoles(newChangeUser);
 	                        	
 	                    		//If user doesn't have required role to access this application then navigate the user to Login Error page.
@@ -199,14 +207,12 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
      * @return true if the user is valid
      * @throws Exception
      */
-    protected boolean isUserValid(HttpServletRequest request, String remoteUser)
+    protected boolean isUserValid(NciUser nciUser)
         	throws Exception {
         	
         	String errorReason = "";
-        	String accessError = "User "+ remoteUser +" is not authorized to access EM Audit application. ";
+        	String accessError = "User "+ (nciUser == null? "" : nciUser.getUserId()) +" is not authorized to access EM Audit application. ";
         
-        	NciUser nciUser = userRoleService.getNCIUser(remoteUser);           
-
         	if(nciUser == null){
         		 logger.error(accessError);
         		 return false;
@@ -266,14 +272,15 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
      * @param userId
      * @return true if the use has an i2e developer role
      */
-    private boolean isI2eDeveloper(String userId) {
+    private boolean isI2eDeveloper(List<I2eActiveUserRolesVw> appRoles) {
 		
-		List<I2eActiveUserRolesVw> appRoles = userRoleService.getUserAppRoles(userId);
-		for(I2eActiveUserRolesVw role: appRoles) {
-    		if(ApplicationConstants.I2E_DEV_ROLE.equals(role.getRoleCode())) {
-    			return true;
-    		}
-    	}
+		if(appRoles != null) {
+			for(I2eActiveUserRolesVw role: appRoles) {
+				if(ApplicationConstants.I2E_DEV_ROLE.equals(role.getRoleCode())) {
+					return true;
+				}
+			}
+		}
     	return false;
     }
  

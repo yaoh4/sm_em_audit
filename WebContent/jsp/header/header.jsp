@@ -36,9 +36,6 @@
             
             <ul>
             	<s:if test="isI2eDeveloper()">
-                	<li>
-                		<s:a href="restoreUser.action">Restore User</s:a>
-                	</li>
                 	<li class="dropdown">
                     	<a id="menu-changeUser" class="dropdown-toggle" data-toggle="dropdown" href="#">Change User</a>
                         <ul class="dropdown-menu extended tasks-bar" id="changeUser">
