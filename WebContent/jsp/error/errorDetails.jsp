@@ -1,5 +1,9 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+
+<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js"	type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/entMaint.js" type="text/javascript"></script>
+
 <s:set name="env" value="%{getPropertyValue('ENVIRONMENT')}"/>
 
 <s:url id="goHome" action="home"/><s:a href="%{goHome}">Click here to go back to Home Page</s:a>
