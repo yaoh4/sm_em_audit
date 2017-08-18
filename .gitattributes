@@ -210,6 +210,7 @@ WebContent/jsp/content/manageAccounts.jsp -text
 WebContent/jsp/content/portfolioAccountSearchResult.jsp -text
 WebContent/jsp/content/portfolioAccounts.jsp -text
 WebContent/jsp/content/portfolioSearchResultExport.jsp -text
+WebContent/jsp/error/accessDenied.jsp -text
 WebContent/jsp/error/errorDetails.jsp -text
 WebContent/jsp/error/errorMessages.jsp -text
 WebContent/jsp/error/notAuthorized.jsp -text
