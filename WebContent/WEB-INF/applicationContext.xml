@@ -163,11 +163,11 @@
 	<bean id="AutomatedEmailTask" class="gov.nih.nci.cbiit.scimgmt.entmaint.utils.AutomatedSendEmailTask">
 	</bean>
 	
-	<task:scheduler id="entmaintTaskScheduler" pool-size="5" />
+	<!-- <task:scheduler id="entmaintTaskScheduler" pool-size="5" />
 
 	<task:scheduled-tasks scheduler="entmaintTaskScheduler">
 		<!--  Run first Tuesday of every month at 12 PM -->
-		<!--  <task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 0 12 1-7 * TUE" />-->
-	</task:scheduled-tasks>
+		<!-- <task:scheduled ref="AutomatedEmailTask" method="sendDiscrepancyEmail" cron="0 0 12 1-7 * TUE" />
+	</task:scheduled-tasks> -->
 	
 </beans>
