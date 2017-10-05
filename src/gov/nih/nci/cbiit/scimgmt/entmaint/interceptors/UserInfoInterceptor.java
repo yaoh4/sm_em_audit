@@ -106,9 +106,14 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 							changeUser = ""; // restore original user
 						}
 	            		//If this is a prod env, then I2E users will have only read only privileges
-	            		if(isProdEnv()) {
+	            		if(isProdEnv() && (StringUtils.isBlank(nciUser.getCurrentUserRole()))) {
 	            			newNciUser.setReadOnly(true);
  	            		}
+	            		if(StringUtils.isBlank(nciUser.getCurrentUserRole())) {
+	            			newNciUser.setCurrentUserRole("EMREP");
+	            		}
+	            		BeanUtils.copyProperties(newNciUser, nciUser);
+	            		
     	            	session.put(ApplicationConstants.DEVELOPER_ROLE, ApplicationConstants.FLAG_YES);
 	            		//If changeUser is set, validate and replace new user in session
 	            		  if(!StringUtils.isEmpty(changeUser)) {
@@ -164,18 +169,6 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
     public void populateNCIUserRoles( NciUser nciUser){
     	// Load user EM roles
     	userRoleService.loadPersonInfo(nciUser);
-
-    	// Give IC coordinator role to application developers
-    	// Changed to allow production environment APP_DEVELOPER role for validation
-    	String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
-    	if(devUsers != null) {
-    		String[] appDevUsers = devUsers.split(",");
-    		for (int i = 0; i < appDevUsers.length; i++) {
-    			if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
-    				nciUser.setCurrentUserRole("EMREP");
-    			}
-    		}
-    	}
 
     }
 
