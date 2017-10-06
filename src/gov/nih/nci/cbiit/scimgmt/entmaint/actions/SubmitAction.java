@@ -95,8 +95,6 @@ public class SubmitAction extends BaseAction {
 		String appId = (String)request.getParameter("pId");
 		String cate = (String)request.getParameter("cate");
 		
-		impac2Service.unsubmit(cate,Long.parseLong(appId));
-		
 		try{
 			impac2Service.unsubmit(cate,Long.parseLong(appId));
 			//DBResult has not been implemented. Wait for Yuri

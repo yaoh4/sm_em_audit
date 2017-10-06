@@ -142,6 +142,10 @@
 			 			if(result == "fail"){
 			 				$( this ).dialog( "close" );
 			 				openErrorDialog();
+			 			}else if(result == "permission"){
+			 				$('#errorDialog').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_PERMISSION)}'/></font>");
+			 				$( this ).dialog( "close" );
+			 				openErrorDialog();
 			 			}else{
 			 				var isTransferred = $('#'+cId).text().match('(Transferred)');
 			 				$('#'+cId).html("<input type='button' Value='Complete' onclick='submitAct(&#39;"+ nId + "&#39;," + cId +",&#39;" + networkId + "&#39;,&#39;" + parentNedOrgPath + "&#39;);'/>" + 			

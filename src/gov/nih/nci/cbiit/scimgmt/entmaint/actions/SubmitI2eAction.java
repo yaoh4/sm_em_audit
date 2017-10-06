@@ -73,9 +73,7 @@ public class SubmitI2eAction extends BaseAction {
 	public String unSubmitChange(){
 		String appId = (String)request.getParameter("pId");
 		String cate = (String)request.getParameter("cate");
-		
-		i2eService.unsubmit(Long.parseLong(appId));
-		
+			
 		try{
 			i2eService.unsubmit(Long.parseLong(appId));
 
