@@ -17,6 +17,14 @@
     </definition>
 
  <!-- User Login Error Pages -->
+    <definition name="tiles.error.valid" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="content" value="/jsp/error/notValid.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance: Change User Error"/>
+    </definition>
+    
+ <!-- User Login Error Pages -->
     <definition name="tiles.error.user" extends="base.definition">
         <put-attribute name="selectedTab" value="admin"/>
         <put-attribute name="selectedSubNav" value="administer"/>

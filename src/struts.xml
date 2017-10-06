@@ -47,6 +47,7 @@
        		<result name="accessDenied" type="tiles">tiles.error.access</result>
 			<result name="error" type="tiles">tiles.error.details</result>
 			<result name="notauthorized" type="tiles">tiles.error.user</result>
+			<result name="notvalid" type="tiles">tiles.error.valid</result>
 		</global-results>
    
 		<global-exception-mappings>

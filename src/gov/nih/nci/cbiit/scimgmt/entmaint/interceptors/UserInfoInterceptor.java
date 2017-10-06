@@ -59,6 +59,9 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
         String actionName = action.getClass().getName();
         if(StringUtils.isEmpty(changeUser) && actionName.contains("SysAdminAction")) {
         	changeUser = request.getParameter("user");
+        	if(StringUtils.isEmpty(changeUser)) {
+        		return "notvalid";
+        	}
         }
         
        //Check if this is a sys admin action
@@ -83,7 +86,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                         remoteUser = authUser.substring(0, authUser.indexOf(":"));
                }
             }            
-          
+
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
