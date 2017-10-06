@@ -250,7 +250,7 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
      */
     public boolean isProdEnv() {    	
         String environment  = entMaintProperties.getProperty("ENVIRONMENT");
-        if("Production".equalsIgnoreCase(environment)) {
+        if("Test".equalsIgnoreCase(environment)) {
     		//This is prod environment, so restrict access
     		return true;
     	}
