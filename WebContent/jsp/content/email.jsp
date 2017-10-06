@@ -41,18 +41,20 @@
 				data: { emailBody: content},
 				async:   false,
 				success: function(msg){
-					openMessage(true);
+					openMessage(msg);
 				}, 
 				error: function(){
-					openMessage(false);
+					openMessage('fail');
 				}		
 			});
       }
       
-      function openMessage(flag){
+      function openMessage(msg){
     	  $('#message').dialog("open");
-    	  if(flag){
+    	  if(msg == "success"){
     		  $('#msgLabel').html("<font color='green'>The Email has been saved successfully.</font>")
+    	  }else if(msg == "permission"){
+    		  $('#msgLabel').html("<font color='red'><s:property value='%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_PERMISSION)}'/></font>")
     	  }else{
     		  $('#msgLabel').html("<font color='red'>The Email has not been saved successfully.</font>")
     	  }
