@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin
+
+    http://boss.bekk.no/boss/middlegen/
+    http://hibernate.sourceforge.net/
+-->
+
+<class 
+    name="gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.DbaRolePrivs" 
+    table="DBA_ROLE_PRIVS"
+    lazy="false"
+>
+
+    <composite-id>
+        <key-property 
+            name="grantee" 
+            column="GRANTEE" 
+            type="java.lang.String"
+            length="30"
+        />
+        <key-property 
+            name="grantedRole" 
+            column="GRANTED_ROLE" 
+            type="java.lang.String"
+            length="30"
+        />
+        <key-property 
+            name="adminOption" 
+            column="ADMIN_OPTION" 
+            type="java.lang.String"
+            length="3"
+        />
+        <key-property 
+            name="defaultRole" 
+            column="DEFAULT_ROLE" 
+            type="java.lang.String"
+            length="3"
+        />
+    </composite-id>    
+
+
+    <!-- associations -->
+
+</class>
+</hibernate-mapping>

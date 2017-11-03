@@ -262,31 +262,6 @@ font:  bold 11px "Verdana", serif;
 	background-image: none;
 }
 
-h1#PFRheader {
-padding: 0 0 0 0 !important;
-padding /**/: 0px 0 0 0;
-margin: 0px;
-font-size: 0pt;
-background-image: url(../images/PFR_logo.png);
-background-position: 7px 0px;
-background-repeat: no-repeat;
-height: 60px !important; /* for most browsers */
-z-index: 1;
-padding-top: 0px !important;
-color: #fff;
-}
-
-
-#headerimg {
-background: url(../images/PFR_bg.jpg) top right;
-background-repeat: no-repeat;
-background-position: 500px 19px;
-clear: both;
-display: block;
-margin: 0;
-padding: 0;
-}
-
 /**************/
 /* end pop-up nav */
 /**************/

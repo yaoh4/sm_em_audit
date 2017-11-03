@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioNotesT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmPortfolioVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
@@ -174,6 +175,11 @@ public class Impac2PortfolioDAO {
 	 * @return
 	 */
 	public DBResult saveNotes(String id, String text, Date date) {
+		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		log.debug("saveNotes: saving notes for user," + id);
 		DBResult result = new DBResult();
 		try {

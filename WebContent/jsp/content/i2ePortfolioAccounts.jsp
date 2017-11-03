@@ -33,6 +33,9 @@
 						if (result == 'fail') {
 							$(this).dialog("close");
 							openErrorDialog();
+						} else if (result == 'permission') {
+							$(this).dialog("close");
+							openErrorPermissionDialog();
 						} else {
 							var note = $.trim(getPortfolioNote(i2eId));
 							if(note.length < 1){
@@ -156,6 +159,19 @@
 </s:if>
 
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
+
+<div id="errorDialog" style="display: none;" title="Submit Notes">
+	<div align="center">
+		<br /> <font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}"/></font>
+	</div>
+</div>
+
+<div id="errorPermissionDialog" style="display: none;" title="Submit Notes">
+	<div align="center">
+		<br /> <font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_PERMISSION)}"/></font>
+	</div>
+</div>
+
 <div id="submitNotesAction" style="display: none;" title="Submit Notes">
 	<s:include value="/jsp/helper/submitNotesContent.jsp" />
 </div>

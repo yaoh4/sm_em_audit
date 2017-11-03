@@ -42,11 +42,11 @@ public class SysAdminAction extends BaseAction {
    // URL examples
    // http://localhost/entmaint/SysAdmin.action?task=RELOAD_PROPERTIES
    // http://localhost/entmaint/SysAdmin.action?task=REFRESH_LISTS
-   // http://localhost/entmaint/ChangeUser.action?user=CHANGD3
+   // http://localhost/entmaint/changeUser.action?user=CHANGD3
    
    
     /**
-     * Change user functionality support only for NON production environment
+     * Change user functionality support for all tiers
      * 
      * @return
      * @throws Exception
@@ -55,30 +55,10 @@ public class SysAdminAction extends BaseAction {
         
         String forward = SUCCESS;
         
-        if (nciUser == null ||
-        	(!entMaintProperties.getPropertyValue("ENVIRONMENT").contains("Development") &&
-        	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Test") &&
-        	!entMaintProperties.getPropertyValue("ENVIRONMENT").equalsIgnoreCase("Stage"))) {
-        	return forward;
-        }
-        
-        NciUser newNciUser = userRoleService.getNCIUser(user);  
-
-    	//If User is Inactive then navigate the user to Login Error page.
-    	if(newNciUser == null || StringUtils.isEmpty(newNciUser.getOracleId()) || "N".equalsIgnoreCase(newNciUser.getActiveFlag()) ){
-    		return "notauthorized";
-    	} 
-    	populateNCIUserRoles(newNciUser);
-    	
-    	//If user doesn't have required role to access this application then navigate the user to Login Error page.
-    	if(!verifyAuthorization(newNciUser)){
-    		return "notauthorized";
-    	}
-              
-    	BeanUtils.copyProperties(newNciUser, nciUser);
-    	
+    	// By the time it invokes this method, user is validated in the interceptor.
         return forward;
     }
+    
     
     /* (non-Javadoc)
      * @see com.opensymphony.xwork2.ActionSupport#execute()

@@ -32,6 +32,9 @@
 						if (result == 'fail') {
 							$(this).dialog("close");
 							openErrorDialog();
+						} else if (result == 'permission') {
+							$(this).dialog("close");
+							openErrorPermissionDialog();
 						} else {
 							var note = $.trim(getPortfolioNote(impac2Id));
 							if(note.length < 1){
@@ -191,9 +194,15 @@
 
 <div id="loading" align="center" style="display:none;"><img src="../images/loading.gif" alt="Loading" /></div>
 
-<div id="errorDialog" style="display: none;" title="Submit Action">
+<div id="errorDialog" style="display: none;" title="Submit Notes">
 	<div align="center">
 		<br /> <font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_SAVE_TO_DATABASE)}"/></font>
+	</div>
+</div>
+
+<div id="errorPermissionDialog" style="display: none;" title="Submit Notes">
+	<div align="center">
+		<br /> <font color='red'><s:property value="%{getPropertyValue(@gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants@ERROR_PERMISSION)}"/></font>
 	</div>
 </div>
 

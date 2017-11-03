@@ -3,6 +3,10 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="/struts-tags" prefix="s"%>
+
+<script language="JavaScript" src="../scripts/jquery-ui-1.11.3.js"	type="text/javascript"></script>
+<script language="JavaScript" src="../scripts/entMaint.js" type="text/javascript"></script>
+
 <s:set name="env" value="%{getPropertyValue(\'ENVIRONMENT\')}"/>
 
 <div style="padding: 10px 15px;">

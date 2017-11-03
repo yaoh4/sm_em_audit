@@ -44,11 +44,14 @@
 				
 		
        	<global-results>
+       		<result name="accessDenied" type="tiles">tiles.error.access</result>
 			<result name="error" type="tiles">tiles.error.details</result>
 			<result name="notauthorized" type="tiles">tiles.error.user</result>
+			<result name="notvalid" type="tiles">tiles.error.valid</result>
 		</global-results>
    
 		<global-exception-mappings>
+			<exception-mapping result="accessDenied" exception="gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException"></exception-mapping>
 			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
 			<exception-mapping result="notauthorized" exception="gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException"></exception-mapping>
 		</global-exception-mappings>
@@ -61,6 +64,16 @@
 		<action name="ChangeUser" method="changeUser"
 			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
 			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="changeUser" method="changeUser"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.SysAdminAction">
+			<result name="success" type="redirect-action">home</result>
+		</action>
+		
+		<action name="searchPerson" method="searchPerson"
+			class="gov.nih.nci.cbiit.scimgmt.entmaint.actions.BaseAction">
+			<result type="json" name="success"><param name="root">searchCriteria</param></result> 
 		</action>
 		
 		<action name="SysAdmin" method="execute"

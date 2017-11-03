@@ -119,6 +119,21 @@ $(function() {
 		 }
 	});
 	
+	$("#errorPermissionDialog").dialog({
+		 autoOpen: false,
+		 resizable: false,
+		 width: 600,
+		 height:200,
+		 modal: true,
+		 show: { effect: "slide", duration: 250 },
+		 hide: { effect: "slide", duration: 250 },
+		 buttons: {
+		 		OK: function() {
+		 			$( this ).dialog( "close" ); 
+		 		}
+		 }
+	});
+	
 	$("#loading").dialog({
 		 autoOpen: false,
 		 resizable: false,
@@ -186,6 +201,10 @@ function getI2eRoleDescription(id){
 
 function openErrorDialog(){
 	$('#errorDialog').dialog("open");
+}
+
+function openErrorPermissionDialog(){
+	$('#errorPermissionDialog').dialog("open");
 }
 
 function openLoading(){

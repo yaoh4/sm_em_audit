@@ -225,3 +225,226 @@ table.icDash tbody tr td
 	background: white;
 	font-weight: bold;
 }
+
+/* auto search */
+.ui-autocomplete {
+    position: absolute;
+    z-index: 1030 !important;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+  padding: 3px 20px;
+}
+.ui-autocomplete > li.ui-state-focus {
+  background-color: #DDD;
+}
+
+input#tags.form-control.autocomplete.ui-autocomplete-input{
+-moz-box-shadow:    1px 1px 2px 1px #ccc;
+  -webkit-box-shadow: 1px 1px 2px 1px #ccc;
+  box-shadow:         1px 1px 2px 1px #ccc;
+    margin-top:2px;
+}
+
+/*top navigation Dropdown*/
+/* custom dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    padding: 0px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    text-shadow: none;
+    background-color: #fcfcfc;
+    border: 1px solid rgba(0, 2, 1, 0.2);
+    -webkit-box-shadow: 0 0px 0px rgba(0, 2, 1, 0.4);
+    -moz-box-shadow: 0 0px 0px rgba(0, 2, 1, 0.4);
+    box-shadow: 0 0px 0px rgba(0, 2, 1, 0.4);
+    -webkit-background-clip: padding-box;
+    -moz-background-clipp: padding;
+    background-clip: padding-box;
+    padding: 0px 0;
+    margin:0px;
+    list-style: none;
+    text-shadow: none;
+}
+
+.dropdown-menu.opens-left {
+    margin-top: 2px;
+    margin-left: -88px;
+}
+
+.ie8 .dropdown-menu.opens-left {
+    margin-left: -82px;
+}
+
+.dropdown-menu.extended {
+top: 40px;
+left: -192px;
+min-width: 160px !important;
+max-width: 300px !important;
+width: 235px !important;
+background: #fff;
+border:1px solid #e5e5e5;
+box-shadow: 1px 0px 1px #e5e5e5;
+    
+}
+.nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #337ab7;
+    color:#fff;
+}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{background-color: #337ab7; color: #fff;}
+.navbar .nav>li>.dropdown-menu:after {
+	left: 180px;
+}
+
+
+.dropdown-menu.logout {
+    width: 150px !important;
+    min-width: 120px !important;
+    max-width: 260px !important;
+}
+
+.dropdown-menu.extended li a{
+    display: block;
+    padding: 5px 10px !important;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    white-space: normal !important;
+}
+
+.dropdown-menu.extended .arrow{
+    top:-14px;
+    left: 10px;
+    position: absolute;
+    margin-top: 6px;
+    margin-right: 12px;
+    width: 0;
+    height: 0;
+    border-bottom: 8px solid #f3f3f3;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+}
+
+.dropdown-menu.extended li i{
+    margin-right: 3px;
+}
+
+.dropdown-menu.extended li a{
+    padding: 10px !important;
+    background-color: #fff !important;
+}
+
+.dropdown-menu.extended li a:hover {
+    background-color: #f3f3f3 !important;
+}
+
+.dropdown-menu.extended li p{
+    background-color: #fff;
+    margin: 0px;
+    color: #666;    
+}
+
+.dropdown-menu.extended li a{
+    padding: 7px 0 5px 0px;
+    list-style: none;
+    border-bottom: 1px solid #EBEBEB !important;
+    font-size: 12px;
+}
+.dropdown-menu.extended li:first-child a {
+    border-top: none;
+    border-bottom: 1px solid #EBEBEB !important;
+}
+.dropdown-menu.extended li:last-child a {
+    border-top: 1px solid white !important;
+    border-bottom: 1px solid #EBEBEB !important;
+}
+
+.dropdown-menu.inbox li a .photo img {
+    float: left;
+    height: 40px;
+    width: 40px;
+    margin-right: 4px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.dropdown-menu.inbox li a .subject {
+    display: block;
+}
+
+.dropdown-menu.inbox li a .subject .from {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.dropdown-menu.inbox li a .subject .time {
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+    position: absolute;
+    right: 5px;
+}
+
+.dropdown-menu.inbox li a .message {
+    display: block !important;
+    font-size: 11px;
+}
+a.dropdown-toggle{color:#fff;}
+a.dropdown-toggle:hover{color:#337ab7;}
+ul.nav.top-menu{float:right; margin-top: 5px;}
+li.dropdown.open{z-index: 1020;}
+
+/*** Main Navigation ***/
+/* Navigation bar border */
+#main_navbar .navbar-default {
+  border-bottom: 5px solid #8bc34a;
+  margin-top: -5px
+}
+
+ul#changeUser.dropdown-menu.extended.tasks-bar{top: 5px;
+    left: -235px;
+    min-width: 350px !important;
+    max-width: 300px !important;
+    width: 235px !important;
+    padding: 12px;
+}
+
+ul#changeUser.dropdown-menu{
+  background: transparent;
+    border-top: none;
+    /* border-bottom: 1px solid #EBEBEB !important; */
+    left: -180px;
+    min-width: 200px !important;
+    max-width: 300px !important;
+    width: 300px !important;
+    padding: 5px;
+    border: none;
+    box-shadow: none;
+}
+span.changeUser {
+    color: #fff;
+    text-decoration: none;
+    line-height: inherit;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}

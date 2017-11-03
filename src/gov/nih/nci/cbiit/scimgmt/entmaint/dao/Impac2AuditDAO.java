@@ -3,6 +3,7 @@ package gov.nih.nci.cbiit.scimgmt.entmaint.dao;
 // Generated Feb 13, 2015 3:58:29 PM by Hibernate Tools 3.4.0.CR1
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountActivityT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsT;
@@ -345,6 +346,11 @@ public class Impac2AuditDAO {
 	 * @return
 	 */
 	public DBResult submit(AppLookupT category, Long eaaId, Long actionId, String actionComments, Date date) {
+		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {
 			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category.getCode());
@@ -385,6 +391,11 @@ public class Impac2AuditDAO {
 	 * @return
 	 */
 	public DBResult unsubmit(String category, Long eaaId) {
+		
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {
 			EmAuditAccountActivityT activity = getAccountActivityT(eaaId, category);
@@ -787,6 +798,11 @@ public class Impac2AuditDAO {
 	 * @throws Exception 
 	 */
 	public DBResult transfer(Long accountId, String nihNetworkId, Long auditId, String parentNedOrgPath, Long actionId, String actionComments, String transferOrg, String category, boolean isImpac2Transfer) throws Exception {
+
+		if(nciUser.isReadOnly()) {
+			throw new ServiceDeniedException();
+		}
+		
 		DBResult result = new DBResult();
 		try {			
 			EmAuditAccountsT account = null;					

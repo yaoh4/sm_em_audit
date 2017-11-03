@@ -6,6 +6,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.helper.action.AuditSearchActionHelper;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.AppLookupT;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.LookupService;
+import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.AdminService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DashboardData;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.DropDownOption;
@@ -14,6 +15,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.Tab;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.AuditSearchVO;
 import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.EmAuditsVO;
+import gov.nih.nci.cbiit.scimgmt.entmaint.valueObject.PersonSearchCriteria;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -74,6 +76,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	@Autowired
 	protected EntMaintProperties entMaintProperties;
 	
+	@Autowired
+	protected UserRoleService userRoleService;
+	
+	protected PersonSearchCriteria searchCriteria; //User entered auto completer text
+		
     public InputStream getInputStream() {
         return inputStream;
     }
@@ -483,4 +490,29 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,
 	public void setAnchorDash(boolean anchorDash) {
 		this.anchorDash = anchorDash;
 	}
+	
+	public boolean isI2eDeveloper() {
+
+		String ifI2eDev = (String) session.get(ApplicationConstants.DEVELOPER_ROLE);
+		if (ApplicationConstants.FLAG_YES.equalsIgnoreCase(ifI2eDev)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public String searchPerson() throws Exception {
+		searchCriteria.setResult(userRoleService.searchPerson(searchCriteria.getTerm()));
+        return SUCCESS;
+    }
+
+
+	public PersonSearchCriteria getSearchCriteria() {
+		return searchCriteria;
+	}
+
+
+	public void setSearchCriteria(PersonSearchCriteria searchCriteria) {
+		this.searchCriteria = searchCriteria;
+	}
+	
 }

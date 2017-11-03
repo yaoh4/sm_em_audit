@@ -1,6 +1,7 @@
 package gov.nih.nci.cbiit.scimgmt.entmaint.actions;
 
 import gov.nih.nci.cbiit.scimgmt.entmaint.constants.ApplicationConstants;
+import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.ServiceDeniedException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.EmAuditAccountsVw;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.I2eAuditService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.Impac2AuditService;
@@ -74,6 +75,9 @@ public class SubmitAction extends BaseAction {
 					inputStream = new StringBufferInputStream(timeStr+";"+fullName);
 				}
 			}
+		}catch(ServiceDeniedException e){
+			log.error(e.getMessage());
+			inputStream = new StringBufferInputStream("permission");
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");
@@ -91,13 +95,14 @@ public class SubmitAction extends BaseAction {
 		String appId = (String)request.getParameter("pId");
 		String cate = (String)request.getParameter("cate");
 		
-		impac2Service.unsubmit(cate,Long.parseLong(appId));
-		
 		try{
 			impac2Service.unsubmit(cate,Long.parseLong(appId));
 			//DBResult has not been implemented. Wait for Yuri
 			
 			inputStream = new StringBufferInputStream("success");
+		}catch(ServiceDeniedException e){
+			log.error(e.getMessage());
+			inputStream = new StringBufferInputStream("permission");
 		}catch(Exception e){
 			log.error(e.getMessage());
 			inputStream = new StringBufferInputStream("fail");

@@ -5,7 +5,7 @@ import gov.nih.nci.cbiit.scimgmt.entmaint.exceptions.UserLoginException;
 import gov.nih.nci.cbiit.scimgmt.entmaint.security.NciUser;
 import gov.nih.nci.cbiit.scimgmt.entmaint.services.UserRoleService;
 import gov.nih.nci.cbiit.scimgmt.entmaint.utils.EntMaintProperties;
-
+import gov.nih.nci.cbiit.scimgmt.entmaint.hibernate.I2eActiveUserRolesVw;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -15,6 +15,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -54,12 +55,19 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
         logger.debug("Inside User Interceptor.intercept");   
 
     	//Check if this is a change user action
-        String changeUser = request.getParameter("user");
+        String changeUser = request.getParameter("changeUser");
+        String actionName = action.getClass().getName();
+        if(StringUtils.isEmpty(changeUser) && actionName.contains("SysAdminAction")) {
+        	changeUser = request.getParameter("user");
+        	if(StringUtils.isEmpty(changeUser)) {
+        		return "notvalid";
+        	}
+        }
         
        //Check if this is a sys admin action
         String sysAdminAction = request.getParameter("task");
         
-        if ((nciUser == null || nciUser.getUserId() == null) && StringUtils.isEmpty(changeUser) && StringUtils.isEmpty(sysAdminAction)) {               
+        if ((nciUser == null || nciUser.getUserId() == null || !StringUtils.isEmpty(changeUser)) && StringUtils.isEmpty(sysAdminAction)) {               
             // get the User header from Site Minder
             String remoteUser = request.getHeader("SM_USER");
             logger.info("User login from Site Minder SM_USER = "+remoteUser);
@@ -78,47 +86,69 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
                         remoteUser = authUser.substring(0, authUser.indexOf(":"));
                }
             }            
-          
+
             //Throw an exception if the user is not found in the user 
             if (StringUtils.isNotEmpty(remoteUser)) {
 
             	NciUser newNciUser = userRoleService.getNCIUser(remoteUser);  
-
-            	String accessError = "User "+ remoteUser +" is not authorized to access Enterprise Maintenance Audit application. ";
-        		String errorReason = "";
-        		
-        		if(newNciUser == null){
-					logger.error(accessError);
-    				return "notauthorized";
-				}
-				
-				//If OracleId is Null
-				if(StringUtils.isEmpty(newNciUser.getOracleId())){
-					errorReason = "OracleId is Null.";
-				}
-				//If Email is Null
-				if(StringUtils.isEmpty(newNciUser.getEmail())){
-					errorReason = "Email is Null.";
-				}
-				//If User is Inactive
-				else if("N".equalsIgnoreCase(newNciUser.getActiveFlag()) ){
-					errorReason = "I2E Account is not Active.";
-				}
-				
-				if(StringUtils.isNotEmpty(errorReason)){
-					logger.error(accessError + errorReason);
-					return "notauthorized";
-				} 
-				
-            	populateNCIUserRoles(newNciUser);
+            	if(isUserValid(newNciUser)) {
+            		populateNCIUserRoles(newNciUser);
             	
-            	//If user doesn't have required role to access this application then navigate the user to Login Error page.
-            	if(!verifyAuthorization(newNciUser)){
+            		newNciUser.setAppRoles(userRoleService.getUserAppRoles(newNciUser.getUserId()));  
+            		
+            		//If user doesn't have required role to access this application then navigate the user to Login Error page.
+            		if(!isI2eDeveloper(newNciUser.getAppRoles()) && !verifyAuthorization(newNciUser)){
+            			return "notauthorized";
+            		}
+            		              
+	            	BeanUtils.copyProperties(newNciUser, nciUser);
+	            	
+            		//If logged on user is I2E developer
+	            	if(isI2eDeveloper(newNciUser.getAppRoles())) {
+	            		if (StringUtils.equalsIgnoreCase(changeUser, remoteUser)) {
+							changeUser = ""; // restore original user
+						}
+	            		//If this is a prod env, then I2E users will have only read only privileges
+	            		if(isProdEnv() && (StringUtils.isBlank(nciUser.getCurrentUserRole()))) {
+	            			newNciUser.setReadOnly(true);
+ 	            		}
+	            		if(StringUtils.isBlank(nciUser.getCurrentUserRole())) {
+	            			newNciUser.setCurrentUserRole("EMREP");
+	            		}
+	            		BeanUtils.copyProperties(newNciUser, nciUser);
+	            		
+    	            	session.put(ApplicationConstants.DEVELOPER_ROLE, ApplicationConstants.FLAG_YES);
+	            		//If changeUser is set, validate and replace new user in session
+	            		  if(!StringUtils.isEmpty(changeUser)) {
+	            			    NciUser newChangeUser = userRoleService.getNCIUser(changeUser);
+	            			  	if(isUserValid(newChangeUser)) {
+	            				populateNCIUserRoles(newChangeUser);
+	                        	
+	                    		//If user doesn't have required role to access this application then navigate the user to Login Error page.
+	                    		if(!verifyAuthorization(newChangeUser)){
+	                    			return "notauthorized";
+	                    		}
+	                    		//If this is a prod env, then I2E users will have only read only privileges
+	    	            		if(isProdEnv()) {
+	    	            			newChangeUser.setReadOnly(true);
+	     	            		}
+	    	            		newChangeUser.setAppRoles(userRoleService.getUserAppRoles(newChangeUser.getUserId()));                
+	        	            	BeanUtils.copyProperties(newChangeUser, nciUser);
+								logger.info("Change User - Original Default/Logged in user: " + newNciUser.getUserId()
+										+ "(" + newNciUser.getFullName() + ") Changed User: "
+										+ newChangeUser.getUserId() + "(" + newChangeUser.getFullName() + ")");
+	            			} else {
+	            				return "notauthorized";
+	            			}
+	            		}
+	            	} else if (!StringUtils.isEmpty(changeUser)) {
+	            		return "notauthorized";
+	            	}
+	            	
+            		return invocation.invoke();
+            	} else {
             		return "notauthorized";
             	}
-            	BeanUtils.copyProperties(newNciUser, nciUser);
-            	logger.debug("NCI user retrive  fm session:" + nciUser);
-            	return invocation.invoke();
             } else {
                 if (action instanceof ValidationAware) {
                 	String message  = "Site Minder did not pass the SM User";         
@@ -143,18 +173,6 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
     	// Load user EM roles
     	userRoleService.loadPersonInfo(nciUser);
 
-    	// Give IC coordinator role to application developers
-    	// Changed to allow production environment APP_DEVELOPER role for validation
-    	String  devUsers= entMaintProperties.getPropertyValue("APP_DEVELOPER");
-    	if(devUsers != null) {
-    		String[] appDevUsers = devUsers.split(",");
-    		for (int i = 0; i < appDevUsers.length; i++) {
-    			if (nciUser.getUserId().equalsIgnoreCase(appDevUsers[i])) {
-    				nciUser.setCurrentUserRole("EMREP");
-    			}
-    		}
-    	}
-
     }
 
     /**
@@ -175,6 +193,87 @@ public class UserInfoInterceptor extends AbstractInterceptor implements StrutsSt
 			return false;
 		}
         return true;
+    }
+    
+    /**
+     * to verify if the user is valid
+     * 
+     * @param request
+     * @param remoteUser
+     * @return true if the user is valid
+     * @throws Exception
+     */
+    protected boolean isUserValid(NciUser nciUser)
+        	throws Exception {
+        	
+        	String errorReason = "";
+        	String accessError = "User "+ (nciUser == null? "" : nciUser.getUserId()) +" is not authorized to access EM Audit application. ";
+        
+        	if(nciUser == null){
+        		 logger.error(accessError);
+        		 return false;
+        	 }
+    		
+    		//If OracleId is Null
+    		if(StringUtils.isBlank(nciUser.getOracleId())){
+    			errorReason = "OracleId is Null.";
+    		}
+    		//If User is Inactive
+    		else if("N".equalsIgnoreCase(nciUser.getActiveFlag())){
+    			errorReason = "I2E Account is not Active.";			
+    		}
+    		
+    		//If Email is Null
+            if(StringUtils.isBlank((String)nciUser.getEmail())){
+    			errorReason = "Email is Null.";
+    		}
+            
+            // if the user is i2e restricted user
+             if(userRoleService.isRestrictedUser(nciUser.getOracleId())) {
+            	 errorReason = "User has Restricted access.";
+             }
+    		
+            //Then navigate the user to Login Error page.
+       	    if(StringUtils.isNotBlank(errorReason)){               
+       	    	logger.error(accessError + errorReason);
+       	    	return false;
+       	    }
+       	    
+       	    return true;  
+    	
+        }
+    
+    /**
+     * to check if the Environment is Prod 
+     * 
+     * @return true if the environment is prod
+     */
+    public boolean isProdEnv() {    	
+        String environment  = entMaintProperties.getProperty("ENVIRONMENT");
+        if("Production".equalsIgnoreCase(environment)) {
+    		//This is prod environment, so restrict access
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+     * to check if the logged in user has an I2E Developer Role
+     * 
+     * @param userId
+     * @return true if the use has an i2e developer role
+     */
+    private boolean isI2eDeveloper(List<I2eActiveUserRolesVw> appRoles) {
+		
+		if(appRoles != null) {
+			for(I2eActiveUserRolesVw role: appRoles) {
+				if(ApplicationConstants.I2E_DEV_ROLE.equals(role.getRoleCode())) {
+					return true;
+				}
+			}
+		}
+    	return false;
     }
  
 }

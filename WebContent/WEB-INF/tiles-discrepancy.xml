@@ -24,6 +24,13 @@
         <put-attribute name="Title" type="string" value="Enterprise Maintenance: User Login Error"/>
     </definition>
     
+    <definition name="tiles.error.access" extends="base.definition">
+        <put-attribute name="selectedTab" value="admin"/>
+        <put-attribute name="selectedSubNav" value="administer"/>
+        <put-attribute name="content" value="/jsp/error/accessDenied.jsp"/>
+        <put-attribute name="Title" type="string" value="Enterprise Maintenance: User Access Denied"/>
+    </definition>
+    
  <!-- Error Details Pages -->
     <definition name="tiles.error.details" extends="base.definition">
         <put-attribute name="selectedTab" value="admin"/>

@@ -35,6 +35,24 @@
             </ul>
             
             <ul>
+            	<s:if test="isI2eDeveloper()">
+                	<li class="dropdown">
+                    	<a id="menu-changeUser" class="dropdown-toggle" data-toggle="dropdown" href="#">Change User</a>
+                        <ul class="dropdown-menu extended tasks-bar" id="changeUser">
+                        	<li style="background-image: none;">
+                            	<form action="#" class="form-vertical" method="get">
+                                <div class="row-fluid">
+                                	<div class="span4">
+                                    	<div class="form-group ui-widget">
+                                         	<input class="form-control autocomplete" id="input-changeUser" placeholder="Enter First or Last Name" type="text"/>
+                                    	</div>
+                                	</div>
+                            	</form>
+                        	</li>
+                    	</ul>
+                	</li>
+                </s:if>
+                
             	<s:if test="nciUser != null">
 	                <li>
 	                    User:

@@ -89,7 +89,7 @@ public class DiscrepanciesAction extends BaseAction {
 		i2ePortfolioAccounts = new PaginatedListImpl<PortfolioI2eAccountVO>(request,changePageSize);	
 		
 		
-		if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+		if(StringUtils.equalsIgnoreCase(nciUser.getCurrentUserRole(), "EMADMIN")) {
 			searchVO.setExcludeNCIOrgs(true);
 		}
 		else {
@@ -195,7 +195,7 @@ public class DiscrepanciesAction extends BaseAction {
 		changePageSize = 2000;
 		portfolioInactiveAccounts = new PaginatedListImpl<PortfolioAccountVO>(request,changePageSize);
 		
-		if(nciUser.getCurrentUserRole().equalsIgnoreCase("EMADMIN")) {
+		if(StringUtils.equalsIgnoreCase(nciUser.getCurrentUserRole(), "EMADMIN")) {
 			searchVO.setExcludeNCIOrgs(true);
 		}
 		else {

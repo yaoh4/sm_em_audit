@@ -2,9 +2,9 @@
 <pmd-cpd>
    <duplication lines="282" tokens="1016">
       <file line="22"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
       <file line="26"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
       <codefragment><![CDATA[public class AdminReportI2eSearchResultExportDecorator extends TableDecorator{
 	
 	/**
@@ -290,9 +290,9 @@
    </duplication>
    <duplication lines="32" tokens="469">
       <file line="196"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="120"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[				&& (getImpaciiUserId() == castOther.getImpaciiUserId() || getImpaciiUserId() != null
 						&& castOther.getImpaciiUserId() != null
 						&& getImpaciiUserId().equals(castOther.getImpaciiUserId()))
@@ -328,9 +328,9 @@
    </duplication>
    <duplication lines="89" tokens="398">
       <file line="38"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
       <file line="60"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
       <codefragment><![CDATA[	public String getAccountCreatedDate(){
 		String dateString = "";
 		PortfolioAccountVO portfolioVO = (PortfolioAccountVO)getCurrentRowObject();
@@ -423,9 +423,9 @@
    </duplication>
    <duplication lines="29" tokens="396">
       <file line="229"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="151"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[						&& getImpaciiActiveStatusFlag().equals(castOther.getImpaciiActiveStatusFlag()))
 				&& (getNciDoc() == castOther.getNciDoc() || getNciDoc() != null && castOther.getNciDoc() != null
 						&& getNciDoc().equals(castOther.getNciDoc()))
@@ -457,10 +457,10 @@
 				&& (getInactiveUserFlag() == castOther.getInactiveUserFlag() || getInactiveUserFlag() != null]]></codefragment>
    </duplication>
    <duplication lines="31" tokens="352">
-      <file line="257"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="202"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="268"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="208"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
       <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
 			Disjunction dc = Restrictions.disjunction();
 			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
@@ -494,10 +494,10 @@
 		}]]></codefragment>
    </duplication>
    <duplication lines="31" tokens="352">
-      <file line="534"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="233"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="545"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="239"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
 			Disjunction dc = Restrictions.disjunction();
 			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
@@ -531,10 +531,10 @@
 		}]]></codefragment>
    </duplication>
    <duplication lines="28" tokens="318">
-      <file line="528"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="577"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="539"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="588"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[		log.debug("adding search criteria for IMPAC II account query in audit view: " + searchVO);
 
 		// audit id
@@ -565,10 +565,10 @@
 				criteria.add(Restrictions.isNull("parentNedOrgPath"));]]></codefragment>
    </duplication>
    <duplication lines="22" tokens="298">
-      <file line="583"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="233"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="594"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="239"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[		if (!StringUtils.isBlank(searchVO.getUserFirstname())) {
 			Disjunction dc = Restrictions.disjunction();
 			dc.add(Restrictions.ilike("firstName", searchVO.getUserFirstname().trim(), MatchMode.START));
@@ -594,9 +594,9 @@
    </duplication>
    <duplication lines="13" tokens="283">
       <file line="485"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="320"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[		result = 37 * result + (getImpaciiUserId() == null ? 0 : getImpaciiUserId().hashCode());
 		result = 37 * result + (getNihNetworkId() == null ? 0 : getNihNetworkId().hashCode());
 		result = 37 * result + (getLastName() == null ? 0 : getLastName().hashCode());
@@ -612,10 +612,10 @@
 		result = 37 * result + (getImpaciiActiveStatusFlag() == null ? 0 : getImpaciiActiveStatusFlag().hashCode());]]></codefragment>
    </duplication>
    <duplication lines="47" tokens="261">
-      <file line="241"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
-      <file line="436"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
+      <file line="244"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
+      <file line="445"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
       <codefragment><![CDATA[	}
 	
 	/**
@@ -666,9 +666,9 @@
    </duplication>
    <duplication lines="15" tokens="250">
       <file line="468"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="387"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[						castOther.getI2eOnlyFlag())))
 				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
 						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
@@ -687,9 +687,9 @@
    </duplication>
    <duplication lines="12" tokens="244">
       <file line="497"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="332"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[		result = 37 * result + (getImpaciiActiveStatusFlag() == null ? 0 : getImpaciiActiveStatusFlag().hashCode());
 		result = 37 * result + (getNciDoc() == null ? 0 : getNciDoc().hashCode());
 		result = 37 * result + (getCreatedDate() == null ? 0 : getCreatedDate().hashCode());
@@ -704,10 +704,10 @@
 		result = 37 * result + (getInactiveUserFlag() == null ? 0 : getInactiveUserFlag().hashCode());]]></codefragment>
    </duplication>
    <duplication lines="28" tokens="226">
-      <file line="353"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="66"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="364"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="67"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
       <codefragment><![CDATA[		String sortOrder = paginatedList.getSqlSortDirection();
 		
 		if (!StringUtils.isBlank(sortOrderCriterion)) {
@@ -739,9 +739,9 @@
    </duplication>
    <duplication lines="73" tokens="216">
       <file line="210"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsT.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsT.java"/>
       <file line="889"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <codefragment><![CDATA[	}
 
 	public String getTransferToNedOrgPath() {
@@ -817,10 +817,10 @@
 	}]]></codefragment>
    </duplication>
    <duplication lines="47" tokens="209">
-      <file line="324"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="653"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="335"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="664"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[			log.error("saveOrUpdateAction failed", e);
 			throw e;
 		}
@@ -871,9 +871,9 @@
    </duplication>
    <duplication lines="12" tokens="206">
       <file line="434"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="355"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[						castOther.getI2eFirstName())))
 				&& ((this.getNedEmailAddress() == castOther.getNedEmailAddress()) || (this.getNedEmailAddress() != null
 						&& castOther.getNedEmailAddress() != null && this.getNedEmailAddress().equals(
@@ -889,9 +889,9 @@
    </duplication>
    <duplication lines="12" tokens="204">
       <file line="324"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="189"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[						.getDeletedByNciDoc().equals(castOther.getDeletedByNciDoc())))
 				&& ((this.getSodFlag() == castOther.getSodFlag()) || (this.getSodFlag() != null
 						&& castOther.getSodFlag() != null && this.getSodFlag().equals(castOther.getSodFlag())))
@@ -907,9 +907,9 @@
    </duplication>
    <duplication lines="35" tokens="199">
       <file line="224"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
       <file line="303"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
       <codefragment><![CDATA[			String nedIc = auditAccountVO.getNedIc();
 			
 			exportAccountVOList.add(auditAccountVO);
@@ -948,9 +948,9 @@
    </duplication>
    <duplication lines="33" tokens="199">
       <file line="157"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
       <file line="122"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
       <codefragment><![CDATA[	private List<String> populateAccountDiscrepancy(EmI2eAuditAccountsVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
@@ -987,11 +987,11 @@
    </duplication>
    <duplication lines="42" tokens="191">
       <file line="79"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultExportDecorator.java"/>
       <file line="254"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <file line="83"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultExportDecorator.java"/>
       <codefragment><![CDATA[		}
 		return lastUpdated;
 	}
@@ -1037,9 +1037,9 @@
    </duplication>
    <duplication lines="39" tokens="174">
       <file line="140"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
       <file line="261"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
       <codefragment><![CDATA[		}
 		role = role + "</table>";
 		return role;
@@ -1081,10 +1081,10 @@
 	}]]></codefragment>
    </duplication>
    <duplication lines="22" tokens="172">
-      <file line="214"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="245"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="220"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="251"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -1109,10 +1109,10 @@
 		if (searchVO.getCategory().longValue() == ApplicationConstants.I2E_PORTFOLIO_CATEGORY_DISCREPANCY) {]]></codefragment>
    </duplication>
    <duplication lines="31" tokens="169">
-      <file line="269"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="546"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="280"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="557"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -1146,10 +1146,10 @@
 	private EmI2eAuditAccountsT getAccountsT(Long id) {]]></codefragment>
    </duplication>
    <duplication lines="19" tokens="165">
-      <file line="269"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="245"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="280"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="251"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -1171,10 +1171,10 @@
 		}]]></codefragment>
    </duplication>
    <duplication lines="20" tokens="165">
-      <file line="214"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="546"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="220"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="557"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -1198,9 +1198,9 @@
    </duplication>
    <duplication lines="9" tokens="157">
       <file line="413"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="336"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[						&& castOther.getNpnId() != null && this.getNpnId().equals(castOther.getNpnId())))
 				&& ((this.getNihNetworkId() == castOther.getNihNetworkId()) || (this.getNihNetworkId() != null
 						&& castOther.getNihNetworkId() != null && this.getNihNetworkId().equals(
@@ -1213,9 +1213,9 @@
    </duplication>
    <duplication lines="14" tokens="155">
       <file line="103"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryT.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryT.java"/>
       <file line="103"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditHistoryVw.java"/>
       <codefragment><![CDATA[				&& (this.getEauId() == castOther.getEauId())
 				&& ((this.getActionCode() == castOther.getActionCode()) || (this
 						.getActionCode() != null
@@ -1232,10 +1232,10 @@
 				&& ((this.getCreateUserId() == castOther.getCreateUserId()) || (this]]></codefragment>
    </duplication>
    <duplication lines="47" tokens="153">
-      <file line="251"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="382"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="257"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="388"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			crit.add(Restrictions.eq("npnId", id));
 			EmPortfolioNotesT instance = (EmPortfolioNotesT) crit.uniqueResult();
 			if (instance == null) {
@@ -1286,9 +1286,9 @@
    </duplication>
    <duplication lines="10" tokens="152">
       <file line="334"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="482"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <codefragment><![CDATA[						castOther.getLastNameDiffFlag())))
 				&& ((this.getTransferFromNedOrgPath() == castOther.getTransferFromNedOrgPath()) || (this.getTransferFromNedOrgPath() != null
 						&& castOther.getTransferFromNedOrgPath() != null && this.getTransferFromNedOrgPath().equals(
@@ -1302,9 +1302,9 @@
    </duplication>
    <duplication lines="27" tokens="151">
       <file line="88"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <file line="79"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
       <codefragment><![CDATA[		String id = ""+auditVO.getNpnId();
 		StringBuffer sbu = new StringBuffer();
 		sbu.append("<ul>");
@@ -1335,9 +1335,9 @@
    </duplication>
    <duplication lines="36" tokens="144">
       <file line="53"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
       <file line="106"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <codefragment><![CDATA[		return new SimpleDateFormat("MM/dd/yyyy").format(createDate);
 	}
 	
@@ -1377,9 +1377,9 @@
    </duplication>
    <duplication lines="33" tokens="144">
       <file line="345"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AuditSearchResultDecorator.java"/>
       <file line="304"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <codefragment><![CDATA[	}
 	
 	/**
@@ -1416,9 +1416,9 @@
    </duplication>
    <duplication lines="39" tokens="143">
       <file line="25"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
       <file line="25"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
       <codefragment><![CDATA[public class AdminReportSearchResultDecorator extends TableDecorator{
 	
 	@Autowired
@@ -1460,10 +1460,10 @@
 		if(lastName != null && lastName.length() > 0){]]></codefragment>
    </duplication>
    <duplication lines="19" tokens="142">
-      <file line="66"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="70"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="67"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="71"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
 
 			// Sort order
@@ -1485,10 +1485,10 @@
 				}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
    </duplication>
    <duplication lines="18" tokens="140">
-      <file line="353"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="70"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="364"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="71"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[		String sortOrder = paginatedList.getSqlSortDirection();
 		
 		if (!StringUtils.isBlank(sortOrderCriterion)) {
@@ -1509,10 +1509,10 @@
 			}else if (sortOrderCriterion.equalsIgnoreCase("i2eCreatedDate")) {]]></codefragment>
    </duplication>
    <duplication lines="19" tokens="140">
-      <file line="66"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="682"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="67"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="693"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[			criteria = sessionFactory.getCurrentSession().createCriteria(EmI2ePortfolioVw.class);
 
 			// Sort order
@@ -1535,9 +1535,9 @@
    </duplication>
    <duplication lines="30" tokens="140">
       <file line="351"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
       <file line="120"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
       <codefragment><![CDATA[	private List<String> populateAccountDiscrepancy(EmAuditAccountsVw account) {
 		List<String> discrepancyList = new ArrayList<String>();
 		// Check if there is a violation in roles given to the user
@@ -1570,10 +1570,10 @@
 	public HashSet<String> retrieveExcludedFromAuditAccounts(Long auditId) {]]></codefragment>
    </duplication>
    <duplication lines="24" tokens="135">
-      <file line="152"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="183"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="158"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="189"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[				notes.setNpnId(id);
 				notes.setCreateUserId(nciUser.getUserId().toUpperCase());
 				notes.setCreateDate(date);
@@ -1601,9 +1601,9 @@
    </duplication>
    <duplication lines="6" tokens="132">
       <file line="520"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="428"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[		result = 37 * result + (getI2eOnlyFlag() == null ? 0 : this.getI2eOnlyFlag().hashCode());
 		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
 		result = 37 * result + (getNedInactiveFlag() == null ? 0 : this.getNedInactiveFlag().hashCode());
@@ -1613,9 +1613,9 @@
    </duplication>
    <duplication lines="43" tokens="131">
       <file line="849"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="475"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[	}
 
 	public List<String> getAccountDiscrepancies() {
@@ -1662,9 +1662,9 @@
    </duplication>
    <duplication lines="32" tokens="130">
       <file line="29"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportI2eSearchResultDecorator.java"/>
       <file line="50"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <codefragment><![CDATA[	public String getFullName() {
 		AuditI2eAccountVO auditVO = (AuditI2eAccountVO)getCurrentRowObject();
 		String fullName = "";
@@ -1700,9 +1700,9 @@
    </duplication>
    <duplication lines="20" tokens="129">
       <file line="426"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <file line="486"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <codefragment><![CDATA[    	    	String org = audit.getParentNedOrgPath();
     			String nciDoc = audit.getNciDoc();
     			String nedIc = audit.getNedIc();
@@ -1726,9 +1726,9 @@
    </duplication>
    <duplication lines="31" tokens="129">
       <file line="80"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultDecorator.java"/>
       <file line="76"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\AdminReportSearchResultExportDecorator.java"/>
       <codefragment><![CDATA[		}
 	}
 	
@@ -1762,10 +1762,10 @@
 	public String getMaxLastLoginDate(){]]></codefragment>
    </duplication>
    <duplication lines="17" tokens="129">
-      <file line="709"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="86"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="720"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="87"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[					criteria.addOrder(Order.desc("lastLoginDate"));
 				}
 			}else if(sortOrderCriterion.equalsIgnoreCase("impaciiUserIdNetworkId")){
@@ -1786,9 +1786,9 @@
    </duplication>
    <duplication lines="28" tokens="129">
       <file line="95"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2ePortfolioServiceImpl.java"/>
       <file line="93"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2PortfolioServiceImpl.java"/>
       <codefragment><![CDATA[		final PortfolioI2eAccountVO portfolioAccountVO = new PortfolioI2eAccountVO();
 		try {
 			ConvertUtils.register(new BigDecimalConverter(null),
@@ -1819,10 +1819,10 @@
 	private List<String> populateAccountDiscrepancy(EmI2ePortfolioVw account) {]]></codefragment>
    </duplication>
    <duplication lines="24" tokens="128">
-      <file line="395"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="743"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="406"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="754"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[					criteria.addOrder(Order.desc("activeRoleRemainderFlag"));
 					criteria.addOrder(Order.desc("lastName"));
 					criteria.addOrder(Order.desc("firstName"));
@@ -1850,9 +1850,9 @@
    </duplication>
    <duplication lines="23" tokens="127">
       <file line="134"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
       <file line="174"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
       <codefragment><![CDATA[		sbu.append("<ul style='padding-bottom: 0px; margin-bottom: 0px;'>");
 		for(String dis : discrepancies){
 			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
@@ -1879,9 +1879,9 @@
    </duplication>
    <duplication lines="49" tokens="127">
       <file line="311"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="256"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[	}
 
 	public Boolean getSodFlag() {
@@ -1934,9 +1934,9 @@
    </duplication>
    <duplication lines="25" tokens="127">
       <file line="8"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditAccountVO.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditAccountVO.java"/>
       <file line="9"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditI2eAccountVO.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\valueObject\AuditI2eAccountVO.java"/>
       <codefragment><![CDATA[public class AuditAccountVO extends EmAuditAccountsVw{
 	
 	public String getFullName() {
@@ -1965,13 +1965,13 @@
    </duplication>
    <duplication lines="15" tokens="126">
       <file line="564"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <file line="586"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <file line="619"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <file line="674"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminDashboardAction.java"/>
       <codefragment><![CDATA[				&& StringUtils.equalsIgnoreCase(audit.getActiveAction().getCode(), "Unknown")) {
 			if (!containsActionKey(orgHashmap, org)) {
 				HashMap<String, ActionDashboardData> dashData = new HashMap<String, ActionDashboardData>();
@@ -1990,11 +1990,11 @@
    </duplication>
    <duplication lines="9" tokens="121">
       <file line="63"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountRolesVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountRolesVw.java"/>
       <file line="231"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="153"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[						&& getOrgId().equals(castOther.getOrgId()))
 				&& (getCreatedDate() == castOther.getCreatedDate() || getCreatedDate() != null
 						&& castOther.getCreatedDate() != null && getCreatedDate().equals(castOther.getCreatedDate()))
@@ -2007,9 +2007,9 @@
    </duplication>
    <duplication lines="13" tokens="119">
       <file line="211"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
       <file line="338"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\AdminReportsAction.java"/>
       <codefragment><![CDATA[		List<AuditAccountVO> exportAccountVOList = new ArrayList<AuditAccountVO>();
 		
 		for(AuditAccountVO auditAccountVO: auditAccounts) {
@@ -2025,10 +2025,10 @@
 			}]]></codefragment>
    </duplication>
    <duplication lines="22" tokens="118">
-      <file line="89"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="120"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="90"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="121"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[				}else if(sortOrderCriterion.equalsIgnoreCase("action")){
 					if (StringUtils.equalsIgnoreCase(sortOrder, "asc"))
 						criteria.addOrder(Order.asc("notes"));
@@ -2054,9 +2054,9 @@
    </duplication>
    <duplication lines="12" tokens="116">
       <file line="126"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
       <file line="154"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\helper\action\AuditSearchActionHelper.java"/>
       <codefragment><![CDATA[	public void  createPortFolioDropDownLists(List<DropDownOption> organizationList, List<DropDownOption> categoriesList,  LookupService lookupService, Map<String, Object> session){
 
 		List<EmOrganizationVw> orgs = lookupService.getList(ApplicationConstants.ORGANIZATION_DROPDOWN_LIST);
@@ -2072,9 +2072,9 @@
    </duplication>
    <duplication lines="6" tokens="114">
       <file line="530"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="346"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[		result = 37 * result + (getDeletedByNciDoc() == null ? 0 : getDeletedByNciDoc().hashCode());
 		result = 37 * result + (getSodFlag() == null ? 0 : this.getSodFlag().hashCode());
 		result = 37 * result + (getIcDiffFlag() == null ? 0 : this.getIcDiffFlag().hashCode());
@@ -2084,9 +2084,9 @@
    </duplication>
    <duplication lines="6" tokens="114">
       <file line="507"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="415"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[		result = 37 * result + (getI2eFirstName() == null ? 0 : this.getI2eFirstName().hashCode());
 		result = 37 * result + (getNedEmailAddress() == null ? 0 : this.getNedEmailAddress().hashCode());
 		result = 37 * result + (getParentNedOrgPath() == null ? 0 : this.getParentNedOrgPath().hashCode());
@@ -2096,9 +2096,9 @@
    </duplication>
    <duplication lines="21" tokens="114">
       <file line="141"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\Address.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\Address.java"/>
       <file line="286"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\NciPerson.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\security\NciPerson.java"/>
       <codefragment><![CDATA[        Address bean = (Address)obj;
         int nil = (this.getId() == null) ? 1 : 0;
         nil += (bean.getId() == null) ? 1 : 0;
@@ -2123,9 +2123,9 @@
    </duplication>
    <duplication lines="15" tokens="114">
       <file line="131"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\I2eAuditServiceImpl.java"/>
       <file line="223"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\services\impl\Impac2AuditServiceImpl.java"/>
       <codefragment><![CDATA[		final AuditI2eAccountVO auditAccountVO = new AuditI2eAccountVO();
 		try {
 			ConvertUtils.register(new BigDecimalConverter(null),
@@ -2143,10 +2143,10 @@
 			log.error("Error occured creating I2e audit account object",]]></codefragment>
    </duplication>
    <duplication lines="19" tokens="113">
-      <file line="188"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="219"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="194"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="225"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			log.error("Outgoing paramters: crit - " + (crit == null ? "NULL" : crit.uniqueResult()));
 			throw e;
 		}
@@ -2168,12 +2168,12 @@
 			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));]]></codefragment>
    </duplication>
    <duplication lines="10" tokens="111">
-      <file line="269"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="214"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="595"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="280"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="220"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="606"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eLastName", searchVO.getUserLastname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -2186,10 +2186,10 @@
 				criteria.add(Restrictions.isNull("parentNedOrgPath"));]]></codefragment>
    </duplication>
    <duplication lines="29" tokens="110">
-      <file line="108"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
-      <file line="504"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
+      <file line="111"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\I2eAuditAction.java"/>
+      <file line="513"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\Impac2AuditAction.java"/>
       <codefragment><![CDATA[	}
 	
 	/**
@@ -2222,9 +2222,9 @@
    </duplication>
    <duplication lines="6" tokens="108">
       <file line="126"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
       <file line="196"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
       <codefragment><![CDATA[				&& castOther.getEiaaId() != null && this.getEiaaId().equals(castOther.getEiaaId())))
 				&& ((this.getNpeId() == castOther.getNpeId()) || (this.getNpeId() != null
 						&& castOther.getNpeId() != null && this.getNpeId().equals(castOther.getNpeId())))
@@ -2234,9 +2234,9 @@
    </duplication>
    <duplication lines="8" tokens="108">
       <file line="135"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountRolesVw.java"/>
       <file line="214"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\I2eActiveUserRolesVw.java"/>
       <codefragment><![CDATA[						&& castOther.getOrgId() != null && this.getOrgId().equals(castOther.getOrgId())))
 				&& ((this.getFullOrgPathAbbrev() == castOther.getFullOrgPathAbbrev()) || (this.getFullOrgPathAbbrev() != null
 						&& castOther.getFullOrgPathAbbrev() != null && this.getFullOrgPathAbbrev().equals(
@@ -2248,9 +2248,9 @@
    </duplication>
    <duplication lines="8" tokens="108">
       <file line="422"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="349"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[						&& castOther.getCreatedDate() != null && this.getCreatedDate().equals(castOther.getCreatedDate())))
 				&& ((this.getNedLastName() == castOther.getNedLastName()) || (this.getNedLastName() != null
 						&& castOther.getNedLastName() != null && this.getNedLastName().equals(
@@ -2262,9 +2262,9 @@
    </duplication>
    <duplication lines="8" tokens="108">
       <file line="428"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="343"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[						castOther.getNedFirstName())))
 				&& ((this.getI2eLastName() == castOther.getI2eLastName()) || (this.getI2eLastName() != null
 						&& castOther.getI2eLastName() != null && this.getI2eLastName().equals(
@@ -2276,9 +2276,9 @@
    </duplication>
    <duplication lines="11" tokens="104">
       <file line="210"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
       <file line="235"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
       <codefragment><![CDATA[		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(getPageContext().getServletContext());
 		AutowireCapableBeanFactory acbf = wac.getAutowireCapableBeanFactory();
 		acbf.autowireBean(this);
@@ -2292,16 +2292,16 @@
 		}]]></codefragment>
    </duplication>
    <duplication lines="9" tokens="104">
-      <file line="261"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
-      <file line="206"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
-      <file line="538"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="587"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
-      <file line="237"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
+      <file line="272"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2eAuditDAO.java"/>
+      <file line="212"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\I2ePortfolioDAO.java"/>
+      <file line="549"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="598"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2AuditDAO.java"/>
+      <file line="243"
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\dao\Impac2PortfolioDAO.java"/>
       <codefragment><![CDATA[			dc.add(Restrictions.ilike("i2eFirstName", searchVO.getUserFirstname().trim(), MatchMode.START));
 			criteria.add(dc);
 		}
@@ -2314,13 +2314,13 @@
    </duplication>
    <duplication lines="21" tokens="103">
       <file line="136"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\DiscrepanciesTableDecorator.java"/>
       <file line="92"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2eAuditSearchResultDecorator.java"/>
       <file line="83"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\I2ePortfolioSearchResultDecorator.java"/>
       <file line="176"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\decorator\PortfolioSearchResultDecorator.java"/>
       <codefragment><![CDATA[			EmDiscrepancyTypesT disVw = (EmDiscrepancyTypesT) lookupService.getListObjectByCode(ApplicationConstants.DISCREPANCY_TYPES_LIST,dis);
 			if(disVw.getShortDescrip() != null){
 				//replace all single quote to HTML code
@@ -2345,9 +2345,9 @@
    </duplication>
    <duplication lines="35" tokens="103">
       <file line="207"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2eAuditAccountsVw.java"/>
       <file line="160"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmI2ePortfolioVw.java"/>
       <codefragment><![CDATA[	}
 
 	public String getNedEmailAddress() {
@@ -2386,9 +2386,9 @@
    </duplication>
    <duplication lines="31" tokens="101">
       <file line="545"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmAuditAccountsVw.java"/>
       <file line="355"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\hibernate\EmPortfolioVw.java"/>
       <codefragment><![CDATA[	}
 
 	public void setCreatedByFullName(String createdByFullName) {
@@ -2423,9 +2423,9 @@
    </duplication>
    <duplication lines="13" tokens="100">
       <file line="254"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
       <file line="312"
-            path="C:\dev\workspace\entmaint_v1.9.1\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
+            path="C:\dev\workspace\entmaint_v1.9.3\src\gov\nih\nci\cbiit\scimgmt\entmaint\actions\DiscrepanciesAction.java"/>
       <codefragment><![CDATA[		for (PortfolioI2eAccountVO account : list) {
 			List<String> filteredDiscrepancies = new ArrayList<String>();
 			
