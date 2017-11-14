@@ -32,6 +32,15 @@ public class PortfolioSearchResultExportDecorator extends
 		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_SOD);
 	}
 	
+	/**
+	 * Checks if SOD discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyGmSod() {
+		PortfolioAccountVO accountVO = (PortfolioAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_GMSOD);
+	}
 	
 	/**
 	 * Checks if there NED IC discrepancy exists

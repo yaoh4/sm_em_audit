@@ -31,6 +31,15 @@ public class AuditSearchResultExportDecorator extends AuditSearchResultDecorator
 		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_SOD);
 	}
 	
+	/**
+	 * Checks if SOD discrepancy exists
+	 * 
+	 * @return String 'Y' if discrepancy exists, else empty string.
+	 */
+	public String getDiscrepancyGmSod() {
+		AuditAccountVO accountVO = (AuditAccountVO)getCurrentRowObject();
+		return isDiscrepancy(accountVO, ApplicationConstants.DISCREPANCY_CODE_GMSOD);
+	}
 	
 	/**
 	 * Checks if there NED IC discrepancy exists

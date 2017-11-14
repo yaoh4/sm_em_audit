@@ -43,6 +43,7 @@ public class EmPortfolioVw implements java.io.Serializable {
 	private Boolean nedInactiveFlag;
 	private Boolean lastNameDiffFlag;
 	private Boolean activeStatusFlag;
+	private Boolean gmSodFlag;
 	private Long statusCode;
 	private String statusDescription;
 	private List<EmPortfolioRolesVw> accountRoles = new ArrayList<EmPortfolioRolesVw>(0);
@@ -536,5 +537,13 @@ public class EmPortfolioVw implements java.io.Serializable {
 
 	public void setStatusDescription(String statusDescription) {
 		this.statusDescription = statusDescription;
+	}
+
+	public Boolean getGmSodFlag() {
+		return gmSodFlag;
+	}
+
+	public void setGmSodFlag(Boolean gmSodFlag) {
+		this.gmSodFlag = gmSodFlag;
 	}
 }

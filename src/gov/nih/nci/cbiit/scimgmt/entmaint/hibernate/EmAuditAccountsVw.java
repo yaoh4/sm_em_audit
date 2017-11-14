@@ -64,6 +64,7 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 	private String deletedByParentOrgPath;
 	private String deletedByNciDoc;
 	private Boolean sodFlag;
+	private Boolean gmSodFlag;
 	private Boolean icDiffFlag;
 	private Boolean nedInactiveFlag;
 	private Boolean lastNameDiffFlag;
@@ -974,6 +975,14 @@ public class EmAuditAccountsVw implements java.io.Serializable {
 
 	public void setStatusDescription(String statusDescription) {
 		this.statusDescription = statusDescription;
+	}
+
+	public Boolean getGmSodFlag() {
+		return gmSodFlag;
+	}
+
+	public void setGmSodFlag(Boolean gmSodFlag) {
+		this.gmSodFlag = gmSodFlag;
 	}
 
 }

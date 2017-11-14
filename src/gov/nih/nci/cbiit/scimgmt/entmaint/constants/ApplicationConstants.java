@@ -79,6 +79,7 @@ public interface ApplicationConstants {
     public static final String DISCREPANCY_CODE_IC = "ICDIFF";
     public static final String DISCREPANCY_CODE_NED_INACTIVE = "NEDINACTIVE";
     public static final String DISCREPANCY_CODE_LAST_NAME = "LNAMEDIFF";
+    public static final String DISCREPANCY_CODE_GMSOD = "GMSOD";
     
     /* I2e Discrepancy type codes */
     public static final String DISCREPANCY_CODE_I2E_SOD = "I2ESOD";

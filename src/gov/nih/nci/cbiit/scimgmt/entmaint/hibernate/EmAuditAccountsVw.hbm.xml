@@ -165,7 +165,10 @@
             </property>
             <property name="lastNameDiffFlag" type="yes_no">
                 <column name="LAST_NAME_DIFF_FLAG" length="1" />
-            </property>           
+            </property>
+            <property name="gmSodFlag" type="yes_no">
+                <column name="GM_SOD_FLAG" length="1" />
+            </property>       
 			<property name="transferToNedOrgPath" type="string">
 				<column name="TRANSFER_TO_ORG_PATH" length="255" />
 			</property>

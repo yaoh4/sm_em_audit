@@ -138,6 +138,12 @@ public class Impac2PortfolioServiceImpl implements Impac2PortfolioService {
 		if (account.getLastNameDiffFlag() != null && account.getLastNameDiffFlag().booleanValue()) {
 			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_LAST_NAME);
 		}
+		
+		// Check if there is a GM violation in roles given to the user
+		if (account.getGmSodFlag() != null && account.getGmSodFlag().booleanValue()) {
+			discrepancyList.add(ApplicationConstants.DISCREPANCY_CODE_GMSOD);
+		}
+				
 		return discrepancyList;
 	}
 	

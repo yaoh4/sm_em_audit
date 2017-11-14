@@ -100,6 +100,9 @@
             <property name="activeStatusFlag" type="yes_no">
                 <column name="ACTIVE_STATUS_FLAG" length="1" />
             </property>
+            <property name="gmSodFlag" type="yes_no">
+                <column name="GM_SOD_FLAG" length="1" />
+            </property>
             <property name="statusCode" type="long">
                 <column name="STATUS_CODE" precision="10" scale="0" />
             </property>
